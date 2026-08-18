@@ -1,0 +1,1270 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catch The Square</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top, #25345c, #080b16 55%, #030408);
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: clamp(32px, 7vw, 60px);
+    margin: 25px 10px 5px;
+    text-shadow: 0 0 20px #00ffff;
+}
+
+.subtitle {
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+.panel {
+    width: min(900px, 94%);
+    margin: 20px auto;
+    padding: 25px;
+    border: 2px solid #4deaff;
+    border-radius: 20px;
+    background: rgba(10,15,30,.9);
+    box-shadow: 0 0 30px rgba(0,220,255,.2);
+}
+
+button {
+    padding: 13px 20px;
+    margin: 7px;
+    border: 0;
+    border-radius: 12px;
+    background: #18d8ff;
+    color: #001018;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .15s;
+}
+
+button:hover {
+    transform: scale(1.06);
+    filter: brightness(1.2);
+}
+
+.menuButton {
+    display: block;
+    width: min(350px, 90%);
+    margin: 12px auto;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.stat {
+    padding: 10px 14px;
+    background: #151d36;
+    border-radius: 12px;
+}
+
+#gameArea {
+    width: min(650px, 95vw);
+    height: min(430px, 65vh);
+    min-height: 300px;
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #4deaff;
+    border-radius: 18px;
+    background:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+#square {
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    left: 100px;
+    top: 100px;
+    border: 3px solid white;
+    border-radius: 12px;
+    background: lime;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    transition:
+        left .12s,
+        top .12s,
+        width .15s,
+        height .15s,
+        transform .15s;
+    box-shadow: 0 0 20px currentColor;
+}
+
+#square.pop {
+    animation: pop .18s;
+}
+
+@keyframes pop {
+    50% {
+        transform: scale(1.35) rotate(8deg);
+    }
+}
+
+#bonus {
+    display: none;
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background: gold;
+    cursor: pointer;
+    box-shadow: 0 0 25px gold;
+    animation: bonusPulse .7s infinite alternate;
+}
+
+@keyframes bonusPulse {
+    to {
+        transform: scale(1.15);
+    }
+}
+
+.card {
+    display: inline-block;
+    vertical-align: top;
+    width: 190px;
+    min-height: 150px;
+    margin: 8px;
+    padding: 15px;
+    background: #151d36;
+    border: 2px solid #35466e;
+    border-radius: 15px;
+}
+
+.locked {
+    opacity: .5;
+}
+
+#gameOver {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(420px, 90%);
+    padding: 30px;
+    border: 3px solid #ff4d6d;
+    border-radius: 20px;
+    background: #070910;
+    box-shadow: 0 0 50px rgba(255,0,80,.4);
+}
+
+#gameOver h2 {
+    font-size: 38px;
+}
+
+#message {
+    min-height: 28px;
+    color: #4deaff;
+    font-weight: bold;
+}
+
+.small {
+    color: #aaa;
+}
+
+@media (max-width: 600px) {
+    .panel {
+        padding: 15px;
+    }
+
+    button {
+        font-size: 15px;
+        padding: 11px 15px;
+    }
+
+    #gameArea {
+        height: 55vh;
+        min-height: 280px;
+    }
+
+    #square {
+        width: 50px;
+        height: 50px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎮 CATCH THE SQUARE</h1>
+<p class="subtitle">Catch it. Level up. Beat your high score.</p>
+
+
+<!-- MENU -->
+
+<div id="menu" class="screen active">
+
+<div class="panel">
+
+<h2>MAIN MENU</h2>
+
+<button class="menuButton" onclick="startGame()">
+🎮 START GAME
+</button>
+
+<button class="menuButton" onclick="showScreen('shop')">
+🛒 SHOP
+</button>
+
+<button class="menuButton" onclick="showScreen('missions')">
+🎯 MISSIONS
+</button>
+
+<button class="menuButton" onclick="showScreen('achievements')">
+🏆 ACHIEVEMENTS
+</button>
+
+<button class="menuButton" onclick="showScreen('settings')">
+⚙️ SETTINGS
+</button>
+
+<button class="menuButton" onclick="showScreen('howto')">
+📖 HOW TO PLAY
+</button>
+
+<hr>
+
+<p>🪙 Coins: <b id="menuCoins">0</b></p>
+<p>🏆 High Score: <b id="menuHigh">0</b></p>
+
+</div>
+</div>
+
+
+<!-- GAME -->
+
+<div id="gameScreen" class="screen">
+
+<div class="panel">
+
+<div class="stats">
+
+<div class="stat">🏆 <b id="score">0</b></div>
+<div class="stat">❤️ <b id="lives">3</b></div>
+<div class="stat">⭐ Level <b id="level">1</b></div>
+<div class="stat">⏱️ <b id="time">60</b></div>
+<div class="stat">🔥 x<b id="combo">0</b></div>
+<div class="stat">🪙 <b id="coins">0</b></div>
+
+</div>
+
+<p id="message">CATCH IT!</p>
+
+<div id="gameArea">
+
+<button id="square" onclick="catchSquare()">CLICK!</button>
+
+<button id="bonus" onclick="catchBonus()">+5</button>
+
+</div>
+
+<button onclick="buyLife()">❤️ EXTRA LIFE — 20 COINS</button>
+
+<button onclick="quitGame()">🏠 MENU</button>
+
+</div>
+</div>
+
+
+<!-- SHOP -->
+
+<div id="shop" class="screen">
+
+<div class="panel">
+
+<h2>🛒 SHOP</h2>
+
+<p>🪙 Coins: <b id="shopCoins">0</b></p>
+
+<div class="card">
+<h3>🌈 Rainbow</h3>
+<p>Changes colour every move.</p>
+<button onclick="buySkin('rainbow',50)">50 🪙</button>
+</div>
+
+<div class="card">
+<h3>🔥 Fire</h3>
+<p>Use a fiery orange square.</p>
+<button onclick="buySkin('fire',75)">75 🪙</button>
+</div>
+
+<div class="card">
+<h3>❄️ Ice</h3>
+<p>Use an icy blue square.</p>
+<button onclick="buySkin('ice',100)">100 🪙</button>
+</div>
+
+<div class="card">
+<h3>👑 Gold</h3>
+<p>Use a golden square.</p>
+<button onclick="buySkin('gold',150)">150 🪙</button>
+</div>
+
+<br>
+
+<button onclick="showScreen('menu')">🏠 BACK</button>
+
+</div>
+</div>
+
+
+<!-- MISSIONS -->
+
+<div id="missions" class="screen">
+
+<div class="panel">
+
+<h2>🎯 MISSIONS</h2>
+
+<p>Catch your first square: <b id="mission1">LOCKED</b></p>
+
+<p>Reach 25 points: <b id="mission25">LOCKED</b></p>
+
+<p>Reach 50 points: <b id="mission50">LOCKED</b></p>
+
+<p>Get a 10 combo: <b id="missionCombo">LOCKED</b></p>
+
+<button onclick="showScreen('menu')">🏠 BACK</button>
+
+</div>
+</div>
+
+
+<!-- ACHIEVEMENTS -->
+
+<div id="achievements" class="screen">
+
+<div class="panel">
+
+<h2>🏆 ACHIEVEMENTS</h2>
+
+<p>🎯 First Catch — <b id="ach1">LOCKED</b></p>
+
+<p>🔥 10 Combo — <b id="ach2">LOCKED</b></p>
+
+<p>🪙 100 Coins — <b id="ach3">LOCKED</b></p>
+
+<p>⭐ Reach Level 10 — <b id="ach4">LOCKED</b></p>
+
+<button onclick="showScreen('menu')">🏠 BACK</button>
+
+</div>
+</div>
+
+
+<!-- SETTINGS -->
+
+<div id="settings" class="screen">
+
+<div class="panel">
+
+<h2>⚙️ SETTINGS</h2>
+
+<p>Choose difficulty:</p>
+
+<button onclick="setDifficulty('easy')">EASY</button>
+
+<button onclick="setDifficulty('normal')">NORMAL</button>
+
+<button onclick="setDifficulty('hard')">HARD</button>
+
+<p>Current: <b id="difficultyText">NORMAL</b></p>
+
+<button onclick="showScreen('menu')">🏠 BACK</button>
+
+</div>
+</div>
+
+
+<!-- HOW TO -->
+
+<div id="howto" class="screen">
+
+<div class="panel">
+
+<h2>📖 HOW TO PLAY</h2>
+
+<p>🟩 Click the square to score.</p>
+<p>💨 It moves automatically.</p>
+<p>❤️ Missing it costs a life.</p>
+<p>⭐ Every 5 points increases your level.</p>
+<p>🔥 Keep catching it to build a combo.</p>
+<p>⭐ Gold bonuses give +5 points and +10 coins.</p>
+<p>🛒 Spend your coins in the shop.</p>
+
+<button onclick="showScreen('menu')">🏠 BACK</button>
+
+</div>
+</div>
+
+
+<!-- GAME OVER -->
+
+<div id="gameOver">
+
+<h2>💀 GAME OVER</h2>
+
+<p>FINAL SCORE</p>
+
+<h1 id="finalScore">0</h1>
+
+<p>Level: <b id="finalLevel">1</b></p>
+
+<p>High Score: <b id="finalHigh">0</b></p>
+
+<h3 id="newRecord"></h3>
+
+<button onclick="closeGameOver();startGame()">
+🔄 PLAY AGAIN
+</button>
+
+<button onclick="closeGameOver();showScreen('menu')">
+🏠 MAIN MENU
+</button>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SAVED DATA
+========================= */
+
+var coins = Number(localStorage.getItem("coins") || 0);
+
+var highScore = Number(localStorage.getItem("highScore") || 0);
+
+var skin = localStorage.getItem("skin") || "normal";
+
+
+/* =========================
+   GAME VARIABLES
+========================= */
+
+var score = 0;
+var lives = 3;
+var level = 1;
+var time = 60;
+var combo = 0;
+
+var playing = false;
+
+var difficulty = "normal";
+
+var moveTimer = null;
+var gameTimer = null;
+var bonusTimer = null;
+
+
+/* =========================
+   SOUND SYSTEM
+========================= */
+
+var audioContext = null;
+
+function sound(frequency, duration) {
+
+    try {
+
+        if (!audioContext) {
+
+            audioContext =
+                new (window.AudioContext ||
+                window.webkitAudioContext)();
+
+        }
+
+        var oscillator =
+            audioContext.createOscillator();
+
+        var gain =
+            audioContext.createGain();
+
+        oscillator.frequency.value =
+            frequency;
+
+        oscillator.connect(gain);
+
+        gain.connect(audioContext.destination);
+
+        gain.gain.value = 0.08;
+
+        oscillator.start();
+
+        oscillator.stop(
+            audioContext.currentTime +
+            duration
+        );
+
+    } catch(e) {
+
+        /* Sound is optional. */
+
+    }
+
+}
+
+
+/* =========================
+   SCREENS
+========================= */
+
+function showScreen(id) {
+
+    var screens =
+        document.getElementsByClassName("screen");
+
+    for (var i = 0; i < screens.length; i++) {
+
+        screens[i].classList.remove("active");
+
+    }
+
+    document.getElementById(id)
+        .classList.add("active");
+
+    updateMenus();
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+function startGame() {
+
+    clearInterval(moveTimer);
+    clearInterval(gameTimer);
+    clearInterval(bonusTimer);
+
+    score = 0;
+    combo = 0;
+    level = 1;
+
+    if (difficulty === "easy") {
+
+        lives = 5;
+        time = 75;
+
+    }
+
+    else if (difficulty === "hard") {
+
+        lives = 2;
+        time = 45;
+
+    }
+
+    else {
+
+        lives = 3;
+        time = 60;
+
+    }
+
+    playing = true;
+
+    showScreen("gameScreen");
+
+    updateStats();
+
+    moveSquare();
+
+    startMovement();
+
+    gameTimer = setInterval(function() {
+
+        time--;
+
+        updateStats();
+
+        if (time <= 0) {
+
+            endGame();
+
+        }
+
+    }, 1000);
+
+    bonusTimer = setInterval(function() {
+
+        showBonus();
+
+    }, 7000);
+
+    message("GO! 🎮");
+
+    sound(600,.1);
+
+}
+
+
+/* =========================
+   MOVEMENT
+========================= */
+
+function startMovement() {
+
+    clearInterval(moveTimer);
+
+    var speed = 1000;
+
+    if (difficulty === "easy") {
+
+        speed = 1500;
+
+    }
+
+    if (difficulty === "hard") {
+
+        speed = 650;
+
+    }
+
+    moveTimer = setInterval(function() {
+
+        if (!playing) return;
+
+        moveSquare();
+
+        loseLife();
+
+    }, speed);
+
+}
+
+
+function moveSquare() {
+
+    if (!playing) return;
+
+    var square =
+        document.getElementById("square");
+
+    var area =
+        document.getElementById("gameArea");
+
+    var maxX =
+        area.clientWidth -
+        square.offsetWidth;
+
+    var maxY =
+        area.clientHeight -
+        square.offsetHeight;
+
+    var x =
+        Math.floor(Math.random() * Math.max(1,maxX));
+
+    var y =
+        Math.floor(Math.random() * Math.max(1,maxY));
+
+    square.style.left =
+        x + "px";
+
+    square.style.top =
+        y + "px";
+
+    square.classList.remove("pop");
+
+    void square.offsetWidth;
+
+    square.classList.add("pop");
+
+    if (skin === "rainbow") {
+
+        var colours = [
+            "red",
+            "orange",
+            "yellow",
+            "lime",
+            "cyan",
+            "blue",
+            "magenta"
+        ];
+
+        square.style.background =
+            colours[
+                Math.floor(
+                    Math.random() *
+                    colours.length
+                )
+            ];
+
+    }
+
+    else if (skin === "fire") {
+
+        square.style.background = "orange";
+
+    }
+
+    else if (skin === "ice") {
+
+        square.style.background = "cyan";
+
+    }
+
+    else if (skin === "gold") {
+
+        square.style.background = "gold";
+
+    }
+
+    else {
+
+        square.style.background = "lime";
+
+    }
+
+}
+
+
+/* =========================
+   CATCH
+========================= */
+
+function catchSquare() {
+
+    if (!playing) return;
+
+    score++;
+    combo++;
+    coins++;
+
+    level =
+        Math.floor(score / 5) + 1;
+
+    sound(
+        500 + combo * 20,
+        .08
+    );
+
+    if (combo % 5 === 0) {
+
+        coins += 5;
+
+        message(
+            "🔥 COMBO BONUS! x" +
+            combo
+        );
+
+        sound(900,.15);
+
+    }
+
+    else {
+
+        message(
+            "NICE! 🔥 x" +
+            combo
+        );
+
+    }
+
+    moveSquare();
+
+    updateStats();
+
+}
+
+
+/* =========================
+   MISS
+========================= */
+
+function loseLife() {
+
+    lives--;
+
+    combo = 0;
+
+    sound(180,.12);
+
+    message("❌ MISSED!");
+
+    updateStats();
+
+    if (lives <= 0) {
+
+        endGame();
+
+    }
+
+}
+
+
+/* =========================
+   BONUS
+========================= */
+
+function showBonus() {
+
+    if (!playing) return;
+
+    var bonus =
+        document.getElementById("bonus");
+
+    var area =
+        document.getElementById("gameArea");
+
+    var x =
+        Math.floor(
+            Math.random() *
+            Math.max(
+                1,
+                area.clientWidth -
+                55
+            )
+        );
+
+    var y =
+        Math.floor(
+            Math.random() *
+            Math.max(
+                1,
+                area.clientHeight -
+                55
+            )
+        );
+
+    bonus.style.left =
+        x + "px";
+
+    bonus.style.top =
+        y + "px";
+
+    bonus.style.display =
+        "block";
+
+    setTimeout(function() {
+
+        bonus.style.display =
+            "none";
+
+    },4000);
+
+}
+
+
+function catchBonus() {
+
+    if (!playing) return;
+
+    score += 5;
+    coins += 10;
+    combo += 2;
+
+    level =
+        Math.floor(score / 5) + 1;
+
+    document.getElementById("bonus")
+        .style.display =
+        "none";
+
+    message("⭐ BONUS! +5!");
+
+    sound(1000,.2);
+
+    updateStats();
+
+}
+
+
+/* =========================
+   EXTRA LIFE
+========================= */
+
+function buyLife() {
+
+    if (!playing) return;
+
+    if (coins < 20) {
+
+        message("❌ NEED 20 COINS!");
+
+        sound(150,.1);
+
+        return;
+
+    }
+
+    coins -= 20;
+
+    lives++;
+
+    message("❤️ EXTRA LIFE!");
+
+    sound(700,.1);
+
+    updateStats();
+
+}
+
+
+/* =========================
+   GAME OVER
+========================= */
+
+function endGame() {
+
+    if (!playing) return;
+
+    playing = false;
+
+    clearInterval(moveTimer);
+    clearInterval(gameTimer);
+    clearInterval(bonusTimer);
+
+    document.getElementById("bonus")
+        .style.display =
+        "none";
+
+    var newRecord = false;
+
+    if (score > highScore) {
+
+        highScore = score;
+
+        newRecord = true;
+
+    }
+
+    save();
+
+    document.getElementById("finalScore")
+        .innerHTML =
+        score;
+
+    document.getElementById("finalLevel")
+        .innerHTML =
+        level;
+
+    document.getElementById("finalHigh")
+        .innerHTML =
+        highScore;
+
+    document.getElementById("newRecord")
+        .innerHTML =
+        newRecord
+        ? "🏆 NEW HIGH SCORE!"
+        : "";
+
+    document.getElementById("gameOver")
+        .style.display =
+        "block";
+
+    sound(120,.3);
+
+    updateMenus();
+
+}
+
+
+function closeGameOver() {
+
+    document.getElementById("gameOver")
+        .style.display =
+        "none";
+
+}
+
+
+/* =========================
+   QUIT
+========================= */
+
+function quitGame() {
+
+    playing = false;
+
+    clearInterval(moveTimer);
+    clearInterval(gameTimer);
+    clearInterval(bonusTimer);
+
+    showScreen("menu");
+
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+function updateStats() {
+
+    document.getElementById("score")
+        .innerHTML = score;
+
+    document.getElementById("lives")
+        .innerHTML = lives;
+
+    document.getElementById("level")
+        .innerHTML = level;
+
+    document.getElementById("time")
+        .innerHTML = time;
+
+    document.getElementById("combo")
+        .innerHTML = combo;
+
+    document.getElementById("coins")
+        .innerHTML = coins;
+
+    save();
+
+    updateAchievements();
+
+}
+
+
+/* =========================
+   MESSAGES
+========================= */
+
+function message(text) {
+
+    document.getElementById("message")
+        .innerHTML = text;
+
+}
+
+
+/* =========================
+   SHOP
+========================= */
+
+function buySkin(name, price) {
+
+    if (coins < price) {
+
+        message("❌ NOT ENOUGH COINS!");
+
+        alert(
+            "You need " +
+            price +
+            " coins."
+        );
+
+        return;
+
+    }
+
+    coins -= price;
+
+    skin = name;
+
+    localStorage.setItem(
+        "skin",
+        skin
+    );
+
+    save();
+
+    updateMenus();
+
+    alert(
+        "🎉 " +
+        name.toUpperCase() +
+        " SKIN EQUIPPED!"
+    );
+
+}
+
+
+/* =========================
+   DIFFICULTY
+========================= */
+
+function setDifficulty(value) {
+
+    difficulty = value;
+
+    document.getElementById("difficultyText")
+        .innerHTML =
+        value.toUpperCase();
+
+}
+
+
+/* =========================
+   ACHIEVEMENTS
+========================= */
+
+function updateAchievements() {
+
+    var first =
+        localStorage.getItem("everPlayed")
+        === "yes";
+
+    var combo10 =
+        localStorage.getItem("combo10")
+        === "yes";
+
+    var coins100 =
+        coins >= 100;
+
+    var level10 =
+        level >= 10;
+
+
+    document.getElementById("ach1")
+        .innerHTML =
+        first
+        ? "UNLOCKED 🏆"
+        : "LOCKED";
+
+    document.getElementById("ach2")
+        .innerHTML =
+        combo10
+        ? "UNLOCKED 🏆"
+        : "LOCKED";
+
+    document.getElementById("ach3")
+        .innerHTML =
+        coins100
+        ? "UNLOCKED 🏆"
+        : "LOCKED";
+
+    document.getElementById("ach4")
+        .innerHTML =
+        level10
+        ? "UNLOCKED 🏆"
+        : "LOCKED";
+
+
+    document.getElementById("mission1")
+        .innerHTML =
+        first
+        ? "COMPLETE ✅"
+        : "LOCKED";
+
+    document.getElementById("mission25")
+        .innerHTML =
+        score >= 25
+        ? "COMPLETE ✅"
+        : "LOCKED";
+
+    document.getElementById("mission50")
+        .innerHTML =
+        score >= 50
+        ? "COMPLETE ✅"
+        : "LOCKED";
+
+    document.getElementById("missionCombo")
+        .innerHTML =
+        combo >= 10 ||
+        combo10
+        ? "COMPLETE ✅"
+        : "LOCKED";
+
+}
+
+
+/* =========================
+   SAVE
+========================= */
+
+function save() {
+
+    localStorage.setItem(
+        "coins",
+        coins
+    );
+
+    localStorage.setItem(
+        "highScore",
+        highScore
+    );
+
+    if (score >= 1) {
+
+        localStorage.setItem(
+            "everPlayed",
+            "yes"
+        );
+
+    }
+
+    if (combo >= 10) {
+
+        localStorage.setItem(
+            "combo10",
+            "yes"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   UPDATE MENU
+========================= */
+
+function updateMenus() {
+
+    document.getElementById("menuCoins")
+        .innerHTML =
+        coins;
+
+    document.getElementById("menuHigh")
+        .innerHTML =
+        highScore;
+
+    document.getElementById("shopCoins")
+        .innerHTML =
+        coins;
+
+    updateAchievements();
+
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+updateMenus();
+
+</script>
+
+</body>
+</html>
