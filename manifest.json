@@ -4,9 +4,9 @@
   "display": "standalone",
   "name": "Catch The Square",
   "orientation": "any",
-  "scope": https://dylanaura03-a11y.github.io/catch-the-square/",
+  "scope": "https://dylanaura03-a11y.github.io/catch-the-square/",
   "short_name": "Catch Square",
-  "start_url": https://dylanaura03-a11y.github.io/catch-the-square/",
+  "start_url": "https://dylanaura03-a11y.github.io/catch-the-square/",
   "theme_color": "#ffffff",
   "description": "A fun game where you try to catch the square.",
   "lang": "en"
