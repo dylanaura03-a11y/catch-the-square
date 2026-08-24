@@ -602,7 +602,44 @@ function sound(frequency, duration) {
     
     
   
-  /* =========================
+  function sound(frequency, duration) {
+
+    try {
+
+        if (!audioContext) {
+            audioContext =
+                new (window.AudioContext ||
+                window.webkitAudioContext)();
+        }
+
+        var oscillator =
+            audioContext.createOscillator();
+
+        var gain =
+            audioContext.createGain();
+
+        oscillator.frequency.value = frequency;
+
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+
+        gain.gain.value = 0.08;
+
+        oscillator.start();
+
+        oscillator.stop(
+            audioContext.currentTime + duration
+        );
+
+    } catch(e) {
+
+        /* Sound is optional. */
+
+    }
+}
+
+
+/* =========================
    SUPPORT
 ========================= */
 
@@ -610,12 +647,11 @@ function toggleSupport() {
     document.getElementById("supportBox").classList.toggle("active");
 }
 
-}
-
 
 /* =========================
    SCREENS
 ========================= */
+
 
 function showScreen(id) {
 
