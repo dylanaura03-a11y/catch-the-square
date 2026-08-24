@@ -88,7 +88,25 @@ button:hover {
     width: min(350px, 90%);
     margin: 12px auto;
 }
+.supportBox {
+    display: none;
+    width: min(450px, 90%);
+    margin: 15px auto;
+    padding: 20px;
+    border: 2px solid #18d8ff;
+    border-radius: 15px;
+    background: #10182b;
+}
 
+.supportBox.active {
+    display: block;
+}
+
+.supportNumber {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 12px 0;
+}
 .stats {
     display: flex;
     justify-content: center;
@@ -273,8 +291,24 @@ button:hover {
 <button class="menuButton" onclick="showScreen('howto')">
 📖 HOW TO PLAY
 </button>
+  <button class="menuButton" onclick="toggleSupport()">
+    💰 Support The Game
+</button>
+
+<div id="supportBox" class="supportBox">
+    <h2>💰 Support Catch The Square</h2>
+    <p>Want to support the game?</p>
+    <p>Send your support through Pochi la Biashara.</p>
+
+    <div class="supportNumber">
+        📱 Pochi: 0700201218
+    </div>
+
+    <p>Thank you for supporting Catch The Square! ❤️</p>
+</div>
 <!-- Catch The Square Ad. -->
 <ins class="adsbygoogle"
+  
      style="display:block"
      data-ad-client="ca-pub-9731155253732713"
      data-ad-slot="5442663781"
@@ -558,12 +592,23 @@ function sound(frequency, duration) {
             audioContext.currentTime +
             duration
         );
-
-    } catch(e) {
+      
+ } catch(e) {
 
         /* Sound is optional. */
 
     }
+}
+    
+    
+  
+  /* =========================
+   SUPPORT
+========================= */
+
+function toggleSupport() {
+    document.getElementById("supportBox").classList.toggle("active");
+}
 
 }
 
