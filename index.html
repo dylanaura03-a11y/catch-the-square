@@ -482,7 +482,7 @@ Catch it. Level up. Beat your high score.
 💰 SUPPORT THE GAME
 </button>
 
-<button class="menuButton" onclick="showScreen('admin')">
+<button class="menuButton" onclick="openAdmin()">
 👑 ADMIN PANEL
 </button>
 
@@ -1020,7 +1020,15 @@ localStorage.getItem("difficulty") || "normal";
 /* ==================================================
    GAME VARIABLES
 ================================================== */
+function openAdmin() {
+    var pin = prompt("🔐 Enter Admin PIN:");
 
+    if (pin === "2580") {
+        showScreen("admin");
+    } else {
+        alert("❌ Wrong PIN!");
+    }
+}
 var score = 0;
 var lives = 3;
 var level = 1;
