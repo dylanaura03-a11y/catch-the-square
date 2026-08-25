@@ -1,344 +1,1331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Catch The Square 3.0</title>
+<title>Catch The Square</title>
 
-<script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9731155253732713"
-crossorigin="anonymous"></script>
+<script type="module">
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+  getAuth,
+  signInAnonymously,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+  getDatabase,
+  ref,
+  push,
+  onValue,
+  serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+const firebaseConfig = {
+
+  apiKey:"AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
+
+  authDomain:
+  "catch-the-square-79110.firebaseapp.com",
+
+  databaseURL:
+  "https://catch-the-square-79110-default-rtdb.firebaseio.com",
+
+  projectId:
+  "catch-the-square-79110",
+
+  storageBucket:
+  "catch-the-square-79110.firebasestorage.app",
+
+  messagingSenderId:
+  "855556289213",
+
+  appId:
+  "1:855556289213:web:6ffe7fe9ec18c451623dd4",
+
+  measurementId:
+  "G-BNKEM99H41"
+};
+
+
+const ADMIN_UID =
+"gMsemyhyGSXfJqLdV0zlkVdJwz82";
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getDatabase(app);
+
+const leaderboardRef =
+ref(db,"leaderboard");
+
+const chatRef =
+ref(db,"chat");
+
+const broadcastRef =
+ref(db,"adminBroadcasts");
+
+
+window.firebaseReady = false;
+window.firebaseUser = null;
+
+
+signInAnonymously(auth)
+
+.then(() => {
+
+  console.log("Anonymous login started");
+
+})
+
+.catch(error => {
+
+  console.error("Firebase Auth Error:",error);
+
+  document.getElementById("firebaseStatus").textContent =
+  "AUTH ERROR";
+
+  document.getElementById("firebaseStatus").className =
+  "offline";
+
+});
+
+
+onAuthStateChanged(auth,(user)=>{
+
+  if(user){
+
+    window.firebaseUser = user;
+
+    window.firebaseReady = true;
+
+    console.log("Firebase UID:",user.uid);
+
+    document.getElementById("firebaseStatus").textContent =
+    "ONLINE";
+
+    document.getElementById("firebaseStatus").className =
+    "online";
+
+    loadFirebaseLeaderboard();
+
+    loadChat();
+
+    loadBroadcasts();
+
+    updateAdmin();
+
+  }
+
+});
+
+
+/* ================= LEADERBOARD ================= */
+
+function loadFirebaseLeaderboard(){
+
+  onValue(
+    leaderboardRef,
+    snapshot => {
+
+      const scores = [];
+
+      snapshot.forEach(child => {
+
+        const data = child.val();
+
+        if(
+          data &&
+          typeof data.score === "number"
+        ){
+
+          scores.push(data);
+
+        }
+
+      });
+
+
+      scores.sort(
+        (a,b)=>b.score-a.score
+      );
+
+
+      window.globalScores =
+      scores.slice(0,50);
+
+      renderLeaderboard();
+
+    },
+    error => {
+
+      console.error(
+        "Leaderboard read error:",
+        error
+      );
+
+    }
+  );
+
+}
+
+
+window.saveScore = async function(){
+
+  if(!window.firebaseUser){
+
+    alert(
+      "⏳ Firebase is still connecting. Try again in a second."
+    );
+
+    return;
+
+  }
+
+
+  if(highScore <= 0){
+
+    alert(
+      "🎮 Play a game first!"
+    );
+
+    return;
+
+  }
+
+
+  let name =
+  localStorage.getItem("playerName") || "";
+
+
+  if(!name){
+
+    name =
+    prompt(
+      "Enter your leaderboard name:"
+    );
+
+  }
+
+
+  if(!name){
+
+    alert(
+      "❌ You need a name."
+    );
+
+    return;
+
+  }
+
+
+  name =
+  name.trim().substring(0,20);
+
+
+  if(!name){
+
+    alert(
+      "❌ Invalid name."
+    );
+
+    return;
+
+  }
+
+
+  localStorage.setItem(
+    "playerName",
+    name
+  );
+
+
+  const scoreData = {
+
+    uid: window.firebaseUser.uid,
+
+    name: name,
+
+    score: Number(highScore),
+
+    time: serverTimestamp()
+
+  };
+
+
+  console.log(
+    "Saving leaderboard score:",
+    scoreData
+  );
+
+
+  try{
+
+    await push(
+      leaderboardRef,
+      scoreData
+    );
+
+
+    alert(
+      "🏆 SCORE SAVED TO GLOBAL LEADERBOARD!"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Firebase leaderboard error:",
+      error
+    );
+
+
+    alert(
+      "❌ Could not save score.\n\n" +
+      error.message
+    );
+
+  }
+
+};
+
+
+function renderLeaderboard(){
+
+  const box =
+  document.getElementById(
+    "leaderboardList"
+  );
+
+
+  if(!box)return;
+
+
+  box.innerHTML = "";
+
+
+  const scores =
+  window.globalScores || [];
+
+
+  if(scores.length === 0){
+
+    box.innerHTML =
+    "<p class='small'>No global scores yet. Be the first!</p>";
+
+    return;
+
+  }
+
+
+  scores.slice(0,20).forEach(
+    (player,index)=>{
+
+      const medal =
+      index===0 ? "🥇" :
+      index===1 ? "🥈" :
+      index===2 ? "🥉" :
+      "🏆";
+
+
+      const div =
+      document.createElement("div");
+
+      div.className =
+      "leaderRow";
+
+
+      div.innerHTML =
+
+      medal +
+      " <b>#"+(index+1)+
+      "</b> " +
+
+      escapeHTML(
+        player.name || "Player"
+      ) +
+
+      " <strong>"+
+      Number(player.score)+
+      "</strong>";
+
+
+      box.appendChild(div);
+
+    }
+  );
+
+}
+
+
+/* ================= CHAT ================= */
+
+function loadChat(){
+
+  onValue(
+    chatRef,
+    snapshot => {
+
+      const box =
+      document.getElementById(
+        "chatMessages"
+      );
+
+
+      box.innerHTML = "";
+
+
+      snapshot.forEach(child=>{
+
+        const data =
+        child.val();
+
+
+        const msg =
+        document.createElement(
+          "div"
+        );
+
+
+        msg.className =
+        "chatMsg";
+
+
+        msg.innerHTML =
+        "<b>👤 "+
+        escapeHTML(data.name)+
+        "</b><br>"+
+        escapeHTML(data.message);
+
+
+        box.appendChild(msg);
+
+      });
+
+
+      box.scrollTop =
+      box.scrollHeight;
+
+    }
+  );
+
+}
+
+
+window.sendChat = async function(){
+
+  if(!window.firebaseUser){
+
+    alert(
+      "Firebase is still connecting..."
+    );
+
+    return;
+
+  }
+
+
+  const name =
+  document.getElementById(
+    "chatName"
+  ).value.trim();
+
+
+  const message =
+  document.getElementById(
+    "chatInput"
+  ).value.trim();
+
+
+  if(!name || !message){
+
+    alert(
+      "Enter your name and message."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await push(
+      chatRef,
+      {
+
+        uid:
+        window.firebaseUser.uid,
+
+        name:
+        name.substring(0,20),
+
+        message:
+        message.substring(0,150),
+
+        time:
+        serverTimestamp()
+
+      }
+    );
+
+
+    document.getElementById(
+      "chatInput"
+    ).value = "";
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "❌ Could not send message."
+    );
+
+  }
+
+};
+
+
+/* ================= BROADCAST ================= */
+
+function loadBroadcasts(){
+
+  onValue(
+    broadcastRef,
+    snapshot => {
+
+      let latest = null;
+
+
+      snapshot.forEach(child=>{
+
+        const data =
+        child.val();
+
+
+        if(
+          data &&
+          data.type !== "update"
+        ){
+
+          latest = data;
+
+        }
+
+      });
+
+
+      if(
+        latest &&
+        latest.message
+      ){
+
+        showBroadcast(
+          latest.message
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+function showBroadcast(message){
+
+  const box =
+  document.getElementById(
+    "adminBroadcast"
+  );
+
+
+  document.getElementById(
+    "broadcastMessage"
+  ).textContent =
+  message;
+
+
+  box.style.display =
+  "block";
+
+
+  setTimeout(()=>{
+
+    box.style.display =
+    "none";
+
+  },7000);
+
+}
+
+
+function updateAdmin(){
+
+  const el =
+  document.getElementById(
+    "adminStatus"
+  );
+
+
+  if(
+    window.firebaseUser &&
+    window.firebaseUser.uid === ADMIN_UID
+  ){
+
+    el.textContent =
+    "👑 DYLAN";
+
+    el.className =
+    "adminBadge";
+
+  }else{
+
+    el.textContent =
+    "PLAYER";
+
+  }
+
+}
+
+
+window.adminAnnouncement =
+async function(){
+
+  if(
+    !window.firebaseUser ||
+    window.firebaseUser.uid !== ADMIN_UID
+  ){
+
+    alert(
+      "❌ Dylan admin only."
+    );
+
+    return;
+
+  }
+
+
+  const input =
+  document.getElementById(
+    "announcementInput"
+  );
+
+
+  const message =
+  input.value.trim();
+
+
+  if(!message){
+
+    alert(
+      "Write an announcement."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await push(
+      broadcastRef,
+      {
+
+        type:
+        "announcement",
+
+        admin:
+        "Dylan",
+
+        uid:
+        window.firebaseUser.uid,
+
+        message:
+        message.substring(0,200),
+
+        time:
+        serverTimestamp()
+
+      }
+    );
+
+
+    input.value = "";
+
+
+    alert(
+      "📢 SENT!"
+    );
+
+
+  }catch(error){
+
+    alert(
+      "❌ Could not send."
+    );
+
+  }
+
+};
+
+
+function escapeHTML(text){
+
+  const div =
+  document.createElement("div");
+
+  div.textContent =
+  text == null ? "" : String(text);
+
+  return div.innerHTML;
+
+}
+
+
+window.renderLeaderboard =
+renderLeaderboard;
+
+</script>
+
 
 <style>
-*{box-sizing:border-box}
+
+*{
+box-sizing:border-box;
+}
 
 body{
+
 margin:0;
+
 min-height:100vh;
-background:radial-gradient(circle at top,#243c70,#070a12 60%);
+
+background:
+radial-gradient(
+circle at top,
+#243c70,
+#070a12 60%
+);
+
 color:white;
+
 font-family:Arial,sans-serif;
+
 text-align:center;
+
 }
+
 
 h1{
+
 font-size:42px;
-text-shadow:0 0 20px #00eaff;
+
+text-shadow:
+0 0 20px #00eaff;
+
 }
 
-.screen{display:none}
-.screen.active{display:block}
+
+.screen{
+display:none;
+}
+
+.screen.active{
+display:block;
+}
+
 
 .panel{
+
 width:min(950px,94%);
+
 margin:20px auto;
+
 padding:25px;
+
 background:#0c1224ee;
-border:2px solid #00eaff;
+
+border:
+2px solid #00eaff;
+
 border-radius:20px;
-box-shadow:0 0 30px #00eaff22;
+
+box-shadow:
+0 0 30px #00eaff22;
+
 }
+
 
 button{
+
 border:0;
+
 border-radius:12px;
+
 padding:12px 18px;
+
 margin:6px;
+
 font-weight:bold;
+
 cursor:pointer;
+
 background:#00d9ff;
+
 color:#001018;
+
 }
+
 
 button:hover{
+
 transform:scale(1.04);
+
 }
+
 
 .menuButton{
+
 display:block;
+
 width:min(380px,90%);
+
 margin:9px auto;
+
 }
+
 
 .stats{
+
 display:flex;
+
 justify-content:center;
+
 flex-wrap:wrap;
+
 gap:8px;
+
 }
+
 
 .stat{
+
 background:#17203a;
+
 padding:10px 15px;
+
 border-radius:12px;
+
 }
+
 
 #gameArea{
+
 width:min(700px,95%);
+
 height:430px;
+
 margin:20px auto;
+
 position:relative;
+
 overflow:hidden;
-border:3px solid #00eaff;
+
+border:
+3px solid #00eaff;
+
 border-radius:18px;
+
 background:#080d1c;
+
 }
+
 
 #square{
+
 position:absolute;
+
 width:55px;
+
 height:55px;
+
 padding:0;
-margin:0;
+
 background:lime;
-border:3px solid white;
+
+border:
+3px solid white;
+
 border-radius:12px;
-box-shadow:0 0 25px lime;
+
+box-shadow:
+0 0 25px lime;
+
 }
+
 
 #bonus{
+
 display:none;
+
 position:absolute;
+
 width:52px;
+
 height:52px;
+
 padding:0;
-margin:0;
+
 border-radius:50%;
+
 background:gold;
+
 color:black;
+
 }
+
 
 .card{
+
 display:inline-block;
+
 vertical-align:top;
+
 width:210px;
+
 min-height:130px;
+
 margin:7px;
+
 padding:15px;
+
 background:#151d36;
+
 border-radius:15px;
+
 }
+
 
 .notice{
+
 margin:10px auto;
+
 padding:15px;
+
 max-width:700px;
+
 background:#111a30;
+
 border-radius:14px;
+
 }
 
-input{
+
+input,textarea{
+
 width:min(550px,90%);
+
 padding:12px;
+
 margin:6px;
+
 border-radius:10px;
-border:1px solid #00eaff;
+
+border:
+1px solid #00eaff;
+
 background:#080d18;
+
 color:white;
+
 }
+
+
+textarea{
+
+height:110px;
+
+}
+
 
 .small{
 color:#aaa;
 }
 
+
 .online{
+
 color:#62ff7b;
+
 font-weight:bold;
+
 }
+
 
 .offline{
+
 color:#ff4265;
+
 font-weight:bold;
+
 }
 
-.adBox{
-display:block;
-width:100%;
-min-height:100px;
-margin:20px auto;
-overflow:hidden;
+
+.adminBadge{
+
+color:#ffd700;
+
+font-weight:bold;
+
 }
+
 
 #gameOver{
+
 display:none;
+
 position:fixed;
+
 z-index:99;
+
 left:50%;
+
 top:50%;
-transform:translate(-50%,-50%);
+
+transform:
+translate(-50%,-50%);
+
 width:min(430px,90%);
+
 padding:30px;
+
 background:#080b14;
-border:3px solid #ff4265;
+
+border:
+3px solid #ff4265;
+
 border-radius:20px;
+
 }
 
-.support{
-background:#151d36;
-border:2px solid #ffd700;
-border-radius:15px;
-padding:18px;
-margin:20px auto;
+
+.chatBox{
+
+height:300px;
+
+overflow-y:auto;
+
+text-align:left;
+
+background:#080d1c;
+
+padding:10px;
+
+border-radius:12px;
+
+}
+
+
+.chatMsg{
+
+padding:9px;
+
+margin:5px 0;
+
+background:#17203a;
+
+border-radius:9px;
+
+}
+
+
+.leaderRow{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:10px;
+
+margin:8px auto;
+
+padding:14px;
+
 max-width:600px;
+
+background:#17203a;
+
+border-radius:12px;
+
+font-size:18px;
+
 }
 
-.gold{
-background:#ffd700;
-color:#111;
-}
 
-.danger{
-background:#ff4265;
-color:white;
-}
+.supportBox{
 
-.eventLive{
-background:#30121c;
-border:2px solid #ff4265;
-padding:18px;
+display:none;
+
+background:#111a30;
+
+border:
+2px solid #ffd700;
+
+padding:20px;
+
 border-radius:15px;
+
 margin:15px auto;
-max-width:650px;
+
+max-width:500px;
+
 }
 
-.countdown{
-font-size:28px;
-font-weight:bold;
-color:#ffd700;
+
+#adminBroadcast{
+
+display:none;
+
+position:fixed;
+
+z-index:200;
+
+left:50%;
+
+top:20px;
+
+transform:
+translateX(-50%);
+
+width:min(700px,92%);
+
+padding:18px;
+
+background:#11152a;
+
+border:
+3px solid #ffd700;
+
+border-radius:18px;
+
+box-shadow:
+0 0 35px #ffd70055;
+
 }
 
-#leaderboardList{
-max-width:700px;
-margin:auto;
-}
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <h1>🎮 CATCH THE SQUARE</h1>
-<p>3.0 • Catch it. Level up. Become the legend.</p>
+
+<p>
+3.0 • Catch it. Level up. Become the legend.
+</p>
 
 
-<!-- ================= MENU ================= -->
+<div id="adminBroadcast">
+
+<h2>👑 DYLAN</h2>
+
+<div id="broadcastMessage"></div>
+
+</div>
+
+
+<!-- MENU -->
 
 <div id="menu" class="screen active">
 
 <div class="panel">
 
-<button class="menuButton" onclick="startGame()">
+
+<button
+class="menuButton"
+onclick="startGame()">
+
 🎮 START GAME
+
 </button>
 
-<button class="menuButton" onclick="showScreen('shop')">
+
+<button
+class="menuButton"
+onclick="showScreen('shop')">
+
 🛒 SHOP
+
 </button>
 
-<button class="menuButton" onclick="showScreen('missions')">
+
+<button
+class="menuButton"
+onclick="showScreen('missions')">
+
 🎯 MISSIONS
+
 </button>
 
-<button class="menuButton" onclick="showScreen('achievements')">
+
+<button
+class="menuButton"
+onclick="showScreen('achievements')">
+
 🏆 ACHIEVEMENTS
+
 </button>
 
-<button class="menuButton" onclick="showScreen('leaderboard')">
-🌍 LEADERBOARD
+
+<button
+class="menuButton"
+onclick="showScreen('leaderboard')">
+
+🌍 GLOBAL LEADERBOARD
+
 </button>
 
-<button class="menuButton" onclick="showScreen('daily')">
+
+<button
+class="menuButton"
+onclick="showScreen('daily')">
+
 ⚡ DAILY CHALLENGE
+
 </button>
 
-<button class="menuButton" onclick="showScreen('settings')">
+
+<button
+class="menuButton"
+onclick="showScreen('chat')">
+
+💬 GLOBAL CHAT
+
+</button>
+
+
+<button
+class="menuButton"
+onclick="showScreen('settings')">
+
 ⚙️ SETTINGS
-</button>
 
-<button class="menuButton" onclick="showScreen('howto')">
-📖 HOW TO PLAY
 </button>
 
 
-<!-- SUPPORT -->
+<button
+class="menuButton"
+onclick="toggleSupport()">
 
-<div class="support">
+💰 SUPPORT
 
-<h2>💰 SUPPORT CATCH THE SQUARE</h2>
-
-<p>Want to support the game?</p>
-
-<p>Send your support through Pochi la Biashara.</p>
-
-<h2>📱 0700201218</h2>
-
-<p>Thank you for supporting Catch The Square! ❤️</p>
-
-</div>
+</button>
 
 
-<!-- EVENT -->
+<div
+id="support"
+class="supportBox">
 
-<div class="eventLive">
+<h2>
+💰 SUPPORT CATCH THE SQUARE
+</h2>
 
-<h2>👑 SATURDAY ADMIN ABUSE</h2>
+<p>
+Want to support the game?
+</p>
 
-<p>🔥 Every Saturday</p>
+<p>
+Send your support through
+<strong>Pochi la Biashara</strong>.
+</p>
 
-<p>⏰ 8:00 PM – 9:00 PM</p>
+<h2>
+📱 0700201218
+</h2>
 
-<div id="eventCountdown" class="countdown">
-CHECKING...
-</div>
-
-</div>
-
-
-<!-- ADS -->
-
-<div class="adBox">
-
-<ins class="adsbygoogle"
-style="display:block;width:100%;min-height:90px"
-data-ad-client="ca-pub-9731155253732713"
-data-ad-slot="5442663781"
-data-ad-format="auto"
-data-full-width-responsive="true">
-</ins>
+<p>
+❤️ Thank you for supporting
+Catch The Square!
+</p>
 
 </div>
+
+
+<button
+class="menuButton"
+onclick="openAdmin()">
+
+👑 DYLAN ADMIN
+
+</button>
 
 
 <hr>
 
-<p>🪙 Coins:
+
+<p>
+🪙 Coins:
 <b id="menuCoins">0</b>
 </p>
 
-<p>🏆 High Score:
+
+<p>
+🏆 High Score:
 <b id="menuHigh">0</b>
 </p>
 
-<p>🔥 Streak:
+
+<p>
+🔥 Streak:
 <b id="menuStreak">0</b>
 </p>
 
+
 <p>
+
 Firebase:
-<span id="firebaseStatus" class="offline">
+
+<span
+id="firebaseStatus"
+class="offline">
+
 CONNECTING...
+
 </span>
+
 </p>
 
+
 </div>
+
 </div>
 
 
-<!-- ================= GAME ================= -->
+<!-- GAME -->
 
 <div id="game" class="screen">
 
 <div class="panel">
+
 
 <div class="stats">
 
@@ -368,33 +1355,54 @@ CONNECTING...
 
 </div>
 
-<h3>CATCH IT!</h3>
+
+<h3>
+CATCH IT!
+</h3>
+
 
 <div id="gameArea">
 
-<button id="square" onclick="catchSquare()">
+<button
+id="square"
+onclick="catchSquare()">
+
 CLICK!
+
 </button>
 
-<button id="bonus" onclick="catchBonus()">
+
+<button
+id="bonus"
+onclick="catchBonus()">
+
 +5
+
 </button>
 
 </div>
+
 
 <button onclick="buyLife()">
+
 ❤️ EXTRA LIFE — 20 COINS
+
 </button>
+
 
 <button onclick="quitGame()">
+
 🏠 MENU
+
 </button>
 
+
 </div>
+
 </div>
 
 
-<!-- ================= SHOP ================= -->
+<!-- SHOP -->
 
 <div id="shop" class="screen">
 
@@ -402,61 +1410,78 @@ CLICK!
 
 <h2>🛒 SHOP</h2>
 
-<p>🪙 Coins:
+<p>
+🪙 Coins:
 <b id="shopCoins">0</b>
 </p>
 
+
 <div class="card">
+
 <h3>🌈 Rainbow</h3>
+
 <p>Rainbow square.</p>
+
 <button onclick="buySkin('rainbow',50)">
 50 🪙
 </button>
+
 </div>
 
+
 <div class="card">
+
 <h3>🔥 Fire</h3>
+
 <p>Fiery square.</p>
+
 <button onclick="buySkin('fire',75)">
 75 🪙
 </button>
+
 </div>
 
+
 <div class="card">
+
 <h3>❄️ Ice</h3>
+
 <p>Icy square.</p>
+
 <button onclick="buySkin('ice',100)">
 100 🪙
 </button>
+
 </div>
 
+
 <div class="card">
+
 <h3>👑 Gold</h3>
+
 <p>Golden square.</p>
+
 <button onclick="buySkin('gold',150)">
 150 🪙
 </button>
+
 </div>
 
-<div class="card">
-<h3>🌌 Galaxy</h3>
-<p>Rare style.</p>
-<button onclick="buySkin('galaxy',250)">
-250 🪙
-</button>
-</div>
 
 <br>
+
 
 <button onclick="showScreen('menu')">
 🏠 BACK
 </button>
 
+
 </div>
+
 </div>
 
 
-<!-- ================= MISSIONS ================= -->
+<!-- MISSIONS -->
 
 <div id="missions" class="screen">
 
@@ -489,10 +1514,11 @@ CLICK!
 </button>
 
 </div>
+
 </div>
 
 
-<!-- ================= ACHIEVEMENTS ================= -->
+<!-- ACHIEVEMENTS -->
 
 <div id="achievements" class="screen">
 
@@ -525,68 +1551,79 @@ CLICK!
 </button>
 
 </div>
+
 </div>
 
 
-<!-- ================= LEADERBOARD ================= -->
+<!-- LEADERBOARD -->
 
 <div id="leaderboard" class="screen">
 
 <div class="panel">
 
-<h2>🌍 GLOBAL LEADERBOARD</h2>
+<h2>
+🌍 GLOBAL LEADERBOARD
+</h2>
 
-<p>
-Enter your player name before saving your score.
+<p class="small">
+Top players from Firebase
 </p>
 
-<input
-id="playerName"
-maxlength="20"
-placeholder="Your player name">
 
 <div id="leaderboardList">
-<p>Loading leaderboard...</p>
+
+<p class="small">
+Loading leaderboard...
+</p>
+
 </div>
 
-<button onclick="saveFirebaseScore()">
-🏆 SAVE MY SCORE
+
+<button onclick="saveScore()">
+
+🏆 SAVE MY HIGH SCORE
+
 </button>
 
-<button onclick="loadLeaderboard()">
-🔄 REFRESH
-</button>
 
 <button onclick="showScreen('menu')">
+
 🏠 BACK
+
 </button>
 
+
 </div>
+
 </div>
 
 
-<!-- ================= DAILY ================= -->
+<!-- DAILY -->
 
 <div id="daily" class="screen">
 
 <div class="panel">
 
-<h2>⚡ DAILY CHALLENGE</h2>
+<h2>
+⚡ DAILY CHALLENGE
+</h2>
 
-<div class="notice">
+<h3>
+45 SECOND RUSH
+</h3>
 
-<h3>45 SECOND RUSH</h3>
+<p>
+Get the highest score you can!
+</p>
 
-<p>Get the highest score you can!</p>
-
-<h2>🎁 Reward: 25 🪙</h2>
+<h2>
+🎁 Reward: 25 🪙
+</h2>
 
 <p>
 Best:
 <b id="dailyBest">0</b>
 </p>
-
-</div>
 
 <button onclick="startDaily()">
 ⚡ PLAY
@@ -597,466 +1634,238 @@ Best:
 </button>
 
 </div>
+
 </div>
 
 
-<!-- ================= SETTINGS ================= -->
+<!-- CHAT -->
+
+<div id="chat" class="screen">
+
+<div class="panel">
+
+<h2>
+💬 GLOBAL CHAT
+</h2>
+
+
+<div
+id="chatMessages"
+class="chatBox">
+</div>
+
+
+<input
+id="chatName"
+maxlength="20"
+placeholder="Player name">
+
+
+<input
+id="chatInput"
+maxlength="150"
+placeholder="Type a message..."
+onkeydown="
+if(event.key==='Enter')
+sendChat()
+">
+
+
+<br>
+
+
+<button onclick="sendChat()">
+💬 SEND
+</button>
+
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
+
+</div>
+
+</div>
+
+
+<!-- SETTINGS -->
 
 <div id="settings" class="screen">
 
 <div class="panel">
 
-<h2>⚙️ SETTINGS</h2>
+<h2>
+⚙️ SETTINGS
+</h2>
+
 
 <button onclick="setDifficulty('easy')">
 EASY
 </button>
 
+
 <button onclick="setDifficulty('normal')">
 NORMAL
 </button>
+
 
 <button onclick="setDifficulty('hard')">
 HARD
 </button>
 
+
 <p>
 Difficulty:
-<b id="difficultyText">NORMAL</b>
+<b id="difficultyText">
+NORMAL
+</b>
 </p>
 
-<button
-onclick="resetData()"
-class="danger">
+
+<button onclick="resetData()">
 🗑️ RESET LOCAL DATA
 </button>
 
+
 <button onclick="showScreen('menu')">
 🏠 BACK
 </button>
 
 </div>
+
 </div>
 
 
-<!-- ================= HOW TO ================= -->
+<!-- ADMIN -->
 
-<div id="howto" class="screen">
+<div id="admin" class="screen">
 
 <div class="panel">
 
-<h2>📖 HOW TO PLAY</h2>
+<h2>
+👑 DYLAN ADMIN
+</h2>
 
-<p>🟩 Catch the square.</p>
 
-<p>❤️ Don't miss too many times.</p>
+<p>
+Admin:
 
-<p>🔥 Build combos.</p>
+<b
+id="adminStatus">
+CHECKING...
+</b>
 
-<p>🪙 Earn coins.</p>
+</p>
 
-<p>⭐ Level up.</p>
 
-<p>🏆 Save your score to the global leaderboard.</p>
+<h3>
+📢 GLOBAL ANNOUNCEMENT
+</h3>
 
-<p>👑 Saturday Admin Abuse: 8–9 PM.</p>
 
-<button onclick="showScreen('menu')">
-🏠 BACK
+<input
+id="announcementInput"
+maxlength="200"
+placeholder="Message everyone...">
+
+
+<br>
+
+
+<button
+onclick="adminAnnouncement()">
+
+📢 SEND TO EVERYONE
+
 </button>
 
+
+<br>
+
+
+<button onclick="showScreen('menu')">
+
+🏠 BACK
+
+</button>
+
+
 </div>
+
 </div>
 
 
-<!-- ================= GAME OVER ================= -->
+<!-- GAME OVER -->
 
 <div id="gameOver">
 
-<h2>💀 GAME OVER</h2>
+<h2>
+💀 GAME OVER
+</h2>
 
-<h1 id="finalScore">0</h1>
+
+<h1 id="finalScore">
+0
+</h1>
+
 
 <p>
 High Score:
-<b id="finalHigh">0</b>
+<b id="finalHigh">
+0
+</b>
 </p>
 
-<button onclick="closeGameOver();startGame()">
+
+<button
+onclick="closeGameOver();startGame()">
+
 🔄 PLAY AGAIN
+
 </button>
 
-<button onclick="closeGameOver();showScreen('leaderboard')">
-🏆 LEADERBOARD
-</button>
 
-<button onclick="closeGameOver();showScreen('menu')">
+<button
+onclick="closeGameOver();showScreen('menu')">
+
 🏠 MENU
+
 </button>
+
 
 </div>
 
 
-<!-- ================= FIREBASE ================= -->
-
-<script type="module">
-
-import {initializeApp}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-import {
-getAuth,
-signInAnonymously
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-import {
-getDatabase,
-ref,
-push,
-onValue,
-serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
-
-const firebaseConfig = {
-
-apiKey:
-"AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
-
-authDomain:
-"catch-the-square-79110.firebaseapp.com",
-
-databaseURL:
-"https://catch-the-square-79110-default-rtdb.firebaseio.com",
-
-projectId:
-"catch-the-square-79110",
-
-storageBucket:
-"catch-the-square-79110.firebasestorage.app",
-
-messagingSenderId:
-"855556289213",
-
-appId:
-"1:855556289213:web:6ffe7fe9ec18c451623dd4",
-
-measurementId:
-"G-BNKEM99H41"
-
-};
-
-
-const app=initializeApp(firebaseConfig);
-
-const auth=getAuth(app);
-
-const db=getDatabase(app);
-
-const leaderboardRef=
-ref(db,"leaderboard");
-
-
-window.firebaseReady=false;
-window.firebaseUser=null;
-
-
-signInAnonymously(auth)
-
-.then((credential)=>{
-
-window.firebaseUser=credential.user;
-window.firebaseReady=true;
-
-console.log(
-"Firebase UID:",
-credential.user.uid
-);
-
-const status=
-document.getElementById("firebaseStatus");
-
-status.textContent="ONLINE";
-status.className="online";
-
-loadLeaderboard();
-
-})
-
-.catch(error=>{
-
-console.error(
-"Firebase login failed:",
-error
-);
-
-const status=
-document.getElementById("firebaseStatus");
-
-status.textContent="OFFLINE";
-status.className="offline";
-
-});
-
-
-/* ================= SAVE LEADERBOARD ================= */
-
-window.saveFirebaseScore=async function(){
-
-try{
-
-if(!auth.currentUser){
-
-alert(
-"❌ Firebase is still connecting. Try again."
-);
-
-return;
-
-}
-
-const nameInput=
-document.getElementById("playerName");
-
-let name=
-nameInput.value.trim();
-
-if(!name){
-
-alert("Enter your player name first.");
-
-return;
-
-}
-
-if(name.length<2){
-
-alert("Name must be at least 2 characters.");
-
-return;
-
-}
-
-const currentScore=
-Number(window.highScore||0);
-
-if(currentScore<=0){
-
-alert(
-"❌ Play a game first!"
-);
-
-return;
-
-}
-
-
-await push(
-
-leaderboardRef,
-
-{
-
-uid:
-auth.currentUser.uid,
-
-name:
-name,
-
-score:
-currentScore,
-
-time:
-serverTimestamp()
-
-}
-
-);
-
-
-alert("🏆 SCORE SAVED!");
-
-loadLeaderboard();
-
-
-}catch(error){
-
-console.error(
-"Leaderboard error:",
-error
-);
-
-alert(
-"❌ Could not save score.\n\n"+
-error.message
-);
-
-}
-
-};
-
-
-/* ================= LOAD LEADERBOARD ================= */
-
-window.loadLeaderboard=function(){
-
-onValue(
-
-leaderboardRef,
-
-(snapshot)=>{
-
-const scores=[];
-
-
-snapshot.forEach(child=>{
-
-const data=child.val();
-
-if(
-data &&
-typeof data.score==="number"
-){
-
-scores.push({
-
-name:
-data.name||"Player",
-
-score:
-data.score
-
-});
-
-}
-
-});
-
-
-scores.sort(
-(a,b)=>b.score-a.score
-);
-
-
-const box=
-document.getElementById(
-"leaderboardList"
-);
-
-
-box.innerHTML="";
-
-
-if(!scores.length){
-
-box.innerHTML=
-"<p>No scores yet. Be the first! 🏆</p>";
-
-return;
-
-}
-
-
-scores
-.slice(0,20)
-.forEach((player,index)=>{
-
-let medal="🏆";
-
-if(index===0)
-medal="🥇";
-
-if(index===1)
-medal="🥈";
-
-if(index===2)
-medal="🥉";
-
-
-const row=
-document.createElement("div");
-
-row.className="notice";
-
-
-const safeName=
-document.createElement("b");
-
-safeName.textContent=
-player.name;
-
-
-row.appendChild(
-document.createTextNode(
-medal+
-" #"+
-(index+1)+
-" — "
-)
-);
-
-row.appendChild(
-safeName
-);
-
-row.appendChild(
-document.createTextNode(
-" — "+
-player.score+
-" points"
-)
-);
-
-
-box.appendChild(row);
-
-});
-
-}
-
-);
-
-};
-
-
-</script>
-
-
-<!-- ================= GAME JS ================= -->
-
 <script>
 
-let coins=
-Number(
-localStorage.getItem("coins")||0
-);
 
-window.highScore=
-Number(
-localStorage.getItem("highScore")||0
-);
+/* ================= GAME DATA ================= */
 
-let streak=
-Number(
-localStorage.getItem("streak")||0
-);
+let coins =
+Number(localStorage.getItem("coins") || 0);
+
+let highScore =
+Number(localStorage.getItem("highScore") || 0);
+
+let streak =
+Number(localStorage.getItem("streak") || 0);
 
 
-let score=0;
+let score = 0;
 
-let lives=3;
+let lives = 3;
 
-let level=1;
+let level = 1;
 
-let time=60;
+let time = 60;
 
-let combo=0;
+let combo = 0;
 
-let playing=false;
+let playing = false;
 
-let daily=false;
+let daily = false;
+
 
 let moveTimer;
 
@@ -1065,33 +1874,36 @@ let gameTimer;
 let bonusTimer;
 
 
-/* ================= SCREENS ================= */
+/* ================= SCREEN ================= */
 
 function showScreen(id){
 
-document
-.querySelectorAll(".screen")
-.forEach(x=>
-x.classList.remove("active")
-);
+  document
+  .querySelectorAll(".screen")
+  .forEach(
+    x=>x.classList.remove("active")
+  );
 
 
-const screen=
-document.getElementById(id);
-
-if(screen)
-screen.classList.add("active");
+  const screen =
+  document.getElementById(id);
 
 
-updateMenus();
+  if(screen)
+  screen.classList.add("active");
 
 
-if(id==="leaderboard" &&
-window.loadLeaderboard){
+  updateMenus();
 
-window.loadLeaderboard();
 
-}
+  if(
+    id==="leaderboard" &&
+    window.renderLeaderboard
+  ){
+
+    window.renderLeaderboard();
+
+  }
 
 }
 
@@ -1100,27 +1912,45 @@ window.loadLeaderboard();
 
 function updateMenus(){
 
-document.getElementById(
-"menuCoins"
-).textContent=coins;
-
-document.getElementById(
-"menuHigh"
-).textContent=
-window.highScore;
-
-document.getElementById(
-"menuStreak"
-).textContent=
-streak;
-
-document.getElementById(
-"shopCoins"
-).textContent=
-coins;
+  document.getElementById(
+    "menuCoins"
+  ).textContent = coins;
 
 
-updateAchievements();
+  document.getElementById(
+    "menuHigh"
+  ).textContent = highScore;
+
+
+  document.getElementById(
+    "menuStreak"
+  ).textContent = streak;
+
+
+  document.getElementById(
+    "shopCoins"
+  ).textContent = coins;
+
+
+  updateAchievements();
+
+}
+
+
+/* ================= SUPPORT ================= */
+
+function toggleSupport(){
+
+  const box =
+  document.getElementById(
+    "support"
+  );
+
+
+  box.style.display =
+  box.style.display==="block"
+  ? "none"
+  : "block";
 
 }
 
@@ -1129,523 +1959,433 @@ updateAchievements();
 
 function startGame(){
 
-daily=false;
+  daily=false;
 
-beginGame(60);
+  beginGame(60);
 
 }
 
 
 function startDaily(){
 
-daily=true;
+  daily=true;
 
-beginGame(45);
+  beginGame(45);
 
 }
 
 
 function beginGame(seconds){
 
-clearTimers();
-
-score=0;
-
-combo=0;
-
-level=1;
-
-time=seconds;
-
-lives=3;
-
-playing=true;
+  clearTimers();
 
 
-showScreen("game");
+  score=0;
 
-updateGame();
+  combo=0;
 
-moveSquare();
+  level=1;
 
+  time=seconds;
 
-gameTimer=
-setInterval(()=>{
+  lives=3;
 
-if(!playing)return;
-
-time--;
-
-updateGame();
-
-if(time<=0){
-
-endGame();
-
-}
-
-},1000);
+  playing=true;
 
 
-moveTimer=
-setInterval(()=>{
-
-if(!playing)return;
-
-moveSquare();
-
-lives--;
-
-combo=0;
-
-updateGame();
+  showScreen("game");
 
 
-if(lives<=0){
+  updateGame();
 
-endGame();
-
-}
-
-},1000);
+  moveSquare();
 
 
-bonusTimer=
-setInterval(
-showBonus,
-7000
-);
+  gameTimer =
+  setInterval(()=>{
+
+    if(!playing)return;
+
+    time--;
+
+    updateGame();
+
+
+    if(time<=0){
+
+      endGame();
+
+    }
+
+  },1000);
+
+
+  moveTimer =
+  setInterval(()=>{
+
+    if(!playing)return;
+
+    moveSquare();
+
+    lives--;
+
+    combo=0;
+
+    updateGame();
+
+
+    if(lives<=0){
+
+      endGame();
+
+    }
+
+  },1000);
+
+
+  bonusTimer =
+  setInterval(
+    showBonus,
+    7000
+  );
 
 }
 
 
 function moveSquare(){
 
-if(!playing)return;
+  if(!playing)return;
 
 
-const area=
-document.getElementById(
-"gameArea"
-);
-
-const square=
-document.getElementById(
-"square"
-);
+  const area =
+  document.getElementById(
+    "gameArea"
+  );
 
 
-const maxX=
-Math.max(
-0,
-area.clientWidth-
-square.offsetWidth
-);
+  const square =
+  document.getElementById(
+    "square"
+  );
 
 
-const maxY=
-Math.max(
-0,
-area.clientHeight-
-square.offsetHeight
-);
+  const maxX =
+  Math.max(
+    0,
+    area.clientWidth -
+    square.offsetWidth
+  );
 
 
-square.style.left=
-Math.random()*maxX+
-"px";
+  const maxY =
+  Math.max(
+    0,
+    area.clientHeight -
+    square.offsetHeight
+  );
 
-square.style.top=
-Math.random()*maxY+
-"px";
+
+  square.style.left =
+  Math.random()*maxX+"px";
+
+
+  square.style.top =
+  Math.random()*maxY+"px";
 
 }
 
 
 function catchSquare(){
 
-if(!playing)return;
+  if(!playing)return;
 
 
-score++;
+  score++;
 
-combo++;
+  combo++;
 
-coins++;
-
-
-level=
-Math.floor(score/5)+1;
+  coins++;
 
 
-if(combo%5===0){
-
-coins+=5;
-
-}
+  level =
+  Math.floor(score/5)+1;
 
 
-if(combo>=10){
+  if(combo%5===0){
 
-localStorage.setItem(
-"combo10",
-"yes"
-);
+    coins+=5;
 
-}
+  }
 
 
-moveSquare();
+  if(combo>=10){
 
-updateGame();
+    localStorage.setItem(
+      "combo10",
+      "yes"
+    );
+
+  }
+
+
+  moveSquare();
+
+  updateGame();
 
 }
 
 
 function catchBonus(){
 
-if(!playing)return;
+  if(!playing)return;
 
 
-score+=5;
+  score+=5;
 
-coins+=10;
+  coins+=10;
 
-combo+=2;
-
-
-document.getElementById(
-"bonus"
-).style.display=
-"none";
+  combo+=2;
 
 
-updateGame();
+  document.getElementById(
+    "bonus"
+  ).style.display="none";
+
+
+  updateGame();
 
 }
 
 
 function showBonus(){
 
-if(!playing)return;
+  if(!playing)return;
 
 
-const bonus=
-document.getElementById(
-"bonus"
-);
-
-const area=
-document.getElementById(
-"gameArea"
-);
+  const bonus =
+  document.getElementById(
+    "bonus"
+  );
 
 
-bonus.style.left=
-Math.random()*
-Math.max(
-0,
-area.clientWidth-55
-)+
-"px";
+  const area =
+  document.getElementById(
+    "gameArea"
+  );
 
 
-bonus.style.top=
-Math.random()*
-Math.max(
-0,
-area.clientHeight-55
-)+
-"px";
+  bonus.style.left =
+  Math.random() *
+  Math.max(
+    0,
+    area.clientWidth-55
+  )+"px";
 
 
-bonus.style.display=
-"block";
+  bonus.style.top =
+  Math.random() *
+  Math.max(
+    0,
+    area.clientHeight-55
+  )+"px";
 
 
-setTimeout(()=>{
+  bonus.style.display =
+  "block";
 
-bonus.style.display=
-"none";
 
-},3500);
+  setTimeout(()=>{
+
+    bonus.style.display =
+    "none";
+
+  },3500);
 
 }
 
-
-/* ================= UPDATE GAME ================= */
 
 function updateGame(){
 
-document.getElementById(
-"score"
-).textContent=
-score;
-
-document.getElementById(
-"lives"
-).textContent=
-lives;
-
-document.getElementById(
-"level"
-).textContent=
-level;
-
-document.getElementById(
-"time"
-).textContent=
-time;
-
-document.getElementById(
-"combo"
-).textContent=
-combo;
-
-document.getElementById(
-"coins"
-).textContent=
-coins;
+  document.getElementById(
+    "score"
+  ).textContent=score;
 
 
-save();
+  document.getElementById(
+    "lives"
+  ).textContent=lives;
+
+
+  document.getElementById(
+    "level"
+  ).textContent=level;
+
+
+  document.getElementById(
+    "time"
+  ).textContent=time;
+
+
+  document.getElementById(
+    "combo"
+  ).textContent=combo;
+
+
+  document.getElementById(
+    "coins"
+  ).textContent=coins;
+
+
+  save();
 
 }
 
-
-/* ================= END GAME ================= */
 
 function endGame(){
 
-if(!playing)return;
+  if(!playing)return;
 
 
-playing=false;
+  playing=false;
 
-clearTimers();
-
-
-if(
-score>
-window.highScore
-){
-
-window.highScore=
-score;
-
-}
+  clearTimers();
 
 
-if(daily){
+  if(score>highScore){
 
-const best=
-Number(
-localStorage.getItem(
-"dailyBest"
-)||0
-);
+    highScore=score;
+
+  }
 
 
-if(score>best){
+  if(daily){
 
-localStorage.setItem(
-"dailyBest",
-score
-);
-
-coins+=25;
-
-}
-
-}
+    const best =
+    Number(
+      localStorage.getItem(
+        "dailyBest"
+      )||0
+    );
 
 
-save();
+    if(score>best){
+
+      localStorage.setItem(
+        "dailyBest",
+        score
+      );
+
+      coins+=25;
+
+    }
+
+  }
 
 
-document.getElementById(
-"finalScore"
-).textContent=
-score;
-
-document.getElementById(
-"finalHigh"
-).textContent=
-window.highScore;
+  save();
 
 
-document.getElementById(
-"gameOver"
-).style.display=
-"block";
+  document.getElementById(
+    "finalScore"
+  ).textContent=score;
 
 
-updateMenus();
+  document.getElementById(
+    "finalHigh"
+  ).textContent=highScore;
+
+
+  document.getElementById(
+    "gameOver"
+  ).style.display="block";
 
 }
 
 
 function closeGameOver(){
 
-document.getElementById(
-"gameOver"
-).style.display=
-"none";
+  document.getElementById(
+    "gameOver"
+  ).style.display="none";
 
 }
 
 
 function quitGame(){
 
-playing=false;
+  playing=false;
 
-clearTimers();
+  clearTimers();
 
-showScreen("menu");
+  showScreen("menu");
 
 }
 
 
 function clearTimers(){
 
-clearInterval(moveTimer);
+  clearInterval(moveTimer);
 
-clearInterval(gameTimer);
+  clearInterval(gameTimer);
 
-clearInterval(bonusTimer);
-
-}
-
-
-/* ================= LIFE ================= */
-
-function buyLife(){
-
-if(coins<20){
-
-alert(
-"You need 20 coins!"
-);
-
-return;
-
-}
-
-coins-=20;
-
-lives++;
-
-updateGame();
+  clearInterval(bonusTimer);
 
 }
 
 
 /* ================= SHOP ================= */
 
+function buyLife(){
+
+  if(coins<20){
+
+    alert(
+      "You need 20 coins!"
+    );
+
+    return;
+
+  }
+
+
+  coins-=20;
+
+  lives++;
+
+  updateGame();
+
+}
+
+
 function buySkin(name,cost){
 
-if(coins<cost){
+  if(coins<cost){
 
-alert(
-"Not enough coins!"
-);
+    alert(
+      "Not enough coins!"
+    );
 
-return;
+    return;
 
-}
-
-
-coins-=cost;
-
-localStorage.setItem(
-"skin",
-name
-);
+  }
 
 
-applySkin();
-
-save();
+  coins-=cost;
 
 
-alert(
-name.toUpperCase()+
-" SKIN EQUIPPED!"
-);
-
-}
+  localStorage.setItem(
+    "skin",
+    name
+  );
 
 
-function applySkin(){
-
-const skin=
-localStorage.getItem("skin");
-
-const square=
-document.getElementById(
-"square"
-);
+  save();
 
 
-if(skin==="rainbow"){
-
-square.style.background=
-"linear-gradient(45deg,red,orange,yellow,green,blue,purple)";
-
-square.style.boxShadow=
-"0 0 25px white";
-
-}
-
-else if(skin==="fire"){
-
-square.style.background=
-"orange";
-
-square.style.boxShadow=
-"0 0 25px red";
-
-}
-
-else if(skin==="ice"){
-
-square.style.background=
-"#8eeeff";
-
-square.style.boxShadow=
-"0 0 25px #00eaff";
-
-}
-
-else if(skin==="gold"){
-
-square.style.background=
-"gold";
-
-square.style.boxShadow=
-"0 0 25px gold";
-
-}
-
-else if(skin==="galaxy"){
-
-square.style.background=
-"linear-gradient(135deg,#5b00ff,#00eaff,#ff00cc)";
-
-square.style.boxShadow=
-"0 0 25px #a855f7";
-
-}
-
-else{
-
-square.style.background=
-"lime";
-
-square.style.boxShadow=
-"0 0 25px lime";
-
-}
+  alert(
+    name.toUpperCase()+
+    " SKIN EQUIPPED!"
+  );
 
 }
 
@@ -1654,29 +2394,32 @@ square.style.boxShadow=
 
 function setDifficulty(value){
 
-localStorage.setItem(
-"difficulty",
-value
-);
+  localStorage.setItem(
+    "difficulty",
+    value
+  );
 
-document.getElementById(
-"difficultyText"
-).textContent=
-value.toUpperCase();
+
+  document.getElementById(
+    "difficultyText"
+  ).textContent =
+  value.toUpperCase();
 
 }
 
 
 function resetData(){
 
-if(!confirm(
-"Erase all local game data?"
-))return;
+  if(
+    !confirm(
+      "Erase all local game data?"
+    )
+  )return;
 
 
-localStorage.clear();
+  localStorage.clear();
 
-location.reload();
+  location.reload();
 
 }
 
@@ -1685,71 +2428,68 @@ location.reload();
 
 function updateAchievements(){
 
-const played=
-window.highScore>0;
+  const played =
+  highScore>0;
 
 
-const combo10=
-localStorage.getItem(
-"combo10"
-)==="yes";
+  const combo10 =
+  localStorage.getItem(
+    "combo10"
+  )==="yes";
 
 
-document.getElementById(
-"a1"
-).textContent=
-played?"✅":"🔒";
+  document.getElementById(
+    "a1"
+  ).textContent =
+  played ? "✅" : "🔒";
 
 
-document.getElementById(
-"a2"
-).textContent=
-combo10?"✅":"🔒";
+  document.getElementById(
+    "a2"
+  ).textContent =
+  combo10 ? "✅" : "🔒";
 
 
-document.getElementById(
-"a3"
-).textContent=
-coins>=100?"✅":"🔒";
+  document.getElementById(
+    "a3"
+  ).textContent =
+  coins>=100 ? "✅" : "🔒";
 
 
-document.getElementById(
-"a4"
-).textContent=
-window.highScore>=50?
-"✅":"🔒";
+  document.getElementById(
+    "a4"
+  ).textContent =
+  highScore>=50 ? "✅" : "🔒";
 
 
-document.getElementById(
-"m1"
-).textContent=
-played?
-"UNLOCKED":
-"LOCKED";
+  document.getElementById(
+    "m1"
+  ).textContent =
+  played ? "UNLOCKED" : "LOCKED";
 
 
-document.getElementById(
-"m25"
-).textContent=
-window.highScore>=25?
-"UNLOCKED":
-"LOCKED";
+  document.getElementById(
+    "m25"
+  ).textContent =
+  highScore>=25 ?
+  "UNLOCKED" :
+  "LOCKED";
 
 
-document.getElementById(
-"m10"
-).textContent=
-combo10?
-"UNLOCKED":
-"LOCKED";
+  document.getElementById(
+    "m10"
+  ).textContent =
+  combo10 ?
+  "UNLOCKED" :
+  "LOCKED";
 
 
-document.getElementById(
-"m250"
-).textContent=
-coins>=250?
-"UNLOCKED":
-"LOCKED";
+  document.getElementById(
+    "m250"
+  ).textContent =
+  coins>=250 ?
+  "UNLOCKED" :
+  "LOCKED";
 
 }
 
@@ -1758,243 +2498,84 @@ coins>=250?
 
 function save(){
 
-localStorage.setItem(
-"coins",
-coins
-);
-
-localStorage.setItem(
-"highScore",
-window.highScore
-);
-
-}
+  localStorage.setItem(
+    "coins",
+    coins
+  );
 
 
-/* ================= EVENT ================= */
-
-function updateEventCountdown(){
-
-const now=
-new Date();
-
-const day=
-now.getDay();
-
-const secondsNow=
-now.getHours()*3600+
-now.getMinutes()*60+
-now.getSeconds();
-
-
-const start=
-20*3600;
-
-const end=
-21*3600;
-
-
-let text="";
-
-
-if(
-day===6 &&
-secondsNow>=start &&
-secondsNow<end
-){
-
-text=
-"🔥 ADMIN ABUSE IS LIVE!";
-
-}
-
-else if(
-day===6 &&
-secondsNow<start
-){
-
-text=
-"🔥 STARTS IN "+
-formatTime(
-start-secondsNow
-);
-
-}
-
-else{
-
-let days=
-(6-day+7)%7;
-
-if(days===0)
-days=7;
-
-
-const diff=
-days*86400+
-(start-secondsNow);
-
-
-text=
-"⏰ NEXT EVENT IN "+
-formatTime(diff);
+  localStorage.setItem(
+    "highScore",
+    highScore
+  );
 
 }
 
 
-document.getElementById(
-"eventCountdown"
-).textContent=
-text;
+/* ================= ADMIN ================= */
 
-}
+function openAdmin(){
 
+  if(!window.firebaseUser){
 
-function formatTime(seconds){
+    alert(
+      "Firebase is still connecting..."
+    );
 
-seconds=
-Math.max(0,seconds);
+    return;
 
-
-const days=
-Math.floor(
-seconds/86400
-);
-
-seconds%=86400;
+  }
 
 
-const hours=
-Math.floor(
-seconds/3600
-);
+  if(
+    window.firebaseUser.uid !==
+    "gMsemyhyGSXfJqLdV0zlkVdJwz82"
+  ){
 
-seconds%=3600;
+    alert(
+      "❌ This account is not Dylan."
+    );
 
+    return;
 
-const minutes=
-Math.floor(
-seconds/60
-);
-
-const secs=
-seconds%60;
+  }
 
 
-if(days>0){
-
-return days+
-"d "+
-hours+
-"h "+
-minutes+
-"m";
-
-}
-
-
-return String(hours)
-.padStart(2,"0")+
-":"+
-String(minutes)
-.padStart(2,"0")+
-":"+
-String(secs)
-.padStart(2,"0");
+  showScreen("admin");
 
 }
 
 
 /* ================= STARTUP ================= */
 
-setInterval(
-updateEventCountdown,
-1000
-);
-
-updateEventCountdown();
-
 updateMenus();
 
-applySkin();
+
+document.getElementById(
+  "dailyBest"
+).textContent =
+Number(
+  localStorage.getItem(
+    "dailyBest"
+  )||0
+);
 
 
-const savedDifficulty=
+const savedDifficulty =
 localStorage.getItem(
-"difficulty"
+  "difficulty"
 );
 
 
 if(savedDifficulty){
 
-document.getElementById(
-"difficultyText"
-).textContent=
-savedDifficulty.toUpperCase();
+  document.getElementById(
+    "difficultyText"
+  ).textContent =
+  savedDifficulty.toUpperCase();
 
 }
 
-
-document.getElementById(
-"dailyBest"
-).textContent=
-Number(
-localStorage.getItem(
-"dailyBest"
-)||0
-);
-
-</script>
-
-
-<!-- ================= ADS ================= -->
-
-<script>
-
-function loadAds(){
-
-document
-.querySelectorAll(".adsbygoogle")
-.forEach(ad=>{
-
-if(ad.dataset.loaded==="yes")
-return;
-
-
-try{
-
-(
-window.adsbygoogle=
-window.adsbygoogle||[]
-).push({});
-
-
-ad.dataset.loaded="yes";
-
-}catch(error){
-
-console.log(
-"AdSense:",
-error
-);
-
-}
-
-});
-
-}
-
-
-window.addEventListener(
-"load",
-()=>{
-
-setTimeout(
-loadAds,
-1000
-);
-
-});
 
 </script>
 
