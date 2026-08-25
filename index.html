@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>Catch The Square 3.0</title>
 
 <!-- Google AdSense -->
@@ -152,7 +153,7 @@ textarea{
 #gameOver{
  display:none;
  position:fixed;
- z-index:9998;
+ z-index:99;
  left:50%;
  top:50%;
  transform:translate(-50%,-50%);
@@ -185,55 +186,58 @@ textarea{
  min-height:90px;
 }
 
-/* ==================================================
-   DYLAN ADMIN BROADCAST
-================================================== */
+/* ADMIN BROADCAST */
 
 #adminBroadcast{
  display:none;
  position:fixed;
- z-index:99999;
- top:20px;
+ z-index:200;
  left:50%;
+ top:20px;
  transform:translateX(-50%);
- width:min(700px,94%);
- pointer-events:none;
+ width:min(700px,92%);
+ padding:18px;
+ background:#11152a;
+ border:3px solid #ffd700;
+ border-radius:18px;
+ box-shadow:0 0 35px #ffd70055;
+ animation:broadcastIn .3s ease;
 }
 
-.broadcastBox{
- padding:20px;
- background:#080d1c;
- border:3px solid #00eaff;
- border-radius:20px;
- box-shadow:0 0 35px #00eaff99;
- animation:broadcastPop .35s ease-out;
-}
-
-#broadcastTitle{
- font-size:25px;
- font-weight:bold;
- margin-bottom:10px;
+#adminBroadcast h2{
+ margin:0 0 8px;
+ color:#ffd700;
 }
 
 #broadcastMessage{
- font-size:21px;
+ font-size:18px;
  font-weight:bold;
 }
 
-@keyframes broadcastPop{
+@keyframes broadcastIn{
  from{
-  transform:scale(.7);
+  transform:translateX(-50%) translateY(-30px);
   opacity:0;
  }
  to{
-  transform:scale(1);
+  transform:translateX(-50%) translateY(0);
   opacity:1;
  }
 }
 
-.adminLive{
- border-color:#ff4265;
- box-shadow:0 0 30px #ff426555;
+.adminBadge{
+ color:#ffd700;
+ font-weight:bold;
+}
+
+.online{
+ color:#62ff7b;
+ font-weight:bold;
+}
+
+.offline{
+ color:#ff4265;
+ font-weight:bold;
 }
 </style>
 </head>
@@ -245,21 +249,14 @@ textarea{
 
 
 <!-- ==================================================
-     DYLAN BROADCAST
+     DYLAN GLOBAL BROADCAST
 ================================================== -->
 
 <div id="adminBroadcast">
 
- <div class="broadcastBox">
+<h2>👑 DYLAN</h2>
 
-  <div id="broadcastTitle">
-   👑 DYLAN
-  </div>
-
-  <div id="broadcastMessage">
-  </div>
-
- </div>
+<div id="broadcastMessage"></div>
 
 </div>
 
@@ -317,7 +314,7 @@ textarea{
 </button>
 
 <button class="menuButton" onclick="openAdmin()">
-👑 ADMIN PANEL
+👑 DYLAN ADMIN
 </button>
 
 
@@ -333,7 +330,7 @@ style="display:none">
 
 <h3>📱 0700201218</h3>
 
-<p>Thank you! ❤️</p>
+<p>Thank you for supporting Catch The Square! ❤️</p>
 
 </div>
 
@@ -371,6 +368,13 @@ data-full-width-responsive="true"></ins>
 <b id="menuStreak">0</b>
 </p>
 
+<p>
+Firebase:
+<span id="firebaseStatus" class="offline">
+CONNECTING...
+</span>
+</p>
+
 </div>
 </div>
 
@@ -385,17 +389,29 @@ data-full-width-responsive="true"></ins>
 
 <div class="stats">
 
-<div class="stat">🏆 <b id="score">0</b></div>
+<div class="stat">
+🏆 <b id="score">0</b>
+</div>
 
-<div class="stat">❤️ <b id="lives">3</b></div>
+<div class="stat">
+❤️ <b id="lives">3</b>
+</div>
 
-<div class="stat">⭐ Level <b id="level">1</b></div>
+<div class="stat">
+⭐ Level <b id="level">1</b>
+</div>
 
-<div class="stat">⏱️ <b id="time">60</b></div>
+<div class="stat">
+⏱️ <b id="time">60</b>
+</div>
 
-<div class="stat">🔥 x<b id="combo">0</b></div>
+<div class="stat">
+🔥 x<b id="combo">0</b>
+</div>
 
-<div class="stat">🪙 <b id="coins">0</b></div>
+<div class="stat">
+🪙 <b id="coins">0</b>
+</div>
 
 </div>
 
@@ -403,11 +419,13 @@ data-full-width-responsive="true"></ins>
 
 <div id="gameArea">
 
-<button id="square" onclick="catchSquare()">
+<button id="square"
+onclick="catchSquare()">
 CLICK!
 </button>
 
-<button id="bonus" onclick="catchBonus()">
+<button id="bonus"
+onclick="catchBonus()">
 +5
 </button>
 
@@ -420,6 +438,7 @@ CLICK!
 <button onclick="quitGame()">
 🏠 MENU
 </button>
+
 
 <div class="adBox">
 
@@ -450,7 +469,10 @@ data-full-width-responsive="true"></ins>
 
 <h2>🛒 SHOP</h2>
 
-<p>🪙 Coins: <b id="shopCoins">0</b></p>
+<p>
+🪙 Coins:
+<b id="shopCoins">0</b>
+</p>
 
 <div class="card">
 <h3>🌈 Rainbow</h3>
@@ -550,10 +572,6 @@ data-full-width-responsive="true"></ins>
 
 <h2>🌍 LEADERBOARD</h2>
 
-<p class="small">
-Online global leaderboard coming later.
-</p>
-
 <div id="leaderboardList"></div>
 
 <button onclick="saveScore()">
@@ -616,10 +634,18 @@ Best:
 <h2>💬 GLOBAL CHAT</h2>
 
 <p class="small">
-Talk with the Catch The Square community.
+🌍 Everyone playing Catch The Square can see these messages.
 </p>
 
-<div id="chatMessages" class="chatBox">
+<p>
+Firebase:
+<span id="chatStatus" class="offline">
+CONNECTING...
+</span>
+</p>
+
+<div id="chatMessages"
+class="chatBox">
 </div>
 
 <input
@@ -634,6 +660,7 @@ placeholder="Player name"
 id="chatInput"
 maxlength="150"
 placeholder="Type a message..."
+onkeydown="if(event.key==='Enter')sendChat()"
 >
 
 <br>
@@ -697,7 +724,9 @@ Difficulty:
 <b id="difficultyText">NORMAL</b>
 </p>
 
-<button onclick="resetData()" class="danger">
+<button
+onclick="resetData()"
+class="danger">
 🗑️ RESET LOCAL DATA
 </button>
 
@@ -725,7 +754,7 @@ Difficulty:
 <p>🪙 Earn coins.</p>
 <p>⭐ Level up.</p>
 <p>👹 Boss Rounds are coming.</p>
-<p>👑 Admin Abuse events are coming.</p>
+<p>👑 Dylan Admin Abuse events can happen live!</p>
 
 <button onclick="showScreen('menu')">
 🏠 BACK
@@ -747,51 +776,31 @@ Difficulty:
 
 <div class="notice">
 
-⚠️ This admin PIN is only a client-side testing lock.
-Do not treat it as secure authentication.
+<p>
+Admin account:
+<b id="adminStatus">CHECKING...</b>
+</p>
+
+<p class="small">
+Only the Firebase UID configured as ADMIN_UID
+should be able to use admin broadcasts.
+</p>
 
 </div>
 
 
-<h3>📢 POST UPDATE</h3>
+<h3>📢 DYLAN GLOBAL ANNOUNCEMENT</h3>
 
 <input
-id="updateTitle"
-placeholder="Update title"
+id="announcementInput"
+maxlength="200"
+placeholder="Message everyone..."
 >
 
 <br>
 
-<textarea
-id="updateText"
-placeholder="Write your update..."
-></textarea>
-
-<br>
-
-<button onclick="postUpdate()">
-📢 POST UPDATE
-</button>
-
-<button onclick="clearUpdates()" class="danger">
-🗑️ CLEAR UPDATES
-</button>
-
-
-<hr>
-
-
-<h3>💬 GLOBAL CHAT MANAGEMENT</h3>
-
-<div id="adminChat" class="chatBox">
-</div>
-
 <button onclick="adminAnnouncement()">
-📢 DYLAN ANNOUNCEMENT
-</button>
-
-<button onclick="clearChat()" class="danger">
-🗑️ CLEAR CHAT
+📢 SEND TO EVERYONE
 </button>
 
 
@@ -816,6 +825,22 @@ Event: OFF
 <hr>
 
 
+<h3>💬 GLOBAL CHAT MANAGEMENT</h3>
+
+<div id="adminChat"
+class="chatBox">
+</div>
+
+<button
+onclick="clearFirebaseChat()"
+class="danger">
+🗑️ CLEAR GLOBAL CHAT
+</button>
+
+
+<hr>
+
+
 <h3>🎮 ADMIN ACTIONS</h3>
 
 <button onclick="adminCoins()">
@@ -825,6 +850,7 @@ Event: OFF
 <button onclick="adminResetScore()">
 🔄 RESET HIGH SCORE
 </button>
+
 
 <br>
 
@@ -863,13 +889,19 @@ High Score:
 
 
 <!-- ==================================================
-     FIREBASE
+     FIREBASE + GAME JAVASCRIPT
 ================================================== -->
 
 <script type="module">
 
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+ getAuth,
+ signInAnonymously
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
  getDatabase,
@@ -882,6 +914,10 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
+
+/* ==================================================
+   FIREBASE CONFIG
+================================================== */
 
 const firebaseConfig = {
 
@@ -908,15 +944,167 @@ const firebaseConfig = {
 
  measurementId:
  "G-BNKEM99H41"
-
 };
 
+
+/* ==================================================
+   ADMIN UID
+================================================== */
+
+/*
+ IMPORTANT:
+
+ Open the game once after deployment.
+
+ Then go:
+
+ Firebase
+ → Authentication
+ → Users
+
+ Copy Dylan's anonymous UID.
+
+ Replace:
+
+ YOUR_DYLAN_UID_HERE
+
+ with that UID.
+*/
+
+const ADMIN_UID =
+"YOUR_DYLAN_UID_HERE";
+
+
+/* ==================================================
+   FIREBASE INITIALIZE
+================================================== */
 
 const app =
 initializeApp(firebaseConfig);
 
+const auth =
+getAuth(app);
+
 const db =
 getDatabase(app);
+
+
+/* ==================================================
+   ANONYMOUS LOGIN
+================================================== */
+
+signInAnonymously(auth)
+
+.then((credential)=>{
+
+ console.log(
+  "✅ Firebase login successful"
+ );
+
+ console.log(
+  "UID:",
+  credential.user.uid
+ );
+
+ window.firebaseUser =
+ credential.user;
+
+ window.firebaseReady =
+ true;
+
+
+ document.getElementById(
+  "firebaseStatus"
+ ).textContent =
+ "ONLINE";
+
+ document.getElementById(
+  "firebaseStatus"
+ ).className =
+ "online";
+
+
+ document.getElementById(
+  "chatStatus"
+ ).textContent =
+ "ONLINE";
+
+ document.getElementById(
+  "chatStatus"
+ ).className =
+ "online";
+
+
+ updateAdminStatus();
+
+
+ startGlobalChat();
+
+ startBroadcastListener();
+
+})
+
+.catch((error)=>{
+
+ console.error(
+  "Firebase login failed:",
+  error
+ );
+
+ document.getElementById(
+  "firebaseStatus"
+ ).textContent =
+ "OFFLINE";
+
+ document.getElementById(
+  "chatStatus"
+ ).textContent =
+ "OFFLINE";
+
+});
+
+
+/* ==================================================
+   ADMIN CHECK
+================================================== */
+
+function isDylan(){
+
+ return (
+  auth.currentUser &&
+  ADMIN_UID !== "YOUR_DYLAN_UID_HERE" &&
+  auth.currentUser.uid === ADMIN_UID
+ );
+
+}
+
+
+function updateAdminStatus(){
+
+ const el =
+ document.getElementById(
+  "adminStatus"
+ );
+
+ if(!el)
+  return;
+
+ if(isDylan()){
+
+  el.textContent =
+  "👑 DYLAN";
+
+  el.className =
+  "adminBadge";
+
+ }else{
+
+  el.textContent =
+  "PLAYER";
+
+ }
+
+}
 
 
 /* ==================================================
@@ -924,199 +1112,50 @@ getDatabase(app);
 ================================================== */
 
 const chatRef =
-ref(db,"globalChat");
+ref(db,"chat");
 
 
-window.firebaseChat = {
+function startGlobalChat(){
 
- send: async function(name,message){
+ onValue(
+  chatRef,
+  (snapshot)=>{
 
-  await push(chatRef,{
+   const messages = [];
 
-   name:name,
+   snapshot.forEach(
+    (child)=>{
 
-   message:message,
+     messages.push({
 
-   time:serverTimestamp()
+      id:child.key,
 
-  });
+      ...child.val()
 
- },
+     });
 
- listen: function(callback){
+    }
+   );
 
-  onValue(chatRef,function(snapshot){
 
-   const messages=[];
+   messages.sort(
+    (a,b)=>
+    (a.time || 0) -
+    (b.time || 0)
+   );
 
-   snapshot.forEach(function(child){
 
-    messages.push({
-
-     id:child.key,
-
-     ...child.val()
-
-    });
-
-   });
-
-   messages.sort(function(a,b){
-
-    return (a.time || 0) -
-           (b.time || 0);
-
-   });
-
-   callback(
+   renderChat(
     messages.slice(-50)
    );
 
-  });
-
- },
-
- delete: async function(id){
-
-  await remove(
-   ref(db,"globalChat/"+id)
-  );
-
- },
-
- clear: async function(){
-
-  await remove(chatRef);
-
- }
-
-};
-
-
-/* ==================================================
-   ADMIN BROADCASTS
-================================================== */
-
-const broadcastRef =
-ref(db,"adminBroadcasts");
-
-
-window.sendDylanBroadcast =
-async function(message){
-
- await push(
-  broadcastRef,
-  {
-   admin:"Dylan",
-
-   message:message,
-
-   time:serverTimestamp()
   }
  );
 
-};
+}
 
 
-let firstBroadcastLoad=true;
-
-
-onChildAdded(
- broadcastRef,
- function(snapshot){
-
-  const data =
-  snapshot.val();
-
-  if(!data || !data.message)
-   return;
-
-  /*
-    Ignore old broadcasts when the
-    player first opens the game.
-  */
-
-  if(firstBroadcastLoad)
-   return;
-
-  showDylanBroadcast(
-   data.message
-  );
-
- }
-);
-
-
-/*
-   Mark existing broadcasts as loaded
-   shortly after connecting.
-*/
-
-setTimeout(function(){
-
- firstBroadcastLoad=false;
-
-},1500);
-
-
-/* ==================================================
-   SHOW DYLAN BROADCAST
-================================================== */
-
-window.showDylanBroadcast =
-function(message){
-
- const box =
- document.getElementById(
-  "adminBroadcast"
- );
-
- const text =
- document.getElementById(
-  "broadcastMessage"
- );
-
- text.textContent =
- message;
-
- box.style.display =
- "block";
-
- setTimeout(function(){
-
-  box.style.display =
-  "none";
-
- },6000);
-
-};
-
-
-/* ==================================================
-   LISTEN FOR GLOBAL CHAT
-================================================== */
-
-window.startFirebaseChat =
-function(){
-
- if(!window.firebaseChat)
-  return;
-
- window.firebaseChat.listen(
-  function(chats){
-
-   window.currentFirebaseChats =
-   chats;
-
-   renderFirebaseChat(chats);
-
-  }
- );
-
-};
-
-
-function renderFirebaseChat(chats){
+function renderChat(messages){
 
  const box =
  document.getElementById(
@@ -1128,111 +1167,211 @@ function renderFirebaseChat(chats){
   "adminChat"
  );
 
- if(box){
 
-  box.innerHTML="";
+ box.innerHTML = "";
+ adminBox.innerHTML = "";
 
-  if(!chats.length){
 
-   box.innerHTML =
-   "<p class='small'>" +
-   "💬 No messages yet." +
-   "</p>";
+ if(!messages.length){
 
-  }
+  box.innerHTML =
+  "<p class='small'>" +
+  "💬 No messages yet." +
+  "</p>";
 
-  chats.forEach(function(c){
+ }
 
-   let time =
+
+ messages.forEach(
+  (c)=>{
+
+   const time =
    c.time
    ? new Date(c.time)
      .toLocaleTimeString()
    : "...";
+
 
    box.innerHTML +=
 
-   '<div class="chatMsg">' +
+   `<div class="chatMsg">
+    <b>👤 ${safe(c.name)}</b>
+    <span class="small">${safe(time)}</span>
+    <br>
+    ${safe(c.message)}
+   </div>`;
 
-   '<b>👤 ' +
-   safe(c.name) +
-   '</b> ' +
-
-   '<span class="small">' +
-   safe(time) +
-   '</span>' +
-
-   '<br>' +
-
-   safe(c.message) +
-
-   '</div>';
-
-  });
-
-  box.scrollTop =
-  box.scrollHeight;
-
- }
-
-
- if(adminBox){
-
-  adminBox.innerHTML="";
-
-  chats.forEach(function(c){
-
-   let time =
-   c.time
-   ? new Date(c.time)
-     .toLocaleTimeString()
-   : "...";
 
    adminBox.innerHTML +=
 
-   '<div class="chatMsg">' +
+   `<div class="chatMsg">
+    <b>${safe(c.name)}</b>
+    <span class="small">${safe(time)}</span>
+    <br>
+    ${safe(c.message)}
+    <br>
+    ${
+      isDylan()
+      ?
+      `<button
+       class="danger"
+       onclick="deleteChat('${c.id}')">
+       🗑️ DELETE
+       </button>`
+      :
+      ""
+    }
+   </div>`;
 
-   '<b>' +
-   safe(c.name) +
-   '</b> ' +
+  }
+ );
 
-   '<span class="small">' +
-   safe(time) +
-   '</span>' +
 
-   '<br>' +
+ box.scrollTop =
+ box.scrollHeight;
 
-   safe(c.message) +
-
-   '<br>' +
-
-   '<button class="danger" ' +
-
-   'onclick="deleteFirebaseChat(\'' +
-   c.id +
-   '\')">' +
-
-   '🗑️ DELETE' +
-
-   '</button>' +
-
-   '</div>';
-
-  });
-
- }
+ adminBox.scrollTop =
+ adminBox.scrollHeight;
 
 }
 
 
-window.deleteFirebaseChat =
-async function(id){
+window.sendChat =
+async function(){
+
+ if(!auth.currentUser){
+
+  alert(
+   "Firebase is still connecting..."
+  );
+
+  return;
+
+ }
+
+
+ const name =
+ document.getElementById(
+  "chatName"
+ ).value.trim();
+
+
+ const message =
+ document.getElementById(
+  "chatInput"
+ ).value.trim();
+
+
+ if(!name || !message){
+
+  alert(
+   "Enter your name and message."
+  );
+
+  return;
+
+ }
+
+
+ if(name.length > 20){
+
+  alert(
+   "Name is too long."
+  );
+
+  return;
+
+ }
+
+
+ if(message.length > 150){
+
+  alert(
+   "Message is too long."
+  );
+
+  return;
+
+ }
+
+
+ if(
+  name.toLowerCase() ===
+  "dylan" &&
+  !isDylan()
+ ){
+
+  alert(
+   "❌ The name Dylan is reserved for the admin."
+  );
+
+  return;
+
+ }
+
 
  try{
 
-  await window.firebaseChat
-  .delete(id);
+  await push(
+   chatRef,
+   {
 
- }catch(error){
+    uid:
+    auth.currentUser.uid,
+
+    name:name,
+
+    message:message,
+
+    time:
+    serverTimestamp()
+
+   }
+  );
+
+
+  document.getElementById(
+   "chatInput"
+  ).value = "";
+
+ }
+
+ catch(error){
+
+  console.error(error);
+
+  alert(
+   "❌ Message could not be sent."
+  );
+
+ }
+
+};
+
+
+window.deleteChat =
+async function(id){
+
+ if(!isDylan()){
+
+  alert(
+   "❌ Dylan admin only."
+  );
+
+  return;
+
+ }
+
+
+ try{
+
+  await remove(
+   ref(db,"chat/"+id)
+  );
+
+ }
+
+ catch(error){
 
   console.error(error);
 
@@ -1248,12 +1387,30 @@ async function(id){
 window.clearFirebaseChat =
 async function(){
 
+ if(!isDylan()){
+
+  alert(
+   "❌ Dylan admin only."
+  );
+
+  return;
+
+ }
+
+
+ if(!confirm(
+  "Delete the entire global chat?"
+ ))
+ return;
+
+
  try{
 
-  await window.firebaseChat
-  .clear();
+  await remove(chatRef);
 
- }catch(error){
+ }
+
+ catch(error){
 
   console.error(error);
 
@@ -1266,15 +1423,277 @@ async function(){
 };
 
 
-/* Start listener */
+/* ==================================================
+   DYLAN BROADCASTS
+================================================== */
 
-window.startFirebaseChat();
+const broadcastRef =
+ref(db,"adminBroadcasts");
+
+
+let broadcastReady =
+false;
+
+
+function startBroadcastListener(){
+
+ onChildAdded(
+  broadcastRef,
+  (snapshot)=>{
+
+   const data =
+   snapshot.val();
+
+   if(!broadcastReady)
+    return;
+
+   if(!data)
+    return;
+
+   if(data.admin !== "Dylan")
+    return;
+
+   showDylanBroadcast(
+    data.message
+   );
+
+  }
+ );
+
+
+ setTimeout(
+  ()=>{
+   broadcastReady = true;
+  },
+  2000
+ );
+
+}
+
+
+function showDylanBroadcast(message){
+
+ const box =
+ document.getElementById(
+  "adminBroadcast"
+ );
+
+ const text =
+ document.getElementById(
+  "broadcastMessage"
+ );
+
+
+ text.textContent =
+ message;
+
+
+ box.style.display =
+ "block";
+
+
+ setTimeout(
+  ()=>{
+
+   box.style.display =
+   "none";
+
+  },
+  7000
+ );
+
+}
+
+
+async function sendDylanBroadcast(message){
+
+ if(!isDylan()){
+
+  alert(
+   "❌ Dylan admin only."
+  );
+
+  return;
+
+ }
+
+
+ await push(
+  broadcastRef,
+  {
+
+   admin:
+   "Dylan",
+
+   uid:
+   auth.currentUser.uid,
+
+   message:
+   message,
+
+   time:
+   serverTimestamp()
+
+  }
+ );
+
+}
+
+
+/* ==================================================
+   DYLAN ANNOUNCEMENT
+================================================== */
+
+window.adminAnnouncement =
+async function(){
+
+ if(!isDylan()){
+
+  alert(
+   "❌ You are not Dylan."
+  );
+
+  return;
+
+ }
+
+
+ const input =
+ document.getElementById(
+  "announcementInput"
+ );
+
+
+ const message =
+ input.value.trim();
+
+
+ if(!message){
+
+  alert(
+   "Write an announcement."
+  );
+
+  return;
+
+ }
+
+
+ if(message.length > 200){
+
+  alert(
+   "Announcement is too long."
+  );
+
+  return;
+
+ }
+
+
+ try{
+
+  await sendDylanBroadcast(
+   message
+  );
+
+  input.value = "";
+
+ }
+
+ catch(error){
+
+  console.error(error);
+
+  alert(
+   "❌ Announcement failed."
+  );
+
+ }
+
+};
+
+
+/* ==================================================
+   ADMIN ABUSE
+================================================== */
+
+window.adminAbuse =
+async function(){
+
+ if(!isDylan()){
+
+  alert(
+   "❌ Dylan admin only."
+  );
+
+  return;
+
+ }
+
+
+ localStorage.setItem(
+  "adminEvent",
+  "LIVE"
+ );
+
+
+ document.getElementById(
+  "eventStatus"
+ ).textContent =
+ "Event: 🔥 LIVE";
+
+
+ await sendDylanBroadcast(
+  "🚨 ADMIN ABUSE HAS STARTED! 🔥"
+ );
+
+};
+
+
+window.endAdminAbuse =
+async function(){
+
+ if(!isDylan()){
+
+  alert(
+   "❌ Dylan admin only."
+  );
+
+  return;
+
+ }
+
+
+ localStorage.removeItem(
+  "adminEvent"
+ );
+
+
+ document.getElementById(
+  "eventStatus"
+ ).textContent =
+ "Event: OFF";
+
+
+ await sendDylanBroadcast(
+  "🛑 ADMIN ABUSE HAS ENDED."
+ );
+
+};
+
+
+/* ==================================================
+   MAKE FUNCTIONS AVAILABLE
+================================================== */
+
+window.updateAdminStatus =
+updateAdminStatus;
 
 </script>
 
 
 <!-- ==================================================
-     MAIN JAVASCRIPT
+     NORMAL GAME JAVASCRIPT
 ================================================== -->
 
 <script>
@@ -1313,27 +1732,27 @@ let bonusTimer;
 function showScreen(id){
 
  document.querySelectorAll(".screen")
- .forEach(function(screen){
+ .forEach(
+  screen=>
+  screen.classList.remove("active")
+ );
 
-  screen.classList.remove("active");
-
- });
 
  document.getElementById(id)
  .classList.add("active");
 
+
  updateMenus();
-
  loadUpdates();
-
  renderLeaderboard();
 
- if(id === "chat"){
 
-  /*
-   Firebase automatically keeps
-   the chat updated.
-  */
+ if(
+  id === "admin" &&
+  window.updateAdminStatus
+ ){
+
+  window.updateAdminStatus();
 
  }
 
@@ -1348,24 +1767,32 @@ function updateMenus(){
 
  document.getElementById(
   "menuCoins"
- ).textContent = coins;
+ ).textContent =
+ coins;
+
 
  document.getElementById(
   "menuHigh"
- ).textContent = highScore;
+ ).textContent =
+ highScore;
+
 
  document.getElementById(
   "menuStreak"
- ).textContent = streak;
+ ).textContent =
+ streak;
 
- let shopCoins =
+
+ const shopCoins =
  document.getElementById(
   "shopCoins"
  );
 
+
  if(shopCoins)
- shopCoins.textContent =
- coins;
+  shopCoins.textContent =
+  coins;
+
 
  updateAchievements();
 
@@ -1378,10 +1805,11 @@ function updateMenus(){
 
 function toggleSupport(){
 
- let box =
+ const box =
  document.getElementById(
   "support"
  );
+
 
  box.style.display =
  box.style.display === "none"
@@ -1397,7 +1825,7 @@ function toggleSupport(){
 
 function startGame(){
 
- daily=false;
+ daily = false;
 
  beginGame(60);
 
@@ -1406,7 +1834,7 @@ function startGame(){
 
 function startDaily(){
 
- daily=true;
+ daily = true;
 
  beginGame(45);
 
@@ -1417,13 +1845,13 @@ function beginGame(seconds){
 
  clearTimers();
 
- score=0;
- combo=0;
- level=1;
- time=seconds;
- lives=3;
+ score = 0;
+ combo = 0;
+ level = 1;
+ time = seconds;
+ lives = 3;
 
- playing=true;
+ playing = true;
 
  showScreen("game");
 
@@ -1431,51 +1859,62 @@ function beginGame(seconds){
 
  moveSquare();
 
+
  gameTimer =
- setInterval(function(){
+ setInterval(
+  ()=>{
 
-  time--;
+   time--;
 
-  updateGame();
+   updateGame();
 
-  if(time<=0){
+   if(time <= 0){
 
-   endGame();
+    endGame();
 
-  }
+   }
 
- },1000);
+  },
+  1000
+ );
 
 
  moveTimer =
- setInterval(function(){
+ setInterval(
+  ()=>{
 
-  if(!playing)
-   return;
+   if(!playing)
+    return;
 
-  moveSquare();
+   moveSquare();
 
-  lives--;
+   lives--;
 
-  combo=0;
+   combo = 0;
 
-  updateGame();
+   updateGame();
 
-  if(lives<=0){
 
-   endGame();
+   if(lives <= 0){
 
-  }
+    endGame();
 
- },1000);
+   }
+
+  },
+  1000
+ );
 
 
  bonusTimer =
- setInterval(function(){
+ setInterval(
+  ()=>{
 
-  showBonus();
+   showBonus();
 
- },7000);
+  },
+  7000
+ );
 
 }
 
@@ -1489,35 +1928,41 @@ function moveSquare(){
  if(!playing)
   return;
 
- let area =
+
+ const area =
  document.getElementById(
   "gameArea"
  );
 
- let square =
+
+ const square =
  document.getElementById(
   "square"
  );
 
- let x =
+
+ const x =
  Math.random() *
  (
   area.clientWidth -
   square.offsetWidth
  );
 
- let y =
+
+ const y =
  Math.random() *
  (
   area.clientHeight -
   square.offsetHeight
  );
 
+
  square.style.left =
- x+"px";
+ x + "px";
+
 
  square.style.top =
- y+"px";
+ y + "px";
 
 }
 
@@ -1527,22 +1972,26 @@ function catchSquare(){
  if(!playing)
   return;
 
+
  score++;
 
  combo++;
 
  coins++;
 
+
  level =
- Math.floor(score/5)+1;
+ Math.floor(score / 5) + 1;
 
- if(combo%5===0){
 
-  coins+=5;
+ if(combo % 5 === 0){
+
+  coins += 5;
 
  }
 
- if(combo>=10){
+
+ if(combo >= 10){
 
   localStorage.setItem(
    "combo10",
@@ -1551,7 +2000,32 @@ function catchSquare(){
 
  }
 
+
  moveSquare();
+
+ updateGame();
+
+}
+
+
+function catchBonus(){
+
+ if(!playing)
+  return;
+
+
+ score += 5;
+
+ coins += 10;
+
+ combo += 2;
+
+
+ document.getElementById(
+  "bonus"
+ ).style.display =
+ "none";
+
 
  updateGame();
 
@@ -1567,55 +2041,44 @@ function showBonus(){
  if(!playing)
   return;
 
- let bonus =
+
+ const bonus =
  document.getElementById(
   "bonus"
  );
 
- let area =
+
+ const area =
  document.getElementById(
   "gameArea"
  );
 
+
  bonus.style.left =
  Math.random() *
- (area.clientWidth-55)
- +"px";
+ (area.clientWidth - 55)
+ + "px";
+
 
  bonus.style.top =
  Math.random() *
- (area.clientHeight-55)
- +"px";
+ (area.clientHeight - 55)
+ + "px";
+
 
  bonus.style.display =
  "block";
 
- setTimeout(function(){
 
-  bonus.style.display =
-  "none";
+ setTimeout(
+  ()=>{
 
- },3500);
+   bonus.style.display =
+   "none";
 
-}
-
-
-function catchBonus(){
-
- if(!playing)
-  return;
-
- score+=5;
-
- coins+=10;
-
- combo+=2;
-
- document.getElementById(
-  "bonus"
- ).style.display="none";
-
- updateGame();
+  },
+  3500
+ );
 
 }
 
@@ -1628,27 +2091,39 @@ function updateGame(){
 
  document.getElementById(
   "score"
- ).textContent=score;
+ ).textContent =
+ score;
+
 
  document.getElementById(
   "lives"
- ).textContent=lives;
+ ).textContent =
+ lives;
+
 
  document.getElementById(
   "level"
- ).textContent=level;
+ ).textContent =
+ level;
+
 
  document.getElementById(
   "time"
- ).textContent=time;
+ ).textContent =
+ time;
+
 
  document.getElementById(
   "combo"
- ).textContent=combo;
+ ).textContent =
+ combo;
+
 
  document.getElementById(
   "coins"
- ).textContent=coins;
+ ).textContent =
+ coins;
+
 
  save();
 
@@ -1660,51 +2135,63 @@ function endGame(){
  if(!playing)
   return;
 
- playing=false;
+
+ playing = false;
 
  clearTimers();
 
- if(score>highScore){
 
-  highScore=score;
+ if(score > highScore){
+
+  highScore = score;
 
  }
 
+
  if(daily){
 
-  let best =
+  const best =
   Number(
    localStorage.getItem(
     "dailyBest"
    ) || 0
   );
 
-  if(score>best){
+
+  if(score > best){
 
    localStorage.setItem(
     "dailyBest",
     score
    );
 
-   coins+=25;
+   coins += 25;
 
   }
 
  }
 
+
  save();
+
 
  document.getElementById(
   "finalScore"
- ).textContent=score;
+ ).textContent =
+ score;
+
 
  document.getElementById(
   "finalHigh"
- ).textContent=highScore;
+ ).textContent =
+ highScore;
+
 
  document.getElementById(
   "gameOver"
- ).style.display="block";
+ ).style.display =
+ "block";
+
 
  addScore(score);
 
@@ -1715,14 +2202,15 @@ function closeGameOver(){
 
  document.getElementById(
   "gameOver"
- ).style.display="none";
+ ).style.display =
+ "none";
 
 }
 
 
 function quitGame(){
 
- playing=false;
+ playing = false;
 
  clearTimers();
 
@@ -1734,9 +2222,7 @@ function quitGame(){
 function clearTimers(){
 
  clearInterval(moveTimer);
-
  clearInterval(gameTimer);
-
  clearInterval(bonusTimer);
 
 }
@@ -1748,7 +2234,7 @@ function clearTimers(){
 
 function buyLife(){
 
- if(coins<20){
+ if(coins < 20){
 
   alert(
    "You need 20 coins!"
@@ -1758,7 +2244,8 @@ function buyLife(){
 
  }
 
- coins-=20;
+
+ coins -= 20;
 
  lives++;
 
@@ -1773,7 +2260,7 @@ function buyLife(){
 
 function buySkin(name,cost){
 
- if(coins<cost){
+ if(coins < cost){
 
   alert(
    "Not enough coins!"
@@ -1783,14 +2270,18 @@ function buySkin(name,cost){
 
  }
 
- coins-=cost;
+
+ coins -= cost;
+
 
  localStorage.setItem(
   "skin",
   name
  );
 
+
  save();
+
 
  alert(
   name.toUpperCase() +
@@ -1811,169 +2302,11 @@ function setDifficulty(value){
   value
  );
 
+
  document.getElementById(
   "difficultyText"
  ).textContent =
  value.toUpperCase();
-
-}
-
-
-/* ==================================================
-   GLOBAL CHAT
-================================================== */
-
-async function sendChat(){
-
- let name =
- document.getElementById(
-  "chatName"
- ).value.trim();
-
- let message =
- document.getElementById(
-  "chatInput"
- ).value.trim();
-
- if(!name || !message){
-
-  alert(
-   "Enter your name and message."
-  );
-
-  return;
-
- }
-
- if(name.length>20){
-
-  alert(
-   "Name is too long."
-  );
-
-  return;
-
- }
-
- if(message.length>150){
-
-  alert(
-   "Message is too long."
-  );
-
-  return;
-
- }
-
- /*
-  Prevent normal players from
-  pretending to be Dylan.
- */
-
- if(
-  name.toLowerCase() ===
-  "dylan"
- ){
-
-  alert(
-   "❌ That name is reserved."
-  );
-
-  return;
-
- }
-
- try{
-
-  await window.firebaseChat.send(
-   name,
-   message
-  );
-
-  document.getElementById(
-   "chatInput"
-  ).value="";
-
- }catch(error){
-
-  console.error(error);
-
-  alert(
-   "❌ Could not send message."
-  );
-
- }
-
-}
-
-
-/* ==================================================
-   ADMIN CHAT
-================================================== */
-
-async function deleteChat(index){
-
- let chats =
- window.currentFirebaseChats || [];
-
- if(!chats[index])
-  return;
-
- await deleteFirebaseChat(
-  chats[index].id
- );
-
-
-}
-
-
-async function clearChat(){
-
- if(!confirm(
-  "Clear the entire global chat?"
- ))
- return;
-
- await window.clearFirebaseChat();
-
-}
-
-
-async function adminAnnouncement(){
-
- let message =
- prompt(
-  "👑 Dylan's announcement:"
- );
-
- if(!message)
-  return;
-
- if(message.length>200){
-
-  alert(
-   "Announcement is too long."
-  );
-
-  return;
-
- }
-
- try{
-
-  await window.sendDylanBroadcast(
-   message
-  );
-
- }catch(error){
-
-  console.error(error);
-
-  alert(
-   "❌ Could not send announcement."
-  );
-
- }
 
 }
 
@@ -1984,17 +2317,28 @@ async function adminAnnouncement(){
 
 function postUpdate(){
 
- let title =
+ const title =
  document.getElementById(
   "updateTitle"
- ).value.trim();
+ );
 
- let text =
+ const text =
  document.getElementById(
   "updateText"
- ).value.trim();
+ );
 
- if(!title || !text){
+ if(!title || !text)
+  return;
+
+
+ const titleValue =
+ title.value.trim();
+
+ const textValue =
+ text.value.trim();
+
+
+ if(!titleValue || !textValue){
 
   alert(
    "Enter a title and update."
@@ -2004,36 +2348,37 @@ function postUpdate(){
 
  }
 
- let updates =
+
+ const updates =
  JSON.parse(
   localStorage.getItem(
    "updates"
   ) || "[]"
  );
 
+
  updates.unshift({
 
-  title:title,
+  title:titleValue,
 
-  text:text,
+  text:textValue,
 
-  date:new Date()
-   .toLocaleDateString()
+  date:
+  new Date()
+  .toLocaleDateString()
 
  });
+
 
  localStorage.setItem(
   "updates",
   JSON.stringify(updates)
  );
 
- document.getElementById(
-  "updateTitle"
- ).value="";
 
- document.getElementById(
-  "updateText"
- ).value="";
+ title.value = "";
+ text.value = "";
+
 
  loadUpdates();
 
@@ -2046,26 +2391,30 @@ function postUpdate(){
 
 function loadUpdates(){
 
- let box =
+ const box =
  document.getElementById(
   "updateList"
  );
 
+
  if(!box)
   return;
 
- let updates =
+
+ const updates =
  JSON.parse(
   localStorage.getItem(
    "updates"
   ) || "[]"
  );
 
- box.innerHTML="";
+
+ box.innerHTML = "";
+
 
  if(!updates.length){
 
-  box.innerHTML=
+  box.innerHTML =
   '<div class="card">' +
   '<h3>🚀 Catch The Square</h3>' +
   '<p>No updates yet.</p>' +
@@ -2075,28 +2424,31 @@ function loadUpdates(){
 
  }
 
- updates.forEach(function(u){
 
-  box.innerHTML +=
+ updates.forEach(
+  u=>{
 
-  '<div class="card">' +
+   box.innerHTML +=
 
-  '<h3>📢 ' +
-  safe(u.title) +
-  '</h3>' +
+   '<div class="card">' +
 
-  '<p>' +
-  safe(u.text) +
-  '</p>' +
+   '<h3>📢 ' +
+   safe(u.title) +
+   '</h3>' +
 
-  '<p class="small">' +
-  '📅 ' +
-  safe(u.date) +
-  '</p>' +
+   '<p>' +
+   safe(u.text) +
+   '</p>' +
 
-  '</div>';
+   '<p class="small">' +
+   '📅 ' +
+   safe(u.date) +
+   '</p>' +
 
- });
+   '</div>';
+
+  }
+ );
 
 }
 
@@ -2108,9 +2460,11 @@ function clearUpdates(){
  ))
  return;
 
+
  localStorage.removeItem(
   "updates"
  );
+
 
  loadUpdates();
 
@@ -2118,111 +2472,83 @@ function clearUpdates(){
 
 
 /* ==================================================
-   ADMIN ABUSE
-================================================== */
-
-async function adminAbuse(){
-
- localStorage.setItem(
-  "adminEvent",
-  "LIVE"
- );
-
- document.getElementById(
-  "eventStatus"
- ).textContent =
- "Event: 🔥 LIVE";
-
- try{
-
-  await window.sendDylanBroadcast(
-   "🚨 ADMIN ABUSE HAS STARTED! 🔥"
-  );
-
- }catch(error){
-
-  console.error(error);
-
-  alert(
-   "Firebase broadcast failed."
-  );
-
- }
-
-}
-
-
-async function endAdminAbuse(){
-
- localStorage.removeItem(
-  "adminEvent"
- );
-
- document.getElementById(
-  "eventStatus"
- ).textContent =
- "Event: OFF";
-
- try{
-
-  await window.sendDylanBroadcast(
-   "🛑 ADMIN ABUSE HAS ENDED!"
-  );
-
- }catch(error){
-
-  console.error(error);
-
- }
-
-}
-
-
-/* ==================================================
-   ADMIN
+   ADMIN PANEL
 ================================================== */
 
 function openAdmin(){
 
- let pin =
- prompt(
-  "🔐 Enter Admin PIN:"
- );
+ /*
+  This is only a UI gate.
+  Firebase rules are the actual protection.
+ */
 
- if(pin==="2580"){
-
-  showScreen("admin");
-
-  let active =
-  localStorage.getItem(
-   "adminEvent"
-  );
-
-  document.getElementById(
-   "eventStatus"
-  ).textContent =
-  active
-  ? "Event: 🔥 LIVE"
-  : "Event: OFF";
-
- }else if(pin!==null){
+ if(!window.firebaseUser){
 
   alert(
-   "❌ WRONG PIN!"
+   "Firebase is still connecting..."
   );
 
+  return;
+
  }
+
+
+ if(
+  window.firebaseUser.uid !==
+  "YOUR_DYLAN_UID_HERE"
+ ){
+
+  alert(
+   "❌ This account is not Dylan."
+  );
+
+  return;
+
+ }
+
+
+ showScreen("admin");
+
+
+ const active =
+ localStorage.getItem(
+  "adminEvent"
+ );
+
+
+ document.getElementById(
+  "eventStatus"
+ ).textContent =
+ active
+ ? "Event: 🔥 LIVE"
+ : "Event: OFF";
 
 }
 
 
 function adminCoins(){
 
- coins+=100;
+ if(
+  !window.firebaseUser ||
+  window.firebaseUser.uid !==
+  "YOUR_DYLAN_UID_HERE"
+ ){
+
+  alert(
+   "❌ Dylan admin only."
+  );
+
+  return;
+
+ }
+
+
+ coins += 100;
 
  save();
 
  updateMenus();
+
 
  alert(
   "🪙 +100 COINS!"
@@ -2233,16 +2559,33 @@ function adminCoins(){
 
 function adminResetScore(){
 
+ if(
+  !window.firebaseUser ||
+  window.firebaseUser.uid !==
+  "YOUR_DYLAN_UID_HERE"
+ ){
+
+  alert(
+   "❌ Dylan admin only."
+  );
+
+  return;
+
+ }
+
+
  if(!confirm(
   "Reset high score?"
  ))
  return;
 
- highScore=0;
+
+ highScore = 0;
 
  save();
 
  updateMenus();
+
 
  alert(
   "🔄 HIGH SCORE RESET!"
@@ -2268,26 +2611,27 @@ function getScores(){
 
 function addScore(value){
 
- if(value<=0)
+ if(value <= 0)
   return;
 
- let scores =
+
+ const scores =
  getScores();
+
 
  scores.push(value);
 
+
  scores.sort(
-  function(a,b){
-   return b-a;
-  }
+  (a,b)=>b-a
  );
 
- scores =
- scores.slice(0,10);
 
  localStorage.setItem(
   "scores",
-  JSON.stringify(scores)
+  JSON.stringify(
+   scores.slice(0,10)
+  )
  );
 
 }
@@ -2299,6 +2643,7 @@ function saveScore(){
 
  renderLeaderboard();
 
+
  alert(
   "🏆 Score saved!"
  );
@@ -2308,22 +2653,26 @@ function saveScore(){
 
 function renderLeaderboard(){
 
- let box =
+ const box =
  document.getElementById(
   "leaderboardList"
  );
 
+
  if(!box)
   return;
 
- let scores =
+
+ const scores =
  getScores();
 
- box.innerHTML="";
+
+ box.innerHTML = "";
+
 
  if(!scores.length){
 
-  box.innerHTML=
+  box.innerHTML =
   "<p class='small'>" +
   "No scores yet." +
   "</p>";
@@ -2332,29 +2681,32 @@ function renderLeaderboard(){
 
  }
 
+
  scores.forEach(
- function(s,i){
+  (s,i)=>{
 
-  let medal =
-  i===0 ? "🥇" :
-  i===1 ? "🥈" :
-  i===2 ? "🥉" :
-  "🏆";
+   const medal =
+   i === 0 ? "🥇" :
+   i === 1 ? "🥈" :
+   i === 2 ? "🥉" :
+   "🏆";
 
-  box.innerHTML +=
 
-  '<div class="notice">' +
+   box.innerHTML +=
 
-  medal +
-  " #" +
-  (i+1) +
-  " — " +
-  s +
-  " points" +
+   '<div class="notice">' +
 
-  '</div>';
+   medal +
+   " #" +
+   (i+1) +
+   " — " +
+   s +
+   " points" +
 
- });
+   '</div>';
+
+  }
+ );
 
 }
 
@@ -2365,33 +2717,39 @@ function renderLeaderboard(){
 
 function updateAchievements(){
 
- let played =
- highScore>0;
+ const played =
+ highScore > 0;
 
- let combo10 =
+
+ const combo10 =
  localStorage.getItem(
   "combo10"
- )==="yes";
+ ) === "yes";
+
 
  document.getElementById(
   "a1"
  ).textContent =
  played ? "✅" : "🔒";
 
+
  document.getElementById(
   "a2"
  ).textContent =
  combo10 ? "✅" : "🔒";
 
+
  document.getElementById(
   "a3"
  ).textContent =
- coins>=100 ? "✅" : "🔒";
+ coins >= 100 ? "✅" : "🔒";
+
 
  document.getElementById(
   "a4"
  ).textContent =
- highScore>=50 ? "✅" : "🔒";
+ highScore >= 50 ? "✅" : "🔒";
+
 
  document.getElementById(
   "m1"
@@ -2400,12 +2758,14 @@ function updateAchievements(){
  ? "UNLOCKED"
  : "LOCKED";
 
+
  document.getElementById(
   "m25"
  ).textContent =
- highScore>=25
+ highScore >= 25
  ? "UNLOCKED"
  : "LOCKED";
+
 
  document.getElementById(
   "m10"
@@ -2414,10 +2774,11 @@ function updateAchievements(){
  ? "UNLOCKED"
  : "LOCKED";
 
+
  document.getElementById(
   "m250"
  ).textContent =
- coins>=250
+ coins >= 250
  ? "UNLOCKED"
  : "LOCKED";
 
@@ -2434,6 +2795,7 @@ function save(){
   "coins",
   coins
  );
+
 
  localStorage.setItem(
   "highScore",
@@ -2454,6 +2816,7 @@ function resetData(){
  ))
  return;
 
+
  localStorage.clear();
 
  location.reload();
@@ -2467,15 +2830,17 @@ function resetData(){
 
 function safe(text){
 
- let div =
+ const div =
  document.createElement(
   "div"
  );
+
 
  div.textContent =
  text == null
  ? ""
  : String(text);
+
 
  return div.innerHTML;
 
@@ -2487,10 +2852,56 @@ function safe(text){
 ================================================== */
 
 updateMenus();
-
 loadUpdates();
-
 renderLeaderboard();
+
+
+const savedDifficulty =
+localStorage.getItem(
+ "difficulty"
+);
+
+
+if(savedDifficulty){
+
+ document.getElementById(
+  "difficultyText"
+ ).textContent =
+ savedDifficulty.toUpperCase();
+
+}
+
+
+const dailyBest =
+Number(
+ localStorage.getItem(
+  "dailyBest"
+ ) || 0
+);
+
+
+document.getElementById(
+ "dailyBest"
+).textContent =
+dailyBest;
+
+
+/* ==================================================
+   EVENT STATUS
+================================================== */
+
+if(
+ localStorage.getItem(
+  "adminEvent"
+ ) === "LIVE"
+){
+
+ document.getElementById(
+  "eventStatus"
+ ).textContent =
+ "Event: 🔥 LIVE";
+
+}
 
 </script>
 
