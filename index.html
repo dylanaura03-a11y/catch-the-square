@@ -5,8 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Catch The Square 3.0</title>
 
+<!-- Google AdSense -->
+<script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9731155253732713"
+crossorigin="anonymous"></script>
+
 <style>
 *{box-sizing:border-box}
+
 body{
  margin:0;
  min-height:100vh;
@@ -15,9 +21,15 @@ body{
  font-family:Arial,sans-serif;
  text-align:center;
 }
-h1{font-size:42px;text-shadow:0 0 20px #00eaff}
+
+h1{
+ font-size:42px;
+ text-shadow:0 0 20px #00eaff;
+}
+
 .screen{display:none}
 .screen.active{display:block}
+
 .panel{
  width:min(950px,94%);
  margin:20px auto;
@@ -27,6 +39,7 @@ h1{font-size:42px;text-shadow:0 0 20px #00eaff}
  border-radius:20px;
  box-shadow:0 0 30px #00eaff22;
 }
+
 button{
  border:0;
  border-radius:12px;
@@ -37,20 +50,35 @@ button{
  background:#00d9ff;
  color:#001018;
 }
-button:hover{transform:scale(1.04)}
-.danger{background:#ff4265;color:white}
-.menuButton{display:block;width:min(380px,90%);margin:9px auto}
+
+button:hover{
+ transform:scale(1.04);
+}
+
+.danger{
+ background:#ff4265;
+ color:white;
+}
+
+.menuButton{
+ display:block;
+ width:min(380px,90%);
+ margin:9px auto;
+}
+
 .stats{
  display:flex;
  justify-content:center;
  flex-wrap:wrap;
  gap:8px;
 }
+
 .stat{
  background:#17203a;
  padding:10px 15px;
  border-radius:12px;
 }
+
 #gameArea{
  width:min(700px,95%);
  height:430px;
@@ -61,6 +89,7 @@ button:hover{transform:scale(1.04)}
  border-radius:18px;
  background:#080d1c;
 }
+
 #square{
  position:absolute;
  width:55px;
@@ -71,6 +100,7 @@ button:hover{transform:scale(1.04)}
  border-radius:12px;
  box-shadow:0 0 25px currentColor;
 }
+
 #bonus{
  display:none;
  position:absolute;
@@ -81,6 +111,7 @@ button:hover{transform:scale(1.04)}
  background:gold;
  color:black;
 }
+
 .card{
  display:inline-block;
  vertical-align:top;
@@ -91,6 +122,7 @@ button:hover{transform:scale(1.04)}
  background:#151d36;
  border-radius:15px;
 }
+
 .notice{
  margin:10px auto;
  padding:15px;
@@ -98,6 +130,7 @@ button:hover{transform:scale(1.04)}
  background:#111a30;
  border-radius:14px;
 }
+
 input,textarea{
  width:min(550px,90%);
  padding:12px;
@@ -107,8 +140,15 @@ input,textarea{
  background:#080d18;
  color:white;
 }
-textarea{height:110px}
-.small{color:#aaa}
+
+textarea{
+ height:110px;
+}
+
+.small{
+ color:#aaa;
+}
+
 #gameOver{
  display:none;
  position:fixed;
@@ -122,6 +162,7 @@ textarea{height:110px}
  border:3px solid #ff4265;
  border-radius:20px;
 }
+
 .chatBox{
  height:300px;
  overflow-y:auto;
@@ -130,11 +171,18 @@ textarea{height:110px}
  padding:10px;
  border-radius:12px;
 }
+
 .chatMsg{
  padding:9px;
  margin:5px 0;
  background:#17203a;
  border-radius:9px;
+}
+
+.adBox{
+ width:min(750px,95%);
+ margin:18px auto;
+ min-height:90px;
 }
 </style>
 </head>
@@ -144,256 +192,540 @@ textarea{height:110px}
 <h1>🎮 CATCH THE SQUARE</h1>
 <p>3.0 • Catch it. Level up. Become the legend.</p>
 
-<!-- ================= MENU ================= -->
+
+<!-- ==================================================
+     MAIN MENU
+================================================== -->
 
 <div id="menu" class="screen active">
+
 <div class="panel">
 
-<button class="menuButton" onclick="startGame()">🎮 START GAME</button>
-<button class="menuButton" onclick="showScreen('shop')">🛒 SHOP</button>
-<button class="menuButton" onclick="showScreen('missions')">🎯 MISSIONS</button>
-<button class="menuButton" onclick="showScreen('achievements')">🏆 ACHIEVEMENTS</button>
-<button class="menuButton" onclick="showScreen('leaderboard')">🌍 LEADERBOARD</button>
-<button class="menuButton" onclick="showScreen('daily')">⚡ DAILY CHALLENGE</button>
-<button class="menuButton" onclick="showScreen('chat')">💬 CHAT</button>
-<button class="menuButton" onclick="showScreen('updates')">📰 UPDATES</button>
-<button class="menuButton" onclick="showScreen('settings')">⚙️ SETTINGS</button>
-<button class="menuButton" onclick="showScreen('howto')">📖 HOW TO PLAY</button>
-<button class="menuButton" onclick="toggleSupport()">💰 SUPPORT</button>
-<button class="menuButton" onclick="openAdmin()">👑 ADMIN PANEL</button>
+<button class="menuButton" onclick="startGame()">
+🎮 START GAME
+</button>
 
-<div id="support" class="notice" style="display:none">
+<button class="menuButton" onclick="showScreen('shop')">
+🛒 SHOP
+</button>
+
+<button class="menuButton" onclick="showScreen('missions')">
+🎯 MISSIONS
+</button>
+
+<button class="menuButton" onclick="showScreen('achievements')">
+🏆 ACHIEVEMENTS
+</button>
+
+<button class="menuButton" onclick="showScreen('leaderboard')">
+🌍 LEADERBOARD
+</button>
+
+<button class="menuButton" onclick="showScreen('daily')">
+⚡ DAILY CHALLENGE
+</button>
+
+<button class="menuButton" onclick="showScreen('chat')">
+💬 CHAT
+</button>
+
+<button class="menuButton" onclick="showScreen('updates')">
+📰 UPDATES
+</button>
+
+<button class="menuButton" onclick="showScreen('settings')">
+⚙️ SETTINGS
+</button>
+
+<button class="menuButton" onclick="showScreen('howto')">
+📖 HOW TO PLAY
+</button>
+
+<button class="menuButton" onclick="toggleSupport()">
+💰 SUPPORT
+</button>
+
+<button class="menuButton" onclick="openAdmin()">
+👑 ADMIN PANEL
+</button>
+
+
+<div id="support"
+class="notice"
+style="display:none">
+
 <h2>💰 Support Catch The Square</h2>
-<p>Pochi la Biashara</p>
+
+<p>Want to support the game?</p>
+
+<p>Send your support through Pochi la Biashara.</p>
+
 <h3>📱 0700201218</h3>
+
 <p>Thank you! ❤️</p>
+
 </div>
+
+
+<!-- ADSENSE -->
+
+<div class="adBox">
+
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9731155253732713"
+     data-ad-slot="5442663781"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</div>
+
 
 <hr>
 
-<p>🪙 Coins: <b id="menuCoins">0</b></p>
-<p>🏆 High Score: <b id="menuHigh">0</b></p>
-<p>🔥 Streak: <b id="menuStreak">0</b></p>
+<p>
+🪙 Coins:
+<b id="menuCoins">0</b>
+</p>
+
+<p>
+🏆 High Score:
+<b id="menuHigh">0</b>
+</p>
+
+<p>
+🔥 Streak:
+<b id="menuStreak">0</b>
+</p>
 
 </div>
 </div>
 
 
-<!-- ================= GAME ================= -->
+<!-- ==================================================
+     GAME
+================================================== -->
 
 <div id="game" class="screen">
+
 <div class="panel">
 
 <div class="stats">
-<div class="stat">🏆 <b id="score">0</b></div>
-<div class="stat">❤️ <b id="lives">3</b></div>
-<div class="stat">⭐ Level <b id="level">1</b></div>
-<div class="stat">⏱️ <b id="time">60</b></div>
-<div class="stat">🔥 x<b id="combo">0</b></div>
-<div class="stat">🪙 <b id="coins">0</b></div>
+
+<div class="stat">
+🏆 <b id="score">0</b>
 </div>
 
-<h3 id="message">CATCH IT!</h3>
+<div class="stat">
+❤️ <b id="lives">3</b>
+</div>
+
+<div class="stat">
+⭐ Level <b id="level">1</b>
+</div>
+
+<div class="stat">
+⏱️ <b id="time">60</b>
+</div>
+
+<div class="stat">
+🔥 x<b id="combo">0</b>
+</div>
+
+<div class="stat">
+🪙 <b id="coins">0</b>
+</div>
+
+</div>
+
+<h3>CATCH IT!</h3>
 
 <div id="gameArea">
-<button id="square" onclick="catchSquare()">CLICK!</button>
-<button id="bonus" onclick="catchBonus()">+5</button>
+
+<button id="square"
+onclick="catchSquare()">
+CLICK!
+</button>
+
+<button id="bonus"
+onclick="catchBonus()">
++5
+</button>
+
 </div>
 
-<button onclick="buyLife()">❤️ EXTRA LIFE — 20 COINS</button>
-<button onclick="quitGame()">🏠 MENU</button>
+<button onclick="buyLife()">
+❤️ EXTRA LIFE — 20 COINS
+</button>
+
+<button onclick="quitGame()">
+🏠 MENU
+</button>
+
+
+<!-- GAME AD -->
+
+<div class="adBox">
+
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9731155253732713"
+     data-ad-slot="5442663781"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</div>
 
 </div>
 </div>
 
 
-<!-- ================= SHOP ================= -->
+<!-- ==================================================
+     SHOP
+================================================== -->
 
 <div id="shop" class="screen">
+
 <div class="panel">
+
 <h2>🛒 SHOP</h2>
-<p>🪙 Coins: <b id="shopCoins">0</b></p>
+
+<p>
+🪙 Coins:
+<b id="shopCoins">0</b>
+</p>
 
 <div class="card">
 <h3>🌈 Rainbow</h3>
-<p>Changes colour.</p>
-<button onclick="buySkin('rainbow',50)">50 🪙</button>
+<p>Rainbow square.</p>
+<button onclick="buySkin('rainbow',50)">
+50 🪙
+</button>
 </div>
 
 <div class="card">
 <h3>🔥 Fire</h3>
 <p>Fiery square.</p>
-<button onclick="buySkin('fire',75)">75 🪙</button>
+<button onclick="buySkin('fire',75)">
+75 🪙
+</button>
 </div>
 
 <div class="card">
 <h3>❄️ Ice</h3>
 <p>Icy square.</p>
-<button onclick="buySkin('ice',100)">100 🪙</button>
+<button onclick="buySkin('ice',100)">
+100 🪙
+</button>
 </div>
 
 <div class="card">
 <h3>👑 Gold</h3>
 <p>Golden square.</p>
-<button onclick="buySkin('gold',150)">150 🪙</button>
+<button onclick="buySkin('gold',150)">
+150 🪙
+</button>
 </div>
 
 <div class="card">
 <h3>🌌 Galaxy</h3>
 <p>Rare style.</p>
-<button onclick="buySkin('galaxy',250)">250 🪙</button>
+<button onclick="buySkin('galaxy',250)">
+250 🪙
+</button>
 </div>
 
 <br>
-<button onclick="showScreen('menu')">🏠 BACK</button>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
 </div>
 </div>
 
 
-<!-- ================= MISSIONS ================= -->
+<!-- ==================================================
+     MISSIONS
+================================================== -->
 
 <div id="missions" class="screen">
+
 <div class="panel">
+
 <h2>🎯 MISSIONS</h2>
 
-<p>🎯 First Catch — <b id="m1">LOCKED</b></p>
-<p>⭐ 25 Points — <b id="m25">LOCKED</b></p>
-<p>🔥 10 Combo — <b id="m10">LOCKED</b></p>
-<p>🪙 250 Coins — <b id="m250">LOCKED</b></p>
-<p>👹 Boss Round — <b id="mboss">COMING</b></p>
+<p>
+🎯 First Catch —
+<b id="m1">LOCKED</b>
+</p>
 
-<button onclick="showScreen('menu')">🏠 BACK</button>
+<p>
+⭐ 25 Points —
+<b id="m25">LOCKED</b>
+</p>
+
+<p>
+🔥 10 Combo —
+<b id="m10">LOCKED</b>
+</p>
+
+<p>
+🪙 250 Coins —
+<b id="m250">LOCKED</b>
+</p>
+
+<p>
+👹 Boss Round —
+<b>COMING</b>
+</p>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
 </div>
 </div>
 
 
-<!-- ================= ACHIEVEMENTS ================= -->
+<!-- ==================================================
+     ACHIEVEMENTS
+================================================== -->
 
 <div id="achievements" class="screen">
+
 <div class="panel">
+
 <h2>🏆 ACHIEVEMENTS</h2>
 
-<p>🎯 First Catch — <b id="a1">🔒</b></p>
-<p>🔥 10 Combo — <b id="a2">🔒</b></p>
-<p>🪙 100 Coins — <b id="a3">🔒</b></p>
-<p>⭐ Level 10 — <b id="a4">🔒</b></p>
-<p>👹 Boss Slayer — <b id="a5">COMING</b></p>
+<p>
+🎯 First Catch —
+<b id="a1">🔒</b>
+</p>
 
-<button onclick="showScreen('menu')">🏠 BACK</button>
+<p>
+🔥 10 Combo —
+<b id="a2">🔒</b>
+</p>
+
+<p>
+🪙 100 Coins —
+<b id="a3">🔒</b>
+</p>
+
+<p>
+⭐ Level 10 —
+<b id="a4">🔒</b>
+</p>
+
+<p>
+👹 Boss Slayer —
+<b>COMING</b>
+</p>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
 </div>
 </div>
 
 
-<!-- ================= LEADERBOARD ================= -->
+<!-- ==================================================
+     LEADERBOARD
+================================================== -->
 
 <div id="leaderboard" class="screen">
+
 <div class="panel">
+
 <h2>🌍 LEADERBOARD</h2>
-<p class="small">Global connection can be added later.</p>
+
+<p class="small">
+Online global leaderboard coming later.
+</p>
 
 <div id="leaderboardList"></div>
 
-<button onclick="saveScore()">➕ SAVE MY SCORE</button>
-<button onclick="showScreen('menu')">🏠 BACK</button>
+<button onclick="saveScore()">
+➕ SAVE MY SCORE
+</button>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
 </div>
 </div>
 
 
-<!-- ================= DAILY ================= -->
+<!-- ==================================================
+     DAILY
+================================================== -->
 
 <div id="daily" class="screen">
+
 <div class="panel">
+
 <h2>⚡ DAILY CHALLENGE</h2>
 
 <div class="notice">
+
 <h3>45 SECOND RUSH</h3>
-<p>Get the highest score you can!</p>
-<h2>🎁 Reward: 25 🪙</h2>
-<p>Best: <b id="dailyBest">0</b></p>
+
+<p>
+Get the highest score you can!
+</p>
+
+<h2>
+🎁 Reward: 25 🪙
+</h2>
+
+<p>
+Best:
+<b id="dailyBest">0</b>
+</p>
+
 </div>
 
-<button onclick="startDaily()">⚡ PLAY</button>
-<button onclick="showScreen('menu')">🏠 BACK</button>
+<button onclick="startDaily()">
+⚡ PLAY
+</button>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
 </div>
 </div>
 
 
-<!-- ================= CHAT ================= -->
+<!-- ==================================================
+     CHAT
+================================================== -->
 
 <div id="chat" class="screen">
+
 <div class="panel">
 
 <h2>💬 CHAT</h2>
 
 <p class="small">
-Chat with the Catch The Square community.
+Talk with the Catch The Square community.
 </p>
 
-<div id="chatMessages" class="chatBox"></div>
+<div id="chatMessages"
+class="chatBox">
+</div>
 
-<input id="chatName"
+<input
+id="chatName"
 maxlength="20"
-placeholder="Player name">
+placeholder="Player name"
+>
 
 <br>
 
-<input id="chatInput"
+<input
+id="chatInput"
 maxlength="150"
-placeholder="Type a message...">
+placeholder="Type a message..."
+>
 
 <br>
 
-<button onclick="sendChat()">💬 SEND</button>
+<button onclick="sendChat()">
+💬 SEND
+</button>
 
-<button onclick="showScreen('menu')">🏠 BACK</button>
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
 
 </div>
 </div>
 
 
-<!-- ================= UPDATES ================= -->
+<!-- ==================================================
+     UPDATES
+================================================== -->
 
 <div id="updates" class="screen">
+
 <div class="panel">
 
 <h2>📰 UPDATES</h2>
 
-<div id="updateList"></div>
+<div id="updateList">
+</div>
 
-<button onclick="showScreen('menu')">🏠 BACK</button>
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
 
 </div>
 </div>
 
 
-<!-- ================= SETTINGS ================= -->
+<!-- ==================================================
+     SETTINGS
+================================================== -->
 
 <div id="settings" class="screen">
+
 <div class="panel">
 
 <h2>⚙️ SETTINGS</h2>
 
-<button onclick="setDifficulty('easy')">EASY</button>
-<button onclick="setDifficulty('normal')">NORMAL</button>
-<button onclick="setDifficulty('hard')">HARD</button>
-
-<p>Difficulty:
-<b id="difficultyText">NORMAL</b>
-</p>
-
-<button onclick="resetData()" class="danger">
-🗑️ RESET LOCAL DATA
+<button onclick="setDifficulty('easy')">
+EASY
 </button>
 
-<button onclick="showScreen('menu')">🏠 BACK</button>
+<button onclick="setDifficulty('normal')">
+NORMAL
+</button>
+
+<button onclick="setDifficulty('hard')">
+HARD
+</button>
+
+<p>
+Difficulty:
+<b id="difficultyText">
+NORMAL
+</b>
+</p>
+
+<button
+onclick="resetData()"
+class="danger">
+
+🗑️ RESET LOCAL DATA
+
+</button>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
 
 </div>
 </div>
 
 
-<!-- ================= HOW TO ================= -->
+<!-- ==================================================
+     HOW TO PLAY
+================================================== -->
 
 <div id="howto" class="screen">
+
 <div class="panel">
 
 <h2>📖 HOW TO PLAY</h2>
@@ -406,34 +738,48 @@ placeholder="Type a message...">
 <p>👹 Boss Rounds are coming.</p>
 <p>👑 Admin Abuse events are coming.</p>
 
-<button onclick="showScreen('menu')">🏠 BACK</button>
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
 
 </div>
 </div>
 
 
-<!-- ================= ADMIN ================= -->
+<!-- ==================================================
+     ADMIN PANEL
+================================================== -->
 
 <div id="admin" class="screen">
+
 <div class="panel">
 
 <h2>👑 ADMIN PANEL</h2>
 
 <div class="notice">
+
 ⚠️ Local testing admin panel.
-This PIN is not secure online authentication.
-</div>
-
-
-<h3>📢 UPDATES</h3>
-
-<input id="updateTitle"
-placeholder="Update title">
 
 <br>
 
-<textarea id="updateText"
-placeholder="Write update..."></textarea>
+These controls are not secure online authentication.
+
+</div>
+
+
+<h3>📢 POST UPDATE</h3>
+
+<input
+id="updateTitle"
+placeholder="Update title"
+>
+
+<br>
+
+<textarea
+id="updateText"
+placeholder="Write your update..."
+></textarea>
 
 <br>
 
@@ -441,8 +787,12 @@ placeholder="Write update..."></textarea>
 📢 POST UPDATE
 </button>
 
-<button onclick="clearUpdates()" class="danger">
+<button
+onclick="clearUpdates()"
+class="danger">
+
 🗑️ CLEAR UPDATES
+
 </button>
 
 
@@ -451,14 +801,20 @@ placeholder="Write update..."></textarea>
 
 <h3>💬 GLOBAL CHAT MANAGEMENT</h3>
 
-<div id="adminChat" class="chatBox"></div>
+<div id="adminChat"
+class="chatBox">
+</div>
 
 <button onclick="adminAnnouncement()">
-📢 SEND ADMIN ANNOUNCEMENT
+📢 ADMIN ANNOUNCEMENT
 </button>
 
-<button onclick="clearChat()" class="danger">
+<button
+onclick="clearChat()"
+class="danger">
+
 🗑️ CLEAR CHAT
+
 </button>
 
 
@@ -493,6 +849,9 @@ Event: OFF
 🔄 RESET HIGH SCORE
 </button>
 
+
+<br>
+
 <button onclick="showScreen('menu')">
 🏠 BACK
 </button>
@@ -501,15 +860,24 @@ Event: OFF
 </div>
 
 
-<!-- ================= GAME OVER ================= -->
+<!-- ==================================================
+     GAME OVER
+================================================== -->
 
 <div id="gameOver">
 
 <h2>💀 GAME OVER</h2>
 
-<h1 id="finalScore">0</h1>
+<h1 id="finalScore">
+0
+</h1>
 
-<p>High Score: <b id="finalHigh">0</b></p>
+<p>
+High Score:
+<b id="finalHigh">
+0
+</b>
+</p>
 
 <button onclick="closeGameOver();startGame()">
 🔄 PLAY AGAIN
@@ -524,37 +892,50 @@ Event: OFF
 
 <script>
 
-/* ================= DATA ================= */
+/* ==================================================
+   DATA
+================================================== */
 
-let coins=Number(localStorage.getItem("coins")||0);
-let highScore=Number(localStorage.getItem("highScore")||0);
-let streak=Number(localStorage.getItem("streak")||0);
+let coins =
+Number(localStorage.getItem("coins") || 0);
 
-let score=0;
-let lives=3;
-let level=1;
-let time=60;
-let combo=0;
-let playing=false;
-let daily=false;
+let highScore =
+Number(localStorage.getItem("highScore") || 0);
+
+let streak =
+Number(localStorage.getItem("streak") || 0);
+
+let score = 0;
+let lives = 3;
+let level = 1;
+let time = 60;
+let combo = 0;
+
+let playing = false;
+let daily = false;
 
 let moveTimer;
 let gameTimer;
 let bonusTimer;
 
 
-/* ================= SCREEN ================= */
+/* ==================================================
+   SCREEN SYSTEM
+================================================== */
 
 function showScreen(id){
 
  document.querySelectorAll(".screen")
- .forEach(s=>s.classList.remove("active"));
+ .forEach(function(screen){
+
+  screen.classList.remove("active");
+
+ });
 
  document.getElementById(id)
  .classList.add("active");
 
  updateMenus();
-
  loadChat();
  loadAdminChat();
  loadUpdates();
@@ -562,45 +943,63 @@ function showScreen(id){
 }
 
 
-/* ================= MENU ================= */
+/* ==================================================
+   MENU
+================================================== */
 
 function updateMenus(){
 
- document.getElementById("menuCoins").textContent=coins;
- document.getElementById("menuHigh").textContent=highScore;
- document.getElementById("menuStreak").textContent=streak;
+ document.getElementById("menuCoins")
+ .textContent = coins;
 
- let shop=document.getElementById("shopCoins");
- if(shop)shop.textContent=coins;
+ document.getElementById("menuHigh")
+ .textContent = highScore;
+
+ document.getElementById("menuStreak")
+ .textContent = streak;
+
+ let shopCoins =
+ document.getElementById("shopCoins");
+
+ if(shopCoins)
+ shopCoins.textContent = coins;
 
  updateAchievements();
 }
 
 
-/* ================= SUPPORT ================= */
+/* ==================================================
+   SUPPORT
+================================================== */
 
 function toggleSupport(){
 
- let x=document.getElementById("support");
+ let box =
+ document.getElementById("support");
 
- x.style.display=
- x.style.display==="none"
- ?"block":"none";
+ box.style.display =
+ box.style.display === "none"
+ ? "block"
+ : "none";
 }
 
 
-/* ================= GAME ================= */
+/* ==================================================
+   GAME
+================================================== */
 
 function startGame(){
 
- daily=false;
+ daily = false;
+
  beginGame(60);
 }
 
 
 function startDaily(){
 
- daily=true;
+ daily = true;
+
  beginGame(45);
 }
 
@@ -609,14 +1008,13 @@ function beginGame(seconds){
 
  clearTimers();
 
- score=0;
- combo=0;
- level=1;
- time=seconds;
+ score = 0;
+ combo = 0;
+ level = 1;
+ time = seconds;
+ lives = 3;
 
- lives=3;
-
- playing=true;
+ playing = true;
 
  showScreen("game");
 
@@ -624,67 +1022,114 @@ function beginGame(seconds){
 
  moveSquare();
 
- gameTimer=setInterval(()=>{
+ gameTimer =
+ setInterval(function(){
 
   time--;
 
   updateGame();
 
-  if(time<=0)endGame();
+  if(time <= 0){
+
+   endGame();
+
+  }
 
  },1000);
 
- moveTimer=setInterval(()=>{
 
-  if(!playing)return;
+ moveTimer =
+ setInterval(function(){
+
+  if(!playing)
+  return;
 
   moveSquare();
+
   lives--;
 
-  combo=0;
+  combo = 0;
 
   updateGame();
 
-  if(lives<=0)endGame();
+  if(lives <= 0){
+
+   endGame();
+
+  }
 
  },1000);
 
- bonusTimer=setInterval(showBonus,7000);
+
+ bonusTimer =
+ setInterval(function(){
+
+  showBonus();
+
+ },7000);
 }
 
 
-/* ================= MOVE ================= */
+/* ==================================================
+   SQUARE
+================================================== */
 
 function moveSquare(){
 
- if(!playing)return;
+ if(!playing)
+ return;
 
- let area=document.getElementById("gameArea");
- let square=document.getElementById("square");
+ let area =
+ document.getElementById("gameArea");
 
- let x=Math.random()*
- (area.clientWidth-square.offsetWidth);
+ let square =
+ document.getElementById("square");
 
- let y=Math.random()*
- (area.clientHeight-square.offsetHeight);
+ let x =
+ Math.random() *
+ (area.clientWidth -
+ square.offsetWidth);
 
- square.style.left=x+"px";
- square.style.top=y+"px";
+ let y =
+ Math.random() *
+ (area.clientHeight -
+ square.offsetHeight);
+
+ square.style.left =
+ x + "px";
+
+ square.style.top =
+ y + "px";
 }
 
 
 function catchSquare(){
 
- if(!playing)return;
+ if(!playing)
+ return;
 
  score++;
+
  combo++;
+
  coins++;
 
- level=Math.floor(score/5)+1;
+ level =
+ Math.floor(score / 5) + 1;
 
- if(combo%5===0){
-  coins+=5;
+ if(combo % 5 === 0){
+
+  coins += 5;
+
+ }
+
+ if(combo >= 10){
+
+  localStorage.setItem(
+   "combo10",
+   "yes"
+  );
+
  }
 
  moveSquare();
@@ -693,52 +1138,80 @@ function catchSquare(){
 }
 
 
+/* ==================================================
+   BONUS
+================================================== */
+
 function showBonus(){
 
- if(!playing)return;
+ if(!playing)
+ return;
 
- let b=document.getElementById("bonus");
- let area=document.getElementById("gameArea");
+ let bonus =
+ document.getElementById("bonus");
 
- b.style.left=
- Math.random()*(area.clientWidth-55)+"px";
+ let area =
+ document.getElementById("gameArea");
 
- b.style.top=
- Math.random()*(area.clientHeight-55)+"px";
+ bonus.style.left =
+ Math.random() *
+ (area.clientWidth - 55) + "px";
 
- b.style.display="block";
+ bonus.style.top =
+ Math.random() *
+ (area.clientHeight - 55) + "px";
 
- setTimeout(()=>{
-  b.style.display="none";
+ bonus.style.display =
+ "block";
+
+ setTimeout(function(){
+
+  bonus.style.display =
+  "none";
+
  },3500);
 }
 
 
 function catchBonus(){
 
- if(!playing)return;
+ if(!playing)
+ return;
 
- score+=5;
- coins+=10;
- combo+=2;
+ score += 5;
+ coins += 10;
+ combo += 2;
 
  document.getElementById("bonus")
- .style.display="none";
+ .style.display = "none";
 
  updateGame();
 }
 
 
-/* ================= GAME UPDATE ================= */
+/* ==================================================
+   GAME UPDATE
+================================================== */
 
 function updateGame(){
 
- document.getElementById("score").textContent=score;
- document.getElementById("lives").textContent=lives;
- document.getElementById("level").textContent=level;
- document.getElementById("time").textContent=time;
- document.getElementById("combo").textContent=combo;
- document.getElementById("coins").textContent=coins;
+ document.getElementById("score")
+ .textContent = score;
+
+ document.getElementById("lives")
+ .textContent = lives;
+
+ document.getElementById("level")
+ .textContent = level;
+
+ document.getElementById("time")
+ .textContent = time;
+
+ document.getElementById("combo")
+ .textContent = combo;
+
+ document.getElementById("coins")
+ .textContent = coins;
 
  save();
 }
@@ -746,41 +1219,49 @@ function updateGame(){
 
 function endGame(){
 
- if(!playing)return;
+ if(!playing)
+ return;
 
- playing=false;
+ playing = false;
 
  clearTimers();
 
- if(score>highScore)
-  highScore=score;
+ if(score > highScore){
+
+  highScore = score;
+
+ }
 
  if(daily){
 
-  let best=Number(
-   localStorage.getItem("dailyBest")||0
+  let best =
+  Number(
+   localStorage.getItem("dailyBest") || 0
   );
 
-  if(score>best){
+  if(score > best){
 
    localStorage.setItem(
-    "dailyBest",score
+    "dailyBest",
+    score
    );
 
-   coins+=25;
+   coins += 25;
+
   }
+
  }
 
  save();
 
  document.getElementById("finalScore")
- .textContent=score;
+ .textContent = score;
 
  document.getElementById("finalHigh")
- .textContent=highScore;
+ .textContent = highScore;
 
  document.getElementById("gameOver")
- .style.display="block";
+ .style.display = "block";
 
  addScore(score);
 }
@@ -789,14 +1270,16 @@ function endGame(){
 function closeGameOver(){
 
  document.getElementById("gameOver")
- .style.display="none";
+ .style.display = "none";
 }
 
 
 function quitGame(){
 
- playing=false;
+ playing = false;
+
  clearTimers();
+
  showScreen("menu");
 }
 
@@ -809,92 +1292,121 @@ function clearTimers(){
 }
 
 
-/* ================= LIFE ================= */
+/* ==================================================
+   LIFE
+================================================== */
 
 function buyLife(){
 
- if(coins<20){
+ if(coins < 20){
 
   alert("You need 20 coins!");
+
   return;
  }
 
- coins-=20;
+ coins -= 20;
+
  lives++;
 
  updateGame();
 }
 
 
-/* ================= SHOP ================= */
+/* ==================================================
+   SHOP
+================================================== */
 
 function buySkin(name,cost){
 
- if(coins<cost){
+ if(coins < cost){
 
   alert("Not enough coins!");
+
   return;
  }
 
- coins-=cost;
+ coins -= cost;
 
- localStorage.setItem("skin",name);
+ localStorage.setItem(
+  "skin",
+  name
+ );
 
  save();
 
  alert(
-  name.toUpperCase()+" SKIN EQUIPPED!"
+  name.toUpperCase() +
+  " SKIN EQUIPPED!"
  );
+
 }
 
 
-/* ================= SETTINGS ================= */
+/* ==================================================
+   SETTINGS
+================================================== */
 
 function setDifficulty(value){
 
  localStorage.setItem(
-  "difficulty",value
+  "difficulty",
+  value
  );
 
  document.getElementById(
   "difficultyText"
- ).textContent=value.toUpperCase();
+ ).textContent =
+ value.toUpperCase();
 }
 
 
-/* ================= CHAT ================= */
+/* ==================================================
+   CHAT
+================================================== */
 
 function getChat(){
 
  return JSON.parse(
-  localStorage.getItem("chat")||"[]"
+  localStorage.getItem("chat") || "[]"
  );
 }
 
 
 function sendChat(){
 
- let name=document.getElementById("chatName")
+ let name =
+ document.getElementById("chatName")
  .value.trim();
 
- let message=document.getElementById("chatInput")
+ let message =
+ document.getElementById("chatInput")
  .value.trim();
 
- if(!name||!message){
+ if(!name || !message){
 
-  alert("Enter your name and message.");
+  alert(
+   "Enter your name and message."
+  );
+
   return;
  }
 
- let chats=getChat();
+ let chats = getChat();
 
  chats.push({
+
   name:name,
+
   message:message,
-  time:new Date().toLocaleTimeString()
+
+  time:new Date()
+  .toLocaleTimeString()
+
  });
 
- chats=chats.slice(-50);
+ chats =
+ chats.slice(-50);
 
  localStorage.setItem(
   "chat",
@@ -903,7 +1415,7 @@ function sendChat(){
 
  document.getElementById(
   "chatInput"
- ).value="";
+ ).value = "";
 
  loadChat();
  loadAdminChat();
@@ -912,33 +1424,48 @@ function sendChat(){
 
 function loadChat(){
 
- let box=document.getElementById(
+ let box =
+ document.getElementById(
   "chatMessages"
  );
 
- if(!box)return;
+ if(!box)
+ return;
 
- let chats=getChat();
+ let chats =
+ getChat();
 
- box.innerHTML="";
+ box.innerHTML = "";
 
  if(!chats.length){
 
-  box.innerHTML=
-  "<p class='small'>💬 No messages yet.</p>";
+  box.innerHTML =
+  "<p class='small'>" +
+  "💬 No messages yet." +
+  "</p>";
 
   return;
  }
 
- chats.forEach(c=>{
+ chats.forEach(function(c){
 
-  box.innerHTML+=
-  `<div class="chatMsg">
-   <b>👤 ${safe(c.name)}</b>
-   <span class="small">${safe(c.time)}</span>
-   <br>
-   ${safe(c.message)}
-  </div>`;
+  box.innerHTML +=
+
+  '<div class="chatMsg">' +
+
+  '<b>👤 ' +
+  safe(c.name) +
+  '</b> ' +
+
+  '<span class="small">' +
+  safe(c.time) +
+  '</span>' +
+
+  '<br>' +
+
+  safe(c.message) +
+
+  '</div>';
 
  });
 }
@@ -946,29 +1473,50 @@ function loadChat(){
 
 function loadAdminChat(){
 
- let box=document.getElementById(
+ let box =
+ document.getElementById(
   "adminChat"
  );
 
- if(!box)return;
+ if(!box)
+ return;
 
- let chats=getChat();
+ let chats =
+ getChat();
 
- box.innerHTML="";
+ box.innerHTML = "";
 
- chats.forEach((c,i)=>{
+ chats.forEach(function(c,index){
 
-  box.innerHTML+=
-  `<div class="chatMsg">
-   <b>${safe(c.name)}</b>
-   <span class="small">${safe(c.time)}</span>
-   <br>${safe(c.message)}
-   <br>
-   <button onclick="deleteChat(${i})"
-   class="danger">
-   🗑️ DELETE
-   </button>
-  </div>`;
+  box.innerHTML +=
+
+  '<div class="chatMsg">' +
+
+  '<b>' +
+  safe(c.name) +
+  '</b> ' +
+
+  '<span class="small">' +
+  safe(c.time) +
+  '</span>' +
+
+  '<br>' +
+
+  safe(c.message) +
+
+  '<br>' +
+
+  '<button ' +
+  'onclick="deleteChat(' +
+  index +
+  ')" ' +
+  'class="danger">' +
+
+  '🗑️ DELETE' +
+
+  '</button>' +
+
+  '</div>';
 
  });
 }
@@ -976,7 +1524,8 @@ function loadAdminChat(){
 
 function deleteChat(index){
 
- let chats=getChat();
+ let chats =
+ getChat();
 
  chats.splice(index,1);
 
@@ -992,7 +1541,9 @@ function deleteChat(index){
 
 function clearChat(){
 
- if(!confirm("Clear the entire chat?"))
+ if(!confirm(
+  "Clear the entire chat?"
+ ))
  return;
 
  localStorage.removeItem("chat");
@@ -1004,18 +1555,26 @@ function clearChat(){
 
 function adminAnnouncement(){
 
- let message=prompt(
+ let message =
+ prompt(
   "📢 Admin announcement:"
  );
 
- if(!message)return;
+ if(!message)
+ return;
 
- let chats=getChat();
+ let chats =
+ getChat();
 
  chats.push({
+
   name:"👑 ADMIN",
+
   message:message,
-  time:new Date().toLocaleTimeString()
+
+  time:new Date()
+  .toLocaleTimeString()
+
  });
 
  localStorage.setItem(
@@ -1028,32 +1587,47 @@ function adminAnnouncement(){
 }
 
 
-/* ================= UPDATES ================= */
+/* ==================================================
+   UPDATES
+================================================== */
 
 function postUpdate(){
 
- let title=document.getElementById(
+ let title =
+ document.getElementById(
   "updateTitle"
  ).value.trim();
 
- let text=document.getElementById(
+ let text =
+ document.getElementById(
   "updateText"
  ).value.trim();
 
- if(!title||!text){
+ if(!title || !text){
 
-  alert("Enter a title and update.");
+  alert(
+   "Enter a title and update."
+  );
+
   return;
  }
 
- let updates=JSON.parse(
-  localStorage.getItem("updates")||"[]"
+ let updates =
+ JSON.parse(
+  localStorage.getItem(
+   "updates"
+  ) || "[]"
  );
 
  updates.unshift({
+
   title:title,
+
   text:text,
-  date:new Date().toLocaleDateString()
+
+  date:new Date()
+  .toLocaleDateString()
+
  });
 
  localStorage.setItem(
@@ -1061,8 +1635,13 @@ function postUpdate(){
   JSON.stringify(updates)
  );
 
- document.getElementById("updateTitle").value="";
- document.getElementById("updateText").value="";
+ document.getElementById(
+  "updateTitle"
+ ).value = "";
+
+ document.getElementById(
+  "updateText"
+ ).value = "";
 
  loadUpdates();
 
@@ -1072,34 +1651,58 @@ function postUpdate(){
 
 function loadUpdates(){
 
- let box=document.getElementById(
+ let box =
+ document.getElementById(
   "updateList"
  );
 
- if(!box)return;
+ if(!box)
+ return;
 
- let updates=JSON.parse(
-  localStorage.getItem("updates")||"[]"
+ let updates =
+ JSON.parse(
+  localStorage.getItem(
+   "updates"
+  ) || "[]"
  );
 
- box.innerHTML="";
+ box.innerHTML = "";
 
  if(!updates.length){
 
-  box.innerHTML=
-  "<div class='card'><h3>🚀 Catch The Square</h3><p>No updates yet.</p></div>";
+  box.innerHTML =
+
+  '<div class="card">' +
+
+  '<h3>🚀 Catch The Square</h3>' +
+
+  '<p>No updates yet.</p>' +
+
+  '</div>';
 
   return;
  }
 
- updates.forEach(u=>{
+ updates.forEach(function(u){
 
-  box.innerHTML+=
-  `<div class="card">
-   <h3>📢 ${safe(u.title)}</h3>
-   <p>${safe(u.text)}</p>
-   <p class="small">📅 ${safe(u.date)}</p>
-  </div>`;
+  box.innerHTML +=
+
+  '<div class="card">' +
+
+  '<h3>📢 ' +
+  safe(u.title) +
+  '</h3>' +
+
+  '<p>' +
+  safe(u.text) +
+  '</p>' +
+
+  '<p class="small">' +
+  '📅 ' +
+  safe(u.date) +
+  '</p>' +
+
+  '</div>';
 
  });
 }
@@ -1107,27 +1710,33 @@ function loadUpdates(){
 
 function clearUpdates(){
 
- if(!confirm("Delete all updates?"))
+ if(!confirm(
+  "Delete all updates?"
+ ))
  return;
 
- localStorage.removeItem("updates");
+ localStorage.removeItem(
+  "updates"
+ );
 
  loadUpdates();
 }
 
 
-/* ================= ADMIN ABUSE ================= */
+/* ==================================================
+   ADMIN ABUSE
+================================================== */
 
 function adminAbuse(){
 
  localStorage.setItem(
   "adminEvent",
-  "👑 ADMIN ABUSE IS LIVE!"
+  "LIVE"
  );
 
  document.getElementById(
   "eventStatus"
- ).textContent=
+ ).textContent =
  "Event: 🔥 LIVE";
 
  alert(
@@ -1144,7 +1753,7 @@ function endAdminAbuse(){
 
  document.getElementById(
   "eventStatus"
- ).textContent=
+ ).textContent =
  "Event: OFF";
 
  alert(
@@ -1153,29 +1762,34 @@ function endAdminAbuse(){
 }
 
 
-/* ================= ADMIN ================= */
+/* ==================================================
+   ADMIN
+================================================== */
 
 function openAdmin(){
 
- let pin=prompt(
+ let pin =
+ prompt(
   "🔐 Enter Admin PIN:"
  );
 
- if(pin==="2580"){
+ if(pin === "2580"){
 
   showScreen("admin");
 
-  let active=
-   localStorage.getItem("adminEvent");
+  let active =
+  localStorage.getItem(
+   "adminEvent"
+  );
 
   document.getElementById(
    "eventStatus"
-  ).textContent=
-   active
-   ?"Event: 🔥 LIVE"
-   :"Event: OFF";
+  ).textContent =
+  active
+  ? "Event: 🔥 LIVE"
+  : "Event: OFF";
 
- }else if(pin!==null){
+ }else if(pin !== null){
 
   alert("❌ WRONG PIN!");
 
@@ -1185,52 +1799,69 @@ function openAdmin(){
 
 function adminCoins(){
 
- coins+=100;
+ coins += 100;
 
  save();
 
- alert("🪙 +100 COINS!");
-
  updateMenus();
+
+ alert(
+  "🪙 +100 COINS!"
+ );
 }
 
 
 function adminResetScore(){
 
- if(!confirm("Reset high score?"))
+ if(!confirm(
+  "Reset high score?"
+ ))
  return;
 
- highScore=0;
+ highScore = 0;
 
  save();
 
  updateMenus();
 
- alert("🔄 HIGH SCORE RESET!");
+ alert(
+  "🔄 HIGH SCORE RESET!"
+ );
 }
 
 
-/* ================= LEADERBOARD ================= */
+/* ==================================================
+   LEADERBOARD
+================================================== */
 
 function getScores(){
 
  return JSON.parse(
-  localStorage.getItem("scores")||"[]"
+  localStorage.getItem(
+   "scores"
+  ) || "[]"
  );
 }
 
 
 function addScore(value){
 
- if(value<=0)return;
+ if(value <= 0)
+ return;
 
- let scores=getScores();
+ let scores =
+ getScores();
 
  scores.push(value);
 
- scores.sort((a,b)=>b-a);
+ scores.sort(
+  function(a,b){
+   return b-a;
+  }
+ );
 
- scores=scores.slice(0,10);
+ scores =
+ scores.slice(0,10);
 
  localStorage.setItem(
   "scores",
@@ -1245,110 +1876,153 @@ function saveScore(){
 
  renderLeaderboard();
 
- alert("🏆 Score saved!");
+ alert(
+  "🏆 Score saved!"
+ );
 }
 
 
 function renderLeaderboard(){
 
- let box=document.getElementById(
+ let box =
+ document.getElementById(
   "leaderboardList"
  );
 
- if(!box)return;
+ if(!box)
+ return;
 
- let scores=getScores();
+ let scores =
+ getScores();
 
- box.innerHTML="";
+ box.innerHTML = "";
 
  if(!scores.length){
 
-  box.innerHTML=
-  "<p class='small'>No scores yet.</p>";
+  box.innerHTML =
+  "<p class='small'>" +
+  "No scores yet." +
+  "</p>";
 
   return;
  }
 
- scores.forEach((s,i)=>{
+ scores.forEach(
+ function(s,i){
 
-  let medal=
-   i===0?"🥇":
-   i===1?"🥈":
-   i===2?"🥉":"🏆";
+  let medal =
+  i === 0 ? "🥇" :
+  i === 1 ? "🥈" :
+  i === 2 ? "🥉" :
+  "🏆";
 
-  box.innerHTML+=
-  `<div class="notice">
-   ${medal} #${i+1} — ${s} points
-  </div>`;
+  box.innerHTML +=
+
+  '<div class="notice">' +
+
+  medal +
+  " #" +
+  (i+1) +
+  " — " +
+  s +
+  " points" +
+
+  '</div>';
 
  });
 }
 
 
-/* ================= ACHIEVEMENTS ================= */
+/* ==================================================
+   ACHIEVEMENTS
+================================================== */
 
 function updateAchievements(){
 
- let played=
-  highScore>0;
+ let played =
+ highScore > 0;
 
- let combo10=
-  localStorage.getItem("combo10")==="yes";
+ let combo10 =
+ localStorage.getItem(
+  "combo10"
+ ) === "yes";
 
- document.getElementById("a1")
- .textContent=played?"✅":"🔒";
+ document.getElementById(
+  "a1"
+ ).textContent =
+ played ? "✅" : "🔒";
 
- document.getElementById("a2")
- .textContent=combo10?"✅":"🔒";
+ document.getElementById(
+  "a2"
+ ).textContent =
+ combo10 ? "✅" : "🔒";
 
- document.getElementById("a3")
- .textContent=coins>=100?"✅":"🔒";
+ document.getElementById(
+  "a3"
+ ).textContent =
+ coins >= 100 ? "✅" : "🔒";
 
- document.getElementById("a4")
- .textContent=level>=10?"✅":"🔒";
+ document.getElementById(
+  "a4"
+ ).textContent =
+ highScore >= 50 ? "✅" : "🔒";
 
- document.getElementById("m1")
- .textContent=played?"UNLOCKED":"LOCKED";
+ document.getElementById(
+  "m1"
+ ).textContent =
+ played ? "UNLOCKED" : "LOCKED";
 
- document.getElementById("m25")
- .textContent=highScore>=25?"UNLOCKED":"LOCKED";
+ document.getElementById(
+  "m25"
+ ).textContent =
+ highScore >= 25
+ ? "UNLOCKED"
+ : "LOCKED";
 
- document.getElementById("m10")
- .textContent=combo10?"UNLOCKED":"LOCKED";
+ document.getElementById(
+  "m10"
+ ).textContent =
+ combo10
+ ? "UNLOCKED"
+ : "LOCKED";
 
- document.getElementById("m250")
- .textContent=coins>=250?"UNLOCKED":"LOCKED";
+ document.getElementById(
+  "m250"
+ ).textContent =
+ coins >= 250
+ ? "UNLOCKED"
+ : "LOCKED";
 }
 
 
-/* ================= SAVE ================= */
+/* ==================================================
+   SAVE
+================================================== */
 
 function save(){
 
  localStorage.setItem(
-  "coins",coins
+  "coins",
+  coins
  );
 
  localStorage.setItem(
-  "highScore",highScore
+  "highScore",
+  highScore
  );
-
- if(combo>=10){
-
-  localStorage.setItem(
-   "combo10","yes"
-  );
- }
 }
 
 
-/* ================= RESET ================= */
+/* ==================================================
+   RESET
+================================================== */
 
 function resetData(){
 
  if(!confirm(
   "Erase all local game data?"
- ))return;
+ ))
+ return;
 
  localStorage.clear();
 
@@ -1356,19 +2030,26 @@ function resetData(){
 }
 
 
-/* ================= SAFE TEXT ================= */
+/* ==================================================
+   SAFE TEXT
+================================================== */
 
 function safe(text){
 
- let div=document.createElement("div");
+ let div =
+ document.createElement(
+  "div"
+ );
 
- div.textContent=text;
+ div.textContent = text;
 
  return div.innerHTML;
 }
 
 
-/* ================= STARTUP ================= */
+/* ==================================================
+   STARTUP
+================================================== */
 
 updateMenus();
 loadChat();
