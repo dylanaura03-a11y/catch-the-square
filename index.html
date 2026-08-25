@@ -2,953 +2,438 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta name="google-adsense-account" content="ca-pub-9731155253732713">
-
-<title>Catch The Square 2.0</title>
-
-<link rel="manifest" href="manifest.json">
-
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4QNHQQ50SF"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-
-function gtag(){
-    dataLayer.push(arguments);
-}
-
-gtag("js", new Date());
-gtag("config", "G-4QNHQQ50SF");
-</script>
-
-<!-- Google AdSense -->
-<script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9731155253732713"
-crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Catch The Square 3.0</title>
 
 <style>
-
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+ margin:0;
+ min-height:100vh;
+ background:radial-gradient(circle at top,#243c70,#070a12 60%);
+ color:white;
+ font-family:Arial,sans-serif;
+ text-align:center;
 }
-
-body {
-    margin: 0;
-    min-height: 100vh;
-    background:
-        radial-gradient(circle at top, #263d70, #080b16 55%, #030408);
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
+h1{font-size:42px;text-shadow:0 0 20px #00eaff}
+.screen{display:none}
+.screen.active{display:block}
+.panel{
+ width:min(950px,94%);
+ margin:20px auto;
+ padding:25px;
+ background:#0c1224ee;
+ border:2px solid #00eaff;
+ border-radius:20px;
+ box-shadow:0 0 30px #00eaff22;
 }
-
-h1 {
-    font-size: clamp(32px, 7vw, 60px);
-    margin: 20px 10px 5px;
-    text-shadow: 0 0 20px cyan;
+button{
+ border:0;
+ border-radius:12px;
+ padding:12px 18px;
+ margin:6px;
+ font-weight:bold;
+ cursor:pointer;
+ background:#00d9ff;
+ color:#001018;
 }
-
-.subtitle {
-    color: #aaa;
+button:hover{transform:scale(1.04)}
+.danger{background:#ff4265;color:white}
+.menuButton{display:block;width:min(380px,90%);margin:9px auto}
+.stats{
+ display:flex;
+ justify-content:center;
+ flex-wrap:wrap;
+ gap:8px;
 }
-
-.screen {
-    display: none;
+.stat{
+ background:#17203a;
+ padding:10px 15px;
+ border-radius:12px;
 }
-
-.screen.active {
-    display: block;
+#gameArea{
+ width:min(700px,95%);
+ height:430px;
+ margin:20px auto;
+ position:relative;
+ overflow:hidden;
+ border:3px solid #00eaff;
+ border-radius:18px;
+ background:#080d1c;
 }
-
-.panel {
-    width: min(950px, 94%);
-    margin: 20px auto;
-    padding: 25px;
-    border: 2px solid #4deaff;
-    border-radius: 20px;
-    background: rgba(10,15,30,.94);
-    box-shadow: 0 0 30px rgba(0,220,255,.2);
+#square{
+ position:absolute;
+ width:55px;
+ height:55px;
+ padding:0;
+ background:lime;
+ border:3px solid white;
+ border-radius:12px;
+ box-shadow:0 0 25px currentColor;
 }
-
-button {
-    padding: 13px 20px;
-    margin: 6px;
-    border: 0;
-    border-radius: 12px;
-    background: #18d8ff;
-    color: #001018;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    transition: .15s;
+#bonus{
+ display:none;
+ position:absolute;
+ width:52px;
+ height:52px;
+ padding:0;
+ border-radius:50%;
+ background:gold;
+ color:black;
 }
-
-button:hover {
-    transform: scale(1.05);
-    filter: brightness(1.15);
+.card{
+ display:inline-block;
+ vertical-align:top;
+ width:210px;
+ min-height:130px;
+ margin:7px;
+ padding:15px;
+ background:#151d36;
+ border-radius:15px;
 }
-
-button.danger {
-    background: #ff4d6d;
-    color: white;
+.notice{
+ margin:10px auto;
+ padding:15px;
+ max-width:700px;
+ background:#111a30;
+ border-radius:14px;
 }
-
-.menuButton {
-    display: block;
-    width: min(360px, 90%);
-    margin: 10px auto;
+input,textarea{
+ width:min(550px,90%);
+ padding:12px;
+ margin:6px;
+ border-radius:10px;
+ border:1px solid #00eaff;
+ background:#080d18;
+ color:white;
 }
-
-.stats {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
+textarea{height:110px}
+.small{color:#aaa}
+#gameOver{
+ display:none;
+ position:fixed;
+ z-index:99;
+ left:50%;
+ top:50%;
+ transform:translate(-50%,-50%);
+ width:min(430px,90%);
+ padding:30px;
+ background:#080b14;
+ border:3px solid #ff4265;
+ border-radius:20px;
 }
-
-.stat {
-    padding: 10px 14px;
-    background: #151d36;
-    border-radius: 12px;
+.chatBox{
+ height:300px;
+ overflow-y:auto;
+ text-align:left;
+ background:#080d1c;
+ padding:10px;
+ border-radius:12px;
 }
-
-#gameArea {
-    width: min(680px, 95vw);
-    height: min(430px, 62vh);
-    min-height: 290px;
-    margin: 20px auto;
-
-    position: relative;
-    overflow: hidden;
-
-    border: 3px solid #4deaff;
-    border-radius: 18px;
-
-    background:
-        linear-gradient(
-            rgba(255,255,255,.03) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.03) 1px,
-            transparent 1px
-        );
-
-    background-size: 30px 30px;
+.chatMsg{
+ padding:9px;
+ margin:5px 0;
+ background:#17203a;
+ border-radius:9px;
 }
-
-#square {
-    position: absolute;
-
-    width: 55px;
-    height: 55px;
-
-    border: 3px solid white;
-    border-radius: 12px;
-
-    background: lime;
-
-    cursor: pointer;
-
-    font-size: 11px;
-    font-weight: bold;
-
-    box-shadow: 0 0 25px currentColor;
-
-    transition:
-        left .12s,
-        top .12s,
-        transform .15s;
-}
-
-.pop {
-    animation: pop .18s;
-}
-
-@keyframes pop {
-
-    50% {
-        transform:
-            scale(1.35)
-            rotate(8deg);
-    }
-
-}
-
-#bonus {
-    display: none;
-
-    position: absolute;
-
-    width: 50px;
-    height: 50px;
-
-    border-radius: 50%;
-
-    border: 3px solid white;
-
-    background: gold;
-    color: black;
-
-    box-shadow: 0 0 25px gold;
-
-    animation: pulse .7s infinite alternate;
-}
-
-@keyframes pulse {
-
-    to {
-        transform: scale(1.15);
-    }
-
-}
-
-.card {
-    display: inline-block;
-    vertical-align: top;
-
-    width: 205px;
-    min-height: 145px;
-
-    margin: 7px;
-    padding: 15px;
-
-    background: #151d36;
-
-    border: 2px solid #35466e;
-
-    border-radius: 15px;
-}
-
-.notice {
-    padding: 15px;
-    margin: 10px auto;
-
-    max-width: 650px;
-
-    border-radius: 14px;
-
-    background: #10182b;
-}
-
-.small {
-    color: #aaa;
-}
-
-input,
-textarea {
-    width: min(500px, 90%);
-
-    padding: 12px;
-
-    margin: 6px;
-
-    border-radius: 10px;
-
-    border: 1px solid #4deaff;
-
-    background: #080d1b;
-
-    color: white;
-}
-
-textarea {
-    height: 110px;
-}
-
-#gameOver {
-
-    display: none;
-
-    position: fixed;
-
-    z-index: 100;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: min(430px, 90%);
-
-    padding: 30px;
-
-    border: 3px solid #ff4d6d;
-
-    border-radius: 20px;
-
-    background: #070910;
-
-    box-shadow:
-        0 0 50px
-        rgba(255,0,80,.4);
-}
-
-@media(max-width:600px) {
-
-    .panel {
-        padding: 15px;
-    }
-
-    button {
-        font-size: 15px;
-        padding: 11px 15px;
-    }
-
-    #gameArea {
-        height: 55vh;
-        min-height: 270px;
-    }
-
-    #square {
-        width: 50px;
-        height: 50px;
-    }
-
-}
-
 </style>
 </head>
 
 <body>
 
 <h1>🎮 CATCH THE SQUARE</h1>
+<p>3.0 • Catch it. Level up. Become the legend.</p>
 
-<p class="subtitle">
-2.0 • Catch it. Level up. Become the legend.
-</p>
-
-
-<!-- =========================
-     MAIN MENU
-========================= -->
+<!-- ================= MENU ================= -->
 
 <div id="menu" class="screen active">
-
 <div class="panel">
 
-<h2>🔥 MAIN MENU</h2>
+<button class="menuButton" onclick="startGame()">🎮 START GAME</button>
+<button class="menuButton" onclick="showScreen('shop')">🛒 SHOP</button>
+<button class="menuButton" onclick="showScreen('missions')">🎯 MISSIONS</button>
+<button class="menuButton" onclick="showScreen('achievements')">🏆 ACHIEVEMENTS</button>
+<button class="menuButton" onclick="showScreen('leaderboard')">🌍 LEADERBOARD</button>
+<button class="menuButton" onclick="showScreen('daily')">⚡ DAILY CHALLENGE</button>
+<button class="menuButton" onclick="showScreen('chat')">💬 CHAT</button>
+<button class="menuButton" onclick="showScreen('updates')">📰 UPDATES</button>
+<button class="menuButton" onclick="showScreen('settings')">⚙️ SETTINGS</button>
+<button class="menuButton" onclick="showScreen('howto')">📖 HOW TO PLAY</button>
+<button class="menuButton" onclick="toggleSupport()">💰 SUPPORT</button>
+<button class="menuButton" onclick="openAdmin()">👑 ADMIN PANEL</button>
 
-<button class="menuButton"
-onclick="startGame()">
-🎮 START GAME
-</button>
-
-<button class="menuButton"
-onclick="showScreen('shop')">
-🛒 SHOP
-</button>
-
-<button class="menuButton"
-onclick="showScreen('missions')">
-🎯 MISSIONS
-</button>
-
-<button class="menuButton"
-onclick="showScreen('achievements')">
-🏆 ACHIEVEMENTS
-</button>
-
-<button class="menuButton"
-onclick="showScreen('leaderboard')">
-🏆 LEADERBOARD
-</button>
-
-<button class="menuButton"
-onclick="showScreen('daily')">
-⚡ DAILY CHALLENGE
-</button>
-
-<button class="menuButton"
-onclick="showScreen('updates')">
-📰 UPDATES
-</button>
-
-<button class="menuButton"
-onclick="showScreen('settings')">
-⚙️ SETTINGS
-</button>
-
-<button class="menuButton"
-onclick="showScreen('howto')">
-📖 HOW TO PLAY
-</button>
-
-<button class="menuButton"
-onclick="toggleSupport()">
-💰 SUPPORT THE GAME
-</button>
-
-<button class="menuButton"
-onclick="openAdmin()">
-👑 ADMIN PANEL
-</button>
-
-
-<div id="supportBox"
-class="notice"
-style="display:none">
-
+<div id="support" class="notice" style="display:none">
 <h2>💰 Support Catch The Square</h2>
-
-<p>Want to support the game?</p>
-
-<p>
-Send your support through
-Pochi la Biashara.
-</p>
-
-<h3>
-📱 Pochi: 0700201218
-</h3>
-
-<p>
-Thank you for supporting
-Catch The Square! ❤️
-</p>
-
+<p>Pochi la Biashara</p>
+<h3>📱 0700201218</h3>
+<p>Thank you! ❤️</p>
 </div>
-
-
-<!-- ADSENSE -->
-
-<ins class="adsbygoogle"
-style="display:block"
-data-ad-client="ca-pub-9731155253732713"
-data-ad-slot="5442663781"
-data-ad-format="auto"
-data-full-width-responsive="true">
-</ins>
-
-<script>
-(adsbygoogle =
-window.adsbygoogle || []).push({});
-</script>
-
 
 <hr>
 
-<p>
-🪙 Coins:
-<b id="menuCoins">0</b>
-</p>
-
-<p>
-🏆 High Score:
-<b id="menuHigh">0</b>
-</p>
-
-<p>
-🔥 Streak:
-<b id="menuStreak">0</b>
-</p>
+<p>🪙 Coins: <b id="menuCoins">0</b></p>
+<p>🏆 High Score: <b id="menuHigh">0</b></p>
+<p>🔥 Streak: <b id="menuStreak">0</b></p>
 
 </div>
 </div>
 
 
-<!-- =========================
-     GAME
-========================= -->
+<!-- ================= GAME ================= -->
 
-<div id="gameScreen" class="screen">
-
+<div id="game" class="screen">
 <div class="panel">
 
 <div class="stats">
-
-<div class="stat">
-🏆 <b id="score">0</b>
+<div class="stat">🏆 <b id="score">0</b></div>
+<div class="stat">❤️ <b id="lives">3</b></div>
+<div class="stat">⭐ Level <b id="level">1</b></div>
+<div class="stat">⏱️ <b id="time">60</b></div>
+<div class="stat">🔥 x<b id="combo">0</b></div>
+<div class="stat">🪙 <b id="coins">0</b></div>
 </div>
 
-<div class="stat">
-❤️ <b id="lives">3</b>
-</div>
-
-<div class="stat">
-⭐ Level <b id="level">1</b>
-</div>
-
-<div class="stat">
-⏱️ <b id="time">60</b>
-</div>
-
-<div class="stat">
-🔥 x<b id="combo">0</b>
-</div>
-
-<div class="stat">
-🪙 <b id="coins">0</b>
-</div>
-
-</div>
-
-
-<p id="message">
-CATCH IT!
-</p>
-
+<h3 id="message">CATCH IT!</h3>
 
 <div id="gameArea">
-
-<button id="square"
-onclick="catchSquare()">
-CLICK!
-</button>
-
-<button id="bonus"
-onclick="catchBonus()">
-+5
-</button>
-
+<button id="square" onclick="catchSquare()">CLICK!</button>
+<button id="bonus" onclick="catchBonus()">+5</button>
 </div>
 
-
-<button onclick="buyLife()">
-❤️ EXTRA LIFE — 20 COINS
-</button>
-
-<button onclick="quitGame()">
-🏠 MENU
-</button>
+<button onclick="buyLife()">❤️ EXTRA LIFE — 20 COINS</button>
+<button onclick="quitGame()">🏠 MENU</button>
 
 </div>
 </div>
 
 
-<!-- =========================
-     SHOP
-========================= -->
+<!-- ================= SHOP ================= -->
 
 <div id="shop" class="screen">
+<div class="panel">
+<h2>🛒 SHOP</h2>
+<p>🪙 Coins: <b id="shopCoins">0</b></p>
 
+<div class="card">
+<h3>🌈 Rainbow</h3>
+<p>Changes colour.</p>
+<button onclick="buySkin('rainbow',50)">50 🪙</button>
+</div>
+
+<div class="card">
+<h3>🔥 Fire</h3>
+<p>Fiery square.</p>
+<button onclick="buySkin('fire',75)">75 🪙</button>
+</div>
+
+<div class="card">
+<h3>❄️ Ice</h3>
+<p>Icy square.</p>
+<button onclick="buySkin('ice',100)">100 🪙</button>
+</div>
+
+<div class="card">
+<h3>👑 Gold</h3>
+<p>Golden square.</p>
+<button onclick="buySkin('gold',150)">150 🪙</button>
+</div>
+
+<div class="card">
+<h3>🌌 Galaxy</h3>
+<p>Rare style.</p>
+<button onclick="buySkin('galaxy',250)">250 🪙</button>
+</div>
+
+<br>
+<button onclick="showScreen('menu')">🏠 BACK</button>
+</div>
+</div>
+
+
+<!-- ================= MISSIONS ================= -->
+
+<div id="missions" class="screen">
+<div class="panel">
+<h2>🎯 MISSIONS</h2>
+
+<p>🎯 First Catch — <b id="m1">LOCKED</b></p>
+<p>⭐ 25 Points — <b id="m25">LOCKED</b></p>
+<p>🔥 10 Combo — <b id="m10">LOCKED</b></p>
+<p>🪙 250 Coins — <b id="m250">LOCKED</b></p>
+<p>👹 Boss Round — <b id="mboss">COMING</b></p>
+
+<button onclick="showScreen('menu')">🏠 BACK</button>
+</div>
+</div>
+
+
+<!-- ================= ACHIEVEMENTS ================= -->
+
+<div id="achievements" class="screen">
+<div class="panel">
+<h2>🏆 ACHIEVEMENTS</h2>
+
+<p>🎯 First Catch — <b id="a1">🔒</b></p>
+<p>🔥 10 Combo — <b id="a2">🔒</b></p>
+<p>🪙 100 Coins — <b id="a3">🔒</b></p>
+<p>⭐ Level 10 — <b id="a4">🔒</b></p>
+<p>👹 Boss Slayer — <b id="a5">COMING</b></p>
+
+<button onclick="showScreen('menu')">🏠 BACK</button>
+</div>
+</div>
+
+
+<!-- ================= LEADERBOARD ================= -->
+
+<div id="leaderboard" class="screen">
+<div class="panel">
+<h2>🌍 LEADERBOARD</h2>
+<p class="small">Global connection can be added later.</p>
+
+<div id="leaderboardList"></div>
+
+<button onclick="saveScore()">➕ SAVE MY SCORE</button>
+<button onclick="showScreen('menu')">🏠 BACK</button>
+</div>
+</div>
+
+
+<!-- ================= DAILY ================= -->
+
+<div id="daily" class="screen">
+<div class="panel">
+<h2>⚡ DAILY CHALLENGE</h2>
+
+<div class="notice">
+<h3>45 SECOND RUSH</h3>
+<p>Get the highest score you can!</p>
+<h2>🎁 Reward: 25 🪙</h2>
+<p>Best: <b id="dailyBest">0</b></p>
+</div>
+
+<button onclick="startDaily()">⚡ PLAY</button>
+<button onclick="showScreen('menu')">🏠 BACK</button>
+</div>
+</div>
+
+
+<!-- ================= CHAT ================= -->
+
+<div id="chat" class="screen">
 <div class="panel">
 
-<h2>🛒 SHOP</h2>
+<h2>💬 CHAT</h2>
 
-<p>
-🪙 Coins:
-<b id="shopCoins">0</b>
+<p class="small">
+Chat with the Catch The Square community.
 </p>
 
+<div id="chatMessages" class="chatBox"></div>
 
-<div class="card">
-
-<h3>🌈 Rainbow</h3>
-
-<p>
-Colour changes every move.
-</p>
-
-<button onclick="buySkin('rainbow',50)">
-50 🪙
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h3>🔥 Fire</h3>
-
-<p>
-Fiery orange square.
-</p>
-
-<button onclick="buySkin('fire',75)">
-75 🪙
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h3>❄️ Ice</h3>
-
-<p>
-Icy blue square.
-</p>
-
-<button onclick="buySkin('ice',100)">
-100 🪙
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h3>👑 Gold</h3>
-
-<p>
-Golden square.
-</p>
-
-<button onclick="buySkin('gold',150)">
-150 🪙
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h3>🌌 Galaxy</h3>
-
-<p>
-Rare galaxy style.
-</p>
-
-<button onclick="buySkin('galaxy',250)">
-250 🪙
-</button>
-
-</div>
-
+<input id="chatName"
+maxlength="20"
+placeholder="Player name">
 
 <br>
 
-<button onclick="showScreen('menu')">
-🏠 BACK
-</button>
+<input id="chatInput"
+maxlength="150"
+placeholder="Type a message...">
+
+<br>
+
+<button onclick="sendChat()">💬 SEND</button>
+
+<button onclick="showScreen('menu')">🏠 BACK</button>
 
 </div>
 </div>
 
 
-<!-- =========================
-     MISSIONS
-========================= -->
-
-<div id="missions" class="screen">
-
-<div class="panel">
-
-<h2>🎯 MISSIONS</h2>
-
-<p>
-Catch your first square:
-<b id="mission1">LOCKED</b>
-</p>
-
-<p>
-Reach 25 points:
-<b id="mission25">LOCKED</b>
-</p>
-
-<p>
-Reach 50 points:
-<b id="mission50">LOCKED</b>
-</p>
-
-<p>
-Get a 10 combo:
-<b id="missionCombo">LOCKED</b>
-</p>
-
-<p>
-Collect 250 coins:
-<b id="missionCoins">LOCKED</b>
-</p>
-
-<button onclick="showScreen('menu')">
-🏠 BACK
-</button>
-
-</div>
-</div>
-
-
-<!-- =========================
-     ACHIEVEMENTS
-========================= -->
-
-<div id="achievements" class="screen">
-
-<div class="panel">
-
-<h2>🏆 ACHIEVEMENTS</h2>
-
-<p>
-🎯 First Catch —
-<b id="ach1">LOCKED</b>
-</p>
-
-<p>
-🔥 10 Combo —
-<b id="ach2">LOCKED</b>
-</p>
-
-<p>
-🪙 100 Coins —
-<b id="ach3">LOCKED</b>
-</p>
-
-<p>
-⭐ Reach Level 10 —
-<b id="ach4">LOCKED</b>
-</p>
-
-<p>
-⚡ 5-Day Streak —
-<b id="ach5">LOCKED</b>
-</p>
-
-<button onclick="showScreen('menu')">
-🏠 BACK
-</button>
-
-</div>
-</div>
-
-
-<!-- =========================
-     LEADERBOARD
-========================= -->
-
-<div id="leaderboard" class="screen">
-
-<div class="panel">
-
-<h2>🏆 LEADERBOARD</h2>
-
-<p class="small">
-Top scores saved on this device.
-</p>
-
-<div id="leaderboardList">
-</div>
-
-<button onclick="saveHighScore()">
-➕ SAVE MY HIGH SCORE
-</button>
-
-<button onclick="showScreen('menu')">
-🏠 BACK
-</button>
-
-</div>
-</div>
-
-
-<!-- =========================
-     DAILY
-========================= -->
-
-<div id="daily" class="screen">
-
-<div class="panel">
-
-<h2>
-⚡ DAILY CHALLENGE
-</h2>
-
-<div class="notice">
-
-<h3>
-45 SECOND RUSH
-</h3>
-
-<p>
-Score as many points as possible
-before time runs out!
-</p>
-
-<h2>
-🎁 REWARD: 25 🪙
-</h2>
-
-<p>
-Today's best:
-<b id="dailyBest">0</b>
-</p>
-
-</div>
-
-<button onclick="startDaily()">
-⚡ PLAY DAILY CHALLENGE
-</button>
-
-<button onclick="showScreen('menu')">
-🏠 BACK
-</button>
-
-</div>
-</div>
-
-
-<!-- =========================
-     UPDATES
-========================= -->
+<!-- ================= UPDATES ================= -->
 
 <div id="updates" class="screen">
-
 <div class="panel">
 
 <h2>📰 UPDATES</h2>
 
-<div id="updateList">
-</div>
+<div id="updateList"></div>
 
-<button onclick="showScreen('menu')">
-🏠 BACK
-</button>
+<button onclick="showScreen('menu')">🏠 BACK</button>
 
 </div>
 </div>
 
 
-<!-- =========================
-     SETTINGS
-========================= -->
+<!-- ================= SETTINGS ================= -->
 
 <div id="settings" class="screen">
-
 <div class="panel">
 
 <h2>⚙️ SETTINGS</h2>
 
-<p>
-Choose difficulty:
+<button onclick="setDifficulty('easy')">EASY</button>
+<button onclick="setDifficulty('normal')">NORMAL</button>
+<button onclick="setDifficulty('hard')">HARD</button>
+
+<p>Difficulty:
+<b id="difficultyText">NORMAL</b>
 </p>
 
-<button onclick="setDifficulty('easy')">
-EASY
-</button>
-
-<button onclick="setDifficulty('normal')">
-NORMAL
-</button>
-
-<button onclick="setDifficulty('hard')">
-HARD
-</button>
-
-<p>
-Current:
-<b id="difficultyText">
-NORMAL
-</b>
-</p>
-
-
-<button onclick="toggleSound()">
-🔊 SOUND:
-<b id="soundText">
-ON
-</b>
-</button>
-
-
-<button class="danger"
-onclick="resetData()">
+<button onclick="resetData()" class="danger">
 🗑️ RESET LOCAL DATA
 </button>
 
-
-<button onclick="showScreen('menu')">
-🏠 BACK
-</button>
+<button onclick="showScreen('menu')">🏠 BACK</button>
 
 </div>
 </div>
 
 
-<!-- =========================
-     HOW TO
-========================= -->
+<!-- ================= HOW TO ================= -->
 
 <div id="howto" class="screen">
-
 <div class="panel">
 
-<h2>
-📖 HOW TO PLAY
-</h2>
+<h2>📖 HOW TO PLAY</h2>
 
-<p>
-🟩 Click the square to score.
-</p>
+<p>🟩 Catch the square.</p>
+<p>❤️ Don't miss too many times.</p>
+<p>🔥 Build combos.</p>
+<p>🪙 Earn coins.</p>
+<p>⭐ Level up.</p>
+<p>👹 Boss Rounds are coming.</p>
+<p>👑 Admin Abuse events are coming.</p>
 
-<p>
-💨 The square moves automatically.
-</p>
-
-<p>
-❤️ Missing it costs a life.
-</p>
-
-<p>
-⭐ Every 5 points increases your level.
-</p>
-
-<p>
-🔥 Keep catching for combos.
-</p>
-
-<p>
-⭐ Gold bonus gives +5 points
-and +10 coins.
-</p>
-
-<p>
-🛒 Spend coins in the shop.
-</p>
-
-<p>
-⚡ Complete daily challenges
-for bonus rewards.
-</p>
-
-<button onclick="showScreen('menu')">
-🏠 BACK
-</button>
+<button onclick="showScreen('menu')">🏠 BACK</button>
 
 </div>
 </div>
 
 
-<!-- =========================
-     ADMIN
-========================= -->
+<!-- ================= ADMIN ================= -->
 
 <div id="admin" class="screen">
-
 <div class="panel">
 
-<h2>
-👑 ADMIN PANEL
-</h2>
+<h2>👑 ADMIN PANEL</h2>
 
 <div class="notice">
-
-⚠️ This is a LOCAL admin panel.
-The PIN is not secure authentication
-for a real online game.
-
+⚠️ Local testing admin panel.
+This PIN is not secure online authentication.
 </div>
 
 
-<h3>
-📢 POST UPDATE
-</h3>
+<h3>📢 UPDATES</h3>
 
-<input
-id="adminUpdateTitle"
-type="text"
-placeholder="Update title"
->
+<input id="updateTitle"
+placeholder="Update title">
 
 <br>
 
-<textarea
-id="adminUpdateText"
-placeholder="Write your update..."
-></textarea>
+<textarea id="updateText"
+placeholder="Write update..."></textarea>
 
 <br>
 
@@ -956,9 +441,7 @@ placeholder="Write your update..."
 📢 POST UPDATE
 </button>
 
-<button
-class="danger"
-onclick="clearUpdates()">
+<button onclick="clearUpdates()" class="danger">
 🗑️ CLEAR UPDATES
 </button>
 
@@ -966,27 +449,48 @@ onclick="clearUpdates()">
 <hr>
 
 
-<h3>
-🎮 ADMIN ACTIONS
-</h3>
+<h3>💬 GLOBAL CHAT MANAGEMENT</h3>
 
-<button onclick="adminCoins()">
-🪙 +100 COINS
+<div id="adminChat" class="chatBox"></div>
+
+<button onclick="adminAnnouncement()">
+📢 SEND ADMIN ANNOUNCEMENT
 </button>
 
-<button onclick="adminScore()">
-🏆 ADD TEST SCORE
-</button>
-
-<button onclick="adminResetScore()">
-🔄 RESET HIGH SCORE
+<button onclick="clearChat()" class="danger">
+🗑️ CLEAR CHAT
 </button>
 
 
 <hr>
 
-<button onclick="showScreen('updates')">
-📰 VIEW UPDATES
+
+<h3>👹 ADMIN ABUSE</h3>
+
+<button onclick="adminAbuse()">
+👑 START ADMIN ABUSE
+</button>
+
+<button onclick="endAdminAbuse()">
+🛑 END EVENT
+</button>
+
+<p id="eventStatus">
+Event: OFF
+</p>
+
+
+<hr>
+
+
+<h3>🎮 ADMIN ACTIONS</h3>
+
+<button onclick="adminCoins()">
+🪙 +100 COINS
+</button>
+
+<button onclick="adminResetScore()">
+🔄 RESET HIGH SCORE
 </button>
 
 <button onclick="showScreen('menu')">
@@ -997,47 +501,22 @@ onclick="clearUpdates()">
 </div>
 
 
-<!-- =========================
-     GAME OVER
-========================= -->
+<!-- ================= GAME OVER ================= -->
 
 <div id="gameOver">
 
-<h2>
-💀 GAME OVER
-</h2>
+<h2>💀 GAME OVER</h2>
 
-<p>
-FINAL SCORE
-</p>
+<h1 id="finalScore">0</h1>
 
-<h1 id="finalScore">
-0
-</h1>
-
-<p>
-Level:
-<b id="finalLevel">
-1
-</b>
-</p>
-
-<p>
-High Score:
-<b id="finalHigh">
-0
-</b>
-</p>
-
-<h3 id="newRecord">
-</h3>
+<p>High Score: <b id="finalHigh">0</b></p>
 
 <button onclick="closeGameOver();startGame()">
 🔄 PLAY AGAIN
 </button>
 
 <button onclick="closeGameOver();showScreen('menu')">
-🏠 MAIN MENU
+🏠 MENU
 </button>
 
 </div>
@@ -1045,1699 +524,857 @@ High Score:
 
 <script>
 
-/* =========================
-   SAVED DATA
-========================= */
+/* ================= DATA ================= */
 
-var coins =
-Number(localStorage.getItem("coins") || 0);
+let coins=Number(localStorage.getItem("coins")||0);
+let highScore=Number(localStorage.getItem("highScore")||0);
+let streak=Number(localStorage.getItem("streak")||0);
 
-var highScore =
-Number(localStorage.getItem("highScore") || 0);
+let score=0;
+let lives=3;
+let level=1;
+let time=60;
+let combo=0;
+let playing=false;
+let daily=false;
 
-var skin =
-localStorage.getItem("skin") || "normal";
-
-var difficulty =
-localStorage.getItem("difficulty") || "normal";
-
-var soundEnabled =
-localStorage.getItem("soundEnabled") !== "off";
-
-var streak =
-Number(localStorage.getItem("streak") || 0);
+let moveTimer;
+let gameTimer;
+let bonusTimer;
 
 
-/* =========================
-   GAME VARIABLES
-========================= */
+/* ================= SCREEN ================= */
 
-var score = 0;
+function showScreen(id){
 
-var lives = 3;
+ document.querySelectorAll(".screen")
+ .forEach(s=>s.classList.remove("active"));
 
-var level = 1;
+ document.getElementById(id)
+ .classList.add("active");
 
-var time = 60;
+ updateMenus();
 
-var combo = 0;
-
-var playing = false;
-
-var dailyMode = false;
-
-var moveTimer = null;
-
-var gameTimer = null;
-
-var bonusTimer = null;
-
-var audioContext = null;
-
-
-/* =========================
-   SCREENS
-========================= */
-
-function showScreen(id) {
-
-    var screens =
-        document.getElementsByClassName("screen");
-
-    for (
-        var i = 0;
-        i < screens.length;
-        i++
-    ) {
-
-        screens[i]
-        .classList
-        .remove("active");
-
-    }
-
-    document
-    .getElementById(id)
-    .classList
-    .add("active");
-
-    updateMenus();
-
-    loadUpdates();
-
-    renderLeaderboard();
-
-    updateDaily();
-
+ loadChat();
+ loadAdminChat();
+ loadUpdates();
+ renderLeaderboard();
 }
 
 
-/* =========================
-   SUPPORT
-========================= */
+/* ================= MENU ================= */
 
-function toggleSupport() {
+function updateMenus(){
 
-    var box =
-    document.getElementById("supportBox");
+ document.getElementById("menuCoins").textContent=coins;
+ document.getElementById("menuHigh").textContent=highScore;
+ document.getElementById("menuStreak").textContent=streak;
 
-    if (
-        box.style.display === "none"
-    ) {
+ let shop=document.getElementById("shopCoins");
+ if(shop)shop.textContent=coins;
 
-        box.style.display = "block";
-
-    } else {
-
-        box.style.display = "none";
-
-    }
-
+ updateAchievements();
 }
 
 
-/* =========================
-   SOUND
-========================= */
+/* ================= SUPPORT ================= */
 
-function sound(
-    frequency,
-    duration
-) {
+function toggleSupport(){
 
-    if (!soundEnabled) return;
+ let x=document.getElementById("support");
 
-    try {
-
-        if (!audioContext) {
-
-            audioContext =
-            new (
-                window.AudioContext ||
-                window.webkitAudioContext
-            )();
-
-        }
-
-        var oscillator =
-        audioContext.createOscillator();
-
-        var gain =
-        audioContext.createGain();
-
-        oscillator.frequency.value =
-        frequency;
-
-        oscillator.connect(gain);
-
-        gain.connect(
-            audioContext.destination
-        );
-
-        gain.gain.value = .06;
-
-        oscillator.start();
-
-        oscillator.stop(
-            audioContext.currentTime +
-            duration
-        );
-
-    } catch(e) {}
-
+ x.style.display=
+ x.style.display==="none"
+ ?"block":"none";
 }
 
 
-/* =========================
-   START GAME
-========================= */
+/* ================= GAME ================= */
 
-function startGame() {
+function startGame(){
 
-    dailyMode = false;
-
-    beginGame(60);
-
+ daily=false;
+ beginGame(60);
 }
 
 
-function startDaily() {
+function startDaily(){
 
-    dailyMode = true;
-
-    beginGame(45);
-
+ daily=true;
+ beginGame(45);
 }
 
 
-function beginGame(seconds) {
+function beginGame(seconds){
 
-    clearTimers();
+ clearTimers();
 
-    score = 0;
+ score=0;
+ combo=0;
+ level=1;
+ time=seconds;
 
-    combo = 0;
+ lives=3;
 
-    level = 1;
+ playing=true;
 
-    time = seconds;
+ showScreen("game");
 
+ updateGame();
 
-    if (
-        difficulty === "easy"
-    ) {
+ moveSquare();
 
-        lives = 5;
+ gameTimer=setInterval(()=>{
 
-    }
+  time--;
 
-    else if (
-        difficulty === "hard"
-    ) {
+  updateGame();
 
-        lives = 2;
+  if(time<=0)endGame();
 
-    }
+ },1000);
 
-    else {
+ moveTimer=setInterval(()=>{
 
-        lives = 3;
+  if(!playing)return;
 
-    }
+  moveSquare();
+  lives--;
 
+  combo=0;
 
-    playing = true;
+  updateGame();
 
-    showScreen("gameScreen");
+  if(lives<=0)endGame();
 
-    updateStats();
+ },1000);
 
-    moveSquare();
-
-    startMovement();
-
-
-    gameTimer =
-    setInterval(function() {
-
-        time--;
-
-        updateStats();
-
-        if (time <= 0) {
-
-            endGame();
-
-        }
-
-    },1000);
-
-
-    bonusTimer =
-    setInterval(
-        showBonus,
-        7000
-    );
-
-
-    message(
-        dailyMode
-        ? "⚡ DAILY CHALLENGE!"
-        : "GO! 🎮"
-    );
-
-    sound(600,.1);
-
+ bonusTimer=setInterval(showBonus,7000);
 }
 
 
-/* =========================
-   TIMERS
-========================= */
+/* ================= MOVE ================= */
 
-function clearTimers() {
+function moveSquare(){
 
-    clearInterval(moveTimer);
+ if(!playing)return;
 
-    clearInterval(gameTimer);
+ let area=document.getElementById("gameArea");
+ let square=document.getElementById("square");
 
-    clearInterval(bonusTimer);
+ let x=Math.random()*
+ (area.clientWidth-square.offsetWidth);
 
+ let y=Math.random()*
+ (area.clientHeight-square.offsetHeight);
+
+ square.style.left=x+"px";
+ square.style.top=y+"px";
 }
 
 
-/* =========================
-   MOVEMENT
-========================= */
+function catchSquare(){
 
-function startMovement() {
+ if(!playing)return;
 
-    clearInterval(moveTimer);
+ score++;
+ combo++;
+ coins++;
 
-    var speed = 1000;
+ level=Math.floor(score/5)+1;
 
+ if(combo%5===0){
+  coins+=5;
+ }
 
-    if (
-        difficulty === "easy"
-    ) {
+ moveSquare();
 
-        speed = 1500;
-
-    }
-
-
-    if (
-        difficulty === "hard"
-    ) {
-
-        speed = 650;
-
-    }
-
-
-    moveTimer =
-    setInterval(function() {
-
-        if (!playing) return;
-
-        moveSquare();
-
-        loseLife();
-
-    },speed);
-
+ updateGame();
 }
 
 
-function moveSquare() {
+function showBonus(){
 
-    if (!playing) return;
+ if(!playing)return;
 
+ let b=document.getElementById("bonus");
+ let area=document.getElementById("gameArea");
 
-    var square =
-    document.getElementById(
-        "square"
-    );
+ b.style.left=
+ Math.random()*(area.clientWidth-55)+"px";
 
-    var area =
-    document.getElementById(
-        "gameArea"
-    );
+ b.style.top=
+ Math.random()*(area.clientHeight-55)+"px";
 
+ b.style.display="block";
 
-    var maxX =
-    area.clientWidth -
-    square.offsetWidth;
-
-    var maxY =
-    area.clientHeight -
-    square.offsetHeight;
-
-
-    var x =
-    Math.floor(
-        Math.random() *
-        Math.max(1,maxX)
-    );
-
-
-    var y =
-    Math.floor(
-        Math.random() *
-        Math.max(1,maxY)
-    );
-
-
-    square.style.left =
-    x + "px";
-
-    square.style.top =
-    y + "px";
-
-
-    square.classList.remove(
-        "pop"
-    );
-
-    void square.offsetWidth;
-
-    square.classList.add(
-        "pop"
-    );
-
-
-    if (
-        skin === "rainbow"
-    ) {
-
-        var colors = [
-            "red",
-            "orange",
-            "yellow",
-            "lime",
-            "cyan",
-            "blue",
-            "magenta"
-        ];
-
-        square.style.background =
-        colors[
-            Math.floor(
-                Math.random() *
-                colors.length
-            )
-        ];
-
-    }
-
-    else if (
-        skin === "fire"
-    ) {
-
-        square.style.background =
-        "orange";
-
-    }
-
-    else if (
-        skin === "ice"
-    ) {
-
-        square.style.background =
-        "cyan";
-
-    }
-
-    else if (
-        skin === "gold"
-    ) {
-
-        square.style.background =
-        "gold";
-
-    }
-
-    else if (
-        skin === "galaxy"
-    ) {
-
-        square.style.background =
-        "#b66cff";
-
-    }
-
-    else {
-
-        square.style.background =
-        "lime";
-
-    }
-
+ setTimeout(()=>{
+  b.style.display="none";
+ },3500);
 }
 
 
-/* =========================
-   CATCH
-========================= */
+function catchBonus(){
 
-function catchSquare() {
+ if(!playing)return;
 
-    if (!playing) return;
+ score+=5;
+ coins+=10;
+ combo+=2;
 
+ document.getElementById("bonus")
+ .style.display="none";
 
-    score++;
-
-    combo++;
-
-    coins++;
-
-
-    level =
-    Math.floor(score / 5) + 1;
-
-
-    if (
-        combo % 5 === 0
-    ) {
-
-        coins += 5;
-
-        message(
-            "🔥 COMBO BONUS! x" +
-            combo
-        );
-
-        sound(900,.15);
-
-    }
-
-    else {
-
-        message(
-            "NICE! 🔥 x" +
-            combo
-        );
-
-    }
-
-
-    sound(
-        500 + combo * 20,
-        .08
-    );
-
-
-    moveSquare();
-
-    updateStats();
-
+ updateGame();
 }
 
 
-/* =========================
-   MISS
-========================= */
+/* ================= GAME UPDATE ================= */
 
-function loseLife() {
+function updateGame(){
 
-    lives--;
+ document.getElementById("score").textContent=score;
+ document.getElementById("lives").textContent=lives;
+ document.getElementById("level").textContent=level;
+ document.getElementById("time").textContent=time;
+ document.getElementById("combo").textContent=combo;
+ document.getElementById("coins").textContent=coins;
 
-    combo = 0;
-
-    message(
-        "❌ MISSED!"
-    );
-
-    sound(180,.12);
-
-    updateStats();
-
-
-    if (
-        lives <= 0
-    ) {
-
-        endGame();
-
-    }
-
+ save();
 }
 
 
-/* =========================
-   BONUS
-========================= */
+function endGame(){
 
-function showBonus() {
+ if(!playing)return;
 
-    if (!playing) return;
+ playing=false;
 
+ clearTimers();
 
-    var bonus =
-    document.getElementById(
-        "bonus"
-    );
+ if(score>highScore)
+  highScore=score;
 
-    var area =
-    document.getElementById(
-        "gameArea"
-    );
+ if(daily){
 
+  let best=Number(
+   localStorage.getItem("dailyBest")||0
+  );
 
-    bonus.style.left =
-    Math.floor(
-        Math.random() *
-        Math.max(
-            1,
-            area.clientWidth - 55
-        )
-    ) + "px";
+  if(score>best){
 
+   localStorage.setItem(
+    "dailyBest",score
+   );
 
-    bonus.style.top =
-    Math.floor(
-        Math.random() *
-        Math.max(
-            1,
-            area.clientHeight - 55
-        )
-    ) + "px";
+   coins+=25;
+  }
+ }
 
+ save();
 
-    bonus.style.display =
-    "block";
+ document.getElementById("finalScore")
+ .textContent=score;
 
+ document.getElementById("finalHigh")
+ .textContent=highScore;
 
-    setTimeout(function() {
+ document.getElementById("gameOver")
+ .style.display="block";
 
-        bonus.style.display =
-        "none";
-
-    },4000);
-
+ addScore(score);
 }
 
 
-function catchBonus() {
+function closeGameOver(){
 
-    if (!playing) return;
-
-
-    score += 5;
-
-    coins += 10;
-
-    combo += 2;
-
-
-    level =
-    Math.floor(score / 5) + 1;
-
-
-    document
-    .getElementById("bonus")
-    .style.display =
-    "none";
-
-
-    message(
-        "⭐ BONUS! +5!"
-    );
-
-    sound(1000,.2);
-
-    updateStats();
-
+ document.getElementById("gameOver")
+ .style.display="none";
 }
 
 
-/* =========================
-   EXTRA LIFE
-========================= */
+function quitGame(){
 
-function buyLife() {
-
-    if (!playing) return;
-
-
-    if (coins < 20) {
-
-        message(
-            "❌ NEED 20 COINS!"
-        );
-
-        return;
-
-    }
-
-
-    coins -= 20;
-
-    lives++;
-
-
-    message(
-        "❤️ EXTRA LIFE!"
-    );
-
-    sound(700,.1);
-
-    updateStats();
-
+ playing=false;
+ clearTimers();
+ showScreen("menu");
 }
 
 
-/* =========================
-   GAME OVER
-========================= */
+function clearTimers(){
 
-function endGame() {
-
-    if (!playing) return;
-
-
-    playing = false;
-
-    clearTimers();
-
-
-    document
-    .getElementById("bonus")
-    .style.display =
-    "none";
-
-
-    var newRecord = false;
-
-
-    if (
-        score > highScore
-    ) {
-
-        highScore = score;
-
-        newRecord = true;
-
-    }
-
-
-    if (
-        dailyMode
-    ) {
-
-        var best =
-        Number(
-            localStorage.getItem(
-                "dailyBest"
-            ) || 0
-        );
-
-
-        if (
-            score > best
-        ) {
-
-            localStorage.setItem(
-                "dailyBest",
-                score
-            );
-
-            coins += 25;
-
-        }
-
-    }
-
-
-    save();
-
-
-    document
-    .getElementById(
-        "finalScore"
-    )
-    .textContent =
-    score;
-
-
-    document
-    .getElementById(
-        "finalLevel"
-    )
-    .textContent =
-    level;
-
-
-    document
-    .getElementById(
-        "finalHigh"
-    )
-    .textContent =
-    highScore;
-
-
-    document
-    .getElementById(
-        "newRecord"
-    )
-    .textContent =
-    newRecord
-    ? "🏆 NEW HIGH SCORE!"
-    : "";
-
-
-    document
-    .getElementById(
-        "gameOver"
-    )
-    .style.display =
-    "block";
-
-
-    addLeaderboardScore(
-        score
-    );
-
-
-    sound(120,.3);
-
+ clearInterval(moveTimer);
+ clearInterval(gameTimer);
+ clearInterval(bonusTimer);
 }
 
 
-/* =========================
-   CLOSE GAME OVER
-========================= */
+/* ================= LIFE ================= */
 
-function closeGameOver() {
+function buyLife(){
 
-    document
-    .getElementById(
-        "gameOver"
-    )
-    .style.display =
-    "none";
+ if(coins<20){
 
+  alert("You need 20 coins!");
+  return;
+ }
+
+ coins-=20;
+ lives++;
+
+ updateGame();
 }
 
 
-/* =========================
-   QUIT
-========================= */
+/* ================= SHOP ================= */
 
-function quitGame() {
+function buySkin(name,cost){
 
-    playing = false;
+ if(coins<cost){
 
-    clearTimers();
+  alert("Not enough coins!");
+  return;
+ }
 
-    showScreen("menu");
+ coins-=cost;
 
+ localStorage.setItem("skin",name);
+
+ save();
+
+ alert(
+  name.toUpperCase()+" SKIN EQUIPPED!"
+ );
 }
 
 
-/* =========================
-   STATS
-========================= */
+/* ================= SETTINGS ================= */
 
-function updateStats() {
+function setDifficulty(value){
 
-    document
-    .getElementById("score")
-    .textContent =
-    score;
+ localStorage.setItem(
+  "difficulty",value
+ );
 
-
-    document
-    .getElementById("lives")
-    .textContent =
-    lives;
-
-
-    document
-    .getElementById("level")
-    .textContent =
-    level;
-
-
-    document
-    .getElementById("time")
-    .textContent =
-    time;
-
-
-    document
-    .getElementById("combo")
-    .textContent =
-    combo;
-
-
-    document
-    .getElementById("coins")
-    .textContent =
-    coins;
-
-
-    save();
-
-    updateAchievements();
-
+ document.getElementById(
+  "difficultyText"
+ ).textContent=value.toUpperCase();
 }
 
 
-/* =========================
-   MESSAGE
-========================= */
+/* ================= CHAT ================= */
 
-function message(text) {
+function getChat(){
 
-    document
-    .getElementById("message")
-    .textContent =
-    text;
-
+ return JSON.parse(
+  localStorage.getItem("chat")||"[]"
+ );
 }
 
 
-/* =========================
-   SHOP
-========================= */
+function sendChat(){
 
-function buySkin(
-    name,
-    price
-) {
+ let name=document.getElementById("chatName")
+ .value.trim();
 
-    if (
-        coins < price
-    ) {
+ let message=document.getElementById("chatInput")
+ .value.trim();
 
-        alert(
-            "You need " +
-            price +
-            " coins."
-        );
+ if(!name||!message){
 
-        return;
+  alert("Enter your name and message.");
+  return;
+ }
 
-    }
+ let chats=getChat();
 
+ chats.push({
+  name:name,
+  message:message,
+  time:new Date().toLocaleTimeString()
+ });
 
-    coins -= price;
+ chats=chats.slice(-50);
 
-    skin = name;
+ localStorage.setItem(
+  "chat",
+  JSON.stringify(chats)
+ );
 
+ document.getElementById(
+  "chatInput"
+ ).value="";
 
-    localStorage.setItem(
-        "skin",
-        skin
-    );
-
-
-    save();
-
-    updateMenus();
-
-
-    alert(
-        "🎉 " +
-        name.toUpperCase() +
-        " SKIN EQUIPPED!"
-    );
-
+ loadChat();
+ loadAdminChat();
 }
 
 
-/* =========================
-   SETTINGS
-========================= */
+function loadChat(){
 
-function setDifficulty(
-    value
-) {
+ let box=document.getElementById(
+  "chatMessages"
+ );
 
-    difficulty = value;
+ if(!box)return;
 
+ let chats=getChat();
 
-    localStorage.setItem(
-        "difficulty",
-        value
-    );
+ box.innerHTML="";
 
+ if(!chats.length){
 
-    document
-    .getElementById(
-        "difficultyText"
-    )
-    .textContent =
-    value.toUpperCase();
+  box.innerHTML=
+  "<p class='small'>💬 No messages yet.</p>";
 
+  return;
+ }
+
+ chats.forEach(c=>{
+
+  box.innerHTML+=
+  `<div class="chatMsg">
+   <b>👤 ${safe(c.name)}</b>
+   <span class="small">${safe(c.time)}</span>
+   <br>
+   ${safe(c.message)}
+  </div>`;
+
+ });
 }
 
 
-function toggleSound() {
+function loadAdminChat(){
 
-    soundEnabled =
-    !soundEnabled;
+ let box=document.getElementById(
+  "adminChat"
+ );
 
+ if(!box)return;
 
-    localStorage.setItem(
-        "soundEnabled",
-        soundEnabled
-        ? "on"
-        : "off"
-    );
+ let chats=getChat();
 
+ box.innerHTML="";
 
-    document
-    .getElementById(
-        "soundText"
-    )
-    .textContent =
-    soundEnabled
-    ? "ON"
-    : "OFF";
+ chats.forEach((c,i)=>{
 
+  box.innerHTML+=
+  `<div class="chatMsg">
+   <b>${safe(c.name)}</b>
+   <span class="small">${safe(c.time)}</span>
+   <br>${safe(c.message)}
+   <br>
+   <button onclick="deleteChat(${i})"
+   class="danger">
+   🗑️ DELETE
+   </button>
+  </div>`;
+
+ });
 }
 
 
-/* =========================
-   SAVE
-========================= */
+function deleteChat(index){
 
-function save() {
+ let chats=getChat();
 
-    localStorage.setItem(
-        "coins",
-        coins
-    );
+ chats.splice(index,1);
 
-    localStorage.setItem(
-        "highScore",
-        highScore
-    );
+ localStorage.setItem(
+  "chat",
+  JSON.stringify(chats)
+ );
 
-
-    if (
-        score >= 1
-    ) {
-
-        localStorage.setItem(
-            "everPlayed",
-            "yes"
-        );
-
-    }
-
-
-    if (
-        combo >= 10
-    ) {
-
-        localStorage.setItem(
-            "combo10",
-            "yes"
-        );
-
-    }
-
+ loadChat();
+ loadAdminChat();
 }
 
 
-/* =========================
-   MENU
-========================= */
+function clearChat(){
 
-function updateMenus() {
+ if(!confirm("Clear the entire chat?"))
+ return;
 
-    document
-    .getElementById(
-        "menuCoins"
-    )
-    .textContent =
-    coins;
+ localStorage.removeItem("chat");
 
-
-    document
-    .getElementById(
-        "menuHigh"
-    )
-    .textContent =
-    highScore;
-
-
-    document
-    .getElementById(
-        "shopCoins"
-    )
-    .textContent =
-    coins;
-
-
-    document
-    .getElementById(
-        "menuStreak"
-    )
-    .textContent =
-    streak;
-
-
-    document
-    .getElementById(
-        "difficultyText"
-    )
-    .textContent =
-    difficulty.toUpperCase();
-
-
-    document
-    .getElementById(
-        "soundText"
-    )
-    .textContent =
-    soundEnabled
-    ? "ON"
-    : "OFF";
-
-
-    updateAchievements();
-
+ loadChat();
+ loadAdminChat();
 }
 
 
-/* =========================
-   ACHIEVEMENTS
-========================= */
+function adminAnnouncement(){
 
-function updateAchievements() {
+ let message=prompt(
+  "📢 Admin announcement:"
+ );
 
-    var first =
-    localStorage.getItem(
-        "everPlayed"
-    ) === "yes";
+ if(!message)return;
 
+ let chats=getChat();
 
-    var combo10 =
-    localStorage.getItem(
-        "combo10"
-    ) === "yes";
+ chats.push({
+  name:"👑 ADMIN",
+  message:message,
+  time:new Date().toLocaleTimeString()
+ });
 
+ localStorage.setItem(
+  "chat",
+  JSON.stringify(chats)
+ );
 
-    var achievements = {
-
-        ach1: first,
-
-        ach2: combo10,
-
-        ach3: coins >= 100,
-
-        ach4: level >= 10,
-
-        ach5: streak >= 5,
-
-        mission1: first,
-
-        mission25:
-            score >= 25 ||
-            highScore >= 25,
-
-        mission50:
-            score >= 50 ||
-            highScore >= 50,
-
-        missionCombo:
-            combo >= 10 ||
-            combo10,
-
-        missionCoins:
-            coins >= 250
-
-    };
-
-
-    for (
-        var id in achievements
-    ) {
-
-        var element =
-        document.getElementById(id);
-
-
-        if (!element) continue;
-
-
-        element.textContent =
-        achievements[id]
-        ? "UNLOCKED 🏆"
-        : "LOCKED";
-
-    }
-
+ loadChat();
+ loadAdminChat();
 }
 
 
-/* =========================
-   LEADERBOARD
-========================= */
+/* ================= UPDATES ================= */
 
-function getLeaderboard() {
+function postUpdate(){
 
-    return JSON.parse(
-        localStorage.getItem(
-            "leaderboard"
-        ) || "[]"
-    );
+ let title=document.getElementById(
+  "updateTitle"
+ ).value.trim();
 
+ let text=document.getElementById(
+  "updateText"
+ ).value.trim();
+
+ if(!title||!text){
+
+  alert("Enter a title and update.");
+  return;
+ }
+
+ let updates=JSON.parse(
+  localStorage.getItem("updates")||"[]"
+ );
+
+ updates.unshift({
+  title:title,
+  text:text,
+  date:new Date().toLocaleDateString()
+ });
+
+ localStorage.setItem(
+  "updates",
+  JSON.stringify(updates)
+ );
+
+ document.getElementById("updateTitle").value="";
+ document.getElementById("updateText").value="";
+
+ loadUpdates();
+
+ alert("📢 Update posted!");
 }
 
 
-function addLeaderboardScore(
-    value
-) {
+function loadUpdates(){
 
-    if (
-        value <= 0
-    ) return;
+ let box=document.getElementById(
+  "updateList"
+ );
 
+ if(!box)return;
 
-    var list =
-    getLeaderboard();
+ let updates=JSON.parse(
+  localStorage.getItem("updates")||"[]"
+ );
 
+ box.innerHTML="";
 
-    list.push({
+ if(!updates.length){
 
-        name: "You",
+  box.innerHTML=
+  "<div class='card'><h3>🚀 Catch The Square</h3><p>No updates yet.</p></div>";
 
-        score: value
+  return;
+ }
 
-    });
+ updates.forEach(u=>{
 
+  box.innerHTML+=
+  `<div class="card">
+   <h3>📢 ${safe(u.title)}</h3>
+   <p>${safe(u.text)}</p>
+   <p class="small">📅 ${safe(u.date)}</p>
+  </div>`;
 
-    list.sort(
-        function(a,b) {
-
-            return b.score -
-            a.score;
-
-        }
-    );
-
-
-    list =
-    list.slice(0,10);
-
-
-    localStorage.setItem(
-        "leaderboard",
-        JSON.stringify(list)
-    );
-
-
-    renderLeaderboard();
-
+ });
 }
 
 
-function saveHighScore() {
+function clearUpdates(){
 
-    addLeaderboardScore(
-        highScore
-    );
+ if(!confirm("Delete all updates?"))
+ return;
 
+ localStorage.removeItem("updates");
 
-    alert(
-        "🏆 High score saved!"
-    );
-
+ loadUpdates();
 }
 
 
-function renderLeaderboard() {
+/* ================= ADMIN ABUSE ================= */
 
-    var box =
-    document.getElementById(
-        "leaderboardList"
-    );
+function adminAbuse(){
 
+ localStorage.setItem(
+  "adminEvent",
+  "👑 ADMIN ABUSE IS LIVE!"
+ );
 
-    if (!box) return;
+ document.getElementById(
+  "eventStatus"
+ ).textContent=
+ "Event: 🔥 LIVE";
 
-
-    var list =
-    getLeaderboard();
-
-
-    if (
-        list.length === 0
-    ) {
-
-        box.innerHTML =
-        '<div class="card">' +
-        '<h3>🏆 EMPTY</h3>' +
-        '<p>Play a game!</p>' +
-        '</div>';
-
-        return;
-
-    }
-
-
-    box.innerHTML = "";
-
-
-    list.forEach(
-        function(player,index) {
-
-            var medal =
-            index === 0
-            ? "🥇"
-            : index === 1
-            ? "🥈"
-            : index === 2
-            ? "🥉"
-            : "🏆";
-
-
-            box.innerHTML +=
-
-            '<div class="notice">' +
-
-            medal +
-            " #" +
-            (index + 1) +
-            " — " +
-
-            escapeHTML(
-                player.name
-            ) +
-
-            " — " +
-
-            player.score +
-
-            " points" +
-
-            '</div>';
-
-        }
-    );
-
+ alert(
+  "👑 ADMIN ABUSE STARTED!"
+ );
 }
 
 
-/* =========================
-   DAILY CHALLENGE
-========================= */
+function endAdminAbuse(){
 
-function updateDaily() {
+ localStorage.removeItem(
+  "adminEvent"
+ );
 
-    var today =
-    new Date()
-    .toISOString()
-    .slice(0,10);
+ document.getElementById(
+  "eventStatus"
+ ).textContent=
+ "Event: OFF";
 
-
-    var savedDate =
-    localStorage.getItem(
-        "dailyDate"
-    );
-
-
-    if (
-        savedDate !== today
-    ) {
-
-        localStorage.setItem(
-            "dailyDate",
-            today
-        );
-
-        localStorage.setItem(
-            "dailyBest",
-            "0"
-        );
-
-    }
-
-
-    var best =
-    localStorage.getItem(
-        "dailyBest"
-    ) || "0";
-
-
-    var element =
-    document.getElementById(
-        "dailyBest"
-    );
-
-
-    if (element) {
-
-        element.textContent =
-        best;
-
-    }
-
+ alert(
+  "🛑 ADMIN ABUSE ENDED."
+ );
 }
 
 
-/* =========================
-   UPDATES
-========================= */
+/* ================= ADMIN ================= */
 
-function postUpdate() {
+function openAdmin(){
 
-    var title =
-    document
-    .getElementById(
-        "adminUpdateTitle"
-    )
-    .value
-    .trim();
+ let pin=prompt(
+  "🔐 Enter Admin PIN:"
+ );
 
+ if(pin==="2580"){
 
-    var text =
-    document
-    .getElementById(
-        "adminUpdateText"
-    )
-    .value
-    .trim();
+  showScreen("admin");
 
+  let active=
+   localStorage.getItem("adminEvent");
 
-    if (
-        !title ||
-        !text
-    ) {
+  document.getElementById(
+   "eventStatus"
+  ).textContent=
+   active
+   ?"Event: 🔥 LIVE"
+   :"Event: OFF";
 
-        alert(
-            "Please enter a title and update."
-        );
+ }else if(pin!==null){
 
-        return;
+  alert("❌ WRONG PIN!");
 
-    }
-
-
-    var updates =
-    JSON.parse(
-        localStorage.getItem(
-            "updates"
-        ) || "[]"
-    );
-
-
-    updates.unshift({
-
-        title: title,
-
-        text: text,
-
-        date:
-        new Date()
-        .toLocaleDateString()
-
-    });
-
-
-    localStorage.setItem(
-        "updates",
-        JSON.stringify(
-            updates
-        )
-    );
-
-
-    document
-    .getElementById(
-        "adminUpdateTitle"
-    )
-    .value = "";
-
-
-    document
-    .getElementById(
-        "adminUpdateText"
-    )
-    .value = "";
-
-
-    loadUpdates();
-
-
-    alert(
-        "📢 UPDATE POSTED!"
-    );
-
+ }
 }
 
 
-function loadUpdates() {
+function adminCoins(){
 
-    var box =
-    document.getElementById(
-        "updateList"
-    );
+ coins+=100;
 
+ save();
 
-    if (!box) return;
+ alert("🪙 +100 COINS!");
 
-
-    var updates =
-    JSON.parse(
-        localStorage.getItem(
-            "updates"
-        ) || "[]"
-    );
-
-
-    if (
-        updates.length === 0
-    ) {
-
-        box.innerHTML =
-        '<div class="card">' +
-        '<h3>🚀 Catch The Square 2.0</h3>' +
-        '<p>No updates yet.</p>' +
-        '</div>';
-
-        return;
-
-    }
-
-
-    box.innerHTML = "";
-
-
-    updates.forEach(
-        function(update) {
-
-            box.innerHTML +=
-
-            '<div class="card">' +
-
-            '<h3>📢 ' +
-            escapeHTML(
-                update.title
-            ) +
-            '</h3>' +
-
-            '<p>' +
-            escapeHTML(
-                update.text
-            ) +
-            '</p>' +
-
-            '<p class="small">📅 ' +
-            escapeHTML(
-                update.date
-            ) +
-            '</p>' +
-
-            '</div>';
-
-        }
-    );
-
+ updateMenus();
 }
 
 
-function clearUpdates() {
+function adminResetScore(){
 
-    if (
-        !confirm(
-            "Delete all updates?"
-        )
-    ) return;
+ if(!confirm("Reset high score?"))
+ return;
 
+ highScore=0;
 
-    localStorage.removeItem(
-        "updates"
-    );
+ save();
 
+ updateMenus();
 
-    loadUpdates();
-
+ alert("🔄 HIGH SCORE RESET!");
 }
 
 
-/* =========================
-   ADMIN
-========================= */
+/* ================= LEADERBOARD ================= */
 
-function openAdmin() {
+function getScores(){
 
-    var pin =
-    prompt(
-        "🔐 Enter Admin PIN:"
-    );
-
-
-    if (
-        pin === "2580"
-    ) {
-
-        showScreen(
-            "admin"
-        );
-
-    }
-
-    else if (
-        pin !== null
-    ) {
-
-        alert(
-            "❌ WRONG PIN!"
-        );
-
-    }
-
+ return JSON.parse(
+  localStorage.getItem("scores")||"[]"
+ );
 }
 
 
-function adminCoins() {
+function addScore(value){
 
-    coins += 100;
+ if(value<=0)return;
 
-    save();
+ let scores=getScores();
 
-    updateMenus();
+ scores.push(value);
 
-    alert(
-        "🪙 +100 COINS!"
-    );
+ scores.sort((a,b)=>b-a);
 
+ scores=scores.slice(0,10);
+
+ localStorage.setItem(
+  "scores",
+  JSON.stringify(scores)
+ );
 }
 
 
-function adminScore() {
+function saveScore(){
 
-    var amount =
-    Number(
-        prompt(
-            "Enter test score:",
-            "999"
-        )
-    );
+ addScore(highScore);
 
+ renderLeaderboard();
 
-    if (
-        amount > 0
-    ) {
-
-        addLeaderboardScore(
-            amount
-        );
-
-        alert(
-            "🏆 SCORE ADDED!"
-        );
-
-    }
-
+ alert("🏆 Score saved!");
 }
 
 
-function adminResetScore() {
+function renderLeaderboard(){
 
-    if (
-        !confirm(
-            "Reset high score?"
-        )
-    ) return;
+ let box=document.getElementById(
+  "leaderboardList"
+ );
 
+ if(!box)return;
 
-    highScore = 0;
+ let scores=getScores();
 
-    save();
+ box.innerHTML="";
 
-    updateMenus();
+ if(!scores.length){
 
+  box.innerHTML=
+  "<p class='small'>No scores yet.</p>";
 
-    alert(
-        "🔄 HIGH SCORE RESET!"
-    );
+  return;
+ }
 
+ scores.forEach((s,i)=>{
+
+  let medal=
+   i===0?"🥇":
+   i===1?"🥈":
+   i===2?"🥉":"🏆";
+
+  box.innerHTML+=
+  `<div class="notice">
+   ${medal} #${i+1} — ${s} points
+  </div>`;
+
+ });
 }
 
 
-/* =========================
-   RESET
-========================= */
+/* ================= ACHIEVEMENTS ================= */
 
-function resetData() {
+function updateAchievements(){
 
-    if (
-        !confirm(
-            "This will erase local coins, scores, skins, updates and progress. Continue?"
-        )
-    ) return;
+ let played=
+  highScore>0;
 
+ let combo10=
+  localStorage.getItem("combo10")==="yes";
 
-    localStorage.clear();
+ document.getElementById("a1")
+ .textContent=played?"✅":"🔒";
 
-    location.reload();
+ document.getElementById("a2")
+ .textContent=combo10?"✅":"🔒";
 
+ document.getElementById("a3")
+ .textContent=coins>=100?"✅":"🔒";
+
+ document.getElementById("a4")
+ .textContent=level>=10?"✅":"🔒";
+
+ document.getElementById("m1")
+ .textContent=played?"UNLOCKED":"LOCKED";
+
+ document.getElementById("m25")
+ .textContent=highScore>=25?"UNLOCKED":"LOCKED";
+
+ document.getElementById("m10")
+ .textContent=combo10?"UNLOCKED":"LOCKED";
+
+ document.getElementById("m250")
+ .textContent=coins>=250?"UNLOCKED":"LOCKED";
 }
 
 
-/* =========================
-   SECURITY HELPER
-========================= */
+/* ================= SAVE ================= */
 
-function escapeHTML(text) {
+function save(){
 
-    var div =
-    document.createElement(
-        "div"
-    );
+ localStorage.setItem(
+  "coins",coins
+ );
 
+ localStorage.setItem(
+  "highScore",highScore
+ );
 
-    div.textContent =
-    text;
+ if(combo>=10){
 
-
-    return div.innerHTML;
-
+  localStorage.setItem(
+   "combo10","yes"
+  );
+ }
 }
 
 
-/* =========================
-   INITIALIZE
-========================= */
+/* ================= RESET ================= */
 
-setDifficulty(
-    difficulty
-);
+function resetData(){
+
+ if(!confirm(
+  "Erase all local game data?"
+ ))return;
+
+ localStorage.clear();
+
+ location.reload();
+}
+
+
+/* ================= SAFE TEXT ================= */
+
+function safe(text){
+
+ let div=document.createElement("div");
+
+ div.textContent=text;
+
+ return div.innerHTML;
+}
+
+
+/* ================= STARTUP ================= */
 
 updateMenus();
-
+loadChat();
+loadAdminChat();
 loadUpdates();
-
 renderLeaderboard();
-
-updateDaily();
 
 </script>
 
