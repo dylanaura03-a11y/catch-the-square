@@ -4,438 +4,567 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Catch The Square 4.0</title>
+<title>Catch The Square 5.0</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap');
+
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;background:#05050b;color:#fff}
-body{overflow-x:hidden}
 
-body:before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-background:
-radial-gradient(circle at 15% 20%,#7928ca33,transparent 30%),
-radial-gradient(circle at 85% 80%,#00c6ff22,transparent 30%);
-z-index:-2;
+:root{
+ --bg:#05050a;
+ --panel:#0c0c15;
+ --panel2:#11111d;
+ --line:#ffffff14;
+ --purple:#9b5cff;
+ --blue:#35d7ff;
+ --pink:#ff4fd8;
+ --green:#35f59a;
 }
 
-body:after{
-content:"";
-position:fixed;
-inset:0;
-background-image:
-linear-gradient(#ffffff05 1px,transparent 1px),
-linear-gradient(90deg,#ffffff05 1px,transparent 1px);
-background-size:45px 45px;
-pointer-events:none;
-z-index:-1;
+html,body{
+ margin:0;
+ min-height:100%;
+ background:var(--bg);
+ color:white;
+ font-family:Arial,sans-serif;
 }
+
+body{
+ overflow-x:hidden;
+}
+
+canvas{
+ position:fixed;
+ inset:0;
+ width:100%;
+ height:100%;
+ pointer-events:none;
+ z-index:0;
+}
+
+.app{
+ position:relative;
+ z-index:1;
+ min-height:100vh;
+}
+
+/* HEADER */
 
 header{
-height:72px;
-padding:0 24px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-background:#080812cc;
-backdrop-filter:blur(18px);
-border-bottom:1px solid #ffffff12;
-position:sticky;
-top:0;
-z-index:50;
+ height:76px;
+ padding:0 28px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ background:#07070dcc;
+ border-bottom:1px solid var(--line);
+ backdrop-filter:blur(20px);
+ position:sticky;
+ top:0;
+ z-index:20;
 }
 
-.logo{
-font-weight:1000;
-font-size:21px;
-letter-spacing:.5px;
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ font-family:Orbitron,sans-serif;
+ font-weight:900;
 }
 
-.logo span{
-background:linear-gradient(90deg,#c084fc,#22d3ee);
--webkit-background-clip:text;
-color:transparent;
+.brandIcon{
+ width:42px;
+ height:42px;
+ border-radius:13px;
+ display:grid;
+ place-items:center;
+ background:linear-gradient(135deg,var(--purple),var(--blue));
+ box-shadow:0 0 30px #9b5cff66;
 }
 
-.online{
-font-size:12px;
-color:#aaa;
-display:flex;
-gap:8px;
-align-items:center;
+.brandText{
+ font-size:17px;
 }
 
-.online i{
-width:8px;
-height:8px;
-display:block;
-border-radius:50%;
-background:#22c55e;
-box-shadow:0 0 15px #22c55e;
+.brandText span{
+ color:var(--purple);
 }
 
-.wrap{
-width:min(1150px,94%);
-margin:auto;
-padding:28px 0 70px;
+.status{
+ display:flex;
+ align-items:center;
+ gap:8px;
+ color:#9292a2;
+ font-size:11px;
+ font-weight:bold;
 }
+
+.statusDot{
+ width:8px;
+ height:8px;
+ border-radius:50%;
+ background:var(--green);
+ box-shadow:0 0 15px var(--green);
+}
+
+/* MAIN */
+
+.main{
+ width:min(1200px,94%);
+ margin:auto;
+ padding:30px 0 80px;
+}
+
+/* HERO */
 
 .hero{
-text-align:center;
-padding:10px 0 25px;
+ min-height:260px;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ text-align:center;
+}
+
+.hero .mini{
+ font-family:Orbitron,sans-serif;
+ font-size:11px;
+ letter-spacing:5px;
+ color:#7d7d91;
+ margin-bottom:14px;
 }
 
 .hero h1{
-font-size:clamp(40px,8vw,76px);
-margin:0;
-font-weight:1000;
-letter-spacing:-4px;
-background:linear-gradient(90deg,#fff,#a78bfa,#67e8f9,#fff);
-background-size:300%;
--webkit-background-clip:text;
-color:transparent;
-animation:gradient 5s linear infinite;
+ margin:0;
+ font-family:Orbitron,sans-serif;
+ font-size:clamp(38px,8vw,82px);
+ line-height:.95;
+ letter-spacing:-4px;
+ background:linear-gradient(90deg,#fff,var(--purple),var(--blue),#fff);
+ background-size:300%;
+ -webkit-background-clip:text;
+ color:transparent;
+ animation:gradient 6s linear infinite;
+ text-shadow:0 0 40px #9b5cff20;
 }
 
 @keyframes gradient{
-to{background-position:300%}
+ to{background-position:300%}
 }
 
 .hero p{
-margin:10px 0 0;
-color:#77778a;
-letter-spacing:3px;
-font-size:11px;
+ color:#707083;
+ margin:18px 0 0;
 }
 
+/* STATS */
+
 .stats{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:12px;
-margin-bottom:15px;
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ gap:12px;
+ margin-bottom:14px;
 }
 
 .stat{
-background:linear-gradient(145deg,#13131f,#090910);
-border:1px solid #ffffff12;
-border-radius:18px;
-padding:16px;
-box-shadow:0 15px 40px #0007;
+ position:relative;
+ overflow:hidden;
+ padding:18px;
+ border-radius:18px;
+ background:linear-gradient(145deg,#11111c,#08080f);
+ border:1px solid var(--line);
+ box-shadow:0 20px 50px #0008;
+}
+
+.stat:before{
+ content:"";
+ position:absolute;
+ width:100px;
+ height:100px;
+ border-radius:50%;
+ background:#9b5cff12;
+ right:-45px;
+ top:-45px;
+ filter:blur(15px);
 }
 
 .stat small{
-color:#77778b;
-font-size:10px;
-font-weight:bold;
+ color:#727284;
+ font-size:10px;
+ font-weight:bold;
+ letter-spacing:1px;
 }
 
 .stat strong{
-display:block;
-font-size:27px;
-margin-top:5px;
+ display:block;
+ margin-top:7px;
+ font-family:Orbitron,sans-serif;
+ font-size:25px;
 }
 
-.xp{
-height:8px;
-border-radius:99px;
-background:#151520;
-overflow:hidden;
-margin-bottom:18px;
+.xpWrap{
+ height:10px;
+ border-radius:99px;
+ background:#15151f;
+ border:1px solid #ffffff08;
+ overflow:hidden;
+ margin-bottom:22px;
 }
 
-#xpbar{
-height:100%;
-width:0;
-background:linear-gradient(90deg,#8b5cf6,#22d3ee);
-box-shadow:0 0 18px #8b5cf6;
-transition:.25s;
+#xpBar{
+ height:100%;
+ width:0%;
+ background:linear-gradient(90deg,var(--purple),var(--blue));
+ box-shadow:0 0 20px var(--purple);
+ transition:.3s;
 }
 
-.arena{
-height:510px;
-position:relative;
-border-radius:27px;
-overflow:hidden;
-background:
-radial-gradient(circle at center,#191942,#080811 65%);
-border:1px solid #ffffff17;
-box-shadow:0 35px 100px #0009,0 0 80px #7c3aed13;
+/* GAME */
+
+.game{
+ position:relative;
+ height:560px;
+ border-radius:30px;
+ overflow:hidden;
+ background:
+ radial-gradient(circle at 50% 50%,#171735,#07070d 65%);
+ border:1px solid #ffffff17;
+ box-shadow:
+ 0 35px 100px #000b,
+ inset 0 0 80px #9b5cff08;
 }
 
-.arena:before{
-content:"";
-position:absolute;
-width:300px;
-height:300px;
-border-radius:50%;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-background:#7c3aed0d;
-box-shadow:0 0 100px #7c3aed22;
+.game:before{
+ content:"";
+ position:absolute;
+ width:500px;
+ height:500px;
+ border-radius:50%;
+ left:50%;
+ top:50%;
+ transform:translate(-50%,-50%);
+ border:1px solid #ffffff07;
+ box-shadow:
+ 0 0 0 70px #ffffff02,
+ 0 0 0 140px #ffffff01;
 }
 
-.hud{
-position:absolute;
-top:16px;
-left:16px;
-right:16px;
-display:flex;
-justify-content:space-between;
-z-index:5;
+.scan{
+ position:absolute;
+ left:0;
+ right:0;
+ height:2px;
+ background:linear-gradient(90deg,transparent,var(--blue),transparent);
+ opacity:.15;
+ animation:scan 5s linear infinite;
 }
 
-.hud span{
-padding:9px 13px;
-background:#ffffff0a;
-border:1px solid #ffffff12;
-border-radius:12px;
-font-size:12px;
-font-weight:bold;
-backdrop-filter:blur(10px);
+@keyframes scan{
+ from{top:-5%}
+ to{top:105%}
+}
+
+.gameHUD{
+ position:absolute;
+ top:17px;
+ left:17px;
+ right:17px;
+ display:flex;
+ justify-content:space-between;
+ z-index:5;
+}
+
+.hudBox{
+ padding:10px 14px;
+ border-radius:13px;
+ background:#08080fbb;
+ border:1px solid #ffffff12;
+ backdrop-filter:blur(12px);
+ font-family:Orbitron,sans-serif;
+ font-size:11px;
 }
 
 #target{
-position:absolute;
-width:65px;
-height:65px;
-border:0;
-padding:0;
-border-radius:17px;
-background:linear-gradient(135deg,#d8b4fe,#7c3aed);
-box-shadow:
-0 0 12px #c084fc,
-0 0 35px #8b5cf6,
-0 0 75px #7c3aed99;
-cursor:pointer;
-z-index:4;
-transition:left .08s,top .08s,transform .08s;
+ position:absolute;
+ width:72px;
+ height:72px;
+ border:0;
+ padding:0;
+ border-radius:20px;
+ cursor:pointer;
+ background:linear-gradient(135deg,#d9b5ff,#7c3aed);
+ box-shadow:
+ 0 0 10px #d9b5ff,
+ 0 0 30px var(--purple),
+ 0 0 70px #7c3aedaa;
+ transition:left .07s,top .07s,transform .07s;
+ z-index:4;
 }
 
 #target:before{
-content:"";
-position:absolute;
-inset:10px;
-border-radius:11px;
-background:white;
-box-shadow:0 0 20px white;
+ content:"";
+ position:absolute;
+ inset:12px;
+ border-radius:13px;
+ background:white;
+ box-shadow:0 0 22px white;
 }
 
 #target:after{
-content:"";
-position:absolute;
-inset:17px;
-border-radius:8px;
-background:#a855f7;
+ content:"";
+ position:absolute;
+ inset:20px;
+ border-radius:9px;
+ background:#8b5cf6;
 }
 
 #target:active{
-transform:scale(.72) rotate(10deg);
+ transform:scale(.7) rotate(15deg);
 }
 
-.pop{
-position:absolute;
-pointer-events:none;
-font-weight:1000;
-font-size:20px;
-color:#fff;
-text-shadow:0 0 15px #c084fc;
-animation:pop 700ms forwards;
-z-index:20;
+.hit{
+ position:absolute;
+ pointer-events:none;
+ font-family:Orbitron,sans-serif;
+ font-weight:900;
+ color:white;
+ text-shadow:0 0 15px var(--purple);
+ animation:hit .65s forwards;
+ z-index:10;
 }
 
-@keyframes pop{
-0%{opacity:1;transform:translateY(0) scale(.8)}
-100%{opacity:0;transform:translateY(-65px) scale(1.25)}
+@keyframes hit{
+ 0%{opacity:1;transform:translateY(0) scale(.7)}
+ 100%{opacity:0;transform:translateY(-75px) scale(1.2)}
 }
 
-.content{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-top:15px;
+/* CARDS */
+
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:15px;
+ margin-top:15px;
 }
 
 .card{
-background:linear-gradient(145deg,#11111c,#090910);
-border:1px solid #ffffff12;
-border-radius:21px;
-padding:20px;
-box-shadow:0 20px 60px #0006;
+ padding:21px;
+ border-radius:22px;
+ background:linear-gradient(145deg,#11111b,#09090f);
+ border:1px solid var(--line);
+ box-shadow:0 25px 65px #0007;
 }
 
 .card h2{
-margin:0 0 15px;
-font-size:18px;
+ margin:0 0 16px;
+ font-family:Orbitron,sans-serif;
+ font-size:16px;
 }
 
-.row{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:12px;
-border-radius:13px;
-background:#ffffff05;
-border:1px solid #ffffff08;
-margin:8px 0;
+.item{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:14px;
+ margin:8px 0;
+ border-radius:14px;
+ background:#ffffff05;
+ border:1px solid #ffffff08;
 }
 
-.row span{
-color:#aaaabd;
-font-size:13px;
+.itemInfo b{
+ display:block;
+ font-size:13px;
+}
+
+.itemInfo small{
+ color:#6f6f81;
 }
 
 .btn{
-width:100%;
-padding:13px;
-border-radius:13px;
-border:1px solid #ffffff12;
-background:#171722;
-color:white;
-font-weight:bold;
-cursor:pointer;
-margin:5px 0;
-transition:.2s;
+ width:100%;
+ padding:13px;
+ border-radius:13px;
+ border:1px solid #ffffff12;
+ background:#171722;
+ color:white;
+ cursor:pointer;
+ font-weight:bold;
+ transition:.2s;
 }
 
 .btn:hover{
-transform:translateY(-2px);
-background:#222234;
-border-color:#8b5cf655;
+ transform:translateY(-2px);
+ border-color:#9b5cff66;
+ box-shadow:0 10px 30px #0007;
 }
 
 .primary{
-border:0;
-background:linear-gradient(135deg,#7c3aed,#2563eb);
+ border:0;
+ background:linear-gradient(135deg,#7c3aed,#2563eb);
+ box-shadow:0 8px 25px #7c3aed33;
 }
 
 .green{
-background:#12351f;
+ background:#0c3020;
 }
 
 .red{
-background:#38131a;
+ background:#36131b;
 }
+
+/* ADMIN */
 
 .admin{
-margin-top:15px;
-display:none;
+ display:none;
+ margin-top:14px;
 }
 
-.admin-inner{
-padding:17px;
-border-radius:17px;
-background:#07070d;
-border:1px solid #8b5cf633;
+.adminPanel{
+ border:1px solid #9b5cff44;
+ background:
+ radial-gradient(circle at 90% 10%,#9b5cff12,transparent 30%),
+ #07070e;
+ border-radius:18px;
+ padding:17px;
 }
 
-.admin-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
+.adminHeader{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:14px;
 }
 
-.admin-title b{
-font-size:18px;
+.adminHeader b{
+ font-family:Orbitron,sans-serif;
+ font-size:14px;
 }
 
-.crown{
-font-size:25px;
+.adminBadge{
+ padding:5px 8px;
+ border-radius:7px;
+ background:#9b5cff18;
+ color:#cdb5ff;
+ font-size:9px;
 }
 
 input{
-width:100%;
-padding:13px;
-margin:5px 0;
-border-radius:11px;
-outline:none;
-border:1px solid #ffffff12;
-background:#101018;
-color:white;
+ width:100%;
+ padding:13px;
+ margin:5px 0;
+ border-radius:11px;
+ border:1px solid #ffffff12;
+ background:#11111a;
+ color:white;
+ outline:none;
 }
 
 input:focus{
-border-color:#8b5cf6;
+ border-color:#9b5cff;
 }
 
+.message{
+ min-height:18px;
+ margin-top:10px;
+ color:#88889b;
+ font-size:12px;
+}
+
+/* LEADERBOARD */
+
 .leader{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:13px;
-border-bottom:1px solid #ffffff0c;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:13px 5px;
+ border-bottom:1px solid #ffffff09;
 }
 
 .rank{
-font-weight:900;
-margin-right:8px;
+ width:32px;
+ font-family:Orbitron,sans-serif;
 }
 
-.muted{
-color:#77778b;
-font-size:12px;
-}
+/* TOAST */
 
 #toast{
-position:fixed;
-bottom:25px;
-left:50%;
-transform:translate(-50%,30px);
-background:#11111c;
-border:1px solid #ffffff15;
-padding:13px 20px;
-border-radius:14px;
-opacity:0;
-pointer-events:none;
-transition:.25s;
-z-index:100;
-box-shadow:0 20px 50px #0009;
-font-weight:bold;
+ position:fixed;
+ left:50%;
+ bottom:25px;
+ transform:translate(-50%,35px);
+ opacity:0;
+ pointer-events:none;
+ padding:13px 20px;
+ border-radius:14px;
+ background:#11111b;
+ border:1px solid #ffffff18;
+ box-shadow:0 20px 60px #000b;
+ font-weight:bold;
+ z-index:100;
+ transition:.25s;
 }
 
 #toast.show{
-opacity:1;
-transform:translate(-50%,0);
+ opacity:1;
+ transform:translate(-50%,0);
 }
 
-footer{
-text-align:center;
-padding:35px;
-color:#444451;
-font-size:11px;
+/* MOBILE */
+
+@media(max-width:900px){
+ .stats{grid-template-columns:repeat(3,1fr)}
 }
 
-@media(max-width:850px){
-.stats{grid-template-columns:repeat(3,1fr)}
-.content{grid-template-columns:1fr}
+@media(max-width:700px){
+ header{padding:0 14px}
+ .brandText{font-size:13px}
+ .grid{grid-template-columns:1fr}
+ .game{height:470px}
 }
 
-@media(max-width:550px){
-header{padding:0 13px}
-.logo{font-size:15px}
-.stats{grid-template-columns:repeat(2,1fr)}
-.arena{height:430px}
-.hero h1{letter-spacing:-3px}
+@media(max-width:520px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .hero h1{letter-spacing:-3px}
+ .game{height:420px}
+ .brandIcon{width:36px;height:36px}
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="particles"></canvas>
+
+<div class="app">
+
 <header>
-<div class="logo">⚡ <span>CATCH THE SQUARE</span> 4.0</div>
-<div class="online"><i></i> ONLINE</div>
+
+<div class="brand">
+<div class="brandIcon">⚡</div>
+<div class="brandText">
+CATCH THE <span>SQUARE</span>
+</div>
+</div>
+
+<div class="status">
+<div class="statusDot"></div>
+SERVER ONLINE
+</div>
+
 </header>
 
-<main class="wrap">
+<main class="main">
 
 <section class="hero">
+
+<div class="mini">WELCOME TO</div>
+
 <h1>CATCH THE SQUARE</h1>
-<p>DYLAN ULTIMATE EDITION</p>
+
+<p>THE DYLAN ULTIMATE EXPERIENCE</p>
+
 </section>
 
 <section class="stats">
@@ -461,73 +590,87 @@ header{padding:0 13px}
 </div>
 
 <div class="stat">
-<small>✨ BEST</small>
+<small>👑 BEST</small>
 <strong id="best">0</strong>
 </div>
 
 </section>
 
-<div class="xp">
-<div id="xpbar"></div>
+<div class="xpWrap">
+<div id="xpBar"></div>
 </div>
 
-<section class="arena" id="arena">
+<section class="game" id="game">
 
-<div class="hud">
-<span>LEVEL <b id="arenaLevel">1</b></span>
-<span>COMBO ×<b id="arenaCombo">0</b></span>
+<div class="scan"></div>
+
+<div class="gameHUD">
+<div class="hudBox">LEVEL <span id="gameLevel">1</span></div>
+<div class="hudBox">COMBO ×<span id="gameCombo">0</span></div>
 </div>
 
 <button id="target" aria-label="Catch the square"></button>
 
 </section>
 
-<section class="content">
+<section class="grid">
 
 <div class="card">
 
 <h2>🎯 MISSIONS</h2>
 
-<div class="row">
-<span>⚡ First Catch</span>
-<b id="m1">0 / 1</b>
+<div class="item">
+<div class="itemInfo">
+<b>⚡ FIRST CATCH</b>
+<small>Catch your first square</small>
+</div>
+<strong id="mission1">0/1</strong>
 </div>
 
-<div class="row">
-<span>🔥 Score Hunter</span>
-<b id="m2">0 / 50</b>
+<div class="item">
+<div class="itemInfo">
+<b>🔥 SCORE HUNTER</b>
+<small>Reach 50 score</small>
+</div>
+<strong id="mission2">0/50</strong>
 </div>
 
-<div class="row">
-<span>🪙 Coin Collector</span>
-<b id="m3">0 / 500</b>
+<div class="item">
+<div class="itemInfo">
+<b>🪙 COIN KING</b>
+<small>Collect 500 coins</small>
+</div>
+<strong id="mission3">0/500</strong>
 </div>
 
-<div class="row">
-<span>💎 Level Master</span>
-<b id="m4">0 / 10</b>
+<div class="item">
+<div class="itemInfo">
+<b>💎 LEVEL MASTER</b>
+<small>Reach level 10</small>
+</div>
+<strong id="mission4">0/10</strong>
 </div>
 
 </div>
 
 <div class="card">
 
-<h2>🛒 DYLAN SHOP</h2>
+<h2>🛒 SQUARE SHOP</h2>
 
-<button class="btn" onclick="buyDouble()">
-⚡ 2X COINS — 250 🪙
+<button class="btn primary" onclick="buyDouble()">
+⚡ DOUBLE COINS — 250 🪙
 </button>
 
-<button class="btn" onclick="buyBonus()">
-💎 +500 COINS — 700 🪙
-</button>
-
-<button class="btn" onclick="buyResetCombo()">
+<button class="btn" onclick="buyBoost()">
 🔥 COMBO BOOST — 150 🪙
 </button>
 
+<button class="btn" onclick="buyMega()">
+💎 MEGA BONUS — 700 🪙
+</button>
+
 <button class="btn green" onclick="dailyReward()">
-🎁 CLAIM DAILY REWARD
+🎁 DAILY REWARD — 100 🪙
 </button>
 
 </div>
@@ -537,41 +680,41 @@ header{padding:0 13px}
 <h2>🏆 LEADERBOARD</h2>
 
 <div class="leader">
-<div><span class="rank">🥇</span> Dylan</div>
-<b id="lb1">0</b>
+<span><span class="rank">🥇</span> DYLAN</span>
+<b id="leaderDylan">0</b>
 </div>
 
 <div class="leader">
-<div><span class="rank">🥈</span> Player 2</div>
+<span><span class="rank">🥈</span> PLAYER 2</span>
 <b>0</b>
 </div>
 
 <div class="leader">
-<div><span class="rank">🥉</span> Player 3</div>
+<span><span class="rank">🥉</span> PLAYER 3</span>
 <b>0</b>
 </div>
 
-<p class="muted">
-Online rankings can be connected to Firebase.
+<p style="color:#606071;font-size:11px">
+Firebase can replace these demo rankings with live player scores.
 </p>
 
 </div>
 
 <div class="card">
 
-<h2>👑 DYLAN PANEL</h2>
+<h2>👑 DYLAN CONTROL CENTER</h2>
 
 <button class="btn primary" onclick="toggleAdmin()">
-👑 OPEN DYLAN CONTROL CENTER
+⚡ OPEN CONTROL CENTER
 </button>
 
-<div id="admin" class="admin">
+<div class="admin" id="admin">
 
-<div class="admin-inner">
+<div class="adminPanel">
 
-<div class="admin-title">
-<b>⚡ ADMIN CONTROL CENTER</b>
-<span class="crown">👑</span>
+<div class="adminHeader">
+<b>DYLAN ADMIN</b>
+<span class="adminBadge">SECURE MODE</span>
 </div>
 
 <input
@@ -580,27 +723,27 @@ type="password"
 placeholder="Admin key">
 
 <button class="btn primary" onclick="unlockAdmin()">
-🔓 UNLOCK PANEL
+🔓 AUTHENTICATE
 </button>
 
 <div id="controls" style="display:none">
 
 <input
-id="playerUID"
+id="uid"
 placeholder="Player UID">
 
 <input
-id="coinAmount"
+id="amount"
 type="number"
 min="1"
-placeholder="Coin amount">
+placeholder="Coins to give">
 
 <button class="btn primary" onclick="giveCoins()">
-🪙 GIVE COINS TO PLAYER
+🪙 GIVE PLAYER COINS
 </button>
 
 <button class="btn" onclick="selfCoins()">
-👑 GIVE MYSELF 1,000 COINS
+👑 +1,000 MY COINS
 </button>
 
 <button class="btn red" onclick="resetGame()">
@@ -609,9 +752,10 @@ placeholder="Coin amount">
 
 </div>
 
-<div id="adminMsg" class="muted"></div>
+<div class="message" id="adminMessage"></div>
 
 </div>
+
 </div>
 
 </div>
@@ -620,39 +764,51 @@ placeholder="Coin amount">
 
 </main>
 
-<footer>
-CATCH THE SQUARE 4.0 • DYLAN EDITION ⚡
-</footer>
-
 <div id="toast"></div>
+
+</div>
 
 <script>
 
-let score=Number(localStorage.getItem("cts4_score"))||0;
-let coins=Number(localStorage.getItem("cts4_coins"))||0;
-let level=Number(localStorage.getItem("cts4_level"))||1;
-let xp=Number(localStorage.getItem("cts4_xp"))||0;
-let best=Number(localStorage.getItem("cts4_best"))||0;
+/* =========================
+   SAVE DATA
+========================= */
+
+let score=Number(localStorage.getItem("cts5_score"))||0;
+let coins=Number(localStorage.getItem("cts5_coins"))||0;
+let level=Number(localStorage.getItem("cts5_level"))||1;
+let xp=Number(localStorage.getItem("cts5_xp"))||0;
+let best=Number(localStorage.getItem("cts5_best"))||0;
 
 let combo=0;
 let multiplier=1;
 
-const arena=document.getElementById("arena");
+/* =========================
+   ELEMENTS
+========================= */
+
+const game=document.getElementById("game");
 const target=document.getElementById("target");
+
+/* =========================
+   SAVE
+========================= */
 
 function save(){
 
-localStorage.setItem("cts4_score",score);
-localStorage.setItem("cts4_coins",coins);
-localStorage.setItem("cts4_level",level);
-localStorage.setItem("cts4_xp",xp);
+if(score>best) best=score;
 
-if(score>best){
-best=score;
-localStorage.setItem("cts4_best",best);
-}
+localStorage.setItem("cts5_score",score);
+localStorage.setItem("cts5_coins",coins);
+localStorage.setItem("cts5_level",level);
+localStorage.setItem("cts5_xp",xp);
+localStorage.setItem("cts5_best",best);
 
 }
+
+/* =========================
+   UPDATE UI
+========================= */
 
 function update(){
 
@@ -662,38 +818,42 @@ document.getElementById("level").textContent=level;
 document.getElementById("combo").textContent=combo;
 document.getElementById("best").textContent=best;
 
-document.getElementById("arenaLevel").textContent=level;
-document.getElementById("arenaCombo").textContent=combo;
+document.getElementById("gameLevel").textContent=level;
+document.getElementById("gameCombo").textContent=combo;
 
-document.getElementById("lb1").textContent=score;
+document.getElementById("leaderDylan").textContent=score;
 
-const required=level*100;
-const percent=Math.min(100,(xp/required)*100);
+const needed=level*100;
+const percent=Math.min(100,(xp/needed)*100);
 
-document.getElementById("xpbar").style.width=percent+"%";
+document.getElementById("xpBar").style.width=percent+"%";
 
-document.getElementById("m1").textContent=
-score>=1?"1 / 1":"0 / 1";
+document.getElementById("mission1").textContent=
+score>=1?"1/1":"0/1";
 
-document.getElementById("m2").textContent=
-Math.min(score,50)+" / 50";
+document.getElementById("mission2").textContent=
+Math.min(score,50)+"/50";
 
-document.getElementById("m3").textContent=
-Math.min(coins,500)+" / 500";
+document.getElementById("mission3").textContent=
+Math.min(coins,500)+"/500";
 
-document.getElementById("m4").textContent=
-Math.min(level,10)+" / 10";
+document.getElementById("mission4").textContent=
+Math.min(level,10)+"/10";
 
 save();
 
 }
 
+/* =========================
+   MOVE TARGET
+========================= */
+
 function moveTarget(){
 
-const padding=15;
+const padding=18;
 
-const maxX=arena.clientWidth-target.offsetWidth-padding;
-const maxY=arena.clientHeight-target.offsetHeight-padding;
+const maxX=game.clientWidth-target.offsetWidth-padding;
+const maxY=game.clientHeight-target.offsetHeight-padding;
 
 const x=padding+
 Math.random()*Math.max(1,maxX-padding);
@@ -706,54 +866,58 @@ target.style.top=y+"px";
 
 }
 
-function createPop(x,y,text){
+/* =========================
+   HIT EFFECT
+========================= */
 
-const p=document.createElement("div");
+function hitEffect(x,y,text){
 
-p.className="pop";
-p.textContent=text;
+const el=document.createElement("div");
 
-p.style.left=x+"px";
-p.style.top=y+"px";
+el.className="hit";
+el.textContent=text;
+el.style.left=x+"px";
+el.style.top=y+"px";
 
-arena.appendChild(p);
+game.appendChild(el);
 
-setTimeout(()=>p.remove(),700);
+setTimeout(()=>el.remove(),650);
 
 }
+
+/* =========================
+   GAME
+========================= */
 
 function catchSquare(){
 
 const rect=target.getBoundingClientRect();
-const arenaRect=arena.getBoundingClientRect();
+const area=game.getBoundingClientRect();
 
-const x=rect.left-arenaRect.left;
-const y=rect.top-arenaRect.top;
-
-combo++;
+const x=rect.left-area.left;
+const y=rect.top-area.top;
 
 score++;
+combo++;
 
 let earned=2*multiplier;
 
 if(combo>=5){
-earned+=Math.floor(combo/5)*2;
+ earned+=Math.floor(combo/5)*2;
 }
 
 coins+=earned;
-
 xp+=10;
 
-createPop(x,y,"+"+earned+" 🪙");
+hitEffect(x,y,"+"+earned+" 🪙");
 
 if(xp>=level*100){
 
 xp=0;
 level++;
-
 coins+=25;
 
-toast("🔥 LEVEL UP! +25 BONUS COINS");
+toast("🔥 LEVEL UP • +25 COINS");
 
 }else{
 
@@ -768,27 +932,90 @@ moveTarget();
 
 target.addEventListener("click",catchSquare);
 
-function toast(text){
+/* =========================
+   SHOP
+========================= */
 
-const t=document.getElementById("toast");
+function buyDouble(){
 
-t.textContent=text;
-t.classList.add("show");
+if(coins<250){
+toast("❌ NEED 250 COINS");
+return;
+}
 
-clearTimeout(window.tt);
+coins-=250;
+multiplier=2;
 
-window.tt=setTimeout(()=>{
-t.classList.remove("show");
-},1200);
+update();
+toast("⚡ 2X COINS ACTIVE");
 
 }
+
+function buyBoost(){
+
+if(coins<150){
+toast("❌ NEED 150 COINS");
+return;
+}
+
+coins-=150;
+combo+=10;
+
+update();
+toast("🔥 +10 COMBO");
+
+}
+
+function buyMega(){
+
+if(coins<700){
+toast("❌ NEED 700 COINS");
+return;
+}
+
+coins-=700;
+coins+=1000;
+
+update();
+toast("💎 MEGA BONUS!");
+
+}
+
+/* =========================
+   DAILY REWARD
+========================= */
+
+function dailyReward(){
+
+const today=new Date().toDateString();
+const last=localStorage.getItem("cts5_daily");
+
+if(last===today){
+toast("⏰ ALREADY CLAIMED");
+return;
+}
+
+localStorage.setItem("cts5_daily",today);
+
+coins+=100;
+
+update();
+toast("🎁 +100 DAILY COINS");
+
+}
+
+/* =========================
+   ADMIN PANEL
+========================= */
 
 function toggleAdmin(){
 
 const admin=document.getElementById("admin");
 
 admin.style.display=
-admin.style.display==="block"?"none":"block";
+admin.style.display==="block"
+?"none"
+:"block";
 
 }
 
@@ -800,15 +1027,58 @@ if(key==="DYLAN"){
 
 document.getElementById("controls").style.display="block";
 
-document.getElementById("adminMsg").textContent=
+document.getElementById("adminMessage").textContent=
 "✅ ADMIN ACCESS GRANTED";
 
 }else{
 
-document.getElementById("adminMsg").textContent=
-"❌ WRONG ADMIN KEY";
+document.getElementById("adminMessage").textContent=
+"❌ INVALID ADMIN KEY";
 
 }
+
+}
+
+/*
+ IMPORTANT:
+
+ This browser demo does NOT directly edit another
+ player's Firebase account.
+
+ For your real Catch The Square version, this
+ function should call a Firebase Cloud Function
+ that verifies the authenticated admin and then
+ updates the requested player's coin balance.
+
+ Never put a Firebase service-account/private key
+ inside this HTML.
+*/
+
+function giveCoins(){
+
+const uid=document.getElementById("uid").value.trim();
+const amount=Number(document.getElementById("amount").value);
+
+if(!uid){
+
+document.getElementById("adminMessage").textContent=
+"⚠️ ENTER PLAYER UID";
+
+return;
+
+}
+
+if(!Number.isFinite(amount)||amount<=0){
+
+document.getElementById("adminMessage").textContent=
+"⚠️ ENTER VALID COIN AMOUNT";
+
+return;
+
+}
+
+document.getElementById("adminMessage").textContent=
+"🪙 READY: "+uid+" → +"+amount+" COINS";
 
 }
 
@@ -818,107 +1088,14 @@ coins+=1000;
 
 update();
 
-document.getElementById("adminMsg").textContent=
-"👑 +1,000 coins added to this browser.";
+document.getElementById("adminMessage").textContent=
+"👑 +1,000 COINS ADDED";
 
 }
 
-function giveCoins(){
-
-const uid=document.getElementById("playerUID").value.trim();
-const amount=Number(document.getElementById("coinAmount").value);
-
-if(!uid){
-document.getElementById("adminMsg").textContent=
-"⚠️ Enter a player UID.";
-return;
-}
-
-if(!Number.isFinite(amount)||amount<=0){
-document.getElementById("adminMsg").textContent=
-"⚠️ Enter a valid amount.";
-return;
-}
-
-/*
-REAL FIREBASE CONNECTION GOES HERE.
-
-Do NOT put a Firebase service-account/admin
-private key inside this HTML.
-
-A secure Firebase Cloud Function should verify
-the authenticated admin and then update the
-selected player's coins.
-*/
-
-document.getElementById("adminMsg").textContent=
-"🪙 Request prepared: "+uid+" → +"+amount+" coins";
-
-}
-
-function buyDouble(){
-
-if(coins<250){
-toast("❌ You need 250 coins");
-return;
-}
-
-coins-=250;
-multiplier=2;
-
-update();
-toast("⚡ 2X COINS ACTIVATED!");
-
-}
-
-function buyBonus(){
-
-if(coins<700){
-toast("❌ You need 700 coins");
-return;
-}
-
-coins-=700;
-coins+=500;
-
-update();
-toast("💎 BONUS PURCHASED!");
-
-}
-
-function buyResetCombo(){
-
-if(coins<150){
-toast("❌ You need 150 coins");
-return;
-}
-
-coins-=150;
-combo+=10;
-
-update();
-toast("🔥 COMBO BOOST!");
-
-}
-
-function dailyReward(){
-
-const today=new Date().toDateString();
-const last=localStorage.getItem("cts4_daily");
-
-if(last===today){
-toast("⏰ Already claimed today!");
-return;
-}
-
-localStorage.setItem("cts4_daily",today);
-
-coins+=100;
-
-update();
-toast("🎁 +100 DAILY COINS!");
-
-}
+/* =========================
+   RESET
+========================= */
 
 function resetGame(){
 
@@ -936,7 +1113,93 @@ toast("🔄 GAME RESET");
 
 }
 
-window.addEventListener("resize",moveTarget);
+/* =========================
+   TOAST
+========================= */
+
+function toast(text){
+
+const t=document.getElementById("toast");
+
+t.textContent=text;
+t.classList.add("show");
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer=setTimeout(()=>{
+t.classList.remove("show");
+},1200);
+
+}
+
+/* =========================
+   PARTICLES
+========================= */
+
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+
+let particles=[];
+
+function resizeCanvas(){
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+}
+
+function createParticles(){
+
+particles=[];
+
+for(let i=0;i<75;i++){
+
+particles.push({
+ x:Math.random()*canvas.width,
+ y:Math.random()*canvas.height,
+ r:Math.random()*1.8+.4,
+ dx:(Math.random()-.5)*.25,
+ dy:(Math.random()-.5)*.25
+});
+
+}
+
+}
+
+function animateParticles(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+for(const p of particles){
+
+p.x+=p.dx;
+p.y+=p.dy;
+
+if(p.x<0)p.x=canvas.width;
+if(p.x>canvas.width)p.x=0;
+if(p.y<0)p.y=canvas.height;
+if(p.y>canvas.height)p.y=0;
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle="rgba(160,120,255,.35)";
+ctx.fill();
+
+}
+
+requestAnimationFrame(animateParticles);
+
+}
+
+window.addEventListener("resize",()=>{
+resizeCanvas();
+createParticles();
+moveTarget();
+});
+
+resizeCanvas();
+createParticles();
+animateParticles();
 
 update();
 moveTarget();
