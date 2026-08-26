@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,19 +6,10 @@
 
 <title>Catch The Square 3.1</title>
 
-<!-- ADSENSE -->
+<!-- Google AdSense -->
 <script async
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9731155253732713"
 crossorigin="anonymous"></script>
-
-<!-- GOOGLE ANALYTICS -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BNKEM99H41"></script>
-<script>
-window.dataLayer=window.dataLayer||[];
-function gtag(){dataLayer.push(arguments);}
-gtag("js",new Date());
-gtag("config","G-BNKEM99H41");
-</script>
 
 <style>
 *{box-sizing:border-box}
@@ -27,8 +17,7 @@ gtag("config","G-BNKEM99H41");
 body{
 margin:0;
 min-height:100vh;
-background:
-radial-gradient(circle at top,#243c70,#070a12 65%);
+background:radial-gradient(circle at top,#243c70,#070a12 65%);
 color:white;
 font-family:Arial,sans-serif;
 text-align:center;
@@ -66,7 +55,7 @@ transition:.15s;
 
 button:hover{
 transform:scale(1.04);
-filter:brightness(1.1);
+filter:brightness(1.15);
 }
 
 .menuButton{
@@ -75,17 +64,29 @@ width:min(400px,90%);
 margin:9px auto;
 }
 
-.danger{background:#ff4265;color:white}
-.gold{background:#ffd700;color:#111}
-.purple{background:#9b59ff;color:white}
-.green{background:#35e27a;color:#06140a}
+.danger{
+background:#ff4265;
+color:white;
+}
 
-.giftButton{
-background:linear-gradient(90deg,#ffd700,#ff8c00);
+.gold{
+background:#ffd700;
 color:#111;
-font-size:19px;
-padding:16px 30px;
-box-shadow:0 0 25px #ffd70055;
+}
+
+.purple{
+background:#9b59ff;
+color:white;
+}
+
+.green{
+background:#35e27a;
+color:#06140a;
+}
+
+.orange{
+background:#ff8c42;
+color:white;
 }
 
 .stats{
@@ -163,9 +164,14 @@ background:#080d18;
 color:white;
 }
 
-textarea{height:110px}
+textarea{
+height:110px;
+resize:vertical;
+}
 
-.small{color:#aaa}
+.small{
+color:#aaa;
+}
 
 .online{
 color:#62ff7b;
@@ -182,34 +188,35 @@ color:#ffd700;
 font-weight:bold;
 }
 
+.chatBox{
+height:300px;
+overflow-y:auto;
+text-align:left;
+background:#080d1c;
+padding:10px;
+border-radius:12px;
+}
+
+.chatMsg{
+padding:9px;
+margin:5px 0;
+background:#17203a;
+border-radius:9px;
+}
+
 .eventLive{
 background:#30121c;
 border:2px solid #ff4265;
 padding:18px;
 border-radius:15px;
 margin:15px auto;
-max-width:700px;
-}
-
-.updateEvent{
-background:
-linear-gradient(135deg,#102b1d,#0c1224);
-border:3px solid #35e27a;
-box-shadow:0 0 30px #35e27a22;
-}
-
-.updateEvent h2{
-color:#35e27a;
+max-width:650px;
 }
 
 .countdown{
 font-size:30px;
 font-weight:bold;
 color:#ffd700;
-}
-
-.updateCountdown{
-color:#35e27a;
 }
 
 .updateCard{
@@ -237,39 +244,6 @@ background:#151526;
 color:#ffd700;
 }
 
-.adminHero{
-padding:25px;
-border:3px solid #ffd700;
-border-radius:20px;
-background:
-radial-gradient(circle at top,#3a2b00,#151526 65%);
-box-shadow:0 0 35px #ffd70022;
-}
-
-.giftBox{
-border:3px solid #ffd700;
-background:
-radial-gradient(circle,#302400,#151526);
-box-shadow:0 0 35px #ffd70033;
-}
-
-.giftBox h2{
-color:#ffd700;
-font-size:30px;
-}
-
-.adminGrid{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:10px;
-}
-
-.adminMini{
-flex:1 1 220px;
-min-width:220px;
-}
-
 #broadcast{
 display:none;
 position:fixed;
@@ -295,37 +269,24 @@ font-size:18px;
 font-weight:bold;
 }
 
-#giftPopup{
-display:none;
-position:fixed;
-z-index:300;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-width:min(500px,90%);
-padding:30px;
-background:#101629;
-border:4px solid #ffd700;
-border-radius:25px;
-box-shadow:
-0 0 40px #ffd70088,
-0 0 100px #00eaff33;
+.uidBox{
+font-family:monospace;
+font-size:12px;
+word-break:break-all;
+background:#080d18;
+padding:10px;
+border-radius:10px;
+margin:10px auto;
+max-width:600px;
 }
 
-#giftPopup h1{
-margin-top:0;
-color:#ffd700;
-}
-
-#giftCoins{
-font-size:38px;
-font-weight:bold;
-color:#62ff7b;
-}
-
-.giftDescription{
-font-size:19px;
-margin:15px;
+.giftPreview{
+background:#21183b;
+border:2px solid #9b59ff;
+padding:15px;
+border-radius:14px;
+margin:12px auto;
+max-width:600px;
 }
 
 #gameOver{
@@ -342,37 +303,31 @@ border:3px solid #ff4265;
 border-radius:20px;
 }
 
-.chatBox{
-height:300px;
-overflow-y:auto;
-text-align:left;
-background:#080d1c;
-padding:10px;
-border-radius:12px;
+#toast{
+display:none;
+position:fixed;
+bottom:25px;
+left:50%;
+transform:translateX(-50%);
+z-index:500;
+background:#111a30;
+border:2px solid #00eaff;
+padding:14px 22px;
+border-radius:14px;
+font-weight:bold;
 }
 
-.chatMsg{
-padding:9px;
-margin:5px 0;
-background:#17203a;
-border-radius:9px;
+.updateTomorrow{
+background:linear-gradient(135deg,#1b1640,#111a30);
+border:2px solid #9b59ff;
+padding:20px;
+border-radius:18px;
+margin:15px auto;
+max-width:700px;
 }
 
-.uidBox{
-font-family:monospace;
-font-size:12px;
-word-break:break-all;
-background:#080d18;
-padding:10px;
-border-radius:10px;
-margin:10px auto;
-max-width:600px;
-}
-
-hr{
-border:0;
-border-top:1px solid #ffffff22;
-margin:25px 0;
+.updateTomorrow h2{
+color:#c99cff;
 }
 </style>
 </head>
@@ -382,27 +337,18 @@ margin:25px 0;
 <h1>🎮 CATCH THE SQUARE</h1>
 <p><b>3.1</b> • Catch it. Level up. Become the legend.</p>
 
-<!-- BROADCAST -->
+<div id="toast"></div>
+
 <div id="broadcast">
 <h2>👑 DYLAN</h2>
 <div id="broadcastMessage"></div>
 </div>
 
-<!-- GIFT POPUP -->
-<div id="giftPopup">
-<h1>🎁 YOU GOT A GIFT!</h1>
-<div id="giftCoins">+0 🪙</div>
-<div id="giftDescription" class="giftDescription">
-A gift from Dylan!
-</div>
-<button class="giftButton" onclick="closeGiftPopup()">
-🎉 CLAIM GIFT
-</button>
-</div>
 
 <!-- ================= MENU ================= -->
 
 <div id="menu" class="screen active">
+
 <div class="panel">
 
 <button class="menuButton green" onclick="startGame()">
@@ -457,32 +403,38 @@ A gift from Dylan!
 👑 DYLAN ADMIN
 </button>
 
+
 <div id="support" class="notice" style="display:none">
+
 <h2>💰 SUPPORT CATCH THE SQUARE</h2>
+
 <p>Want to support the game?</p>
 <p>Send your support through Pochi la Biashara.</p>
+
 <h2>📱 0700201218</h2>
+
 <p>❤️ Thank you for supporting Catch The Square!</p>
+
 </div>
 
-<!-- UPDATE TOMORROW -->
-<div class="eventLive updateEvent">
 
-<h2>🚀 UPDATE TOMORROW</h2>
+<div class="updateTomorrow">
 
-<p>📅 <b>Thursday, August 27, 2026</b></p>
+<h2>🚀 TOMORROW'S UPDATE</h2>
 
-<p>⏰ <b>7:00 PM – 7:30 PM</b></p>
+<p>🔥 New update event</p>
 
-<div id="updateCountdown" class="countdown updateCountdown">
+<p><b>⏰ 7:00 PM – 7:30 PM</b></p>
+
+<p>👑 Be there for the update!</p>
+
+<div id="updateCountdown" class="countdown">
 CHECKING...
 </div>
 
-<p>🔥 Be there for the new Catch The Square update!</p>
-
 </div>
 
-<!-- SATURDAY EVENT -->
+
 <div class="eventLive">
 
 <h2>👑 SATURDAY ADMIN ABUSE</h2>
@@ -497,10 +449,13 @@ CHECKING...
 
 </div>
 
+
 <hr>
 
 <p>🪙 Coins: <b id="menuCoins">0</b></p>
+
 <p>🏆 High Score: <b id="menuHigh">0</b></p>
+
 <p>🔥 Streak: <b id="menuStreak">0</b></p>
 
 <p>
@@ -513,9 +468,11 @@ CONNECTING...
 </div>
 </div>
 
+
 <!-- ================= GAME ================= -->
 
 <div id="game" class="screen">
+
 <div class="panel">
 
 <div class="stats">
@@ -554,12 +511,15 @@ CLICK!
 </div>
 </div>
 
+
 <!-- ================= SHOP ================= -->
 
 <div id="shop" class="screen">
+
 <div class="panel">
 
 <h2>🛒 SHOP</h2>
+
 <p>🪙 Coins: <b id="shopCoins">0</b></p>
 
 <div class="card">
@@ -601,9 +561,11 @@ CLICK!
 </div>
 </div>
 
+
 <!-- ================= MISSIONS ================= -->
 
 <div id="missions" class="screen">
+
 <div class="panel">
 
 <h2>🎯 MISSIONS</h2>
@@ -620,9 +582,11 @@ CLICK!
 </div>
 </div>
 
+
 <!-- ================= ACHIEVEMENTS ================= -->
 
 <div id="achievements" class="screen">
+
 <div class="panel">
 
 <h2>🏆 ACHIEVEMENTS</h2>
@@ -639,9 +603,11 @@ CLICK!
 </div>
 </div>
 
+
 <!-- ================= LEADERBOARD ================= -->
 
 <div id="leaderboard" class="screen">
+
 <div class="panel">
 
 <h2>🌍 GLOBAL LEADERBOARD</h2>
@@ -661,9 +627,11 @@ CLICK!
 </div>
 </div>
 
+
 <!-- ================= DAILY ================= -->
 
 <div id="daily" class="screen">
+
 <div class="panel">
 
 <h2>⚡ DAILY CHALLENGE</h2>
@@ -691,9 +659,11 @@ CLICK!
 </div>
 </div>
 
+
 <!-- ================= CHAT ================= -->
 
 <div id="chat" class="screen">
+
 <div class="panel">
 
 <h2>💬 GLOBAL CHAT</h2>
@@ -707,8 +677,7 @@ CONNECTING...
 
 <div id="chatMessages" class="chatBox"></div>
 
-<input
-id="chatName"
+<input id="chatName"
 maxlength="20"
 placeholder="Player name">
 
@@ -731,9 +700,11 @@ onkeydown="if(event.key==='Enter')sendChat()">
 </div>
 </div>
 
+
 <!-- ================= UPDATES ================= -->
 
 <div id="updates" class="screen">
+
 <div class="panel">
 
 <h2>📰 UPDATES</h2>
@@ -742,14 +713,22 @@ onkeydown="if(event.key==='Enter')sendChat()">
 
 <h3>🚀 Catch The Square 3.1</h3>
 
-<p>🔥 New update coming tomorrow!</p>
-<p>📅 Thursday, August 27</p>
-<p>⏰ 7:00 PM – 7:30 PM</p>
-<p>🎁 New Dylan gifting system</p>
+<p>🔥 The new update is here!</p>
+<p>🌍 Global Firebase leaderboard</p>
 <p>👑 Upgraded Dylan Admin Panel</p>
-<p>🌍 Global Firebase features</p>
+<p>🎁 Gift Everyone</p>
+<p>🪙 Give Coins</p>
 <p>🎵 My Song</p>
 <p>💬 Global Chat</p>
+<p>💰 Support</p>
+
+</div>
+
+<div class="updateTomorrow">
+
+<h2>🚀 TOMORROW</h2>
+<p>New update event</p>
+<p><b>7:00 PM – 7:30 PM</b></p>
 
 </div>
 
@@ -760,16 +739,26 @@ onkeydown="if(event.key==='Enter')sendChat()">
 </div>
 </div>
 
+
 <!-- ================= SETTINGS ================= -->
 
 <div id="settings" class="screen">
+
 <div class="panel">
 
 <h2>⚙️ SETTINGS</h2>
 
-<button onclick="setDifficulty('easy')">EASY</button>
-<button onclick="setDifficulty('normal')">NORMAL</button>
-<button onclick="setDifficulty('hard')">HARD</button>
+<button onclick="setDifficulty('easy')">
+EASY
+</button>
+
+<button onclick="setDifficulty('normal')">
+NORMAL
+</button>
+
+<button onclick="setDifficulty('hard')">
+HARD
+</button>
 
 <p>
 Difficulty:
@@ -787,9 +776,11 @@ Difficulty:
 </div>
 </div>
 
+
 <!-- ================= HOW TO ================= -->
 
 <div id="howto" class="screen">
+
 <div class="panel">
 
 <h2>📖 HOW TO PLAY</h2>
@@ -799,7 +790,6 @@ Difficulty:
 <p>🔥 Build combos.</p>
 <p>🪙 Earn coins.</p>
 <p>⭐ Level up.</p>
-<p>🎁 Watch for Dylan gifts.</p>
 <p>🎵 Listen to Dylan's song.</p>
 <p>👑 Saturday Admin Abuse: 8–9 PM.</p>
 
@@ -810,107 +800,99 @@ Difficulty:
 </div>
 </div>
 
-<!-- ================= DYLAN ADMIN ================= -->
+
+<!-- ================= ADMIN ================= -->
 
 <div id="admin" class="screen">
 
 <div class="panel">
 
-<div class="adminHero">
+<h2>👑 DYLAN ADMIN PANEL</h2>
 
-<h1>👑 DYLAN PANEL</h1>
+<div class="notice">
 
-<p>
-<b>THE COMMAND CENTER</b>
-</p>
+<p>Admin status:</p>
 
-<p>
-Admin status:
-<b id="adminStatus">CHECKING...</b>
-</p>
+<b id="adminStatus">
+CHECKING...
+</b>
 
 </div>
 
-<!-- GIFT EVERYONE -->
 
-<div class="adminBox giftBox">
+<!-- GIVE COINS -->
 
-<h2>🎁 GIFT EVERYONE</h2>
+<div class="adminBox">
 
-<p>
-Give everyone a special gift.
+<h3>🪙 GIVE COINS TO PLAYER</h3>
+
+<p class="small">
+Enter the player's Firebase UID.
 </p>
-
-<input
-id="giftAmount"
-type="number"
-min="1"
-placeholder="How many coins?">
-
-<textarea
-id="giftDescription"
-maxlength="250"
-placeholder="What are you giving them? Write the gift message here..."></textarea>
-
-<br>
-
-<button
-class="giftButton"
-onclick="giftEveryone()">
-🎁 GIFT EVERYONE
-</button>
-
-<p id="giftStatus" class="small">
-Ready to send a gift.
-</p>
-
-</div>
-
-<!-- ADMIN GRID -->
-
-<div class="adminGrid">
-
-<div class="adminBox adminMini">
-
-<h3>🪙 GIVE PLAYER COINS</h3>
 
 <input
 id="targetUid"
-placeholder="Player Firebase UID">
+placeholder="Player UID">
 
 <input
 id="coinAmount"
 type="number"
 min="1"
-placeholder="Coin amount">
+placeholder="Coins">
 
-<button
-class="gold"
-onclick="giveCoins()">
+<br>
+
+<button class="gold" onclick="giveCoins()">
 🪙 GIVE COINS
 </button>
 
 </div>
 
-<div class="adminBox adminMini">
 
-<h3>🪙 YOUR COINS</h3>
+<!-- GIFT EVERYONE -->
 
-<button onclick="adminCoins(100)">
-+100
-</button>
+<div class="adminBox">
 
-<button onclick="adminCoins(500)">
-+500
-</button>
+<h3>🎁 GIFT EVERYONE</h3>
 
-<button onclick="adminCoins(1000)">
-+1000
+<p class="small">
+Give every player a gift. Write the gift below and choose how many coins they receive.
+</p>
+
+<textarea
+id="giftMessage"
+maxlength="300"
+placeholder="Example: 🎉 Thanks for playing Catch The Square! Everyone gets 100 coins!"></textarea>
+
+<br>
+
+<input
+id="giftCoins"
+type="number"
+min="0"
+placeholder="Coins to give everyone">
+
+<div class="giftPreview">
+
+<b>🎁 GIFT PREVIEW</b>
+
+<p id="giftPreviewText">
+Your gift message will appear here.
+</p>
+
+<p>
+🪙 Coins:
+<b id="giftPreviewCoins">0</b>
+</p>
+
+</div>
+
+<button class="purple" onclick="giftEveryone()">
+🎁 GIFT EVERYONE
 </button>
 
 </div>
 
-</div>
 
 <!-- MY UID -->
 
@@ -924,6 +906,7 @@ Connecting...
 
 </div>
 
+
 <!-- ANNOUNCEMENT -->
 
 <div class="adminBox">
@@ -933,15 +916,16 @@ Connecting...
 <input
 id="announcementInput"
 maxlength="200"
-placeholder="Write a message for everyone...">
+placeholder="Message everyone...">
 
 <br>
 
 <button onclick="sendAnnouncement()">
-📢 SEND ANNOUNCEMENT
+📢 SEND TO EVERYONE
 </button>
 
 </div>
+
 
 <!-- ADMIN ABUSE -->
 
@@ -961,15 +945,11 @@ CHECKING...
 
 </div>
 
-<button
-class="gold"
-onclick="startAdminAbuse()">
+<button class="gold" onclick="startAdminAbuse()">
 👑 START ADMIN ABUSE
 </button>
 
-<button
-class="danger"
-onclick="endAdminAbuse()">
+<button class="danger" onclick="endAdminAbuse()">
 🛑 END EVENT
 </button>
 
@@ -979,6 +959,7 @@ Event: OFF
 
 </div>
 
+
 <!-- SONG -->
 
 <div class="adminBox">
@@ -987,34 +968,54 @@ Event: OFF
 
 <p>Your song is connected to the game.</p>
 
-<button
-class="purple"
-onclick="openSong()">
+<button class="purple" onclick="openSong()">
 🎵 OPEN MY SONG
 </button>
 
 </div>
 
-<!-- TOOLS -->
+
+<!-- ADMIN COINS -->
+
+<div class="adminBox">
+
+<h3>🪙 YOUR COINS</h3>
+
+<button onclick="adminCoins(100)">
++100
+</button>
+
+<button onclick="adminCoins(500)">
++500
+</button>
+
+<button onclick="adminCoins(1000)">
++1000
+</button>
+
+</div>
+
+
+<!-- RESET -->
 
 <div class="adminBox">
 
 <h3>🔧 ADMIN TOOLS</h3>
 
-<button
-class="danger"
-onclick="adminResetScore()">
+<button class="danger" onclick="adminResetScore()">
 🔄 RESET MY HIGH SCORE
 </button>
 
 </div>
 
+
 <button onclick="showScreen('menu')">
-🏠 BACK TO MENU
+🏠 BACK
 </button>
 
 </div>
 </div>
+
 
 <!-- ================= GAME OVER ================= -->
 
@@ -1039,22 +1040,19 @@ High Score:
 
 </div>
 
+
 <!-- ================= FIREBASE ================= -->
 
 <script type="module">
 
-import {
-initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
 getAuth,
 signInAnonymously
 }
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
 getDatabase,
@@ -1062,15 +1060,15 @@ ref,
 push,
 set,
 get,
-onValue
+onValue,
+update
 }
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
 
 const firebaseConfig={
 
-apiKey:
-"AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
+apiKey:"AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
 
 authDomain:
 "catch-the-square-79110.firebaseapp.com",
@@ -1095,17 +1093,17 @@ measurementId:
 
 };
 
+
 const ADMIN_UID=
 "gMsemyhyGSXfJqLdV0zlkVdJwz82";
 
-const app=
-initializeApp(firebaseConfig);
 
-const auth=
-getAuth(app);
+const app=initializeApp(firebaseConfig);
 
-const db=
-getDatabase(app);
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
 
 const leaderboardRef=
 ref(db,"leaderboard");
@@ -1116,42 +1114,36 @@ ref(db,"chat");
 const broadcastRef=
 ref(db,"adminBroadcasts");
 
-const giftsRef=
-ref(db,"globalGifts");
+const playersRef=
+ref(db,"players");
+
 
 signInAnonymously(auth)
 
 .then(result=>{
 
 window.firebaseUser=result.user;
+
 window.firebaseReady=true;
 
-document.getElementById(
-"firebaseStatus"
-).textContent="ONLINE";
+document.getElementById("firebaseStatus").textContent="ONLINE";
 
-document.getElementById(
-"firebaseStatus"
-).className="online";
+document.getElementById("firebaseStatus").className="online";
 
-document.getElementById(
-"chatStatus"
-).textContent="ONLINE";
+document.getElementById("chatStatus").textContent="ONLINE";
 
-document.getElementById(
-"chatStatus"
-).className="online";
+document.getElementById("chatStatus").className="online";
 
-document.getElementById(
-"myUid"
-).textContent=
+document.getElementById("myUid").textContent=
 result.user.uid;
 
 updateAdminStatus();
+
 listenLeaderboard();
+
 listenChat();
+
 listenBroadcasts();
-listenGifts();
 
 })
 
@@ -1159,15 +1151,12 @@ listenGifts();
 
 console.error(error);
 
-document.getElementById(
-"firebaseStatus"
-).textContent="OFFLINE";
+document.getElementById("firebaseStatus").textContent="OFFLINE";
 
-document.getElementById(
-"chatStatus"
-).textContent="OFFLINE";
+document.getElementById("chatStatus").textContent="OFFLINE";
 
 });
+
 
 function isAdmin(){
 
@@ -1177,6 +1166,7 @@ auth.currentUser.uid===ADMIN_UID
 );
 
 }
+
 
 function updateAdminStatus(){
 
@@ -1197,16 +1187,16 @@ el.textContent="PLAYER";
 
 }
 
+
 window.updateAdminStatus=
 updateAdminStatus;
 
-/* LEADERBOARD */
+
+/* ================= LEADERBOARD ================= */
 
 function listenLeaderboard(){
 
-onValue(
-leaderboardRef,
-snapshot=>{
+onValue(leaderboardRef,snapshot=>{
 
 const scores=[];
 
@@ -1231,7 +1221,7 @@ Number(b.score||0)-
 Number(a.score||0)
 );
 
-renderLeaderboard(
+renderFirebaseLeaderboard(
 scores.slice(0,20)
 );
 
@@ -1239,12 +1229,11 @@ scores.slice(0,20)
 
 }
 
-function renderLeaderboard(scores){
+
+function renderFirebaseLeaderboard(scores){
 
 const box=
-document.getElementById(
-"leaderboardList"
-);
+document.getElementById("leaderboardList");
 
 if(!scores.length){
 
@@ -1257,8 +1246,7 @@ return;
 
 box.innerHTML="";
 
-scores.forEach(
-(item,index)=>{
+scores.forEach((item,index)=>{
 
 const medal=
 index===0?"🥇":
@@ -1270,7 +1258,9 @@ box.innerHTML+=`
 <div class="notice">
 
 ${medal}
+
 <b>#${index+1}</b>
+
 👤 ${safe(item.name||"Player")}
 
 <br>
@@ -1285,38 +1275,37 @@ ${medal}
 
 }
 
+
 window.saveFirebaseScore=
 async function(){
 
 if(!auth.currentUser){
 
-alert(
-"Firebase is still connecting."
-);
+alert("Firebase is still connecting.");
 
 return false;
 
 }
 
 const name=
-localStorage.getItem(
-"playerName"
-)||"Player";
+localStorage.getItem("playerName")||
+"Player";
 
 try{
 
-const newRef=
-push(leaderboardRef);
+const newRef=push(leaderboardRef);
 
-await set(
-newRef,
-{
+await set(newRef,{
+
 uid:auth.currentUser.uid,
+
 name:name,
+
 score:Number(highScore),
+
 time:Date.now()
-}
-);
+
+});
 
 return true;
 
@@ -1324,10 +1313,7 @@ return true;
 
 console.error(error);
 
-alert(
-"❌ Could not save score: "+
-error.message
-);
+alert("❌ Could not save score: "+error.message);
 
 return false;
 
@@ -1335,13 +1321,12 @@ return false;
 
 };
 
-/* CHAT */
+
+/* ================= CHAT ================= */
 
 function listenChat(){
 
-onValue(
-chatRef,
-snapshot=>{
+onValue(chatRef,snapshot=>{
 
 const messages=[];
 
@@ -1361,22 +1346,17 @@ Number(b.time||0)
 );
 
 const box=
-document.getElementById(
-"chatMessages"
-);
+document.getElementById("chatMessages");
 
 box.innerHTML="";
 
-messages.slice(-50)
-.forEach(m=>{
+messages.slice(-50).forEach(m=>{
 
 box.innerHTML+=`
 
 <div class="chatMsg">
 
-<b>
-👤 ${safe(m.name||"Player")}
-</b>
+<b>👤 ${safe(m.name||"Player")}</b>
 
 <br>
 
@@ -1388,104 +1368,87 @@ ${safe(m.message||"")}
 
 });
 
-box.scrollTop=
-box.scrollHeight;
+box.scrollTop=box.scrollHeight;
 
 });
 
 }
+
 
 window.sendChat=
 async function(){
 
 if(!auth.currentUser){
 
-alert(
-"Firebase is still connecting."
-);
+alert("Firebase is still connecting.");
 
 return;
 
 }
 
 const name=
-document.getElementById(
-"chatName"
-).value.trim();
+document.getElementById("chatName").value.trim();
 
 const message=
-document.getElementById(
-"chatInput"
-).value.trim();
+document.getElementById("chatInput").value.trim();
 
 if(!name||!message){
 
-alert(
-"Enter your name and message."
-);
+alert("Enter your name and message.");
 
 return;
 
 }
 
-if(
-name.toLowerCase()==="dylan" &&
-!isAdmin()
-){
+if(name.toLowerCase()==="dylan"&&!isAdmin()){
 
-alert(
-"❌ Dylan is reserved."
-);
+alert("❌ Dylan is reserved.");
 
 return;
 
 }
 
-localStorage.setItem(
-"playerName",
-name
-);
+localStorage.setItem("playerName",name);
 
 try{
 
-await push(
-chatRef,
-{
-uid:auth.currentUser.uid,
-name:name,
-message:message,
-time:Date.now()
-}
-);
+await push(chatRef,{
 
-document.getElementById(
-"chatInput"
-).value="";
+uid:auth.currentUser.uid,
+
+name:name,
+
+message:message,
+
+time:Date.now()
+
+});
+
+document.getElementById("chatInput").value="";
 
 }catch(error){
 
-console.error(error);
+alert("❌ Could not send message.");
 
-alert(
-"❌ Could not send message."
-);
+console.error(error);
 
 }
 
 };
 
-/* BROADCAST */
+
+/* ================= BROADCAST ================= */
 
 function listenBroadcasts(){
 
-onValue(
-broadcastRef,
-snapshot=>{
+onValue(broadcastRef,snapshot=>{
 
 const data=[];
 
 snapshot.forEach(child=>{
+
 data.push(child.val());
+
 });
 
 if(!data.length)return;
@@ -1493,345 +1456,67 @@ if(!data.length)return;
 const latest=
 data[data.length-1];
 
-if(
-latest &&
-latest.message
-){
+if(latest&&latest.message){
 
-showBroadcast(
-latest.message
-);
+showBroadcast(latest.message);
 
 }
 
 });
 
 }
+
 
 function showBroadcast(message){
 
 const box=
-document.getElementById(
-"broadcast"
-);
+document.getElementById("broadcast");
 
-document.getElementById(
-"broadcastMessage"
-).textContent=
-message;
+document.getElementById("broadcastMessage")
+.textContent=message;
 
 box.style.display="block";
 
-setTimeout(
-()=>{
+setTimeout(()=>{
+
 box.style.display="none";
-},
-7000
-);
+
+},7000);
 
 }
 
-window.sendAnnouncement=
-async function(){
 
-if(!isAdmin()){
-
-alert(
-"❌ Dylan admin only."
-);
-
-return;
-
-}
-
-const input=
-document.getElementById(
-"announcementInput"
-);
-
-const message=
-input.value.trim();
-
-if(!message){
-
-alert(
-"Write a message."
-);
-
-return;
-
-}
-
-try{
-
-await push(
-broadcastRef,
-{
-admin:"Dylan",
-uid:auth.currentUser.uid,
-message:message,
-time:Date.now(),
-type:"announcement"
-}
-);
-
-input.value="";
-
-}catch(error){
-
-console.error(error);
-
-alert(
-"❌ Could not send announcement."
-);
-
-}
-
-};
-
-/* GIFT EVERYONE */
-
-window.giftEveryone=
-async function(){
-
-if(!isAdmin()){
-
-alert(
-"❌ Dylan admin only."
-);
-
-return;
-
-}
-
-const amount=
-Number(
-document.getElementById(
-"giftAmount"
-).value
-);
-
-const description=
-document.getElementById(
-"giftDescription"
-).value.trim();
-
-if(!amount || amount<1){
-
-alert(
-"Enter how many coins to give."
-);
-
-return;
-
-}
-
-if(!description){
-
-alert(
-"Write what you are giving everyone."
-);
-
-return;
-
-}
-
-const status=
-document.getElementById(
-"giftStatus"
-);
-
-status.textContent=
-"🎁 Sending gift...";
-
-try{
-
-await push(
-giftsRef,
-{
-from:"Dylan",
-adminUid:auth.currentUser.uid,
-coins:amount,
-description:description,
-time:Date.now()
-}
-);
-
-await push(
-broadcastRef,
-{
-admin:"Dylan",
-uid:auth.currentUser.uid,
-message:
-"🎁 DYLAN GIFTED EVERYONE "+
-amount+
-" COINS! 🎉",
-time:Date.now(),
-type:"gift"
-}
-);
-
-status.textContent=
-"✅ GIFT SENT!";
-
-document.getElementById(
-"giftAmount"
-).value="";
-
-document.getElementById(
-"giftDescription"
-).value="";
-
-alert(
-"🎁 Gift sent to everyone!"
-);
-
-}catch(error){
-
-console.error(error);
-
-status.textContent=
-"❌ Gift failed.";
-
-alert(
-"❌ Could not send gift: "+
-error.message
-);
-
-}
-
-};
-
-/* RECEIVE GIFTS */
-
-function listenGifts(){
-
-onValue(
-giftsRef,
-snapshot=>{
-
-const gifts=[];
-
-snapshot.forEach(child=>{
-
-gifts.push({
-id:child.key,
-...child.val()
-});
-
-});
-
-if(!gifts.length)return;
-
-const latest=
-gifts[gifts.length-1];
-
-if(!latest)return;
-
-const key=
-"receivedGift_"+latest.id;
-
-if(localStorage.getItem(key))
-return;
-
-localStorage.setItem(key,"yes");
-
-const amount=
-Number(latest.coins||0);
-
-if(amount>0){
-
-coins+=amount;
-
-save();
-updateMenus();
-
-}
-
-showGiftPopup(
-amount,
-latest.description||
-"A gift from Dylan!"
-);
-
-});
-
-}
-
-function showGiftPopup(
-amount,
-description
-){
-
-document.getElementById(
-"giftCoins"
-).textContent=
-"+"+amount+" 🪙";
-
-document.getElementById(
-"giftDescription"
-).textContent=
-description;
-
-document.getElementById(
-"giftPopup"
-).style.display=
-"block";
-
-}
-
-window.closeGiftPopup=
-function(){
-
-document.getElementById(
-"giftPopup"
-).style.display=
-"none";
-
-};
-
-/* GIVE PLAYER COINS */
+/* ================= GIVE COINS ================= */
 
 window.giveCoins=
 async function(){
 
 if(!isAdmin()){
 
-alert(
-"❌ Dylan admin only."
-);
+alert("❌ Dylan admin only.");
 
 return;
 
 }
 
 const target=
-document.getElementById(
-"targetUid"
-).value.trim();
+document.getElementById("targetUid")
+.value.trim();
 
 const amount=
-Number(
-document.getElementById(
-"coinAmount"
-).value
-);
+Number(document.getElementById("coinAmount").value);
 
 if(!target){
 
-alert(
-"Enter the player's Firebase UID."
-);
+alert("Enter the player's UID.");
 
 return;
 
 }
 
-if(!amount || amount<1){
+if(!amount||amount<1){
 
-alert(
-"Enter a valid coin amount."
-);
+alert("Enter a valid coin amount.");
 
 return;
 
@@ -1840,10 +1525,7 @@ return;
 try{
 
 const playerRef=
-ref(
-db,
-"players/"+target+"/coins"
-);
+ref(db,"players/"+target+"/coins");
 
 const oldSnap=
 await get(playerRef);
@@ -1878,16 +1560,243 @@ error.message
 
 };
 
-/* ADMIN ABUSE */
+
+/* ================= GIFT EVERYONE ================= */
+
+window.giftEveryone=
+async function(){
+
+if(!isAdmin()){
+
+alert("❌ Dylan admin only.");
+
+return;
+
+}
+
+const message=
+document.getElementById("giftMessage")
+.value.trim();
+
+const amount=
+Number(
+document.getElementById("giftCoins").value||0
+);
+
+if(!message){
+
+alert("Write what you want to gift everyone.");
+
+return;
+
+}
+
+if(amount<0){
+
+alert("Coin amount cannot be negative.");
+
+return;
+
+}
+
+const confirmed=
+confirm(
+"🎁 SEND THIS GIFT TO EVERYONE?\n\n"+
+message+
+"\n\n🪙 Coins: "+
+amount
+);
+
+if(!confirmed)return;
+
+try{
+
+/*
+Creates a global gift event.
+
+Players can see the gift announcement.
+The coin amount is stored with the gift.
+*/
+
+await push(
+broadcastRef,
+{
+
+admin:"Dylan",
+
+uid:auth.currentUser.uid,
+
+message:
+"🎁 GIFT FOR EVERYONE!\n"+
+message+
+"\n🪙 Everyone receives "+
+amount+
+" coins!",
+
+giftCoins:amount,
+
+gift:true,
+
+time:Date.now(),
+
+type:"gift"
+
+}
+);
+
+
+/*
+Also store the latest gift.
+*/
+
+await set(
+ref(db,"globalGift"),
+{
+
+message:message,
+
+coins:amount,
+
+admin:"Dylan",
+
+uid:auth.currentUser.uid,
+
+time:Date.now(),
+
+type:"gift"
+
+}
+);
+
+
+alert(
+"🎁 GIFT SENT!\n\n"+
+"Message: "+
+message+
+"\nCoins: "+
+amount
+);
+
+document.getElementById("giftMessage").value="";
+
+document.getElementById("giftCoins").value="";
+
+updateGiftPreview();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"❌ Could not send gift: "+
+error.message
+);
+
+}
+
+};
+
+
+/* ================= GIFT PREVIEW ================= */
+
+function updateGiftPreview(){
+
+const message=
+document.getElementById("giftMessage")
+.value.trim();
+
+const coins=
+Number(
+document.getElementById("giftCoins").value||0
+);
+
+document.getElementById("giftPreviewText")
+.textContent=
+message||
+"Your gift message will appear here.";
+
+document.getElementById("giftPreviewCoins")
+.textContent=
+coins;
+
+}
+
+document.getElementById("giftMessage")
+.addEventListener(
+"input",
+updateGiftPreview
+);
+
+document.getElementById("giftCoins")
+.addEventListener(
+"input",
+updateGiftPreview
+);
+
+
+/* ================= ANNOUNCEMENT ================= */
+
+window.sendAnnouncement=
+async function(){
+
+if(!isAdmin()){
+
+alert("❌ Dylan admin only.");
+
+return;
+
+}
+
+const input=
+document.getElementById("announcementInput");
+
+const message=input.value.trim();
+
+if(!message){
+
+alert("Write a message.");
+
+return;
+
+}
+
+try{
+
+await push(broadcastRef,{
+
+admin:"Dylan",
+
+uid:auth.currentUser.uid,
+
+message:message,
+
+time:Date.now(),
+
+type:"announcement"
+
+});
+
+input.value="";
+
+alert("📢 Announcement sent!");
+
+}catch(error){
+
+alert("❌ Could not send announcement.");
+
+}
+
+};
+
+
+/* ================= ADMIN EVENT ================= */
 
 window.startAdminAbuse=
 async function(){
 
 if(!isAdmin()){
 
-alert(
-"❌ Dylan admin only."
-);
+alert("❌ Dylan admin only.");
 
 return;
 
@@ -1903,57 +1812,63 @@ document.getElementById(
 ).textContent=
 "Event: 🔥 LIVE";
 
-await push(
-broadcastRef,
-{
+
+await push(broadcastRef,{
+
 admin:"Dylan",
+
 uid:auth.currentUser.uid,
+
 message:
 "🚨 ADMIN ABUSE HAS STARTED! 🔥",
+
 time:Date.now(),
+
 type:"announcement"
-}
-);
+
+});
 
 };
+
 
 window.endAdminAbuse=
 async function(){
 
 if(!isAdmin()){
 
-alert(
-"❌ Dylan admin only."
-);
+alert("❌ Dylan admin only.");
 
 return;
 
 }
 
-localStorage.removeItem(
-"adminEvent"
-);
+localStorage.removeItem("adminEvent");
 
 document.getElementById(
 "adminEventStatus"
 ).textContent=
 "Event: OFF";
 
-await push(
-broadcastRef,
-{
+
+await push(broadcastRef,{
+
 admin:"Dylan",
+
 uid:auth.currentUser.uid,
+
 message:
 "🛑 ADMIN ABUSE HAS ENDED.",
+
 time:Date.now(),
+
 type:"announcement"
-}
-);
+
+});
 
 };
 
-/* SAFE TEXT */
+
+/* ================= SAFE TEXT ================= */
 
 function safe(text){
 
@@ -1971,7 +1886,8 @@ window.safe=safe;
 
 </script>
 
-<!-- ================= GAME SCRIPT ================= -->
+
+<!-- ================= GAME LOGIC ================= -->
 
 <script>
 
@@ -1985,18 +1901,27 @@ let streak=
 Number(localStorage.getItem("streak")||0);
 
 let score=0;
+
 let lives=3;
+
 let level=1;
+
 let time=60;
+
 let combo=0;
+
 let playing=false;
+
 let daily=false;
 
 let moveTimer;
+
 let gameTimer;
+
 let bonusTimer;
 
-/* SCREEN */
+
+/* ================= SCREEN ================= */
 
 function showScreen(id){
 
@@ -2013,14 +1938,19 @@ screen.classList.add("active");
 
 updateMenus();
 
-if(id==="admin")
+if(id==="admin"){
+
 updateAdminStatus();
 
 }
 
+}
+
+
 window.showScreen=showScreen;
 
-/* SONG */
+
+/* ================= SONG ================= */
 
 function openSong(){
 
@@ -2033,14 +1963,13 @@ window.open(
 
 window.openSong=openSong;
 
-/* SUPPORT */
+
+/* ================= SUPPORT ================= */
 
 function toggleSupport(){
 
 const box=
-document.getElementById(
-"support"
-);
+document.getElementById("support");
 
 box.style.display=
 box.style.display==="none"
@@ -2049,45 +1978,54 @@ box.style.display==="none"
 
 }
 
-/* GAME */
+
+/* ================= GAME START ================= */
 
 function startGame(){
 
 daily=false;
+
 beginGame(60);
 
 }
 
 window.startGame=startGame;
 
+
 function startDaily(){
 
 daily=true;
+
 beginGame(45);
 
 }
 
 window.startDaily=startDaily;
 
+
 function beginGame(seconds){
 
 clearTimers();
 
 score=0;
+
 combo=0;
+
 level=1;
+
 time=seconds;
+
 lives=3;
+
 playing=true;
 
 showScreen("game");
 
 updateGame();
+
 moveSquare();
 
-gameTimer=
-setInterval(
-()=>{
+gameTimer=setInterval(()=>{
 
 if(!playing)return;
 
@@ -2095,42 +2033,43 @@ time--;
 
 updateGame();
 
-if(time<=0)
+if(time<=0){
+
 endGame();
 
-},
-1000
-);
+}
 
-moveTimer=
-setInterval(
-()=>{
+},1000);
+
+
+moveTimer=setInterval(()=>{
 
 if(!playing)return;
 
 moveSquare();
 
 lives--;
+
 combo=0;
 
 updateGame();
 
-if(lives<=0)
+if(lives<=0){
+
 endGame();
-
-},
-1000
-);
-
-bonusTimer=
-setInterval(
-showBonus,
-7000
-);
 
 }
 
-/* SQUARE */
+},1000);
+
+
+bonusTimer=
+setInterval(showBonus,7000);
+
+}
+
+
+/* ================= SQUARE ================= */
 
 function moveSquare(){
 
@@ -2164,19 +2103,25 @@ Math.random()*maxY+"px";
 
 }
 
+
 function catchSquare(){
 
 if(!playing)return;
 
 score++;
+
 combo++;
+
 coins++;
 
 level=
 Math.floor(score/5)+1;
 
-if(combo%5===0)
+if(combo%5===0){
+
 coins+=5;
+
+}
 
 if(combo>=10){
 
@@ -2188,26 +2133,30 @@ localStorage.setItem(
 }
 
 moveSquare();
+
 updateGame();
 
 }
+
 
 function catchBonus(){
 
 if(!playing)return;
 
 score+=5;
+
 coins+=10;
+
 combo+=2;
 
 document.getElementById(
 "bonus"
-).style.display=
-"none";
+).style.display="none";
 
 updateGame();
 
 }
+
 
 function showBonus(){
 
@@ -2233,19 +2182,18 @@ Math.max(
 area.clientHeight-55
 )+"px";
 
-bonus.style.display=
-"block";
+bonus.style.display="block";
 
-setTimeout(
-()=>{
+setTimeout(()=>{
+
 bonus.style.display="none";
-},
-3500
-);
+
+},3500);
 
 }
 
-/* UPDATE GAME */
+
+/* ================= UPDATE ================= */
 
 function updateGame(){
 
@@ -2271,7 +2219,8 @@ save();
 
 }
 
-/* END */
+
+/* ================= END ================= */
 
 function endGame(){
 
@@ -2281,8 +2230,11 @@ playing=false;
 
 clearTimers();
 
-if(score>highScore)
+if(score>highScore){
+
 highScore=score;
+
+}
 
 if(daily){
 
@@ -2316,48 +2268,51 @@ document.getElementById(
 
 document.getElementById(
 "gameOver"
-).style.display=
-"block";
+).style.display="block";
 
 }
+
 
 function closeGameOver(){
 
 document.getElementById(
 "gameOver"
-).style.display=
-"none";
+).style.display="none";
 
 }
 
-window.closeGameOver=
-closeGameOver;
+window.closeGameOver=closeGameOver;
+
 
 function quitGame(){
 
 playing=false;
+
 clearTimers();
+
 showScreen("menu");
 
 }
 
+
 function clearTimers(){
 
 clearInterval(moveTimer);
+
 clearInterval(gameTimer);
+
 clearInterval(bonusTimer);
 
 }
 
-/* SAVE SCORE */
+
+/* ================= SAVE SCORE ================= */
 
 async function saveScore(){
 
 if(!window.firebaseReady){
 
-alert(
-"Firebase is still connecting."
-);
+alert("Firebase is still connecting.");
 
 return;
 
@@ -2365,9 +2320,7 @@ return;
 
 if(highScore<=0){
 
-alert(
-"Play a game first!"
-);
+alert("Play a game first!");
 
 return;
 
@@ -2401,21 +2354,21 @@ alert(
 
 window.saveScore=saveScore;
 
-/* COINS */
+
+/* ================= COINS ================= */
 
 function buyLife(){
 
 if(coins<20){
 
-alert(
-"You need 20 coins!"
-);
+alert("You need 20 coins!");
 
 return;
 
 }
 
 coins-=20;
+
 lives++;
 
 updateGame();
@@ -2424,13 +2377,12 @@ updateGame();
 
 window.buyLife=buyLife;
 
+
 function buySkin(name,cost){
 
 if(coins<cost){
 
-alert(
-"Not enough coins!"
-);
+alert("Not enough coins!");
 
 return;
 
@@ -2444,6 +2396,7 @@ name
 );
 
 applySkin();
+
 save();
 
 alert(
@@ -2455,7 +2408,6 @@ name.toUpperCase()+
 
 window.buySkin=buySkin;
 
-/* SKINS */
 
 function applySkin(){
 
@@ -2472,15 +2424,18 @@ square.style.background=
 
 }else if(skin==="fire"){
 
-square.style.background="orangered";
+square.style.background=
+"orangered";
 
 }else if(skin==="ice"){
 
-square.style.background="deepskyblue";
+square.style.background=
+"deepskyblue";
 
 }else if(skin==="gold"){
 
-square.style.background="gold";
+square.style.background=
+"gold";
 
 }else if(skin==="galaxy"){
 
@@ -2495,7 +2450,8 @@ square.style.background="lime";
 
 }
 
-/* DIFFICULTY */
+
+/* ================= DIFFICULTY ================= */
 
 function setDifficulty(value){
 
@@ -2513,28 +2469,22 @@ value.toUpperCase();
 
 window.setDifficulty=setDifficulty;
 
-/* ADMIN */
+
+/* ================= ADMIN ================= */
 
 function openAdmin(){
 
 if(!window.firebaseUser){
 
-alert(
-"Firebase is still connecting..."
-);
+alert("Firebase is still connecting...");
 
 return;
 
 }
 
-if(
-window.firebaseUser.uid!==
-"gMsemyhyGSXfJqLdV0zlkVdJwz82"
-){
+if(window.firebaseUser.uid!=="gMsemyhyGSXfJqLdV0zlkVdJwz82"){
 
-alert(
-"❌ This account is not Dylan."
-);
+alert("❌ This account is not Dylan.");
 
 return;
 
@@ -2542,9 +2492,8 @@ return;
 
 showScreen("admin");
 
-document.getElementById(
-"myUid"
-).textContent=
+document.getElementById("myUid")
+.textContent=
 window.firebaseUser.uid;
 
 const active=
@@ -2561,17 +2510,14 @@ active
 
 window.openAdmin=openAdmin;
 
+
 function adminCoins(amount){
 
-if(
-!window.firebaseUser ||
+if(!window.firebaseUser||
 window.firebaseUser.uid!==
-"gMsemyhyGSXfJqLdV0zlkVdJwz82"
-){
+"gMsemyhyGSXfJqLdV0zlkVdJwz82"){
 
-alert(
-"❌ Dylan admin only."
-);
+alert("❌ Dylan admin only.");
 
 return;
 
@@ -2580,52 +2526,50 @@ return;
 coins+=amount;
 
 save();
+
 updateMenus();
 
 alert(
-"🪙 +"+amount+" COINS!"
+"🪙 +"+
+amount+
+" COINS!"
 );
 
 }
 
 window.adminCoins=adminCoins;
 
+
 function adminResetScore(){
 
-if(
-!window.firebaseUser ||
+if(!window.firebaseUser||
 window.firebaseUser.uid!==
-"gMsemyhyGSXfJqLdV0zlkVdJwz82"
-){
+"gMsemyhyGSXfJqLdV0zlkVdJwz82"){
 
-alert(
-"❌ Dylan admin only."
-);
+alert("❌ Dylan admin only.");
 
 return;
 
 }
 
-if(!confirm(
-"Reset your high score?"
-))
+if(!confirm("Reset your high score?"))
 return;
 
 highScore=0;
 
 save();
+
 updateMenus();
 
-alert(
-"🔄 HIGH SCORE RESET!"
-);
+alert("🔄 HIGH SCORE RESET!");
 
 }
 
 window.adminResetScore=
 adminResetScore;
 
-/* MENUS */
+
+/* ================= MENUS ================= */
 
 function updateMenus(){
 
@@ -2655,6 +2599,7 @@ localStorage.getItem("dailyBest")||0
 updateAchievements();
 
 }
+
 
 function updateAchievements(){
 
@@ -2698,6 +2643,7 @@ coins>=250?"UNLOCKED":"LOCKED";
 
 }
 
+
 function save(){
 
 localStorage.setItem(
@@ -2712,6 +2658,7 @@ highScore
 
 }
 
+
 function resetData(){
 
 if(!confirm(
@@ -2720,55 +2667,15 @@ if(!confirm(
 return;
 
 localStorage.clear();
+
 location.reload();
 
 }
 
 window.resetData=resetData;
 
-/* UPDATE COUNTDOWN */
 
-function updateUpdateCountdown(){
-
-const now=new Date();
-
-const start=new Date(
-2026,7,27,19,0,0
-);
-
-const end=new Date(
-2026,7,27,19,30,0
-);
-
-let text="";
-
-if(now<start){
-
-text=
-"🚀 STARTS IN "+
-formatTime(
-Math.floor((start-now)/1000)
-);
-
-}else if(now<end){
-
-text=
-"🔥 UPDATE IS LIVE!";
-
-}else{
-
-text=
-"✅ UPDATE COMPLETE";
-
-}
-
-document.getElementById(
-"updateCountdown"
-).textContent=text;
-
-}
-
-/* SATURDAY COUNTDOWN */
+/* ================= SATURDAY EVENT ================= */
 
 function updateEventCountdown(){
 
@@ -2782,22 +2689,19 @@ now.getMinutes()*60+
 now.getSeconds();
 
 const start=20*3600;
+
 const end=21*3600;
 
 let text="";
 
-if(
-day===6 &&
-secondsNow>=start &&
-secondsNow<end
-){
+if(day===6&&
+secondsNow>=start&&
+secondsNow<end){
 
 text="🔥 ADMIN ABUSE IS LIVE!";
 
-}else if(
-day===6 &&
-secondsNow<start
-){
+}else if(day===6&&
+secondsNow<start){
 
 text=
 "🔥 STARTS IN "+
@@ -2808,8 +2712,7 @@ formatTime(start-secondsNow);
 let days=
 (6-day+7)%7;
 
-if(days===0)
-days=7;
+if(days===0)days=7;
 
 const next=
 days*86400+
@@ -2831,9 +2734,95 @@ document.getElementById(
 
 }
 
+
+/* ================= TOMORROW UPDATE ================= */
+
+function updateTomorrow(){
+
+const now=new Date();
+
+const target=new Date(now);
+
+target.setDate(
+now.getDate()+1
+);
+
+target.setHours(19,0,0,0);
+
+const end=new Date(target);
+
+end.setMinutes(30);
+
+let text;
+
+if(now>=target&&now<end){
+
+text="🚀 UPDATE IS LIVE!";
+
+}else{
+
+let diff=target-now;
+
+text=
+"⏰ UPDATE STARTS IN "+
+formatDuration(diff);
+
+}
+
+document.getElementById(
+"updateCountdown"
+).textContent=text;
+
+}
+
+
+function formatDuration(ms){
+
+let seconds=
+Math.max(
+0,
+Math.floor(ms/1000)
+);
+
+const days=
+Math.floor(seconds/86400);
+
+seconds%=86400;
+
+const hours=
+Math.floor(seconds/3600);
+
+seconds%=3600;
+
+const minutes=
+Math.floor(seconds/60);
+
+const secs=
+seconds%60;
+
+if(days>0){
+
+return days+"d "+
+hours+"h "+
+minutes+"m";
+
+}
+
+return String(hours).padStart(2,"0")+
+":"+
+String(minutes).padStart(2,"0")+
+":"+
+String(secs).padStart(2,"0");
+
+}
+
+
 function formatTime(seconds){
 
-seconds=Math.max(0,seconds);
+seconds=Math.max(
+0,
+seconds
+);
 
 const days=
 Math.floor(seconds/86400);
@@ -2861,25 +2850,30 @@ return `${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${St
 
 }
 
-/* START */
-
-setInterval(
-updateUpdateCountdown,
-1000
-);
 
 setInterval(
 updateEventCountdown,
 1000
 );
 
-updateUpdateCountdown();
+setInterval(
+updateTomorrow,
+1000
+);
+
 updateEventCountdown();
+
+updateTomorrow();
+
 updateMenus();
+
 applySkin();
 
+
 const savedDifficulty=
-localStorage.getItem("difficulty");
+localStorage.getItem(
+"difficulty"
+);
 
 if(savedDifficulty){
 
@@ -2894,4 +2888,3 @@ savedDifficulty.toUpperCase();
 
 </body>
 </html>
-```
