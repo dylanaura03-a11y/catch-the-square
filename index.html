@@ -4,756 +4,848 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Catch The Square 5.0</title>
+<title>Catch The Square | Dylan Ultimate</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap');
-
 *{box-sizing:border-box}
 
 :root{
- --bg:#05050a;
- --panel:#0c0c15;
- --panel2:#11111d;
- --line:#ffffff14;
- --purple:#9b5cff;
- --blue:#35d7ff;
- --pink:#ff4fd8;
- --green:#35f59a;
+--bg:#05050b;
+--panel:#0b0b15;
+--panel2:#11111e;
+--line:#ffffff12;
+--purple:#9d5cff;
+--blue:#29d9ff;
+--pink:#ff4fd8;
+--green:#35f59a;
+--red:#ff5570;
 }
 
 html,body{
- margin:0;
- min-height:100%;
- background:var(--bg);
- color:white;
- font-family:Arial,sans-serif;
+margin:0;
+min-height:100%;
+background:var(--bg);
+color:white;
+font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
- overflow-x:hidden;
+overflow-x:hidden;
 }
 
-canvas{
- position:fixed;
- inset:0;
- width:100%;
- height:100%;
- pointer-events:none;
- z-index:0;
+button,input{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+#stars{
+position:fixed;
+inset:0;
+z-index:0;
+pointer-events:none;
 }
 
 .app{
- position:relative;
- z-index:1;
- min-height:100vh;
+position:relative;
+z-index:1;
+min-height:100vh;
 }
 
 /* HEADER */
 
 header{
- height:76px;
- padding:0 28px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- background:#07070dcc;
- border-bottom:1px solid var(--line);
- backdrop-filter:blur(20px);
- position:sticky;
- top:0;
- z-index:20;
+height:72px;
+padding:0 25px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#07070dcc;
+backdrop-filter:blur(18px);
+border-bottom:1px solid var(--line);
+position:sticky;
+top:0;
+z-index:50;
 }
 
-.brand{
- display:flex;
- align-items:center;
- gap:12px;
- font-family:Orbitron,sans-serif;
- font-weight:900;
+.logo{
+font-size:17px;
+font-weight:1000;
+letter-spacing:.5px;
 }
 
-.brandIcon{
- width:42px;
- height:42px;
- border-radius:13px;
- display:grid;
- place-items:center;
- background:linear-gradient(135deg,var(--purple),var(--blue));
- box-shadow:0 0 30px #9b5cff66;
+.logo span{
+color:var(--purple);
 }
 
-.brandText{
- font-size:17px;
+.server{
+font-size:10px;
+color:#858596;
+display:flex;
+gap:8px;
+align-items:center;
 }
 
-.brandText span{
- color:var(--purple);
+.dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:var(--green);
+box-shadow:0 0 15px var(--green);
 }
 
-.status{
- display:flex;
- align-items:center;
- gap:8px;
- color:#9292a2;
- font-size:11px;
- font-weight:bold;
+/* PAGES */
+
+.page{
+display:none;
+width:min(1150px,94%);
+margin:auto;
+padding:30px 0 70px;
+animation:pageIn .3s ease;
 }
 
-.statusDot{
- width:8px;
- height:8px;
- border-radius:50%;
- background:var(--green);
- box-shadow:0 0 15px var(--green);
+.page.active{
+display:block;
 }
 
-/* MAIN */
-
-.main{
- width:min(1200px,94%);
- margin:auto;
- padding:30px 0 80px;
+@keyframes pageIn{
+from{
+opacity:0;
+transform:translateY(12px);
+}
+to{
+opacity:1;
+transform:none;
+}
 }
 
-/* HERO */
+/* MAIN MENU */
 
-.hero{
- min-height:260px;
- display:flex;
- flex-direction:column;
- justify-content:center;
- align-items:center;
- text-align:center;
+.menu{
+min-height:calc(100vh - 72px);
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
 }
 
-.hero .mini{
- font-family:Orbitron,sans-serif;
- font-size:11px;
- letter-spacing:5px;
- color:#7d7d91;
- margin-bottom:14px;
+.menuBox{
+width:min(620px,100%);
+padding:20px;
 }
 
-.hero h1{
- margin:0;
- font-family:Orbitron,sans-serif;
- font-size:clamp(38px,8vw,82px);
- line-height:.95;
- letter-spacing:-4px;
- background:linear-gradient(90deg,#fff,var(--purple),var(--blue),#fff);
- background-size:300%;
- -webkit-background-clip:text;
- color:transparent;
- animation:gradient 6s linear infinite;
- text-shadow:0 0 40px #9b5cff20;
+.version{
+font-size:10px;
+letter-spacing:5px;
+color:#777789;
+font-weight:bold;
 }
 
-@keyframes gradient{
- to{background-position:300%}
+.title{
+font-family:Arial,sans-serif;
+font-size:clamp(45px,10vw,90px);
+font-weight:1000;
+letter-spacing:-6px;
+line-height:.9;
+margin:18px 0 12px;
+background:linear-gradient(
+90deg,
+#fff,
+#b184ff,
+#42ddff,
+#fff
+);
+background-size:300%;
+-webkit-background-clip:text;
+color:transparent;
+animation:titleGlow 6s linear infinite;
 }
 
-.hero p{
- color:#707083;
- margin:18px 0 0;
+@keyframes titleGlow{
+to{background-position:300%}
 }
 
-/* STATS */
-
-.stats{
- display:grid;
- grid-template-columns:repeat(5,1fr);
- gap:12px;
- margin-bottom:14px;
+.subtitle{
+color:#707083;
+margin-bottom:28px;
 }
 
-.stat{
- position:relative;
- overflow:hidden;
- padding:18px;
- border-radius:18px;
- background:linear-gradient(145deg,#11111c,#08080f);
- border:1px solid var(--line);
- box-shadow:0 20px 50px #0008;
+.menuButtons{
+display:grid;
+gap:10px;
 }
 
-.stat:before{
- content:"";
- position:absolute;
- width:100px;
- height:100px;
- border-radius:50%;
- background:#9b5cff12;
- right:-45px;
- top:-45px;
- filter:blur(15px);
+.menuButton{
+border:1px solid var(--line);
+border-radius:16px;
+padding:15px;
+background:linear-gradient(145deg,#12121e,#090910);
+color:#fff;
+font-weight:bold;
+transition:.2s;
 }
 
-.stat small{
- color:#727284;
- font-size:10px;
- font-weight:bold;
- letter-spacing:1px;
+.menuButton:hover{
+transform:translateY(-3px);
+border-color:#9d5cff55;
+box-shadow:0 12px 35px #0009;
 }
 
-.stat strong{
- display:block;
- margin-top:7px;
- font-family:Orbitron,sans-serif;
- font-size:25px;
+.start{
+padding:18px;
+font-size:16px;
+border:0;
+background:linear-gradient(135deg,#8b3dff,#2563eb);
+box-shadow:0 15px 40px #713cff33;
 }
 
-.xpWrap{
- height:10px;
- border-radius:99px;
- background:#15151f;
- border:1px solid #ffffff08;
- overflow:hidden;
- margin-bottom:22px;
+.support{
+background:#12301f;
 }
 
-#xpBar{
- height:100%;
- width:0%;
- background:linear-gradient(90deg,var(--purple),var(--blue));
- box-shadow:0 0 20px var(--purple);
- transition:.3s;
+.song{
+background:linear-gradient(135deg,#321455,#132e58);
 }
 
-/* GAME */
+/* TOP BAR */
 
-.game{
- position:relative;
- height:560px;
- border-radius:30px;
- overflow:hidden;
- background:
- radial-gradient(circle at 50% 50%,#171735,#07070d 65%);
- border:1px solid #ffffff17;
- box-shadow:
- 0 35px 100px #000b,
- inset 0 0 80px #9b5cff08;
+.top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+margin-bottom:20px;
 }
 
-.game:before{
- content:"";
- position:absolute;
- width:500px;
- height:500px;
- border-radius:50%;
- left:50%;
- top:50%;
- transform:translate(-50%,-50%);
- border:1px solid #ffffff07;
- box-shadow:
- 0 0 0 70px #ffffff02,
- 0 0 0 140px #ffffff01;
+.top h1{
+margin:0;
+font-size:25px;
 }
 
-.scan{
- position:absolute;
- left:0;
- right:0;
- height:2px;
- background:linear-gradient(90deg,transparent,var(--blue),transparent);
- opacity:.15;
- animation:scan 5s linear infinite;
-}
-
-@keyframes scan{
- from{top:-5%}
- to{top:105%}
-}
-
-.gameHUD{
- position:absolute;
- top:17px;
- left:17px;
- right:17px;
- display:flex;
- justify-content:space-between;
- z-index:5;
-}
-
-.hudBox{
- padding:10px 14px;
- border-radius:13px;
- background:#08080fbb;
- border:1px solid #ffffff12;
- backdrop-filter:blur(12px);
- font-family:Orbitron,sans-serif;
- font-size:11px;
-}
-
-#target{
- position:absolute;
- width:72px;
- height:72px;
- border:0;
- padding:0;
- border-radius:20px;
- cursor:pointer;
- background:linear-gradient(135deg,#d9b5ff,#7c3aed);
- box-shadow:
- 0 0 10px #d9b5ff,
- 0 0 30px var(--purple),
- 0 0 70px #7c3aedaa;
- transition:left .07s,top .07s,transform .07s;
- z-index:4;
-}
-
-#target:before{
- content:"";
- position:absolute;
- inset:12px;
- border-radius:13px;
- background:white;
- box-shadow:0 0 22px white;
-}
-
-#target:after{
- content:"";
- position:absolute;
- inset:20px;
- border-radius:9px;
- background:#8b5cf6;
-}
-
-#target:active{
- transform:scale(.7) rotate(15deg);
-}
-
-.hit{
- position:absolute;
- pointer-events:none;
- font-family:Orbitron,sans-serif;
- font-weight:900;
- color:white;
- text-shadow:0 0 15px var(--purple);
- animation:hit .65s forwards;
- z-index:10;
-}
-
-@keyframes hit{
- 0%{opacity:1;transform:translateY(0) scale(.7)}
- 100%{opacity:0;transform:translateY(-75px) scale(1.2)}
+.back{
+width:auto;
+padding:11px 15px;
 }
 
 /* CARDS */
 
-.grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:15px;
- margin-top:15px;
-}
-
 .card{
- padding:21px;
- border-radius:22px;
- background:linear-gradient(145deg,#11111b,#09090f);
- border:1px solid var(--line);
- box-shadow:0 25px 65px #0007;
+background:linear-gradient(145deg,#11111c,#09090f);
+border:1px solid var(--line);
+border-radius:22px;
+padding:20px;
+box-shadow:0 25px 65px #0007;
 }
 
 .card h2{
- margin:0 0 16px;
- font-family:Orbitron,sans-serif;
- font-size:16px;
+margin:0 0 16px;
+font-size:17px;
 }
 
-.item{
- display:flex;
- justify-content:space-between;
- align-items:center;
- padding:14px;
- margin:8px 0;
- border-radius:14px;
- background:#ffffff05;
- border:1px solid #ffffff08;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
 }
 
-.itemInfo b{
- display:block;
- font-size:13px;
-}
-
-.itemInfo small{
- color:#6f6f81;
+.full{
+grid-column:1/-1;
 }
 
 .btn{
- width:100%;
- padding:13px;
- border-radius:13px;
- border:1px solid #ffffff12;
- background:#171722;
- color:white;
- cursor:pointer;
- font-weight:bold;
- transition:.2s;
+width:100%;
+padding:13px;
+border-radius:13px;
+border:1px solid var(--line);
+background:#171722;
+color:white;
+font-weight:bold;
+margin:5px 0;
 }
 
 .btn:hover{
- transform:translateY(-2px);
- border-color:#9b5cff66;
- box-shadow:0 10px 30px #0007;
+background:#222233;
+border-color:#9d5cff55;
 }
 
 .primary{
- border:0;
- background:linear-gradient(135deg,#7c3aed,#2563eb);
- box-shadow:0 8px 25px #7c3aed33;
+background:linear-gradient(135deg,#7c3aed,#2563eb);
+border:0;
 }
 
 .green{
- background:#0c3020;
+background:#12301f;
 }
 
 .red{
- background:#36131b;
+background:#3a131c;
+}
+
+input{
+width:100%;
+padding:13px;
+margin:5px 0;
+border-radius:11px;
+border:1px solid var(--line);
+background:#101018;
+color:white;
+outline:none;
+}
+
+input:focus{
+border-color:var(--purple);
+}
+
+/* GAME */
+
+.gameStats{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:10px;
+margin-bottom:12px;
+}
+
+.stat{
+padding:15px;
+border-radius:17px;
+background:#0d0d17;
+border:1px solid var(--line);
+}
+
+.stat small{
+display:block;
+color:#737386;
+font-size:9px;
+font-weight:bold;
+}
+
+.stat b{
+display:block;
+font-size:24px;
+margin-top:5px;
+}
+
+.xp{
+height:8px;
+background:#15151f;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:15px;
+}
+
+#xpBar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,var(--purple),var(--blue));
+box-shadow:0 0 20px var(--purple);
+transition:.3s;
+}
+
+.arena{
+height:540px;
+position:relative;
+overflow:hidden;
+border-radius:28px;
+background:
+radial-gradient(circle at center,#1b1941,#07070d 68%);
+border:1px solid #ffffff17;
+box-shadow:
+0 35px 100px #000b,
+inset 0 0 100px #9d5cff08;
+}
+
+.arena:before{
+content:"";
+position:absolute;
+width:350px;
+height:350px;
+border:1px solid #ffffff08;
+border-radius:50%;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+box-shadow:
+0 0 0 80px #ffffff02,
+0 0 0 160px #ffffff01;
+}
+
+.gameHud{
+position:absolute;
+left:15px;
+right:15px;
+top:15px;
+display:flex;
+justify-content:space-between;
+z-index:5;
+}
+
+.hud{
+padding:9px 13px;
+border-radius:12px;
+background:#07070dcc;
+border:1px solid #ffffff12;
+font-size:10px;
+font-weight:bold;
+}
+
+#target{
+position:absolute;
+width:72px;
+height:72px;
+border:0;
+border-radius:20px;
+background:linear-gradient(135deg,#e2c4ff,#7c3aed);
+box-shadow:
+0 0 12px #d5b1ff,
+0 0 35px #9d5cff,
+0 0 80px #7c3aed99;
+transition:left .07s,top .07s,transform .07s;
+}
+
+#target:before{
+content:"";
+position:absolute;
+inset:12px;
+border-radius:12px;
+background:#fff;
+box-shadow:0 0 20px #fff;
+}
+
+#target:after{
+content:"";
+position:absolute;
+inset:20px;
+border-radius:8px;
+background:#9d5cff;
+}
+
+#target:active{
+transform:scale(.7) rotate(12deg);
+}
+
+.hit{
+position:absolute;
+pointer-events:none;
+font-weight:1000;
+font-size:20px;
+color:#fff;
+text-shadow:0 0 20px var(--purple);
+animation:hit .65s forwards;
+z-index:20;
+}
+
+@keyframes hit{
+0%{
+opacity:1;
+transform:translateY(0) scale(.7);
+}
+100%{
+opacity:0;
+transform:translateY(-70px) scale(1.2);
+}
+}
+
+/* LISTS */
+
+.listItem{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:14px;
+margin:7px 0;
+border-radius:13px;
+background:#ffffff05;
+border:1px solid #ffffff08;
+}
+
+.listItem small{
+display:block;
+color:#707083;
+margin-top:4px;
 }
 
 /* ADMIN */
 
-.admin{
- display:none;
- margin-top:14px;
+.adminGrid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-bottom:15px;
+}
+
+.adminStat{
+padding:17px;
+border-radius:15px;
+background:#08080f;
+border:1px solid #9d5cff18;
+}
+
+.adminStat small{
+color:#77778a;
+font-size:9px;
+}
+
+.adminStat b{
+display:block;
+font-size:24px;
+margin-top:5px;
 }
 
 .adminPanel{
- border:1px solid #9b5cff44;
- background:
- radial-gradient(circle at 90% 10%,#9b5cff12,transparent 30%),
- #07070e;
- border-radius:18px;
- padding:17px;
+border:1px solid #9d5cff44;
+background:
+radial-gradient(circle at 100% 0,#9d5cff15,transparent 30%),
+#07070e;
+border-radius:20px;
+padding:20px;
 }
 
 .adminHeader{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin-bottom:14px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
 }
 
-.adminHeader b{
- font-family:Orbitron,sans-serif;
- font-size:14px;
+.adminHeader strong{
+font-size:18px;
 }
 
-.adminBadge{
- padding:5px 8px;
- border-radius:7px;
- background:#9b5cff18;
- color:#cdb5ff;
- font-size:9px;
+.badge{
+font-size:9px;
+padding:6px 9px;
+border-radius:8px;
+background:#9d5cff18;
+color:#cdb9ff;
 }
 
-input{
- width:100%;
- padding:13px;
- margin:5px 0;
- border-radius:11px;
- border:1px solid #ffffff12;
- background:#11111a;
- color:white;
- outline:none;
-}
-
-input:focus{
- border-color:#9b5cff;
+#adminControls{
+display:none;
 }
 
 .message{
- min-height:18px;
- margin-top:10px;
- color:#88889b;
- font-size:12px;
+color:#8b8b9e;
+font-size:12px;
+margin-top:9px;
 }
 
-/* LEADERBOARD */
+/* AUDIO */
 
-.leader{
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:13px 5px;
- border-bottom:1px solid #ffffff09;
+.audioBox{
+display:flex;
+align-items:center;
+gap:10px;
+padding:13px;
+border-radius:14px;
+background:#ffffff05;
+border:1px solid #ffffff08;
 }
 
-.rank{
- width:32px;
- font-family:Orbitron,sans-serif;
+.audioBox button{
+border:0;
+border-radius:10px;
+padding:10px 14px;
+background:#7c3aed;
+color:#fff;
+font-weight:bold;
+}
+
+#songName{
+color:#aaaabd;
+font-size:12px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
 }
 
 /* TOAST */
 
 #toast{
- position:fixed;
- left:50%;
- bottom:25px;
- transform:translate(-50%,35px);
- opacity:0;
- pointer-events:none;
- padding:13px 20px;
- border-radius:14px;
- background:#11111b;
- border:1px solid #ffffff18;
- box-shadow:0 20px 60px #000b;
- font-weight:bold;
- z-index:100;
- transition:.25s;
+position:fixed;
+left:50%;
+bottom:25px;
+transform:translate(-50%,30px);
+opacity:0;
+pointer-events:none;
+background:#11111c;
+border:1px solid #ffffff17;
+border-radius:14px;
+padding:13px 20px;
+font-weight:bold;
+z-index:100;
+box-shadow:0 20px 60px #000b;
+transition:.25s;
 }
 
 #toast.show{
- opacity:1;
- transform:translate(-50%,0);
+opacity:1;
+transform:translate(-50%,0);
 }
 
-/* MOBILE */
+/* RESPONSIVE */
 
-@media(max-width:900px){
- .stats{grid-template-columns:repeat(3,1fr)}
+@media(max-width:850px){
+.gameStats{
+grid-template-columns:repeat(3,1fr);
+}
+.adminGrid{
+grid-template-columns:1fr 1fr;
+}
 }
 
-@media(max-width:700px){
- header{padding:0 14px}
- .brandText{font-size:13px}
- .grid{grid-template-columns:1fr}
- .game{height:470px}
+@media(max-width:650px){
+.grid{
+grid-template-columns:1fr;
+}
+.full{
+grid-column:auto;
+}
+.arena{
+height:440px;
+}
 }
 
-@media(max-width:520px){
- .stats{grid-template-columns:repeat(2,1fr)}
- .hero h1{letter-spacing:-3px}
- .game{height:420px}
- .brandIcon{width:36px;height:36px}
+@media(max-width:500px){
+header{
+padding:0 13px;
+}
+.logo{
+font-size:13px;
+}
+.gameStats{
+grid-template-columns:repeat(2,1fr);
+}
+.adminGrid{
+grid-template-columns:1fr 1fr;
+}
+.title{
+letter-spacing:-4px;
+}
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="particles"></canvas>
+<canvas id="stars"></canvas>
 
 <div class="app">
 
 <header>
+<div class="logo">⚡ CATCH THE <span>SQUARE</span></div>
 
-<div class="brand">
-<div class="brandIcon">⚡</div>
-<div class="brandText">
-CATCH THE <span>SQUARE</span>
-</div>
-</div>
-
-<div class="status">
-<div class="statusDot"></div>
+<div class="server">
+<div class="dot"></div>
 SERVER ONLINE
 </div>
-
 </header>
 
-<main class="main">
 
-<section class="hero">
+<!-- =========================
+     MAIN MENU
+========================= -->
 
-<div class="mini">WELCOME TO</div>
+<section id="menu" class="menu page active">
 
-<h1>CATCH THE SQUARE</h1>
+<div class="menuBox">
 
-<p>THE DYLAN ULTIMATE EXPERIENCE</p>
+<div class="version">DYLAN ULTIMATE • V6.0</div>
+
+<div class="title">
+CATCH THE<br>SQUARE
+</div>
+
+<div class="subtitle">
+Catch it. Level up. Become legendary.
+</div>
+
+<div class="menuButtons">
+
+<button class="menuButton start" onclick="showPage('gamePage')">
+▶️ START GAME
+</button>
+
+<button class="menuButton" onclick="showPage('chatPage')">
+🌍 GLOBAL CHAT
+</button>
+
+<button class="menuButton" onclick="showPage('shopPage')">
+🛒 SHOP
+</button>
+
+<button class="menuButton" onclick="showPage('missionsPage')">
+🎯 MISSIONS
+</button>
+
+<button class="menuButton" onclick="showPage('leaderPage')">
+🏆 LEADERBOARD
+</button>
+
+<button class="menuButton" onclick="showPage('achievementsPage')">
+🏅 ACHIEVEMENTS
+</button>
+
+<button class="menuButton" onclick="dailyReward()">
+🎁 DAILY REWARD
+</button>
+
+<button class="menuButton" onclick="showPage('updatesPage')">
+📢 UPDATES
+</button>
+
+<button class="menuButton song" onclick="playSong()">
+🎵 PLAY MY SONG
+</button>
+
+<button class="menuButton support" onclick="showPage('supportPage')">
+❤️ SUPPORT
+</button>
+
+<button class="menuButton" onclick="showPage('adminPage')">
+👑 DYLAN PANEL
+</button>
+
+<button class="menuButton" onclick="showPage('settingsPage')">
+⚙️ SETTINGS
+</button>
+
+</div>
+
+</div>
 
 </section>
 
-<section class="stats">
+
+<!-- =========================
+     GAME
+========================= -->
+
+<section id="gamePage" class="page">
+
+<div class="top">
+
+<h1>🎮 CATCH THE SQUARE</h1>
+
+<button class="btn back" onclick="showPage('menu')">
+← MENU
+</button>
+
+</div>
+
+<div class="gameStats">
 
 <div class="stat">
 <small>🏆 SCORE</small>
-<strong id="score">0</strong>
+<b id="score">0</b>
 </div>
 
 <div class="stat">
 <small>🪙 COINS</small>
-<strong id="coins">0</strong>
+<b id="coins">0</b>
 </div>
 
 <div class="stat">
 <small>🔥 LEVEL</small>
-<strong id="level">1</strong>
+<b id="level">1</b>
 </div>
 
 <div class="stat">
 <small>⚡ COMBO</small>
-<strong id="combo">0</strong>
+<b id="combo">0</b>
 </div>
 
 <div class="stat">
 <small>👑 BEST</small>
-<strong id="best">0</strong>
+<b id="best">0</b>
 </div>
 
-</section>
+</div>
 
-<div class="xpWrap">
+<div class="xp">
 <div id="xpBar"></div>
 </div>
 
-<section class="game" id="game">
+<div class="arena" id="arena">
 
-<div class="scan"></div>
+<div class="gameHud">
 
-<div class="gameHUD">
-<div class="hudBox">LEVEL <span id="gameLevel">1</span></div>
-<div class="hudBox">COMBO ×<span id="gameCombo">0</span></div>
+<div class="hud">
+LEVEL <span id="arenaLevel">1</span>
 </div>
 
-<button id="target" aria-label="Catch the square"></button>
+<div class="hud">
+COMBO ×<span id="arenaCombo">0</span>
+</div>
+
+</div>
+
+<button id="target"></button>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<div class="audioBox">
+
+<button onclick="toggleSong()">
+🎵 PLAY / PAUSE
+</button>
+
+<span id="songName">
+Catch The Square Theme
+</span>
+
+</div>
+
+</div>
 
 </section>
 
-<section class="grid">
+
+<!-- =========================
+     SHOP
+========================= -->
+
+<section id="shopPage" class="page">
+
+<div class="top">
+<h1>🛒 SQUARE SHOP</h1>
+<button class="btn back" onclick="showPage('menu')">← MENU</button>
+</div>
+
+<div class="grid">
 
 <div class="card">
-
-<h2>🎯 MISSIONS</h2>
-
-<div class="item">
-<div class="itemInfo">
-<b>⚡ FIRST CATCH</b>
-<small>Catch your first square</small>
-</div>
-<strong id="mission1">0/1</strong>
-</div>
-
-<div class="item">
-<div class="itemInfo">
-<b>🔥 SCORE HUNTER</b>
-<small>Reach 50 score</small>
-</div>
-<strong id="mission2">0/50</strong>
-</div>
-
-<div class="item">
-<div class="itemInfo">
-<b>🪙 COIN KING</b>
-<small>Collect 500 coins</small>
-</div>
-<strong id="mission3">0/500</strong>
-</div>
-
-<div class="item">
-<div class="itemInfo">
-<b>💎 LEVEL MASTER</b>
-<small>Reach level 10</small>
-</div>
-<strong id="mission4">0/10</strong>
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>🛒 SQUARE SHOP</h2>
+<h2>⚡ POWER-UPS</h2>
 
 <button class="btn primary" onclick="buyDouble()">
-⚡ DOUBLE COINS — 250 🪙
+⚡ 2X COINS — 250 🪙
 </button>
 
-<button class="btn" onclick="buyBoost()">
-🔥 COMBO BOOST — 150 🪙
+<button class="btn" onclick="buyCombo()">
+🔥 +10 COMBO — 150 🪙
 </button>
 
 <button class="btn" onclick="buyMega()">
 💎 MEGA BONUS — 700 🪙
 </button>
-
-<button class="btn green" onclick="dailyReward()">
-🎁 DAILY REWARD — 100 🪙
-</button>
-
 </div>
 
 <div class="card">
+<h2>💰 YOUR WALLET</h2>
 
-<h2>🏆 LEADERBOARD</h2>
-
-<div class="leader">
-<span><span class="rank">🥇</span> DYLAN</span>
-<b id="leaderDylan">0</b>
+<div class="listItem">
+<span>🪙 Coins</span>
+<b id="shopCoins">0</b>
 </div>
 
-<div class="leader">
-<span><span class="rank">🥈</span> PLAYER 2</span>
-<b>0</b>
-</div>
-
-<div class="leader">
-<span><span class="rank">🥉</span> PLAYER 3</span>
-<b>0</b>
-</div>
-
-<p style="color:#606071;font-size:11px">
-Firebase can replace these demo rankings with live player scores.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>👑 DYLAN CONTROL CENTER</h2>
-
-<button class="btn primary" onclick="toggleAdmin()">
-⚡ OPEN CONTROL CENTER
-</button>
-
-<div class="admin" id="admin">
-
-<div class="adminPanel">
-
-<div class="adminHeader">
-<b>DYLAN ADMIN</b>
-<span class="adminBadge">SECURE MODE</span>
-</div>
-
-<input
-id="adminKey"
-type="password"
-placeholder="Admin key">
-
-<button class="btn primary" onclick="unlockAdmin()">
-🔓 AUTHENTICATE
-</button>
-
-<div id="controls" style="display:none">
-
-<input
-id="uid"
-placeholder="Player UID">
-
-<input
-id="amount"
-type="number"
-min="1"
-placeholder="Coins to give">
-
-<button class="btn primary" onclick="giveCoins()">
-🪙 GIVE PLAYER COINS
-</button>
-
-<button class="btn" onclick="selfCoins()">
-👑 +1,000 MY COINS
-</button>
-
-<button class="btn red" onclick="resetGame()">
-🔄 RESET MY GAME
-</button>
-
-</div>
-
-<div class="message" id="adminMessage"></div>
-
+<div class="listItem">
+<span>🔥 Level</span>
+<b id="shopLevel">1</b>
 </div>
 
 </div>
@@ -762,33 +854,460 @@ placeholder="Coins to give">
 
 </section>
 
-</main>
+
+<!-- =========================
+     MISSIONS
+========================= -->
+
+<section id="missionsPage" class="page">
+
+<div class="top">
+<h1>🎯 MISSIONS</h1>
+<button class="btn back" onclick="showPage('menu')">← MENU</button>
+</div>
+
+<div class="card">
+
+<div class="listItem">
+<div>
+<b>⚡ First Catch</b>
+<small>Catch your first square</small>
+</div>
+<b id="mission1">0/1</b>
+</div>
+
+<div class="listItem">
+<div>
+<b>🔥 Score Hunter</b>
+<small>Reach 50 score</small>
+</div>
+<b id="mission2">0/50</b>
+</div>
+
+<div class="listItem">
+<div>
+<b>🪙 Coin King</b>
+<small>Collect 500 coins</small>
+</div>
+<b id="mission3">0/500</b>
+</div>
+
+<div class="listItem">
+<div>
+<b>💎 Level Master</b>
+<small>Reach level 10</small>
+</div>
+<b id="mission4">0/10</b>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     LEADERBOARD
+========================= -->
+
+<section id="leaderPage" class="page">
+
+<div class="top">
+<h1>🏆 LEADERBOARD</h1>
+<button class="btn back" onclick="showPage('menu')">← MENU</button>
+</div>
+
+<div class="card">
+
+<div class="listItem">
+<span>🥇 DYLAN</span>
+<b id="leaderScore">0</b>
+</div>
+
+<div class="listItem">
+<span>🥈 PLAYER 2</span>
+<b>0</b>
+</div>
+
+<div class="listItem">
+<span>🥉 PLAYER 3</span>
+<b>0</b>
+</div>
+
+<p class="message">
+Live global rankings can be connected to Firebase.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     ACHIEVEMENTS
+========================= -->
+
+<section id="achievementsPage" class="page">
+
+<div class="top">
+<h1>🏅 ACHIEVEMENTS</h1>
+<button class="btn back" onclick="showPage('menu')">← MENU</button>
+</div>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="listItem">
+<div>
+<b>⚡ FIRST CATCH</b>
+<small>Catch 1 square</small>
+</div>
+<span id="a1">🔒</span>
+</div>
+
+<div class="listItem">
+<div>
+<b>🔥 COMBO MASTER</b>
+<small>Reach 10 combo</small>
+</div>
+<span id="a2">🔒</span>
+</div>
+
+<div class="listItem">
+<div>
+<b>🪙 COIN COLLECTOR</b>
+<small>Collect 1,000 coins</small>
+</div>
+<span id="a3">🔒</span>
+</div>
+
+<div class="listItem">
+<div>
+<b>💎 LEVEL MASTER</b>
+<small>Reach level 10</small>
+</div>
+<span id="a4">🔒</span>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     UPDATES
+========================= -->
+
+<section id="updatesPage" class="page">
+
+<div class="top">
+<h1>📢 UPDATES</h1>
+<button class="btn back" onclick="showPage('menu')">← MENU</button>
+</div>
+
+<div class="card">
+
+<h2>🚀 CATCH THE SQUARE V6.0</h2>
+
+<div class="listItem">
+<span>✨ Completely redesigned main menu</span>
+</div>
+
+<div class="listItem">
+<span>👑 New Dylan Control Center</span>
+</div>
+
+<div class="listItem">
+<span>🎵 Music player added</span>
+</div>
+
+<div class="listItem">
+<span>🏅 Achievements added</span>
+</div>
+
+<div class="listItem">
+<span>🎁 Daily rewards</span>
+</div>
+
+<div class="listItem">
+<span>🎯 Missions</span>
+</div>
+
+<div class="listItem">
+<span>🛒 Shop improvements</span>
+</div>
+
+<div class="listItem">
+<span>✨ New visual effects</span>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SUPPORT
+========================= -->
+
+<section id="supportPage" class="page">
+
+<div class="top">
+<h1>❤️ SUPPORT</h1>
+<button class="btn back" onclick="showPage('menu')">← MENU</button>
+</div>
+
+<div class="card" style="text-align:center">
+
+<h2>❤️ SUPPORT CATCH THE SQUARE</h2>
+
+<p style="color:#88889a">
+Want to support the game? Thank you! ❤️
+</p>
+
+<div class="listItem">
+<span>Support through Pochi</span>
+<b>0700201218</b>
+</div>
+
+<p class="message">
+Only use this number if it is the support number you intend to publish.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     GLOBAL CHAT
+========================= -->
+
+<section id="chatPage" class="page">
+
+<div class="top">
+<h1>🌍 GLOBAL CHAT</h1>
+<button class="btn back" onclick="showPage('menu')">← MENU</button>
+</div>
+
+<div class="card">
+
+<div id="chatMessages">
+
+<div class="listItem">
+<div>
+<b>👑 Dylan</b>
+<small>Welcome to Catch The Square!</small>
+</div>
+</div>
+
+</div>
+
+<input id="chatInput" maxlength="120"
+placeholder="Type a message...">
+
+<button class="btn primary" onclick="sendChat()">
+💬 SEND MESSAGE
+</button>
+
+<p class="message">
+The real global chat should use Firebase so everyone sees the same messages.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     DYLAN PANEL
+========================= -->
+
+<section id="adminPage" class="page">
+
+<div class="top">
+
+<h1>👑 DYLAN CONTROL CENTER</h1>
+
+<button class="btn back" onclick="showPage('menu')">
+← MENU
+</button>
+
+</div>
+
+<div class="adminPanel">
+
+<div class="adminHeader">
+
+<strong>⚡ DYLAN OWNER DASHBOARD</strong>
+
+<span class="badge">OWNER MODE</span>
+
+</div>
+
+<div class="adminGrid">
+
+<div class="adminStat">
+<small>🟢 ONLINE</small>
+<b>LIVE</b>
+</div>
+
+<div class="adminStat">
+<small>🏆 YOUR SCORE</small>
+<b id="adminScore">0</b>
+</div>
+
+<div class="adminStat">
+<small>🪙 YOUR COINS</small>
+<b id="adminCoins">0</b>
+</div>
+
+</div>
+
+<h3>🔐 ADMIN AUTHENTICATION</h3>
+
+<input
+id="adminKey"
+type="password"
+placeholder="Enter Dylan admin key">
+
+<button class="btn primary" onclick="unlockAdmin()">
+🔓 UNLOCK OWNER CONTROLS
+</button>
+
+<div id="adminControls">
+
+<h3>👥 PLAYER MANAGEMENT</h3>
+
+<input
+id="playerUID"
+placeholder="Player UID">
+
+<input
+id="coinAmount"
+type="number"
+min="1"
+placeholder="Coin amount">
+
+<button class="btn primary" onclick="giveCoins()">
+🪙 GIVE PLAYER COINS
+</button>
+
+<button class="btn" onclick="giveAchievement()">
+🏅 GRANT ACHIEVEMENT
+</button>
+
+<h3>📢 GAME MANAGEMENT</h3>
+
+<button class="btn" onclick="toast('📢 Update editor ready')">
+📢 PUBLISH UPDATE
+</button>
+
+<button class="btn" onclick="toast('🎁 Daily reward editor ready')">
+🎁 MANAGE DAILY REWARD
+</button>
+
+<button class="btn" onclick="toast('🎯 Mission editor ready')">
+🎯 MANAGE MISSIONS
+</button>
+
+<h3>🌍 COMMUNITY</h3>
+
+<button class="btn" onclick="toast('💬 Chat moderation ready')">
+🌍 CHAT MODERATION
+</button>
+
+<button class="btn" onclick="toast('📢 Announcement system ready')">
+📢 ANNOUNCEMENTS
+</button>
+
+<h3>📊 ACTIVITY</h3>
+
+<div class="listItem">
+<span>🎮 Games played</span>
+<b id="adminGames">0</b>
+</div>
+
+<div class="listItem">
+<span>🪙 Coins issued</span>
+<b id="adminIssued">0</b>
+</div>
+
+<button class="btn red" onclick="resetGame()">
+🔄 RESET MY GAME
+</button>
+
+<div id="adminMessage" class="message"></div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SETTINGS
+========================= -->
+
+<section id="settingsPage" class="page">
+
+<div class="top">
+<h1>⚙️ SETTINGS</h1>
+<button class="btn back" onclick="showPage('menu')">← MENU</button>
+</div>
+
+<div class="card">
+
+<button class="btn" onclick="toggleSong()">
+🎵 PLAY / PAUSE MUSIC
+</button>
+
+<button class="btn red" onclick="resetGame()">
+🔄 RESET GAME DATA
+</button>
+
+</div>
+
+</section>
+
+</div>
 
 <div id="toast"></div>
 
-</div>
+<!--
+Put your MP3 in the same folder as this HTML
+and name it:
+
+song.mp3
+
+Then the PLAY MY SONG button will play it.
+-->
+
+<audio id="music" src="song.mp3" preload="auto" loop></audio>
 
 <script>
 
 /* =========================
-   SAVE DATA
+   GAME DATA
 ========================= */
 
-let score=Number(localStorage.getItem("cts5_score"))||0;
-let coins=Number(localStorage.getItem("cts5_coins"))||0;
-let level=Number(localStorage.getItem("cts5_level"))||1;
-let xp=Number(localStorage.getItem("cts5_xp"))||0;
-let best=Number(localStorage.getItem("cts5_best"))||0;
+let score=Number(localStorage.getItem("cts6_score"))||0;
+let coins=Number(localStorage.getItem("cts6_coins"))||0;
+let level=Number(localStorage.getItem("cts6_level"))||1;
+let xp=Number(localStorage.getItem("cts6_xp"))||0;
+let best=Number(localStorage.getItem("cts6_best"))||0;
+let games=Number(localStorage.getItem("cts6_games"))||0;
+let issued=Number(localStorage.getItem("cts6_issued"))||0;
 
 let combo=0;
 let multiplier=1;
 
-/* =========================
-   ELEMENTS
-========================= */
-
-const game=document.getElementById("game");
 const target=document.getElementById("target");
+const arena=document.getElementById("arena");
+const music=document.getElementById("music");
 
 /* =========================
    SAVE
@@ -796,18 +1315,20 @@ const target=document.getElementById("target");
 
 function save(){
 
-if(score>best) best=score;
+if(score>best)best=score;
 
-localStorage.setItem("cts5_score",score);
-localStorage.setItem("cts5_coins",coins);
-localStorage.setItem("cts5_level",level);
-localStorage.setItem("cts5_xp",xp);
-localStorage.setItem("cts5_best",best);
+localStorage.setItem("cts6_score",score);
+localStorage.setItem("cts6_coins",coins);
+localStorage.setItem("cts6_level",level);
+localStorage.setItem("cts6_xp",xp);
+localStorage.setItem("cts6_best",best);
+localStorage.setItem("cts6_games",games);
+localStorage.setItem("cts6_issued",issued);
 
 }
 
 /* =========================
-   UPDATE UI
+   UI
 ========================= */
 
 function update(){
@@ -818,15 +1339,23 @@ document.getElementById("level").textContent=level;
 document.getElementById("combo").textContent=combo;
 document.getElementById("best").textContent=best;
 
-document.getElementById("gameLevel").textContent=level;
-document.getElementById("gameCombo").textContent=combo;
+document.getElementById("arenaLevel").textContent=level;
+document.getElementById("arenaCombo").textContent=combo;
 
-document.getElementById("leaderDylan").textContent=score;
+document.getElementById("shopCoins").textContent=coins;
+document.getElementById("shopLevel").textContent=level;
 
-const needed=level*100;
-const percent=Math.min(100,(xp/needed)*100);
+document.getElementById("leaderScore").textContent=score;
 
-document.getElementById("xpBar").style.width=percent+"%";
+document.getElementById("adminScore").textContent=score;
+document.getElementById("adminCoins").textContent=coins;
+document.getElementById("adminGames").textContent=games;
+document.getElementById("adminIssued").textContent=issued;
+
+let needed=level*100;
+
+document.getElementById("xpBar").style.width=
+Math.min(100,(xp/needed)*100)+"%";
 
 document.getElementById("mission1").textContent=
 score>=1?"1/1":"0/1";
@@ -840,48 +1369,42 @@ Math.min(coins,500)+"/500";
 document.getElementById("mission4").textContent=
 Math.min(level,10)+"/10";
 
+/* achievements */
+
+document.getElementById("a1").textContent=
+score>=1?"✅":"🔒";
+
+document.getElementById("a2").textContent=
+combo>=10?"✅":"🔒";
+
+document.getElementById("a3").textContent=
+coins>=1000?"✅":"🔒";
+
+document.getElementById("a4").textContent=
+level>=10?"✅":"🔒";
+
 save();
 
 }
 
 /* =========================
-   MOVE TARGET
+   PAGE SYSTEM
 ========================= */
 
-function moveTarget(){
+function showPage(id){
 
-const padding=18;
+document.querySelectorAll(".page").forEach(p=>{
+p.classList.remove("active");
+});
 
-const maxX=game.clientWidth-target.offsetWidth-padding;
-const maxY=game.clientHeight-target.offsetHeight-padding;
+document.getElementById(id).classList.add("active");
 
-const x=padding+
-Math.random()*Math.max(1,maxX-padding);
-
-const y=padding+
-Math.random()*Math.max(1,maxY-padding);
-
-target.style.left=x+"px";
-target.style.top=y+"px";
-
+if(id==="gamePage"){
+games++;
+save();
 }
 
-/* =========================
-   HIT EFFECT
-========================= */
-
-function hitEffect(x,y,text){
-
-const el=document.createElement("div");
-
-el.className="hit";
-el.textContent=text;
-el.style.left=x+"px";
-el.style.top=y+"px";
-
-game.appendChild(el);
-
-setTimeout(()=>el.remove(),650);
+update();
 
 }
 
@@ -889,27 +1412,64 @@ setTimeout(()=>el.remove(),650);
    GAME
 ========================= */
 
-function catchSquare(){
+function moveTarget(){
 
-const rect=target.getBoundingClientRect();
-const area=game.getBoundingClientRect();
+const pad=20;
 
-const x=rect.left-area.left;
-const y=rect.top-area.top;
+const maxX=
+arena.clientWidth-target.offsetWidth-pad;
 
-score++;
+const maxY=
+arena.clientHeight-target.offsetHeight-pad;
+
+const x=
+pad+Math.random()*Math.max(1,maxX-pad);
+
+const y=
+pad+Math.random()*Math.max(1,maxY-pad);
+
+target.style.left=x+"px";
+target.style.top=y+"px";
+
+}
+
+function hitEffect(x,y,text){
+
+const e=document.createElement("div");
+
+e.className="hit";
+e.textContent=text;
+e.style.left=x+"px";
+e.style.top=y+"px";
+
+arena.appendChild(e);
+
+setTimeout(()=>e.remove(),650);
+
+}
+
+target.addEventListener("click",()=>{
+
+const r=target.getBoundingClientRect();
+const a=arena.getBoundingClientRect();
+
 combo++;
+score++;
 
 let earned=2*multiplier;
 
 if(combo>=5){
- earned+=Math.floor(combo/5)*2;
+earned+=Math.floor(combo/5)*2;
 }
 
 coins+=earned;
 xp+=10;
 
-hitEffect(x,y,"+"+earned+" 🪙");
+hitEffect(
+r.left-a.left,
+r.top-a.top,
+"+"+earned+" 🪙"
+);
 
 if(xp>=level*100){
 
@@ -928,9 +1488,7 @@ toast("⚡ +"+earned+" COINS");
 update();
 moveTarget();
 
-}
-
-target.addEventListener("click",catchSquare);
+});
 
 /* =========================
    SHOP
@@ -951,7 +1509,7 @@ toast("⚡ 2X COINS ACTIVE");
 
 }
 
-function buyBoost(){
+function buyCombo(){
 
 if(coins<150){
 toast("❌ NEED 150 COINS");
@@ -977,47 +1535,66 @@ coins-=700;
 coins+=1000;
 
 update();
-toast("💎 MEGA BONUS!");
+toast("💎 MEGA BONUS");
 
 }
 
 /* =========================
-   DAILY REWARD
+   DAILY
 ========================= */
 
 function dailyReward(){
 
 const today=new Date().toDateString();
-const last=localStorage.getItem("cts5_daily");
+const last=localStorage.getItem("cts6_daily");
 
 if(last===today){
-toast("⏰ ALREADY CLAIMED");
+toast("⏰ DAILY REWARD ALREADY CLAIMED");
 return;
 }
 
-localStorage.setItem("cts5_daily",today);
+localStorage.setItem("cts6_daily",today);
 
 coins+=100;
 
 update();
+
 toast("🎁 +100 DAILY COINS");
 
 }
 
 /* =========================
-   ADMIN PANEL
+   MUSIC
 ========================= */
 
-function toggleAdmin(){
+function playSong(){
 
-const admin=document.getElementById("admin");
+if(music.paused){
 
-admin.style.display=
-admin.style.display==="block"
-?"none"
-:"block";
+music.play().then(()=>{
+toast("🎵 MUSIC PLAYING");
+}).catch(()=>{
+toast("🎵 Click the music button after adding song.mp3");
+});
+
+}else{
+
+music.pause();
+toast("⏸️ MUSIC PAUSED");
 
 }
+
+}
+
+function toggleSong(){
+
+playSong();
+
+}
+
+/* =========================
+   ADMIN
+========================= */
 
 function unlockAdmin(){
 
@@ -1025,10 +1602,10 @@ const key=document.getElementById("adminKey").value;
 
 if(key==="DYLAN"){
 
-document.getElementById("controls").style.display="block";
+document.getElementById("adminControls").style.display="block";
 
 document.getElementById("adminMessage").textContent=
-"✅ ADMIN ACCESS GRANTED";
+"✅ OWNER ACCESS GRANTED";
 
 }else{
 
@@ -1039,25 +1616,13 @@ document.getElementById("adminMessage").textContent=
 
 }
 
-/*
- IMPORTANT:
-
- This browser demo does NOT directly edit another
- player's Firebase account.
-
- For your real Catch The Square version, this
- function should call a Firebase Cloud Function
- that verifies the authenticated admin and then
- updates the requested player's coin balance.
-
- Never put a Firebase service-account/private key
- inside this HTML.
-*/
-
 function giveCoins(){
 
-const uid=document.getElementById("uid").value.trim();
-const amount=Number(document.getElementById("amount").value);
+const uid=
+document.getElementById("playerUID").value.trim();
+
+const amount=
+Number(document.getElementById("coinAmount").value);
 
 if(!uid){
 
@@ -1077,19 +1642,81 @@ return;
 
 }
 
+issued+=amount;
+
+save();
+
 document.getElementById("adminMessage").textContent=
-"🪙 READY: "+uid+" → +"+amount+" COINS";
+"🪙 REQUEST READY • "+
+uid+
+" → +"+
+amount+
+" COINS";
+
+/*
+IMPORTANT:
+
+For the real Firebase version, replace this
+with a call to a protected Firebase Cloud
+Function.
+
+Do NOT put a Firebase service-account key
+inside this HTML.
+
+The server should verify the authenticated
+Dylan/admin account before changing another
+player's coins.
+*/
 
 }
 
-function selfCoins(){
+function giveAchievement(){
 
-coins+=1000;
+const uid=
+document.getElementById("playerUID").value.trim();
 
-update();
+if(!uid){
 
 document.getElementById("adminMessage").textContent=
-"👑 +1,000 COINS ADDED";
+"⚠️ ENTER PLAYER UID";
+
+return;
+
+}
+
+document.getElementById("adminMessage").textContent=
+"🏅 ACHIEVEMENT REQUEST FOR "+uid;
+
+}
+
+/* =========================
+   CHAT DEMO
+========================= */
+
+function sendChat(){
+
+const input=document.getElementById("chatInput");
+
+const text=input.value.trim();
+
+if(!text)return;
+
+const message=document.createElement("div");
+
+message.className="listItem";
+
+message.innerHTML=
+"<div><b>👤 You</b><small></small></div>";
+
+message.querySelector("small").textContent=text;
+
+document
+.getElementById("chatMessages")
+.appendChild(message);
+
+input.value="";
+
+toast("💬 MESSAGE SENT");
 
 }
 
@@ -1106,6 +1733,7 @@ xp=0;
 combo=0;
 multiplier=1;
 
+save();
 update();
 moveTarget();
 
@@ -1128,78 +1756,67 @@ clearTimeout(window.toastTimer);
 
 window.toastTimer=setTimeout(()=>{
 t.classList.remove("show");
-},1200);
+},1300);
 
 }
 
 /* =========================
-   PARTICLES
+   BACKGROUND STARS
 ========================= */
 
-const canvas=document.getElementById("particles");
+const canvas=document.getElementById("stars");
 const ctx=canvas.getContext("2d");
 
-let particles=[];
+let stars=[];
 
-function resizeCanvas(){
+function resize(){
 
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+canvas.width=innerWidth;
+canvas.height=innerHeight;
 
-}
+stars=[];
 
-function createParticles(){
+for(let i=0;i<100;i++){
 
-particles=[];
-
-for(let i=0;i<75;i++){
-
-particles.push({
- x:Math.random()*canvas.width,
- y:Math.random()*canvas.height,
- r:Math.random()*1.8+.4,
- dx:(Math.random()-.5)*.25,
- dy:(Math.random()-.5)*.25
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*1.5+.2,
+s:Math.random()*.25+.05
 });
 
 }
 
 }
 
-function animateParticles(){
+function animate(){
 
 ctx.clearRect(0,0,canvas.width,canvas.height);
 
-for(const p of particles){
+for(const s of stars){
 
-p.x+=p.dx;
-p.y+=p.dy;
+s.y+=s.s;
 
-if(p.x<0)p.x=canvas.width;
-if(p.x>canvas.width)p.x=0;
-if(p.y<0)p.y=canvas.height;
-if(p.y>canvas.height)p.y=0;
+if(s.y>canvas.height)s.y=0;
 
 ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fillStyle="rgba(160,120,255,.35)";
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.fillStyle="rgba(170,130,255,.35)";
 ctx.fill();
 
 }
 
-requestAnimationFrame(animateParticles);
+requestAnimationFrame(animate);
 
 }
 
 window.addEventListener("resize",()=>{
-resizeCanvas();
-createParticles();
+resize();
 moveTarget();
 });
 
-resizeCanvas();
-createParticles();
-animateParticles();
+resize();
+animate();
 
 update();
 moveTarget();
