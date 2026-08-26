@@ -4,273 +4,320 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Catch The Square — Dylan Ultimate</title>
+<title>Catch The Square 4.0</title>
 
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:
-radial-gradient(circle at 20% 20%,#29105c 0%,transparent 30%),
-radial-gradient(circle at 80% 80%,#102c63 0%,transparent 30%),
-#05050b;
-color:white;
-min-height:100vh;
-overflow-x:hidden;
-}
+html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;background:#05050b;color:#fff}
+body{overflow-x:hidden}
 
 body:before{
 content:"";
 position:fixed;
 inset:0;
 pointer-events:none;
+background:
+radial-gradient(circle at 15% 20%,#7928ca33,transparent 30%),
+radial-gradient(circle at 85% 80%,#00c6ff22,transparent 30%);
+z-index:-2;
+}
+
+body:after{
+content:"";
+position:fixed;
+inset:0;
 background-image:
 linear-gradient(#ffffff05 1px,transparent 1px),
 linear-gradient(90deg,#ffffff05 1px,transparent 1px);
-background-size:40px 40px;
+background-size:45px 45px;
+pointer-events:none;
+z-index:-1;
 }
 
 header{
-position:sticky;
-top:0;
-z-index:10;
-padding:15px 20px;
-background:#070711dd;
-backdrop-filter:blur(15px);
-border-bottom:1px solid #ffffff14;
+height:72px;
+padding:0 24px;
 display:flex;
 align-items:center;
 justify-content:space-between;
+background:#080812cc;
+backdrop-filter:blur(18px);
+border-bottom:1px solid #ffffff12;
+position:sticky;
+top:0;
+z-index:50;
 }
 
 .logo{
-font-size:22px;
-font-weight:900;
-letter-spacing:1px;
+font-weight:1000;
+font-size:21px;
+letter-spacing:.5px;
 }
 
 .logo span{
-background:linear-gradient(90deg,#a855f7,#38bdf8);
+background:linear-gradient(90deg,#c084fc,#22d3ee);
 -webkit-background-clip:text;
 color:transparent;
 }
 
-.status{
+.online{
+font-size:12px;
+color:#aaa;
 display:flex;
 gap:8px;
 align-items:center;
-font-size:13px;
-color:#aaa;
 }
 
-.dot{
-width:9px;
-height:9px;
+.online i{
+width:8px;
+height:8px;
+display:block;
 border-radius:50%;
 background:#22c55e;
-box-shadow:0 0 12px #22c55e;
+box-shadow:0 0 15px #22c55e;
 }
 
-.container{
-width:min(1100px,94%);
+.wrap{
+width:min(1150px,94%);
 margin:auto;
-padding:25px 0 60px;
+padding:28px 0 70px;
 }
 
 .hero{
 text-align:center;
-padding:20px 0;
+padding:10px 0 25px;
 }
 
 .hero h1{
-font-size:clamp(35px,7vw,70px);
-margin:10px 0;
+font-size:clamp(40px,8vw,76px);
+margin:0;
 font-weight:1000;
-letter-spacing:-3px;
-background:linear-gradient(90deg,#fff,#b98cff,#67e8f9,#fff);
-background-size:250%;
+letter-spacing:-4px;
+background:linear-gradient(90deg,#fff,#a78bfa,#67e8f9,#fff);
+background-size:300%;
 -webkit-background-clip:text;
 color:transparent;
-animation:shine 5s linear infinite;
+animation:gradient 5s linear infinite;
 }
 
-@keyframes shine{
-to{background-position:250%}
+@keyframes gradient{
+to{background-position:300%}
 }
 
 .hero p{
-color:#8e8e9d;
-margin:0;
+margin:10px 0 0;
+color:#77778a;
+letter-spacing:3px;
+font-size:11px;
 }
 
 .stats{
 display:grid;
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:repeat(5,1fr);
 gap:12px;
-margin:20px 0;
+margin-bottom:15px;
 }
 
 .stat{
-position:relative;
-padding:17px;
+background:linear-gradient(145deg,#13131f,#090910);
 border:1px solid #ffffff12;
-background:linear-gradient(145deg,#11111c,#0a0a11);
 border-radius:18px;
-box-shadow:0 15px 40px #0005;
-overflow:hidden;
-}
-
-.stat:after{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(120deg,transparent,#ffffff08,transparent);
-transform:translateX(-100%);
-animation:cardshine 4s infinite;
-}
-
-@keyframes cardshine{
-60%,100%{transform:translateX(100%)}
+padding:16px;
+box-shadow:0 15px 40px #0007;
 }
 
 .stat small{
-color:#8b8b9c;
-font-size:12px;
+color:#77778b;
+font-size:10px;
+font-weight:bold;
 }
 
 .stat strong{
 display:block;
-font-size:28px;
-margin-top:6px;
+font-size:27px;
+margin-top:5px;
 }
 
-.game{
+.xp{
+height:8px;
+border-radius:99px;
+background:#151520;
+overflow:hidden;
+margin-bottom:18px;
+}
+
+#xpbar{
+height:100%;
+width:0;
+background:linear-gradient(90deg,#8b5cf6,#22d3ee);
+box-shadow:0 0 18px #8b5cf6;
+transition:.25s;
+}
+
+.arena{
+height:510px;
 position:relative;
-height:500px;
-border-radius:25px;
+border-radius:27px;
 overflow:hidden;
 background:
-radial-gradient(circle,#171735,#080812 70%);
-border:1px solid #ffffff18;
-box-shadow:0 30px 80px #0008,0 0 50px #7c3aed18;
+radial-gradient(circle at center,#191942,#080811 65%);
+border:1px solid #ffffff17;
+box-shadow:0 35px 100px #0009,0 0 80px #7c3aed13;
 }
 
-.game:before{
+.arena:before{
 content:"";
 position:absolute;
-inset:0;
-background:
-radial-gradient(circle at 50% 50%,#8b5cf615,transparent 35%);
+width:300px;
+height:300px;
+border-radius:50%;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+background:#7c3aed0d;
+box-shadow:0 0 100px #7c3aed22;
+}
+
+.hud{
+position:absolute;
+top:16px;
+left:16px;
+right:16px;
+display:flex;
+justify-content:space-between;
+z-index:5;
+}
+
+.hud span{
+padding:9px 13px;
+background:#ffffff0a;
+border:1px solid #ffffff12;
+border-radius:12px;
+font-size:12px;
+font-weight:bold;
+backdrop-filter:blur(10px);
 }
 
 #target{
 position:absolute;
-width:62px;
-height:62px;
+width:65px;
+height:65px;
 border:0;
-border-radius:16px;
-cursor:pointer;
-background:linear-gradient(135deg,#c084fc,#7c3aed);
+padding:0;
+border-radius:17px;
+background:linear-gradient(135deg,#d8b4fe,#7c3aed);
 box-shadow:
-0 0 10px #c084fc,
-0 0 30px #8b5cf6,
-0 0 70px #7c3aed88;
+0 0 12px #c084fc,
+0 0 35px #8b5cf6,
+0 0 75px #7c3aed99;
+cursor:pointer;
+z-index:4;
 transition:left .08s,top .08s,transform .08s;
-z-index:2;
 }
 
-#target:hover{
-transform:scale(1.08);
+#target:before{
+content:"";
+position:absolute;
+inset:10px;
+border-radius:11px;
+background:white;
+box-shadow:0 0 20px white;
+}
+
+#target:after{
+content:"";
+position:absolute;
+inset:17px;
+border-radius:8px;
+background:#a855f7;
 }
 
 #target:active{
-transform:scale(.75);
+transform:scale(.72) rotate(10deg);
 }
 
-.targetCore{
+.pop{
 position:absolute;
-inset:12px;
-border-radius:9px;
-background:#fff;
-box-shadow:0 0 15px white;
+pointer-events:none;
+font-weight:1000;
+font-size:20px;
+color:#fff;
+text-shadow:0 0 15px #c084fc;
+animation:pop 700ms forwards;
+z-index:20;
 }
 
-.combo{
-position:absolute;
-top:15px;
-left:15px;
-padding:9px 14px;
-border-radius:12px;
-background:#ffffff0a;
-border:1px solid #ffffff12;
-font-weight:bold;
-z-index:3;
+@keyframes pop{
+0%{opacity:1;transform:translateY(0) scale(.8)}
+100%{opacity:0;transform:translateY(-65px) scale(1.25)}
 }
 
-.xpbar{
-margin:15px 0 20px;
-height:9px;
-background:#151522;
-border-radius:20px;
-overflow:hidden;
-}
-
-#xp{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#8b5cf6,#22d3ee);
-box-shadow:0 0 15px #8b5cf6;
-transition:.3s;
-}
-
-.grid{
+.content{
 display:grid;
-grid-template-columns:1.2fr .8fr;
+grid-template-columns:1fr 1fr;
 gap:15px;
 margin-top:15px;
 }
 
-.panel{
-background:linear-gradient(145deg,#11111b,#090910);
+.card{
+background:linear-gradient(145deg,#11111c,#090910);
 border:1px solid #ffffff12;
-border-radius:20px;
+border-radius:21px;
 padding:20px;
-box-shadow:0 20px 50px #0005;
+box-shadow:0 20px 60px #0006;
 }
 
-.panel h2{
-margin-top:0;
+.card h2{
+margin:0 0 15px;
+font-size:18px;
+}
+
+.row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:12px;
+border-radius:13px;
+background:#ffffff05;
+border:1px solid #ffffff08;
+margin:8px 0;
+}
+
+.row span{
+color:#aaaabd;
+font-size:13px;
 }
 
 .btn{
 width:100%;
 padding:13px;
-margin:6px 0;
 border-radius:13px;
-border:1px solid #ffffff15;
+border:1px solid #ffffff12;
 background:#171722;
 color:white;
-cursor:pointer;
 font-weight:bold;
+cursor:pointer;
+margin:5px 0;
 transition:.2s;
 }
 
 .btn:hover{
 transform:translateY(-2px);
-background:#202032;
-border-color:#8b5cf666;
-box-shadow:0 8px 25px #0005;
+background:#222234;
+border-color:#8b5cf655;
 }
 
 .primary{
-background:linear-gradient(135deg,#7c3aed,#2563eb);
 border:0;
+background:linear-gradient(135deg,#7c3aed,#2563eb);
 }
 
-.danger{
-background:#3a1118;
+.green{
+background:#12351f;
+}
+
+.red{
+background:#38131a;
 }
 
 .admin{
@@ -278,54 +325,59 @@ margin-top:15px;
 display:none;
 }
 
-.adminBox{
-padding:15px;
-border-radius:15px;
-background:#08080f;
+.admin-inner{
+padding:17px;
+border-radius:17px;
+background:#07070d;
 border:1px solid #8b5cf633;
+}
+
+.admin-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.admin-title b{
+font-size:18px;
+}
+
+.crown{
+font-size:25px;
 }
 
 input{
 width:100%;
-padding:12px;
+padding:13px;
 margin:5px 0;
-border-radius:10px;
-border:1px solid #ffffff14;
-background:#11111a;
-color:white;
+border-radius:11px;
 outline:none;
+border:1px solid #ffffff12;
+background:#101018;
+color:white;
 }
 
 input:focus{
 border-color:#8b5cf6;
 }
 
-.mission{
-padding:13px;
-border-radius:12px;
-background:#0c0c15;
-border:1px solid #ffffff0d;
-margin:8px 0;
-}
-
-.mission b{
-display:block;
-margin-bottom:5px;
-}
-
 .leader{
 display:flex;
+align-items:center;
 justify-content:space-between;
-padding:12px;
-border-bottom:1px solid #ffffff0d;
+padding:13px;
+border-bottom:1px solid #ffffff0c;
 }
 
-.badge{
-padding:4px 8px;
-border-radius:7px;
-background:#7c3aed22;
-color:#c4b5fd;
-font-size:11px;
+.rank{
+font-weight:900;
+margin-right:8px;
+}
+
+.muted{
+color:#77778b;
+font-size:12px;
 }
 
 #toast{
@@ -333,15 +385,16 @@ position:fixed;
 bottom:25px;
 left:50%;
 transform:translate(-50%,30px);
+background:#11111c;
+border:1px solid #ffffff15;
 padding:13px 20px;
-background:#11111b;
-border:1px solid #ffffff18;
 border-radius:14px;
 opacity:0;
 pointer-events:none;
-transition:.3s;
+transition:.25s;
 z-index:100;
-box-shadow:0 15px 40px #0008;
+box-shadow:0 20px 50px #0009;
+font-weight:bold;
 }
 
 #toast.show{
@@ -351,30 +404,22 @@ transform:translate(-50%,0);
 
 footer{
 text-align:center;
-padding:30px;
-color:#555563;
-font-size:12px;
+padding:35px;
+color:#444451;
+font-size:11px;
 }
 
-@media(max-width:750px){
-.stats{
-grid-template-columns:repeat(2,1fr);
-}
-.grid{
-grid-template-columns:1fr;
-}
-.game{
-height:420px;
-}
-.hero h1{
-letter-spacing:-2px;
-}
+@media(max-width:850px){
+.stats{grid-template-columns:repeat(3,1fr)}
+.content{grid-template-columns:1fr}
 }
 
-@media(max-width:450px){
-.stat strong{
-font-size:23px;
-}
+@media(max-width:550px){
+header{padding:0 13px}
+.logo{font-size:15px}
+.stats{grid-template-columns:repeat(2,1fr)}
+.arena{height:430px}
+.hero h1{letter-spacing:-3px}
 }
 </style>
 </head>
@@ -382,22 +427,18 @@ font-size:23px;
 <body>
 
 <header>
-<div class="logo">⚡ <span>CATCH THE SQUARE</span></div>
-
-<div class="status">
-<div class="dot"></div>
-ONLINE
-</div>
+<div class="logo">⚡ <span>CATCH THE SQUARE</span> 4.0</div>
+<div class="online"><i></i> ONLINE</div>
 </header>
 
-<div class="container">
+<main class="wrap">
 
 <section class="hero">
 <h1>CATCH THE SQUARE</h1>
-<p>THE DYLAN ULTIMATE EDITION</p>
+<p>DYLAN ULTIMATE EDITION</p>
 </section>
 
-<div class="stats">
+<section class="stats">
 
 <div class="stat">
 <small>🏆 SCORE</small>
@@ -419,115 +460,119 @@ ONLINE
 <strong id="combo">0</strong>
 </div>
 
+<div class="stat">
+<small>✨ BEST</small>
+<strong id="best">0</strong>
 </div>
 
-<div class="xpbar">
-<div id="xp"></div>
+</section>
+
+<div class="xp">
+<div id="xpbar"></div>
 </div>
 
-<div class="game" id="game">
+<section class="arena" id="arena">
 
-<div class="combo">
-LEVEL <span id="gameLevel">1</span>
+<div class="hud">
+<span>LEVEL <b id="arenaLevel">1</b></span>
+<span>COMBO ×<b id="arenaCombo">0</b></span>
 </div>
 
-<button id="target">
-<div class="targetCore"></div>
-</button>
+<button id="target" aria-label="Catch the square"></button>
 
-</div>
+</section>
 
-<div class="grid">
+<section class="content">
 
-<div class="panel">
+<div class="card">
 
 <h2>🎯 MISSIONS</h2>
 
-<div class="mission">
-<b>⚡ First Catch</b>
-<span id="mission1">0 / 1</span>
+<div class="row">
+<span>⚡ First Catch</span>
+<b id="m1">0 / 1</b>
 </div>
 
-<div class="mission">
-<b>🔥 Score Hunter</b>
-<span id="mission2">0 / 50</span>
+<div class="row">
+<span>🔥 Score Hunter</span>
+<b id="m2">0 / 50</b>
 </div>
 
-<div class="mission">
-<b>🪙 Coin Collector</b>
-<span id="mission3">0 / 500 coins</span>
+<div class="row">
+<span>🪙 Coin Collector</span>
+<b id="m3">0 / 500</b>
+</div>
+
+<div class="row">
+<span>💎 Level Master</span>
+<b id="m4">0 / 10</b>
 </div>
 
 </div>
 
-<div class="panel">
+<div class="card">
 
-<h2>🛒 SHOP</h2>
+<h2>🛒 DYLAN SHOP</h2>
 
-<button class="btn" onclick="buy('double')">
+<button class="btn" onclick="buyDouble()">
 ⚡ 2X COINS — 250 🪙
 </button>
 
-<button class="btn" onclick="buy('life')">
-❤️ EXTRA LIFE — 150 🪙
+<button class="btn" onclick="buyBonus()">
+💎 +500 COINS — 700 🪙
 </button>
 
-<button class="btn" onclick="buy('mega')">
-💎 MEGA BONUS — 500 🪙
+<button class="btn" onclick="buyResetCombo()">
+🔥 COMBO BOOST — 150 🪙
+</button>
+
+<button class="btn green" onclick="dailyReward()">
+🎁 CLAIM DAILY REWARD
 </button>
 
 </div>
 
-</div>
-
-<div class="grid">
-
-<div class="panel">
+<div class="card">
 
 <h2>🏆 LEADERBOARD</h2>
 
 <div class="leader">
-<span>🥇 Dylan</span>
-<b id="boardScore">0</b>
+<div><span class="rank">🥇</span> Dylan</div>
+<b id="lb1">0</b>
 </div>
 
 <div class="leader">
-<span>🥈 Player 2</span>
+<div><span class="rank">🥈</span> Player 2</div>
 <b>0</b>
 </div>
 
 <div class="leader">
-<span>🥉 Player 3</span>
+<div><span class="rank">🥉</span> Player 3</div>
 <b>0</b>
 </div>
 
-<p style="color:#666;font-size:12px">
-Online leaderboard can be connected to Firebase.
+<p class="muted">
+Online rankings can be connected to Firebase.
 </p>
 
 </div>
 
-<div class="panel">
+<div class="card">
 
 <h2>👑 DYLAN PANEL</h2>
 
 <button class="btn primary" onclick="toggleAdmin()">
-🔐 OPEN ADMIN PANEL
+👑 OPEN DYLAN CONTROL CENTER
 </button>
 
-<button class="btn" onclick="dailyReward()">
-🎁 DAILY REWARD
-</button>
+<div id="admin" class="admin">
 
-<button class="btn" onclick="resetGame()">
-🔄 RESET GAME
-</button>
+<div class="admin-inner">
 
-<div class="admin" id="admin">
-
-<div class="adminBox">
-
-<h3>⚡ ADMIN DASHBOARD</h3>
+<div class="admin-title">
+<b>⚡ ADMIN CONTROL CENTER</b>
+<span class="crown">👑</span>
+</div>
 
 <input
 id="adminKey"
@@ -535,76 +580,77 @@ type="password"
 placeholder="Admin key">
 
 <button class="btn primary" onclick="unlockAdmin()">
-🔓 UNLOCK
+🔓 UNLOCK PANEL
 </button>
 
-<div id="adminControls" style="display:none">
-
-<hr style="border-color:#ffffff0d">
-
-<h4>🪙 GIVE COINS</h4>
+<div id="controls" style="display:none">
 
 <input
-id="uid"
+id="playerUID"
 placeholder="Player UID">
 
 <input
-id="amount"
+id="coinAmount"
 type="number"
+min="1"
 placeholder="Coin amount">
 
 <button class="btn primary" onclick="giveCoins()">
-💰 GIVE COINS
+🪙 GIVE COINS TO PLAYER
 </button>
 
-<button class="btn" onclick="adminSelfCoins()">
-👑 +1,000 COINS TO ME
+<button class="btn" onclick="selfCoins()">
+👑 GIVE MYSELF 1,000 COINS
 </button>
 
-<button class="btn danger" onclick="resetAllLocal()">
-⚠️ RESET LOCAL DATA
+<button class="btn red" onclick="resetGame()">
+🔄 RESET MY GAME
 </button>
 
 </div>
 
-<div id="adminMsg"
-style="margin-top:10px;color:#9f8cff">
+<div id="adminMsg" class="muted"></div>
+
+</div>
 </div>
 
 </div>
 
-</div>
+</section>
 
-</div>
-
-</div>
-
-</div>
+</main>
 
 <footer>
-CATCH THE SQUARE © 2026 • DYLAN EDITION ⚡
+CATCH THE SQUARE 4.0 • DYLAN EDITION ⚡
 </footer>
 
 <div id="toast"></div>
 
 <script>
 
-let score=Number(localStorage.getItem("cts_score"))||0;
-let coins=Number(localStorage.getItem("cts_coins"))||0;
-let level=Number(localStorage.getItem("cts_level"))||1;
+let score=Number(localStorage.getItem("cts4_score"))||0;
+let coins=Number(localStorage.getItem("cts4_coins"))||0;
+let level=Number(localStorage.getItem("cts4_level"))||1;
+let xp=Number(localStorage.getItem("cts4_xp"))||0;
+let best=Number(localStorage.getItem("cts4_best"))||0;
+
 let combo=0;
-let xp=Number(localStorage.getItem("cts_xp"))||0;
 let multiplier=1;
 
+const arena=document.getElementById("arena");
 const target=document.getElementById("target");
-const game=document.getElementById("game");
 
 function save(){
 
-localStorage.setItem("cts_score",score);
-localStorage.setItem("cts_coins",coins);
-localStorage.setItem("cts_level",level);
-localStorage.setItem("cts_xp",xp);
+localStorage.setItem("cts4_score",score);
+localStorage.setItem("cts4_coins",coins);
+localStorage.setItem("cts4_level",level);
+localStorage.setItem("cts4_xp",xp);
+
+if(score>best){
+best=score;
+localStorage.setItem("cts4_best",best);
+}
 
 }
 
@@ -614,54 +660,79 @@ document.getElementById("score").textContent=score;
 document.getElementById("coins").textContent=coins;
 document.getElementById("level").textContent=level;
 document.getElementById("combo").textContent=combo;
-document.getElementById("gameLevel").textContent=level;
-document.getElementById("boardScore").textContent=score;
+document.getElementById("best").textContent=best;
 
-let needed=level*100;
-let percent=Math.min((xp/needed)*100,100);
+document.getElementById("arenaLevel").textContent=level;
+document.getElementById("arenaCombo").textContent=combo;
 
-document.getElementById("xp").style.width=percent+"%";
+document.getElementById("lb1").textContent=score;
 
-document.getElementById("mission1").textContent=
-score>0?"1 / 1":"0 / 1";
+const required=level*100;
+const percent=Math.min(100,(xp/required)*100);
 
-document.getElementById("mission2").textContent=
+document.getElementById("xpbar").style.width=percent+"%";
+
+document.getElementById("m1").textContent=
+score>=1?"1 / 1":"0 / 1";
+
+document.getElementById("m2").textContent=
 Math.min(score,50)+" / 50";
 
-document.getElementById("mission3").textContent=
+document.getElementById("m3").textContent=
 Math.min(coins,500)+" / 500";
+
+document.getElementById("m4").textContent=
+Math.min(level,10)+" / 10";
 
 save();
 
 }
 
-function move(){
+function moveTarget(){
 
-const padding=8;
+const padding=15;
 
-const maxX=
-game.clientWidth-target.offsetWidth-padding;
+const maxX=arena.clientWidth-target.offsetWidth-padding;
+const maxY=arena.clientHeight-target.offsetHeight-padding;
 
-const maxY=
-game.clientHeight-target.offsetHeight-padding;
+const x=padding+
+Math.random()*Math.max(1,maxX-padding);
 
-const x=
-padding+
-Math.random()*Math.max(0,maxX-padding);
-
-const y=
-padding+
-Math.random()*Math.max(0,maxY-padding);
+const y=padding+
+Math.random()*Math.max(1,maxY-padding);
 
 target.style.left=x+"px";
 target.style.top=y+"px";
 
 }
 
+function createPop(x,y,text){
+
+const p=document.createElement("div");
+
+p.className="pop";
+p.textContent=text;
+
+p.style.left=x+"px";
+p.style.top=y+"px";
+
+arena.appendChild(p);
+
+setTimeout(()=>p.remove(),700);
+
+}
+
 function catchSquare(){
 
-score++;
+const rect=target.getBoundingClientRect();
+const arenaRect=arena.getBoundingClientRect();
+
+const x=rect.left-arenaRect.left;
+const y=rect.top-arenaRect.top;
+
 combo++;
+
+score++;
 
 let earned=2*multiplier;
 
@@ -672,6 +743,8 @@ earned+=Math.floor(combo/5)*2;
 coins+=earned;
 
 xp+=10;
+
+createPop(x,y,"+"+earned+" 🪙");
 
 if(xp>=level*100){
 
@@ -689,7 +762,7 @@ toast("⚡ +"+earned+" COINS");
 }
 
 update();
-move();
+moveTarget();
 
 }
 
@@ -697,25 +770,25 @@ target.addEventListener("click",catchSquare);
 
 function toast(text){
 
-const el=document.getElementById("toast");
+const t=document.getElementById("toast");
 
-el.textContent=text;
-el.classList.add("show");
+t.textContent=text;
+t.classList.add("show");
 
-clearTimeout(window.toastTimer);
+clearTimeout(window.tt);
 
-window.toastTimer=setTimeout(()=>{
-el.classList.remove("show");
+window.tt=setTimeout(()=>{
+t.classList.remove("show");
 },1200);
 
 }
 
 function toggleAdmin(){
 
-const a=document.getElementById("admin");
+const admin=document.getElementById("admin");
 
-a.style.display=
-a.style.display==="block"?"none":"block";
+admin.style.display=
+admin.style.display==="block"?"none":"block";
 
 }
 
@@ -725,7 +798,7 @@ const key=document.getElementById("adminKey").value;
 
 if(key==="DYLAN"){
 
-document.getElementById("adminControls").style.display="block";
+document.getElementById("controls").style.display="block";
 
 document.getElementById("adminMsg").textContent=
 "✅ ADMIN ACCESS GRANTED";
@@ -733,132 +806,117 @@ document.getElementById("adminMsg").textContent=
 }else{
 
 document.getElementById("adminMsg").textContent=
-"❌ INVALID ADMIN KEY";
+"❌ WRONG ADMIN KEY";
 
 }
 
 }
 
-function adminSelfCoins(){
+function selfCoins(){
 
 coins+=1000;
 
 update();
 
 document.getElementById("adminMsg").textContent=
-"👑 +1,000 coins added.";
+"👑 +1,000 coins added to this browser.";
 
 }
 
 function giveCoins(){
 
-const uid=document.getElementById("uid").value.trim();
-
-const amount=Number(document.getElementById("amount").value);
+const uid=document.getElementById("playerUID").value.trim();
+const amount=Number(document.getElementById("coinAmount").value);
 
 if(!uid){
-
 document.getElementById("adminMsg").textContent=
 "⚠️ Enter a player UID.";
-
 return;
-
 }
 
 if(!Number.isFinite(amount)||amount<=0){
-
 document.getElementById("adminMsg").textContent=
 "⚠️ Enter a valid amount.";
-
 return;
-
 }
 
 /*
-IMPORTANT:
+REAL FIREBASE CONNECTION GOES HERE.
 
-This is the front-end UI only.
+Do NOT put a Firebase service-account/admin
+private key inside this HTML.
 
-For the REAL game, this function should call
-a secure Firebase Cloud Function that checks
-the authenticated admin before changing the
-player's coins.
-
-Never put a real Firebase admin/service-account
-key inside this HTML.
+A secure Firebase Cloud Function should verify
+the authenticated admin and then update the
+selected player's coins.
 */
 
 document.getElementById("adminMsg").textContent=
-"🪙 Coin request prepared for UID: "+
-uid+" | +"+amount+" coins";
+"🪙 Request prepared: "+uid+" → +"+amount+" coins";
 
 }
 
-function dailyReward(){
-
-const today=new Date().toDateString();
-
-if(localStorage.getItem("cts_reward")===today){
-
-toast("⏰ Reward already claimed!");
-
-return;
-
-}
-
-coins+=100;
-localStorage.setItem("cts_reward",today);
-
-update();
-
-toast("🎁 +100 DAILY COINS!");
-
-}
-
-function buy(item){
-
-if(item==="double"){
+function buyDouble(){
 
 if(coins<250){
-toast("❌ Need 250 coins");
+toast("❌ You need 250 coins");
 return;
 }
 
 coins-=250;
 multiplier=2;
 
+update();
 toast("⚡ 2X COINS ACTIVATED!");
 
 }
 
-if(item==="life"){
+function buyBonus(){
+
+if(coins<700){
+toast("❌ You need 700 coins");
+return;
+}
+
+coins-=700;
+coins+=500;
+
+update();
+toast("💎 BONUS PURCHASED!");
+
+}
+
+function buyResetCombo(){
 
 if(coins<150){
-toast("❌ Need 150 coins");
+toast("❌ You need 150 coins");
 return;
 }
 
 coins-=150;
+combo+=10;
 
-toast("❤️ EXTRA LIFE PURCHASED!");
+update();
+toast("🔥 COMBO BOOST!");
 
 }
 
-if(item==="mega"){
+function dailyReward(){
 
-if(coins<500){
-toast("❌ Need 500 coins");
+const today=new Date().toDateString();
+const last=localStorage.getItem("cts4_daily");
+
+if(last===today){
+toast("⏰ Already claimed today!");
 return;
 }
 
-coins-=500;
-coins+=1000;
+localStorage.setItem("cts4_daily",today);
 
-toast("💎 MEGA BONUS! +500 NET!");
-
-}
+coins+=100;
 
 update();
+toast("🎁 +100 DAILY COINS!");
 
 }
 
@@ -867,35 +925,21 @@ function resetGame(){
 score=0;
 coins=0;
 level=1;
-combo=0;
 xp=0;
+combo=0;
+multiplier=1;
 
 update();
-move();
+moveTarget();
 
 toast("🔄 GAME RESET");
 
 }
 
-function resetAllLocal(){
-
-localStorage.removeItem("cts_score");
-localStorage.removeItem("cts_coins");
-localStorage.removeItem("cts_level");
-localStorage.removeItem("cts_xp");
-localStorage.removeItem("cts_reward");
-
-resetGame();
-
-document.getElementById("adminMsg").textContent=
-"⚠️ Local data reset.";
-
-}
-
-window.addEventListener("resize",move);
+window.addEventListener("resize",moveTarget);
 
 update();
-move();
+moveTarget();
 
 </script>
 
