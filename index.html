@@ -2,1849 +2,2543 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catch The Square</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Catch The Square 3.1</title>
+
+<script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9731155253732713"
+crossorigin="anonymous"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#05050b;
-  color:white;
-  overflow-x:hidden;
+margin:0;
+min-height:100vh;
+background:radial-gradient(circle at top,#243c70,#070a12 65%);
+color:white;
+font-family:Arial,sans-serif;
+text-align:center;
+}
+
+h1{
+font-size:42px;
+text-shadow:0 0 20px #00eaff;
+}
+
+.screen{display:none}
+.screen.active{display:block}
+
+.panel{
+width:min(950px,94%);
+margin:20px auto;
+padding:25px;
+background:#0c1224ee;
+border:2px solid #00eaff;
+border-radius:20px;
+box-shadow:0 0 30px #00eaff22;
 }
 
 button{
-  font-family:inherit;
-  cursor:pointer;
+border:0;
+border-radius:12px;
+padding:12px 18px;
+margin:6px;
+font-weight:bold;
+cursor:pointer;
+background:#00d9ff;
+color:#001018;
 }
 
-.screen{
-  display:none;
-  min-height:100vh;
+button:hover{
+transform:scale(1.04);
 }
 
-.screen.active{
-  display:block;
+.menuButton{
+display:block;
+width:min(400px,90%);
+margin:9px auto;
 }
 
-/* =========================
-   MAIN MENU
-========================= */
-
-#menu{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:25px;
-  background:
-    radial-gradient(circle at 50% 20%,#25104d 0%,transparent 35%),
-    radial-gradient(circle at 10% 90%,#082b45 0%,transparent 30%),
-    #05050b;
+.danger{
+background:#ff4265;
+color:white;
 }
 
-.menu-box{
-  width:min(650px,100%);
+.gold{
+background:#ffd700;
+color:#111;
 }
 
-.logo-small{
-  color:#8f8fa5;
-  font-size:11px;
-  letter-spacing:5px;
-  font-weight:bold;
+.purple{
+background:#9b59ff;
+color:white;
 }
 
-.logo{
-  margin:18px 0;
-  font-size:clamp(45px,9vw,85px);
-  line-height:.85;
-  letter-spacing:-6px;
-  font-weight:1000;
-
-  background:linear-gradient(
-    90deg,
-    #ffffff,
-    #9b55ff,
-    #36dfff,
-    #ffffff
-  );
-
-  background-size:300%;
-  -webkit-background-clip:text;
-  color:transparent;
-
-  animation:gradient 5s linear infinite;
-}
-
-@keyframes gradient{
-  to{
-    background-position:300%;
-  }
-}
-
-.subtitle{
-  color:#77778a;
-  margin-bottom:25px;
-}
-
-.menu-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.menu-button{
-  border:1px solid #ffffff12;
-  border-radius:16px;
-  padding:16px;
-  color:white;
-  background:linear-gradient(145deg,#151522,#09090f);
-  font-weight:bold;
-  transition:.2s;
-}
-
-.menu-button:hover{
-  transform:translateY(-3px);
-  border-color:#9c5cff66;
-  box-shadow:0 15px 40px #000;
-}
-
-.start{
-  grid-column:1/-1;
-  font-size:18px;
-  padding:20px;
-  border:0;
-  background:linear-gradient(135deg,#873cff,#2463eb);
-}
-
-.song{
-  background:linear-gradient(135deg,#38165b,#143b65);
-}
-
-.support{
-  background:#12351f;
-}
-
-.dylan{
-  background:linear-gradient(135deg,#32134e,#13274d);
-}
-
-/* =========================
-   NORMAL PAGES
-========================= */
-
-.page{
-  width:min(1100px,94%);
-  margin:auto;
-  padding:30px 0;
-}
-
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.top h1{
-  margin:0;
-  font-size:26px;
-}
-
-.back{
-  padding:11px 15px;
-  border-radius:12px;
-  border:1px solid #ffffff15;
-  background:#15151f;
-  color:white;
-  font-weight:bold;
-}
-
-.card{
-  background:linear-gradient(145deg,#11111c,#08080e);
-  border:1px solid #ffffff12;
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:15px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-}
-
-.list{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px;
-  margin:7px 0;
-  border-radius:13px;
-  background:#ffffff05;
-  border:1px solid #ffffff08;
-}
-
-.list small{
-  display:block;
-  color:#77778a;
-  margin-top:4px;
-}
-
-.action{
-  width:100%;
-  padding:13px;
-  margin:5px 0;
-  border-radius:12px;
-  border:1px solid #ffffff12;
-  background:#171722;
-  color:white;
-  font-weight:bold;
-}
-
-.primary{
-  background:linear-gradient(135deg,#793bea,#2563eb);
-  border:0;
-}
-
-input{
-  width:100%;
-  padding:13px;
-  border-radius:11px;
-  border:1px solid #ffffff15;
-  background:#101018;
-  color:white;
-  outline:none;
-  margin:5px 0;
-}
-
-/* =========================
-   ACTUAL GAME
-========================= */
-
-#game{
-  min-height:100vh;
-  background:#05050b;
-}
-
-.game-header{
-  height:75px;
-  padding:10px 15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:#08080e;
-  border-bottom:1px solid #ffffff12;
+.green{
+background:#35e27a;
+color:#06140a;
 }
 
 .stats{
-  display:flex;
-  gap:8px;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:8px;
 }
 
 .stat{
-  background:#12121d;
-  border:1px solid #ffffff10;
-  border-radius:12px;
-  padding:8px 12px;
-  min-width:75px;
+background:#17203a;
+padding:10px 15px;
+border-radius:12px;
 }
 
-.stat small{
-  display:block;
-  color:#77778a;
-  font-size:8px;
+#gameArea{
+width:min(700px,95%);
+height:430px;
+margin:20px auto;
+position:relative;
+overflow:hidden;
+border:3px solid #00eaff;
+border-radius:18px;
+background:#080d1c;
 }
 
-.stat b{
-  font-size:18px;
+#square{
+position:absolute;
+width:55px;
+height:55px;
+padding:0;
+background:lime;
+border:3px solid white;
+border-radius:12px;
+box-shadow:0 0 25px lime;
 }
 
-.exit{
-  padding:11px 15px;
-  border:0;
-  border-radius:12px;
-  background:#39131c;
-  color:white;
-  font-weight:bold;
+#bonus{
+display:none;
+position:absolute;
+width:52px;
+height:52px;
+padding:0;
+border-radius:50%;
+background:gold;
+color:black;
 }
 
-.game-area{
-  height:calc(100vh - 75px);
-  min-height:450px;
-  position:relative;
-  overflow:hidden;
-
-  background:
-    radial-gradient(circle at center,#201b49,#06060c 70%);
+.card{
+display:inline-block;
+vertical-align:top;
+width:210px;
+min-height:130px;
+margin:7px;
+padding:15px;
+background:#151d36;
+border-radius:15px;
 }
 
-.game-area:before{
-  content:"";
-  position:absolute;
-
-  width:350px;
-  height:350px;
-
-  border:1px solid #ffffff0b;
-  border-radius:50%;
-
-  left:50%;
-  top:50%;
-
-  transform:translate(-50%,-50%);
+.notice{
+margin:10px auto;
+padding:15px;
+max-width:700px;
+background:#111a30;
+border-radius:14px;
 }
 
-.square{
-  position:absolute;
-
-  width:75px;
-  height:75px;
-
-  border:0;
-  border-radius:20px;
-
-  background:linear-gradient(
-    135deg,
-    #ffffff,
-    #a85cff,
-    #6d31d7
-  );
-
-  box-shadow:
-    0 0 15px white,
-    0 0 40px #9c50ff,
-    0 0 90px #743cff;
-
-  transition:
-    left .08s,
-    top .08s,
-    transform .08s;
+input,textarea,select{
+width:min(550px,90%);
+padding:12px;
+margin:6px;
+border-radius:10px;
+border:1px solid #00eaff;
+background:#080d18;
+color:white;
 }
 
-.square:active{
-  transform:scale(.65) rotate(15deg);
+textarea{
+height:110px;
 }
 
-.square:after{
-  content:"";
-  position:absolute;
-
-  width:28px;
-  height:28px;
-
-  background:#8c4aff;
-  border-radius:8px;
-
-  left:23px;
-  top:23px;
+.small{
+color:#aaa;
 }
 
-.hit{
-  position:absolute;
-  pointer-events:none;
-
-  font-size:22px;
-  font-weight:bold;
-
-  text-shadow:0 0 20px #a45cff;
-
-  animation:hit .7s forwards;
+.online{
+color:#62ff7b;
+font-weight:bold;
 }
 
-@keyframes hit{
-  to{
-    opacity:0;
-    transform:translateY(-70px) scale(1.2);
-  }
+.offline{
+color:#ff4265;
+font-weight:bold;
 }
 
-/* =========================
-   DYLAN PANEL
-========================= */
-
-.admin{
-  border:1px solid #a45cff55;
-
-  background:
-    radial-gradient(
-      circle at 100% 0,
-      #a45cff22,
-      transparent 30%
-    ),
-    #07070d;
-
-  border-radius:25px;
-  padding:20px;
+.adminBadge{
+color:#ffd700;
+font-weight:bold;
 }
 
-.admin-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+#gameOver{
+display:none;
+position:fixed;
+z-index:99;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+width:min(430px,90%);
+padding:30px;
+background:#080b14;
+border:3px solid #ff4265;
+border-radius:20px;
 }
 
-.owner-badge{
-  padding:7px 10px;
-  border-radius:8px;
-  background:#a45cff18;
-  color:#d4bdff;
-  font-size:9px;
-  font-weight:bold;
+.chatBox{
+height:300px;
+overflow-y:auto;
+text-align:left;
+background:#080d1c;
+padding:10px;
+border-radius:12px;
 }
 
-.admin-stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin:15px 0;
+.chatMsg{
+padding:9px;
+margin:5px 0;
+background:#17203a;
+border-radius:9px;
 }
 
-.admin-stat{
-  padding:15px;
-  background:#09090f;
-  border:1px solid #a45cff20;
-  border-radius:15px;
+.eventLive{
+background:#30121c;
+border:2px solid #ff4265;
+padding:18px;
+border-radius:15px;
+margin:15px auto;
+max-width:650px;
 }
 
-.admin-stat small{
-  color:#77778a;
-  font-size:9px;
+.countdown{
+font-size:30px;
+font-weight:bold;
+color:#ffd700;
 }
 
-.admin-stat b{
-  display:block;
-  font-size:22px;
-  margin-top:5px;
+.updateCard{
+background:#151d36;
+padding:18px;
+border-radius:15px;
+margin:12px auto;
+max-width:700px;
+text-align:left;
 }
 
-.hidden{
-  display:none;
+.updateCard h3{
+color:#00eaff;
 }
 
-.message{
-  color:#858598;
-  font-size:12px;
-  margin-top:10px;
+.adminBox{
+border:2px solid #ffd700;
+padding:20px;
+border-radius:15px;
+margin:15px 0;
+background:#151526;
 }
 
-/* =========================
-   MOBILE
-========================= */
+#broadcast{
+display:none;
+position:fixed;
+z-index:200;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+width:min(700px,92%);
+padding:18px;
+background:#11152a;
+border:3px solid #ffd700;
+border-radius:18px;
+box-shadow:0 0 35px #ffd70055;
+}
 
-@media(max-width:650px){
+#broadcast h2{
+margin:0 0 8px;
+color:#ffd700;
+}
 
-  .menu-buttons{
-    grid-template-columns:1fr;
-  }
+#broadcastMessage{
+font-size:18px;
+font-weight:bold;
+}
 
-  .start{
-    grid-column:auto;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
-    gap:3px;
-  }
-
-  .stat{
-    min-width:60px;
-    padding:7px;
-  }
-
-  .stat b{
-    font-size:14px;
-  }
-
-  .game-header{
-    padding:8px;
-  }
-
-  .admin-stats{
-    grid-template-columns:1fr 1fr;
-  }
-
+.uidBox{
+font-family:monospace;
+font-size:12px;
+word-break:break-all;
+background:#080d18;
+padding:10px;
+border-radius:10px;
+margin:10px auto;
+max-width:600px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================
-     MAIN MENU
-========================= -->
+<h1>🎮 CATCH THE SQUARE</h1>
+<p><b>3.1</b> • Catch it. Level up. Become the legend.</p>
 
-<section id="menu" class="screen active">
-
-  <div class="menu-box">
-
-    <div class="logo-small">
-      DYLAN EDITION • V1
-    </div>
-
-    <div class="logo">
-      CATCH THE<br>SQUARE
-    </div>
-
-    <div class="subtitle">
-      Catch it. Level up. Become legendary.
-    </div>
-
-    <div class="menu-buttons">
-
-      <button class="menu-button start"
-        onclick="openScreen('game')">
-        ▶️ START GAME
-      </button>
-
-      <button class="menu-button"
-        onclick="openScreen('chat')">
-        🌍 GLOBAL CHAT
-      </button>
-
-      <button class="menu-button"
-        onclick="openScreen('shop')">
-        🛒 SHOP
-      </button>
-
-      <button class="menu-button"
-        onclick="openScreen('missions')">
-        🎯 MISSIONS
-      </button>
-
-      <button class="menu-button"
-        onclick="openScreen('leaderboard')">
-        🏆 LEADERBOARD
-      </button>
-
-      <button class="menu-button"
-        onclick="openScreen('achievements')">
-        🏅 ACHIEVEMENTS
-      </button>
-
-      <button class="menu-button"
-        onclick="dailyReward()">
-        🎁 DAILY REWARD
-      </button>
-
-      <button class="menu-button"
-        onclick="openScreen('updates')">
-        📢 UPDATES
-      </button>
-
-      <button class="menu-button song"
-        onclick="toggleMusic()">
-        🎵 PLAY MY SONG
-      </button>
-
-      <button class="menu-button support"
-        onclick="openScreen('support')">
-        ❤️ SUPPORT
-      </button>
-
-      <button class="menu-button dylan"
-        onclick="openScreen('dylan')">
-        👑 DYLAN PANEL
-      </button>
-
-      <button class="menu-button"
-        onclick="openScreen('settings')">
-        ⚙️ SETTINGS
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     REAL GAME SCREEN
-========================= -->
-
-<section id="game" class="screen">
-
-  <div class="game-header">
-
-    <div class="stats">
-
-      <div class="stat">
-        <small>SCORE</small>
-        <b id="score">0</b>
-      </div>
-
-      <div class="stat">
-        <small>COINS</small>
-        <b id="coins">0</b>
-      </div>
-
-      <div class="stat">
-        <small>LEVEL</small>
-        <b id="level">1</b>
-      </div>
-
-      <div class="stat">
-        <small>COMBO</small>
-        <b id="combo">0</b>
-      </div>
-
-    </div>
-
-    <button class="exit"
-      onclick="openScreen('menu')">
-      ← EXIT
-    </button>
-
-  </div>
-
-  <div id="gameArea" class="game-area">
-
-    <button id="square"
-      class="square">
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     SHOP
-========================= -->
-
-<section id="shop" class="screen">
-
-<div class="page">
-
-<div class="top">
-<h1>🛒 SHOP</h1>
-<button class="back"
-onclick="openScreen('menu')">
-← MENU
-</button>
+<div id="broadcast">
+<h2>👑 DYLAN</h2>
+<div id="broadcastMessage"></div>
 </div>
 
-<div class="grid">
 
-<div class="card">
+<!-- ================= MENU ================= -->
 
-<h3>⚡ POWER UPS</h3>
+<div id="menu" class="screen active">
 
-<button class="action primary"
-onclick="buyCoins()">
-⚡ DOUBLE COINS — 250
+<div class="panel">
+
+<button class="menuButton green" onclick="startGame()">
+🎮 START GAME
 </button>
 
-<button class="action"
-onclick="buyCombo()">
-🔥 +10 COMBO — 150
+<button class="menuButton" onclick="showScreen('shop')">
+🛒 SHOP
 </button>
 
-<button class="action"
-onclick="megaBonus()">
-💎 MEGA BONUS — 700
+<button class="menuButton" onclick="showScreen('missions')">
+🎯 MISSIONS
 </button>
 
-</div>
-
-<div class="card">
-
-<h3>💰 WALLET</h3>
-
-<div class="list">
-<span>🪙 Coins</span>
-<b id="shopCoins">0</b>
-</div>
-
-<div class="list">
-<span>🔥 Level</span>
-<b id="shopLevel">1</b>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     MISSIONS
-========================= -->
-
-<section id="missions" class="screen">
-
-<div class="page">
-
-<div class="top">
-<h1>🎯 MISSIONS</h1>
-
-<button class="back"
-onclick="openScreen('menu')">
-← MENU
+<button class="menuButton" onclick="showScreen('achievements')">
+🏆 ACHIEVEMENTS
 </button>
-</div>
 
-<div class="card">
-
-<div class="list">
-<div>
-<b>⚡ FIRST CATCH</b>
-<small>Catch one square</small>
-</div>
-<b id="mission1">0/1</b>
-</div>
-
-<div class="list">
-<div>
-<b>🔥 SCORE HUNTER</b>
-<small>Reach 50 score</small>
-</div>
-<b id="mission2">0/50</b>
-</div>
-
-<div class="list">
-<div>
-<b>🪙 COIN KING</b>
-<small>Collect 500 coins</small>
-</div>
-<b id="mission3">0/500</b>
-</div>
-
-<div class="list">
-<div>
-<b>💎 LEVEL MASTER</b>
-<small>Reach level 10</small>
-</div>
-<b id="mission4">0/10</b>
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     LEADERBOARD
-========================= -->
-
-<section id="leaderboard" class="screen">
-
-<div class="page">
-
-<div class="top">
-<h1>🏆 LEADERBOARD</h1>
-
-<button class="back"
-onclick="openScreen('menu')">
-← MENU
+<button class="menuButton" onclick="showScreen('leaderboard')">
+🌍 GLOBAL LEADERBOARD
 </button>
+
+<button class="menuButton" onclick="showScreen('daily')">
+⚡ DAILY CHALLENGE
+</button>
+
+<button class="menuButton" onclick="showScreen('chat')">
+💬 GLOBAL CHAT
+</button>
+
+<button class="menuButton purple" onclick="openSong()">
+🎵 MY SONG
+</button>
+
+<button class="menuButton" onclick="showScreen('updates')">
+📰 UPDATES
+</button>
+
+<button class="menuButton" onclick="showScreen('settings')">
+⚙️ SETTINGS
+</button>
+
+<button class="menuButton" onclick="showScreen('howto')">
+📖 HOW TO PLAY
+</button>
+
+<button class="menuButton gold" onclick="toggleSupport()">
+💰 SUPPORT
+</button>
+
+<button class="menuButton danger" onclick="openAdmin()">
+👑 DYLAN ADMIN
+</button>
+
+
+<div id="support" class="notice" style="display:none">
+
+<h2>💰 SUPPORT CATCH THE SQUARE</h2>
+
+<p>Want to support the game?</p>
+
+<p>Send your support through Pochi la Biashara.</p>
+
+<h2>📱 0700201218</h2>
+
+<p>❤️ Thank you for supporting Catch The Square!</p>
+
 </div>
 
-<div class="card">
 
-<div class="list">
-<span>🥇 YOU</span>
-<b id="leaderScore">0</b>
+<div class="eventLive">
+
+<h2>👑 SATURDAY ADMIN ABUSE</h2>
+
+<p>🔥 Every Saturday</p>
+
+<p>⏰ 8:00 PM – 9:00 PM</p>
+
+<div id="eventCountdown" class="countdown">
+CHECKING...
 </div>
 
-<div class="list">
-<span>🥈 PLAYER 2</span>
-<b>0</b>
 </div>
 
-<div class="list">
-<span>🥉 PLAYER 3</span>
-<b>0</b>
-</div>
 
-<p class="message">
-Firebase can turn this into a real global leaderboard.
+<hr>
+
+<p>🪙 Coins: <b id="menuCoins">0</b></p>
+
+<p>🏆 High Score: <b id="menuHigh">0</b></p>
+
+<p>🔥 Streak: <b id="menuStreak">0</b></p>
+
+<p>
+Firebase:
+<span id="firebaseStatus" class="offline">
+CONNECTING...
+</span>
 </p>
 
 </div>
+</div>
+
+
+<!-- ================= GAME ================= -->
+
+<div id="game" class="screen">
+
+<div class="panel">
+
+<div class="stats">
+
+<div class="stat">🏆 <b id="score">0</b></div>
+
+<div class="stat">❤️ <b id="lives">3</b></div>
+
+<div class="stat">⭐ Level <b id="level">1</b></div>
+
+<div class="stat">⏱️ <b id="time">60</b></div>
+
+<div class="stat">🔥 x<b id="combo">0</b></div>
+
+<div class="stat">🪙 <b id="coins">0</b></div>
 
 </div>
 
-</section>
+<h2>CATCH IT!</h2>
 
+<div id="gameArea">
 
-<!-- =========================
-     ACHIEVEMENTS
-========================= -->
+<button id="square" onclick="catchSquare()">
+CLICK!
+</button>
 
-<section id="achievements" class="screen">
-
-<div class="page">
-
-<div class="top">
-
-<h1>🏅 ACHIEVEMENTS</h1>
-
-<button class="back"
-onclick="openScreen('menu')">
-← MENU
+<button id="bonus" onclick="catchBonus()">
++5
 </button>
 
 </div>
 
-<div class="card">
+<button onclick="buyLife()">
+❤️ EXTRA LIFE — 20 COINS
+</button>
 
-<div class="list">
-<span>⚡ First Catch</span>
-<b id="achievement1">🔒</b>
-</div>
-
-<div class="list">
-<span>🔥 Combo Master</span>
-<b id="achievement2">🔒</b>
-</div>
-
-<div class="list">
-<span>🪙 Coin Collector</span>
-<b id="achievement3">🔒</b>
-</div>
-
-<div class="list">
-<span>💎 Level Master</span>
-<b id="achievement4">🔒</b>
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     GLOBAL CHAT
-========================= -->
-
-<section id="chat" class="screen">
-
-<div class="page">
-
-<div class="top">
-
-<h1>🌍 GLOBAL CHAT</h1>
-
-<button class="back"
-onclick="openScreen('menu')">
-← MENU
+<button onclick="quitGame()">
+🏠 MENU
 </button>
 
 </div>
+</div>
+
+
+<!-- ================= SHOP ================= -->
+
+<div id="shop" class="screen">
+
+<div class="panel">
+
+<h2>🛒 SHOP</h2>
+
+<p>🪙 Coins: <b id="shopCoins">0</b></p>
 
 <div class="card">
+<h3>🌈 Rainbow</h3>
+<p>50 coins</p>
+<button onclick="buySkin('rainbow',50)">BUY</button>
+</div>
 
-<div id="messages">
+<div class="card">
+<h3>🔥 Fire</h3>
+<p>75 coins</p>
+<button onclick="buySkin('fire',75)">BUY</button>
+</div>
 
-<div class="list">
-<div>
-<b>👑 Dylan</b>
-<small>Welcome to Catch The Square!</small>
+<div class="card">
+<h3>❄️ Ice</h3>
+<p>100 coins</p>
+<button onclick="buySkin('ice',100)">BUY</button>
+</div>
+
+<div class="card">
+<h3>👑 Gold</h3>
+<p>150 coins</p>
+<button onclick="buySkin('gold',150)">BUY</button>
+</div>
+
+<div class="card">
+<h3>🌌 Galaxy</h3>
+<p>250 coins</p>
+<button onclick="buySkin('galaxy',250)">BUY</button>
+</div>
+
+<br>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
 </div>
 </div>
 
+
+<!-- ================= MISSIONS ================= -->
+
+<div id="missions" class="screen">
+
+<div class="panel">
+
+<h2>🎯 MISSIONS</h2>
+
+<p>🎯 First Catch — <b id="m1">LOCKED</b></p>
+
+<p>⭐ 25 Points — <b id="m25">LOCKED</b></p>
+
+<p>🔥 10 Combo — <b id="m10">LOCKED</b></p>
+
+<p>🪙 250 Coins — <b id="m250">LOCKED</b></p>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
 </div>
+</div>
+
+
+<!-- ================= ACHIEVEMENTS ================= -->
+
+<div id="achievements" class="screen">
+
+<div class="panel">
+
+<h2>🏆 ACHIEVEMENTS</h2>
+
+<p>🎯 First Catch — <b id="a1">🔒</b></p>
+
+<p>🔥 10 Combo — <b id="a2">🔒</b></p>
+
+<p>🪙 100 Coins — <b id="a3">🔒</b></p>
+
+<p>⭐ Level 10 — <b id="a4">🔒</b></p>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
+</div>
+</div>
+
+
+<!-- ================= LEADERBOARD ================= -->
+
+<div id="leaderboard" class="screen">
+
+<div class="panel">
+
+<h2>🌍 GLOBAL LEADERBOARD</h2>
+
+<div id="leaderboardList">
+<p>Loading...</p>
+</div>
+
+<button onclick="saveScore()">
+🏆 SAVE MY SCORE
+</button>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
+</div>
+</div>
+
+
+<!-- ================= DAILY ================= -->
+
+<div id="daily" class="screen">
+
+<div class="panel">
+
+<h2>⚡ DAILY CHALLENGE</h2>
+
+<div class="notice">
+
+<h3>45 SECOND RUSH</h3>
+
+<p>Get the highest score you can!</p>
+
+<h2>🎁 +25 COINS</h2>
+
+<p>Best: <b id="dailyBest">0</b></p>
+
+</div>
+
+<button onclick="startDaily()">
+⚡ PLAY
+</button>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
+</div>
+</div>
+
+
+<!-- ================= CHAT ================= -->
+
+<div id="chat" class="screen">
+
+<div class="panel">
+
+<h2>💬 GLOBAL CHAT</h2>
+
+<p>
+Firebase:
+<span id="chatStatus" class="offline">
+CONNECTING...
+</span>
+</p>
+
+<div id="chatMessages" class="chatBox"></div>
+
+<input
+id="chatName"
+maxlength="20"
+placeholder="Player name">
 
 <input
 id="chatInput"
-maxlength="120"
-placeholder="Type a message...">
+maxlength="150"
+placeholder="Type a message..."
+onkeydown="if(event.key==='Enter')sendChat()">
 
-<button class="action primary"
-onclick="sendMessage()">
+<br>
+
+<button onclick="sendChat()">
 💬 SEND
 </button>
 
-<p class="message">
-Connect Firebase for real-time global chat.
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
+</div>
+</div>
+
+
+<!-- ================= UPDATES ================= -->
+
+<div id="updates" class="screen">
+
+<div class="panel">
+
+<h2>📰 UPDATES</h2>
+
+<div id="updateList">
+
+<div class="updateCard">
+
+<h3>🚀 Catch The Square 3.1</h3>
+
+<p>🔥 The new update is here!</p>
+
+<p>🌍 Global Firebase leaderboard</p>
+
+<p>👑 Upgraded Dylan Admin Panel</p>
+
+<p>🪙 Give Coins</p>
+
+<p>🎵 My Song</p>
+
+<p>💬 Global Chat</p>
+
+<p>💰 Support</p>
+
+</div>
+
+</div>
+
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
+
+</div>
+</div>
+
+
+<!-- ================= SETTINGS ================= -->
+
+<div id="settings" class="screen">
+
+<div class="panel">
+
+<h2>⚙️ SETTINGS</h2>
+
+<button onclick="setDifficulty('easy')">
+EASY
+</button>
+
+<button onclick="setDifficulty('normal')">
+NORMAL
+</button>
+
+<button onclick="setDifficulty('hard')">
+HARD
+</button>
+
+<p>
+Difficulty:
+<b id="difficultyText">NORMAL</b>
 </p>
 
-</div>
+<button class="danger" onclick="resetData()">
+🗑️ RESET LOCAL DATA
+</button>
 
-</div>
-
-</section>
-
-
-<!-- =========================
-     UPDATES
-========================= -->
-
-<section id="updates" class="screen">
-
-<div class="page">
-
-<div class="top">
-
-<h1>📢 UPDATES</h1>
-
-<button class="back"
-onclick="openScreen('menu')">
-← MENU
+<button onclick="showScreen('menu')">
+🏠 BACK
 </button>
 
 </div>
-
-<div class="card">
-
-<h2>🚀 DYLAN EDITION V1</h2>
-
-<div class="list">
-<span>🎮 New full-screen game</span>
 </div>
 
-<div class="list">
-<span>🎵 Music player</span>
-</div>
 
-<div class="list">
-<span>👑 Dylan Panel</span>
-</div>
+<!-- ================= HOW TO ================= -->
 
-<div class="list">
-<span>🏅 Achievements</span>
-</div>
+<div id="howto" class="screen">
 
-<div class="list">
-<span>🎯 Missions</span>
-</div>
+<div class="panel">
 
-<div class="list">
-<span>🛒 Shop</span>
-</div>
+<h2>📖 HOW TO PLAY</h2>
 
-</div>
+<p>🟩 Catch the square.</p>
 
-</div>
+<p>❤️ Don't miss too many times.</p>
 
-</section>
+<p>🔥 Build combos.</p>
 
+<p>🪙 Earn coins.</p>
 
-<!-- =========================
-     SUPPORT
-========================= -->
+<p>⭐ Level up.</p>
 
-<section id="support" class="screen">
+<p>🎵 Listen to Dylan's song.</p>
 
-<div class="page">
+<p>👑 Saturday Admin Abuse: 8–9 PM.</p>
 
-<div class="top">
-
-<h1>❤️ SUPPORT</h1>
-
-<button class="back"
-onclick="openScreen('menu')">
-← MENU
+<button onclick="showScreen('menu')">
+🏠 BACK
 </button>
 
 </div>
+</div>
 
-<div class="card">
 
-<h2>❤️ SUPPORT CATCH THE SQUARE</h2>
+<!-- ================= ADMIN ================= -->
 
-<p class="message">
-Thank you for supporting the game!
+<div id="admin" class="screen">
+
+<div class="panel">
+
+<h2>👑 DYLAN ADMIN PANEL</h2>
+
+<div class="notice">
+
+<p>Admin status:</p>
+
+<b id="adminStatus">
+CHECKING...
+</b>
+
+</div>
+
+
+<!-- PLAYER UID -->
+
+<div class="adminBox">
+
+<h3>🪙 GIVE COINS TO PLAYER</h3>
+
+<p class="small">
+Enter the player's Firebase UID.
 </p>
 
-<div class="list">
-
-<span>Support through Pochi</span>
-
-<b>0700201218</b>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     DYLAN PANEL
-========================= -->
-
-<section id="dylan" class="screen">
-
-<div class="page">
-
-<div class="top">
-
-<h1>👑 DYLAN CONTROL CENTER</h1>
-
-<button class="back"
-onclick="openScreen('menu')">
-← MENU
-</button>
-
-</div>
-
-<div class="admin">
-
-<div class="admin-title">
-
-<h2>⚡ DYLAN OWNER HQ</h2>
-
-<div class="owner-badge">
-OWNER MODE
-</div>
-
-</div>
-
-<div class="admin-stats">
-
-<div class="admin-stat">
-<small>STATUS</small>
-<b>ONLINE</b>
-</div>
-
-<div class="admin-stat">
-<small>SCORE</small>
-<b id="adminScore">0</b>
-</div>
-
-<div class="admin-stat">
-<small>COINS</small>
-<b id="adminCoins">0</b>
-</div>
-
-<div class="admin-stat">
-<small>LEVEL</small>
-<b id="adminLevel">1</b>
-</div>
-
-</div>
-
-<h3>🔐 OWNER LOGIN</h3>
-
 <input
-id="adminPassword"
-type="password"
-placeholder="Enter admin password">
-
-<button
-class="action primary"
-onclick="unlockAdmin()">
-🔓 UNLOCK OWNER CONTROLS
-</button>
-
-<div id="adminControls"
-class="hidden">
-
-<h3>👥 PLAYER MANAGEMENT</h3>
-
-<input
-id="playerUID"
+id="targetUid"
 placeholder="Player UID">
 
 <input
 id="coinAmount"
 type="number"
-placeholder="Coin amount">
+min="1"
+placeholder="Coins">
 
-<button
-class="action primary"
-onclick="giveCoins()">
+<br>
+
+<button class="gold" onclick="giveCoins()">
 🪙 GIVE COINS
 </button>
 
-<button
-class="action"
-onclick="giveAchievement()">
-🏅 GRANT ACHIEVEMENT
-</button>
-
-<h3>📢 GAME MANAGEMENT</h3>
-
-<button
-class="action"
-onclick="toast('📢 Update editor opened')">
-📢 PUBLISH UPDATE
-</button>
-
-<button
-class="action"
-onclick="toast('🎁 Daily reward editor opened')">
-🎁 MANAGE DAILY REWARD
-</button>
-
-<button
-class="action"
-onclick="toast('🎯 Mission editor opened')">
-🎯 MANAGE MISSIONS
-</button>
-
-<h3>🌍 COMMUNITY</h3>
-
-<button
-class="action"
-onclick="toast('🌍 Chat moderation opened')">
-🌍 CHAT MODERATION
-</button>
-
-<button
-class="action"
-onclick="toast('📢 Announcement editor opened')">
-📢 ANNOUNCEMENTS
-</button>
-
-<div
-id="adminMessage"
-class="message">
 </div>
+
+
+<!-- MY UID -->
+
+<div class="adminBox">
+
+<h3>🆔 YOUR ADMIN UID</h3>
+
+<div id="myUid" class="uidBox">
+Connecting...
+</div>
+
+<p class="small">
+Give this UID to players only when necessary.
+</p>
 
 </div>
 
-</div>
 
-</div>
+<!-- ANNOUNCEMENT -->
 
-</section>
+<div class="adminBox">
 
+<h3>📢 GLOBAL ANNOUNCEMENT</h3>
 
-<!-- =========================
-     SETTINGS
-========================= -->
+<input
+id="announcementInput"
+maxlength="200"
+placeholder="Message everyone...">
 
-<section id="settings" class="screen">
+<br>
 
-<div class="page">
-
-<div class="top">
-
-<h1>⚙️ SETTINGS</h1>
-
-<button class="back"
-onclick="openScreen('menu')">
-← MENU
+<button onclick="sendAnnouncement()">
+📢 SEND TO EVERYONE
 </button>
 
 </div>
 
-<div class="card">
 
-<button
-class="action"
-onclick="toggleMusic()">
-🎵 PLAY / PAUSE MY SONG
+<!-- ADMIN ABUSE -->
+
+<div class="adminBox">
+
+<h3>👹 ADMIN ABUSE</h3>
+
+<div class="eventLive">
+
+<h2>🔥 SATURDAY EVENT</h2>
+
+<p>⏰ 8:00 PM – 9:00 PM</p>
+
+<p id="adminEventCountdown">
+CHECKING...
+</p>
+
+</div>
+
+<button class="gold" onclick="startAdminAbuse()">
+👑 START ADMIN ABUSE
 </button>
 
-<button
-class="action"
-onclick="resetGame()">
-🔄 RESET GAME
+<button class="danger" onclick="endAdminAbuse()">
+🛑 END EVENT
+</button>
+
+<p id="adminEventStatus">
+Event: OFF
+</p>
+
+</div>
+
+
+<!-- SONG -->
+
+<div class="adminBox">
+
+<h3>🎵 MY SONG</h3>
+
+<p>
+Your song is connected to the game.
+</p>
+
+<button class="purple" onclick="openSong()">
+🎵 OPEN MY SONG
 </button>
 
 </div>
 
+
+<!-- ADMIN COINS -->
+
+<div class="adminBox">
+
+<h3>🪙 YOUR COINS</h3>
+
+<button onclick="adminCoins(100)">
++100
+</button>
+
+<button onclick="adminCoins(500)">
++500
+</button>
+
+<button onclick="adminCoins(1000)">
++1000
+</button>
+
 </div>
 
-</section>
+
+<!-- RESET -->
+
+<div class="adminBox">
+
+<h3>🔧 ADMIN TOOLS</h3>
+
+<button class="danger" onclick="adminResetScore()">
+🔄 RESET MY HIGH SCORE
+</button>
+
+</div>
 
 
-<!-- YOUR SONG -->
-<!-- Put your MP3 in the same folder as this HTML
-     and name it song.mp3 -->
+<button onclick="showScreen('menu')">
+🏠 BACK
+</button>
 
-<audio
-id="music"
-src="song.mp3"
-loop>
-</audio>
+</div>
+</div>
 
 
-<script>
+<!-- ================= GAME OVER ================= -->
 
-/* =========================
-   SAVE DATA
-========================= */
+<div id="gameOver">
 
-let score =
-Number(localStorage.getItem("score")) || 0;
+<h2>💀 GAME OVER</h2>
 
-let coins =
-Number(localStorage.getItem("coins")) || 0;
+<h1 id="finalScore">0</h1>
 
-let level =
-Number(localStorage.getItem("level")) || 1;
+<p>
+High Score:
+<b id="finalHigh">0</b>
+</p>
 
-let xp =
-Number(localStorage.getItem("xp")) || 0;
+<button onclick="closeGameOver();startGame()">
+🔄 PLAY AGAIN
+</button>
 
-let combo = 0;
+<button onclick="closeGameOver();showScreen('menu')">
+🏠 MENU
+</button>
 
-let multiplier = 1;
-
-
-/* =========================
-   ELEMENTS
-========================= */
-
-const gameArea =
-document.getElementById("gameArea");
-
-const square =
-document.getElementById("square");
-
-const music =
-document.getElementById("music");
+</div>
 
 
-/* =========================
-   SCREEN SYSTEM
-========================= */
+<!-- ================= FIREBASE ================= -->
 
-function openScreen(id){
+<script type="module">
 
-  document
-    .querySelectorAll(".screen")
-    .forEach(screen=>{
-      screen.classList.remove("active");
-    });
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-  document
-    .getElementById(id)
-    .classList.add("active");
-
-  updateUI();
-
-  if(id === "game"){
-    moveSquare();
-  }
-
+import {
+getAuth,
+signInAnonymously
 }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-
-/* =========================
-   MOVE SQUARE
-========================= */
-
-function moveSquare(){
-
-  const padding = 20;
-
-  const maxX =
-    gameArea.clientWidth -
-    square.offsetWidth -
-    padding;
-
-  const maxY =
-    gameArea.clientHeight -
-    square.offsetHeight -
-    padding;
-
-  const x =
-    padding +
-    Math.random() *
-    Math.max(1,maxX-padding);
-
-  const y =
-    padding +
-    Math.random() *
-    Math.max(1,maxY-padding);
-
-  square.style.left =
-    x + "px";
-
-  square.style.top =
-    y + "px";
-
+import {
+getDatabase,
+ref,
+push,
+set,
+get,
+onValue,
+serverTimestamp
 }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
-/* =========================
-   CATCH SQUARE
-========================= */
+const firebaseConfig={
 
-square.addEventListener("click",function(){
+apiKey:"AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
 
-  combo++;
+authDomain:
+"catch-the-square-79110.firebaseapp.com",
 
-  score++;
+databaseURL:
+"https://catch-the-square-79110-default-rtdb.firebaseio.com",
 
-  let earned =
-    2 * multiplier;
+projectId:
+"catch-the-square-79110",
 
-  if(combo >= 5){
+storageBucket:
+"catch-the-square-79110.firebasestorage.app",
 
-    earned +=
-      Math.floor(combo / 5) * 2;
+messagingSenderId:
+"855556289213",
 
-  }
+appId:
+"1:855556289213:web:6ffe7fe9ec18c451623dd4",
 
-  coins += earned;
+measurementId:
+"G-BNKEM99H41"
 
-  xp += 10;
+};
 
-  createHit(
-    square.offsetLeft,
-    square.offsetTop,
-    "+" + earned + " 🪙"
-  );
 
-  if(xp >= level * 100){
+const ADMIN_UID=
+"gMsemyhyGSXfJqLdV0zlkVdJwz82";
 
-    xp = 0;
 
-    level++;
+const app=initializeApp(firebaseConfig);
 
-    coins += 25;
+const auth=getAuth(app);
 
-    toast(
-      "🔥 LEVEL UP! +25 COINS"
-    );
+const db=getDatabase(app);
 
-  }
 
-  updateUI();
+const leaderboardRef=
+ref(db,"leaderboard");
 
-  moveSquare();
+const chatRef=
+ref(db,"chat");
+
+const broadcastRef=
+ref(db,"adminBroadcasts");
+
+
+signInAnonymously(auth)
+
+.then(result=>{
+
+window.firebaseUser=result.user;
+
+window.firebaseReady=true;
+
+document.getElementById("firebaseStatus").textContent="ONLINE";
+
+document.getElementById("firebaseStatus").className="online";
+
+document.getElementById("chatStatus").textContent="ONLINE";
+
+document.getElementById("chatStatus").className="online";
+
+document.getElementById("myUid").textContent=
+result.user.uid;
+
+updateAdminStatus();
+
+listenLeaderboard();
+
+listenChat();
+
+listenBroadcasts();
+
+})
+
+.catch(error=>{
+
+console.error(error);
+
+document.getElementById("firebaseStatus").textContent="OFFLINE";
+
+document.getElementById("chatStatus").textContent="OFFLINE";
 
 });
 
 
-/* =========================
-   HIT EFFECT
-========================= */
+function isAdmin(){
 
-function createHit(x,y,text){
-
-  const hit =
-    document.createElement("div");
-
-  hit.className="hit";
-
-  hit.textContent=text;
-
-  hit.style.left=x+"px";
-
-  hit.style.top=y+"px";
-
-  gameArea.appendChild(hit);
-
-  setTimeout(()=>{
-    hit.remove();
-  },700);
+return !!(
+auth.currentUser &&
+auth.currentUser.uid===ADMIN_UID
+);
 
 }
 
 
-/* =========================
-   UPDATE UI
-========================= */
+function updateAdminStatus(){
 
-function updateUI(){
+const el=
+document.getElementById("adminStatus");
 
-  document.getElementById("score")
-    .textContent=score;
+if(isAdmin()){
 
-  document.getElementById("coins")
-    .textContent=coins;
+el.textContent="👑 DYLAN";
 
-  document.getElementById("level")
-    .textContent=level;
+el.className="adminBadge";
 
-  document.getElementById("combo")
-    .textContent=combo;
+}else{
 
-  document.getElementById("shopCoins")
-    .textContent=coins;
+el.textContent="PLAYER";
 
-  document.getElementById("shopLevel")
-    .textContent=level;
-
-  document.getElementById("leaderScore")
-    .textContent=score;
-
-  document.getElementById("adminScore")
-    .textContent=score;
-
-  document.getElementById("adminCoins")
-    .textContent=coins;
-
-  document.getElementById("adminLevel")
-    .textContent=level;
-
-
-  document.getElementById("mission1")
-    .textContent=
-    score >= 1 ? "1/1" : "0/1";
-
-  document.getElementById("mission2")
-    .textContent=
-    Math.min(score,50)+"/50";
-
-  document.getElementById("mission3")
-    .textContent=
-    Math.min(coins,500)+"/500";
-
-  document.getElementById("mission4")
-    .textContent=
-    Math.min(level,10)+"/10";
-
-
-  document.getElementById("achievement1")
-    .textContent=
-    score >= 1 ? "✅" : "🔒";
-
-  document.getElementById("achievement2")
-    .textContent=
-    combo >= 10 ? "✅" : "🔒";
-
-  document.getElementById("achievement3")
-    .textContent=
-    coins >= 1000 ? "✅" : "🔒";
-
-  document.getElementById("achievement4")
-    .textContent=
-    level >= 10 ? "✅" : "🔒";
-
-
-  localStorage.setItem(
-    "score",
-    score
-  );
-
-  localStorage.setItem(
-    "coins",
-    coins
-  );
-
-  localStorage.setItem(
-    "level",
-    level
-  );
-
-  localStorage.setItem(
-    "xp",
-    xp
-  );
+}
 
 }
 
 
-/* =========================
-   SHOP
-========================= */
+window.updateAdminStatus=
+updateAdminStatus;
 
-function buyCoins(){
 
-  if(coins < 250){
+/* ================= LEADERBOARD ================= */
 
-    toast(
-      "❌ NOT ENOUGH COINS"
-    );
+function listenLeaderboard(){
 
-    return;
-  }
+onValue(leaderboardRef,snapshot=>{
 
-  coins -= 250;
+const scores=[];
 
-  multiplier = 2;
+snapshot.forEach(child=>{
 
-  updateUI();
+const data=child.val();
 
-  toast(
-    "⚡ 2X COINS ACTIVATED"
-  );
+if(data){
+
+scores.push({
+id:child.key,
+...data
+});
+
+}
+
+});
+
+scores.sort(
+(a,b)=>
+Number(b.score||0)-
+Number(a.score||0)
+);
+
+renderFirebaseLeaderboard(
+scores.slice(0,20)
+);
+
+});
 
 }
 
 
-function buyCombo(){
+function renderFirebaseLeaderboard(scores){
 
-  if(coins < 150){
+const box=
+document.getElementById("leaderboardList");
 
-    toast(
-      "❌ NOT ENOUGH COINS"
-    );
+if(!scores.length){
 
-    return;
-  }
+box.innerHTML=
+"<p class='small'>No global scores yet. Be the first!</p>";
 
-  coins -= 150;
+return;
 
-  combo += 10;
+}
 
-  updateUI();
+box.innerHTML="";
 
-  toast(
-    "🔥 +10 COMBO"
-  );
+scores.forEach((item,index)=>{
+
+const medal=
+index===0?"🥇":
+index===1?"🥈":
+index===2?"🥉":"🏆";
+
+box.innerHTML+=`
+
+<div class="notice">
+
+${medal}
+
+<b>#${index+1}</b>
+
+👤 ${safe(item.name||"Player")}
+
+<br>
+
+⭐ ${Number(item.score||0)} points
+
+</div>
+
+`;
+
+});
 
 }
 
 
-function megaBonus(){
+window.saveFirebaseScore=
+async function(){
 
-  if(coins < 700){
+if(!auth.currentUser){
 
-    toast(
-      "❌ NOT ENOUGH COINS"
-    );
+alert("Firebase is still connecting.");
 
-    return;
-  }
+return false;
 
-  coins -= 700;
+}
 
-  coins += 1000;
+const name=
+localStorage.getItem("playerName")||
+"Player";
 
-  updateUI();
+try{
 
-  toast(
-    "💎 MEGA BONUS!"
-  );
+const newRef=push(leaderboardRef);
+
+await set(newRef,{
+
+uid:auth.currentUser.uid,
+
+name:name,
+
+score:Number(highScore),
+
+time:Date.now()
+
+});
+
+return true;
+
+}catch(error){
+
+console.error(error);
+
+alert("❌ Could not save score: "+error.message);
+
+return false;
+
+}
+
+};
+
+
+/* ================= CHAT ================= */
+
+function listenChat(){
+
+onValue(chatRef,snapshot=>{
+
+const messages=[];
+
+snapshot.forEach(child=>{
+
+messages.push({
+id:child.key,
+...child.val()
+});
+
+});
+
+messages.sort(
+(a,b)=>
+Number(a.time||0)-
+Number(b.time||0)
+);
+
+const box=
+document.getElementById("chatMessages");
+
+box.innerHTML="";
+
+messages.slice(-50).forEach(m=>{
+
+box.innerHTML+=`
+
+<div class="chatMsg">
+
+<b>👤 ${safe(m.name||"Player")}</b>
+
+<br>
+
+${safe(m.message||"")}
+
+</div>
+
+`;
+
+});
+
+box.scrollTop=box.scrollHeight;
+
+});
 
 }
 
 
-/* =========================
-   DAILY REWARD
-========================= */
+window.sendChat=
+async function(){
 
-function dailyReward(){
+if(!auth.currentUser){
 
-  const today =
-    new Date().toDateString();
+alert("Firebase is still connecting.");
 
-  if(
-    localStorage.getItem(
-      "dailyReward"
-    ) === today
-  ){
+return;
 
-    toast(
-      "⏰ ALREADY CLAIMED TODAY"
-    );
+}
 
-    return;
+const name=
+document.getElementById("chatName").value.trim();
 
-  }
+const message=
+document.getElementById("chatInput").value.trim();
 
-  localStorage.setItem(
-    "dailyReward",
-    today
-  );
+if(!name||!message){
 
-  coins += 100;
+alert("Enter your name and message.");
 
-  updateUI();
+return;
 
-  toast(
-    "🎁 +100 DAILY COINS!"
-  );
+}
+
+if(name.toLowerCase()==="dylan"&&!isAdmin()){
+
+alert("❌ Dylan is reserved.");
+
+return;
+
+}
+
+localStorage.setItem("playerName",name);
+
+try{
+
+await push(chatRef,{
+
+uid:auth.currentUser.uid,
+
+name:name,
+
+message:message,
+
+time:Date.now()
+
+});
+
+document.getElementById("chatInput").value="";
+
+}catch(error){
+
+alert("❌ Could not send message.");
+
+console.error(error);
+
+}
+
+};
+
+
+/* ================= BROADCAST ================= */
+
+function listenBroadcasts(){
+
+onValue(broadcastRef,snapshot=>{
+
+const data=[];
+
+snapshot.forEach(child=>{
+
+data.push(child.val());
+
+});
+
+if(!data.length)return;
+
+const latest=
+data[data.length-1];
+
+if(latest&&latest.message){
+
+showBroadcast(latest.message);
+
+}
+
+});
 
 }
 
 
-/* =========================
-   MUSIC
-========================= */
+function showBroadcast(message){
 
-function toggleMusic(){
+const box=
+document.getElementById("broadcast");
 
-  if(music.paused){
+document.getElementById("broadcastMessage")
+.textContent=message;
 
-    music.play()
-      .then(()=>{
-        toast(
-          "🎵 SONG PLAYING!"
-        );
-      })
-      .catch(()=>{
-        toast(
-          "⚠️ Put song.mp3 beside this HTML file"
-        );
-      });
+box.style.display="block";
 
-  }else{
+setTimeout(()=>{
 
-    music.pause();
+box.style.display="none";
 
-    toast(
-      "⏸️ SONG PAUSED"
-    );
-
-  }
+},7000);
 
 }
 
 
-/* =========================
-   GLOBAL CHAT
-========================= */
+window.sendAnnouncement=
+async function(){
 
-function sendMessage(){
+if(!isAdmin()){
 
-  const input =
-    document.getElementById(
-      "chatInput"
-    );
+alert("❌ Dylan admin only.");
 
-  const text =
-    input.value.trim();
+return;
 
-  if(!text) return;
+}
 
-  const item =
-    document.createElement("div");
+const input=
+document.getElementById("announcementInput");
 
-  item.className="list";
+const message=input.value.trim();
 
-  const div =
-    document.createElement("div");
+if(!message){
 
-  const name =
-    document.createElement("b");
+alert("Write a message.");
 
-  name.textContent="👤 You";
+return;
 
-  const message =
-    document.createElement("small");
+}
 
-  message.textContent=text;
+try{
 
-  div.appendChild(name);
+await push(broadcastRef,{
 
-  div.appendChild(message);
+admin:"Dylan",
 
-  item.appendChild(div);
+uid:auth.currentUser.uid,
 
-  document
-    .getElementById("messages")
-    .appendChild(item);
+message:message,
 
-  input.value="";
+time:Date.now(),
+
+type:"announcement"
+
+});
+
+input.value="";
+
+}catch(error){
+
+alert("❌ Could not send announcement.");
+
+}
+
+};
+
+
+/* ================= GIVE COINS ================= */
+
+window.giveCoins=
+async function(){
+
+if(!isAdmin()){
+
+alert("❌ Dylan admin only.");
+
+return;
+
+}
+
+const target=
+document.getElementById("targetUid")
+.value.trim();
+
+const amount=
+Number(document.getElementById("coinAmount").value);
+
+if(!target){
+
+alert("Enter the player's UID.");
+
+return;
+
+}
+
+if(!amount||amount<1){
+
+alert("Enter a valid coin amount.");
+
+return;
+
+}
+
+try{
+
+const playerRef=
+ref(db,"players/"+target+"/coins");
+
+const oldSnap=
+await get(playerRef);
+
+const oldCoins=
+oldSnap.exists()
+?Number(oldSnap.val())
+:0;
+
+await set(
+playerRef,
+oldCoins+amount
+);
+
+alert(
+"🪙 Gave "+
+amount+
+" coins to "+
+target
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"❌ Could not give coins: "+
+error.message
+);
+
+}
+
+};
+
+
+/* ================= ADMIN EVENT ================= */
+
+window.startAdminAbuse=
+async function(){
+
+if(!isAdmin()){
+
+alert("❌ Dylan admin only.");
+
+return;
+
+}
+
+localStorage.setItem(
+"adminEvent",
+"LIVE"
+);
+
+document.getElementById(
+"adminEventStatus"
+).textContent=
+"Event: 🔥 LIVE";
+
+
+await push(broadcastRef,{
+
+admin:"Dylan",
+
+uid:auth.currentUser.uid,
+
+message:
+"🚨 ADMIN ABUSE HAS STARTED! 🔥",
+
+time:Date.now(),
+
+type:"announcement"
+
+});
+
+};
+
+
+window.endAdminAbuse=
+async function(){
+
+if(!isAdmin()){
+
+alert("❌ Dylan admin only.");
+
+return;
+
+}
+
+localStorage.removeItem("adminEvent");
+
+document.getElementById(
+"adminEventStatus"
+).textContent=
+"Event: OFF";
+
+
+await push(broadcastRef,{
+
+admin:"Dylan",
+
+uid:auth.currentUser.uid,
+
+message:
+"🛑 ADMIN ABUSE HAS ENDED.",
+
+time:Date.now(),
+
+type:"announcement"
+
+});
+
+};
+
+
+/* ================= SAFE TEXT ================= */
+
+function safe(text){
+
+const div=
+document.createElement("div");
+
+div.textContent=
+text==null?"":String(text);
+
+return div.innerHTML;
+
+}
+
+window.safe=safe;
+
+</script>
+
+
+<!-- ================= GAME ================= -->
+
+<script>
+
+let coins=
+Number(localStorage.getItem("coins")||0);
+
+let highScore=
+Number(localStorage.getItem("highScore")||0);
+
+let streak=
+Number(localStorage.getItem("streak")||0);
+
+let score=0;
+
+let lives=3;
+
+let level=1;
+
+let time=60;
+
+let combo=0;
+
+let playing=false;
+
+let daily=false;
+
+let moveTimer;
+
+let gameTimer;
+
+let bonusTimer;
+
+
+/* ================= SCREEN ================= */
+
+function showScreen(id){
+
+document.querySelectorAll(".screen")
+.forEach(x=>
+x.classList.remove("active")
+);
+
+const screen=
+document.getElementById(id);
+
+if(screen)
+screen.classList.add("active");
+
+updateMenus();
+
+if(id==="admin"){
+updateAdminStatus();
+}
+
+if(id==="leaderboard"&&
+window.firebaseReady){
+
+}
 
 }
 
 
-/* =========================
-   DYLAN PANEL
-========================= */
+window.showScreen=showScreen;
 
-function unlockAdmin(){
 
-  const password =
-    document.getElementById(
-      "adminPassword"
-    ).value;
+/* ================= SONG ================= */
 
-  /*
-    DEMO ONLY.
+function openSong(){
 
-    For the real Firebase version,
-    admin authorization should happen
-    securely on the server.
-  */
+window.open(
+"https://suno.com/s/jsqSWMTUl4VCGdjj",
+"_blank"
+);
 
-  if(password === "DYLAN"){
+}
 
-    document
-      .getElementById(
-        "adminControls"
-      )
-      .classList.remove("hidden");
+window.openSong=openSong;
 
-    document
-      .getElementById(
-        "adminMessage"
-      )
-      .textContent =
-      "✅ OWNER ACCESS GRANTED";
 
-  }else{
+/* ================= SUPPORT ================= */
 
-    document
-      .getElementById(
-        "adminMessage"
-      )
-      .textContent =
-      "❌ WRONG PASSWORD";
+function toggleSupport(){
 
-  }
+const box=
+document.getElementById("support");
+
+box.style.display=
+box.style.display==="none"
+?"block"
+:"none";
 
 }
 
 
-function giveCoins(){
+/* ================= GAME START ================= */
 
-  const uid =
-    document.getElementById(
-      "playerUID"
-    ).value.trim();
+function startGame(){
 
-  const amount =
-    Number(
-      document.getElementById(
-        "coinAmount"
-      ).value
-    );
+daily=false;
 
-  if(!uid || amount <= 0){
-
-    document
-      .getElementById(
-        "adminMessage"
-      )
-      .textContent =
-      "⚠️ ENTER UID AND COIN AMOUNT";
-
-    return;
-
-  }
-
-  document
-    .getElementById(
-      "adminMessage"
-    )
-    .textContent =
-    "🪙 READY: " +
-    uid +
-    " → +" +
-    amount +
-    " COINS";
+beginGame(60);
 
 }
 
 
-function giveAchievement(){
+window.startGame=startGame;
 
-  const uid =
-    document.getElementById(
-      "playerUID"
-    ).value.trim();
 
-  if(!uid){
+function startDaily(){
 
-    document
-      .getElementById(
-        "adminMessage"
-      )
-      .textContent =
-      "⚠️ ENTER PLAYER UID";
+daily=true;
 
-    return;
-
-  }
-
-  document
-    .getElementById(
-      "adminMessage"
-    )
-    .textContent =
-    "🏅 ACHIEVEMENT READY FOR " +
-    uid;
+beginGame(45);
 
 }
 
 
-/* =========================
-   RESET
-========================= */
-
-function resetGame(){
-
-  score=0;
-
-  coins=0;
-
-  level=1;
-
-  xp=0;
-
-  combo=0;
-
-  multiplier=1;
-
-  updateUI();
-
-  toast(
-    "🔄 GAME RESET"
-  );
-
-}
+window.startDaily=startDaily;
 
 
-/* =========================
-   TOAST
-========================= */
+function beginGame(seconds){
 
-function toast(text){
+clearTimers();
 
-  let box =
-    document.getElementById(
-      "toast"
-    );
+score=0;
 
-  if(!box){
+combo=0;
 
-    box =
-      document.createElement(
-        "div"
-      );
+level=1;
 
-    box.id="toast";
+time=seconds;
 
-    box.style.position="fixed";
-    box.style.left="50%";
-    box.style.bottom="25px";
-    box.style.transform=
-      "translateX(-50%)";
-    box.style.background="#15151f";
-    box.style.border=
-      "1px solid #ffffff20";
-    box.style.padding="13px 20px";
-    box.style.borderRadius="14px";
-    box.style.zIndex="999";
-    box.style.fontWeight="bold";
+lives=3;
 
-    document.body.appendChild(box);
+playing=true;
 
-  }
+showScreen("game");
 
-  box.textContent=text;
-
-  clearTimeout(
-    window.toastTimer
-  );
-
-  window.toastTimer=
-    setTimeout(()=>{
-      box.remove();
-    },1500);
-
-}
-
-
-/* =========================
-   START
-========================= */
-
-updateUI();
+updateGame();
 
 moveSquare();
+
+gameTimer=setInterval(()=>{
+
+if(!playing)return;
+
+time--;
+
+updateGame();
+
+if(time<=0){
+
+endGame();
+
+}
+
+},1000);
+
+
+moveTimer=setInterval(()=>{
+
+if(!playing)return;
+
+moveSquare();
+
+lives--;
+
+combo=0;
+
+updateGame();
+
+if(lives<=0){
+
+endGame();
+
+}
+
+},1000);
+
+
+bonusTimer=
+setInterval(showBonus,7000);
+
+}
+
+
+/* ================= SQUARE ================= */
+
+function moveSquare(){
+
+if(!playing)return;
+
+const area=
+document.getElementById("gameArea");
+
+const square=
+document.getElementById("square");
+
+const maxX=
+Math.max(
+0,
+area.clientWidth-
+square.offsetWidth
+);
+
+const maxY=
+Math.max(
+0,
+area.clientHeight-
+square.offsetHeight
+);
+
+square.style.left=
+Math.random()*maxX+"px";
+
+square.style.top=
+Math.random()*maxY+"px";
+
+}
+
+
+function catchSquare(){
+
+if(!playing)return;
+
+score++;
+
+combo++;
+
+coins++;
+
+level=
+Math.floor(score/5)+1;
+
+if(combo%5===0){
+
+coins+=5;
+
+}
+
+if(combo>=10){
+
+localStorage.setItem(
+"combo10",
+"yes"
+);
+
+}
+
+moveSquare();
+
+updateGame();
+
+}
+
+
+function catchBonus(){
+
+if(!playing)return;
+
+score+=5;
+
+coins+=10;
+
+combo+=2;
+
+document.getElementById(
+"bonus"
+).style.display="none";
+
+updateGame();
+
+}
+
+
+function showBonus(){
+
+if(!playing)return;
+
+const bonus=
+document.getElementById("bonus");
+
+const area=
+document.getElementById("gameArea");
+
+bonus.style.left=
+Math.random()*
+Math.max(
+0,
+area.clientWidth-55
+)+"px";
+
+bonus.style.top=
+Math.random()*
+Math.max(
+0,
+area.clientHeight-55
+)+"px";
+
+bonus.style.display="block";
+
+setTimeout(()=>{
+
+bonus.style.display="none";
+
+},3500);
+
+}
+
+
+/* ================= UPDATE ================= */
+
+function updateGame(){
+
+document.getElementById("score")
+.textContent=score;
+
+document.getElementById("lives")
+.textContent=lives;
+
+document.getElementById("level")
+.textContent=level;
+
+document.getElementById("time")
+.textContent=time;
+
+document.getElementById("combo")
+.textContent=combo;
+
+document.getElementById("coins")
+.textContent=coins;
+
+save();
+
+}
+
+
+/* ================= END ================= */
+
+function endGame(){
+
+if(!playing)return;
+
+playing=false;
+
+clearTimers();
+
+if(score>highScore){
+
+highScore=score;
+
+}
+
+if(daily){
+
+const best=
+Number(
+localStorage.getItem("dailyBest")||0
+);
+
+if(score>best){
+
+localStorage.setItem(
+"dailyBest",
+score
+);
+
+coins+=25;
+
+}
+
+}
+
+save();
+
+document.getElementById(
+"finalScore"
+).textContent=score;
+
+document.getElementById(
+"finalHigh"
+).textContent=highScore;
+
+document.getElementById(
+"gameOver"
+).style.display="block";
+
+}
+
+
+function closeGameOver(){
+
+document.getElementById(
+"gameOver"
+).style.display="none";
+
+}
+
+
+window.closeGameOver=closeGameOver;
+
+
+function quitGame(){
+
+playing=false;
+
+clearTimers();
+
+showScreen("menu");
+
+}
+
+
+function clearTimers(){
+
+clearInterval(moveTimer);
+
+clearInterval(gameTimer);
+
+clearInterval(bonusTimer);
+
+}
+
+
+/* ================= SAVE SCORE ================= */
+
+async function saveScore(){
+
+if(!window.firebaseReady){
+
+alert("Firebase is still connecting.");
+
+return;
+
+}
+
+if(highScore<=0){
+
+alert("Play a game first!");
+
+return;
+
+}
+
+const name=
+prompt(
+"Enter your player name:",
+localStorage.getItem("playerName")||"Player"
+);
+
+if(!name)return;
+
+localStorage.setItem(
+"playerName",
+name
+);
+
+const ok=
+await window.saveFirebaseScore();
+
+if(ok){
+
+alert("🏆 SCORE SAVED TO GLOBAL LEADERBOARD!");
+
+}
+
+}
+
+
+window.saveScore=saveScore;
+
+
+/* ================= COINS ================= */
+
+function buyLife(){
+
+if(coins<20){
+
+alert("You need 20 coins!");
+
+return;
+
+}
+
+coins-=20;
+
+lives++;
+
+updateGame();
+
+}
+
+
+window.buyLife=buyLife;
+
+
+function buySkin(name,cost){
+
+if(coins<cost){
+
+alert("Not enough coins!");
+
+return;
+
+}
+
+coins-=cost;
+
+localStorage.setItem(
+"skin",
+name
+);
+
+applySkin();
+
+save();
+
+alert(
+name.toUpperCase()+
+" SKIN EQUIPPED!"
+);
+
+}
+
+
+window.buySkin=buySkin;
+
+
+function applySkin(){
+
+const skin=
+localStorage.getItem("skin");
+
+const square=
+document.getElementById("square");
+
+if(skin==="rainbow"){
+
+square.style.background=
+"linear-gradient(45deg,red,orange,yellow,green,blue,purple)";
+
+}else if(skin==="fire"){
+
+square.style.background=
+"orangered";
+
+}else if(skin==="ice"){
+
+square.style.background=
+"deepskyblue";
+
+}else if(skin==="gold"){
+
+square.style.background=
+"gold";
+
+}else if(skin==="galaxy"){
+
+square.style.background=
+"linear-gradient(135deg,purple,blue,black)";
+
+}else{
+
+square.style.background="lime";
+
+}
+
+}
+
+
+/* ================= DIFFICULTY ================= */
+
+function setDifficulty(value){
+
+localStorage.setItem(
+"difficulty",
+value
+);
+
+document.getElementById(
+"difficultyText"
+).textContent=
+value.toUpperCase();
+
+}
+
+
+window.setDifficulty=setDifficulty;
+
+
+/* ================= ADMIN LOCAL ================= */
+
+function openAdmin(){
+
+if(!window.firebaseUser){
+
+alert("Firebase is still connecting...");
+
+return;
+
+}
+
+if(window.firebaseUser.uid!=="gMsemyhyGSXfJqLdV0zlkVdJwz82"){
+
+alert("❌ This account is not Dylan.");
+
+return;
+
+}
+
+showScreen("admin");
+
+document.getElementById("myUid")
+.textContent=
+window.firebaseUser.uid;
+
+const active=
+localStorage.getItem("adminEvent");
+
+document.getElementById(
+"adminEventStatus"
+).textContent=
+active
+?"Event: 🔥 LIVE"
+:"Event: OFF";
+
+}
+
+
+window.openAdmin=openAdmin;
+
+
+function adminCoins(amount){
+
+if(!window.firebaseUser||
+window.firebaseUser.uid!==
+"gMsemyhyGSXfJqLdV0zlkVdJwz82"){
+
+alert("❌ Dylan admin only.");
+
+return;
+
+}
+
+coins+=amount;
+
+save();
+
+updateMenus();
+
+alert(
+"🪙 +"+
+amount+
+" COINS!"
+);
+
+}
+
+
+window.adminCoins=adminCoins;
+
+
+function adminResetScore(){
+
+if(!window.firebaseUser||
+window.firebaseUser.uid!==
+"gMsemyhyGSXfJqLdV0zlkVdJwz82"){
+
+alert("❌ Dylan admin only.");
+
+return;
+
+}
+
+if(!confirm("Reset your high score?"))
+return;
+
+highScore=0;
+
+save();
+
+updateMenus();
+
+alert("🔄 HIGH SCORE RESET!");
+
+}
+
+
+window.adminResetScore=
+adminResetScore;
+
+
+/* ================= MENUS ================= */
+
+function updateMenus(){
+
+document.getElementById(
+"menuCoins"
+).textContent=coins;
+
+document.getElementById(
+"menuHigh"
+).textContent=highScore;
+
+document.getElementById(
+"menuStreak"
+).textContent=streak;
+
+document.getElementById(
+"shopCoins"
+).textContent=coins;
+
+document.getElementById(
+"dailyBest"
+).textContent=
+Number(
+localStorage.getItem("dailyBest")||0
+);
+
+updateAchievements();
+
+}
+
+
+function updateAchievements(){
+
+const played=
+highScore>0;
+
+const combo10=
+localStorage.getItem("combo10")==="yes";
+
+document.getElementById("a1")
+.textContent=
+played?"✅":"🔒";
+
+document.getElementById("a2")
+.textContent=
+combo10?"✅":"🔒";
+
+document.getElementById("a3")
+.textContent=
+coins>=100?"✅":"🔒";
+
+document.getElementById("a4")
+.textContent=
+highScore>=50?"✅":"🔒";
+
+document.getElementById("m1")
+.textContent=
+played?"UNLOCKED":"LOCKED";
+
+document.getElementById("m25")
+.textContent=
+highScore>=25?"UNLOCKED":"LOCKED";
+
+document.getElementById("m10")
+.textContent=
+combo10?"UNLOCKED":"LOCKED";
+
+document.getElementById("m250")
+.textContent=
+coins>=250?"UNLOCKED":"LOCKED";
+
+}
+
+
+function save(){
+
+localStorage.setItem(
+"coins",
+coins
+);
+
+localStorage.setItem(
+"highScore",
+highScore
+);
+
+}
+
+
+function resetData(){
+
+if(!confirm(
+"Erase all local game data?"
+))
+return;
+
+localStorage.clear();
+
+location.reload();
+
+}
+
+
+window.resetData=resetData;
+
+
+/* ================= EVENT ================= */
+
+function updateEventCountdown(){
+
+const now=new Date();
+
+const day=now.getDay();
+
+const secondsNow=
+now.getHours()*3600+
+now.getMinutes()*60+
+now.getSeconds();
+
+const start=20*3600;
+
+const end=21*3600;
+
+let text="";
+
+if(day===6&&
+secondsNow>=start&&
+secondsNow<end){
+
+text="🔥 ADMIN ABUSE IS LIVE!";
+
+}else if(day===6&&
+secondsNow<start){
+
+text=
+"🔥 STARTS IN "+
+formatTime(start-secondsNow);
+
+}else{
+
+let days=
+(6-day+7)%7;
+
+if(days===0)days=7;
+
+const next=
+days*86400+
+(start-secondsNow);
+
+text=
+"⏰ NEXT EVENT IN "+
+formatTime(next);
+
+}
+
+document.getElementById(
+"eventCountdown"
+).textContent=text;
+
+document.getElementById(
+"adminEventCountdown"
+).textContent=text;
+
+}
+
+
+function formatTime(seconds){
+
+seconds=Math.max(
+0,
+seconds
+);
+
+const days=
+Math.floor(seconds/86400);
+
+seconds%=86400;
+
+const hours=
+Math.floor(seconds/3600);
+
+seconds%=3600;
+
+const minutes=
+Math.floor(seconds/60);
+
+const secs=
+seconds%60;
+
+if(days>0){
+
+return `${days}d ${hours}h ${minutes}m`;
+
+}
+
+return `${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+
+}
+
+
+setInterval(
+updateEventCountdown,
+1000
+);
+
+updateEventCountdown();
+
+updateMenus();
+
+applySkin();
+
+
+const savedDifficulty=
+localStorage.getItem(
+"difficulty"
+);
+
+if(savedDifficulty){
+
+document.getElementById(
+"difficultyText"
+).textContent=
+savedDifficulty.toUpperCase();
+
+}
 
 </script>
 
