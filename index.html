@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Catch The Square</title>
 
-<!-- =========================
-     GOOGLE ANALYTICS
-     ========================= -->
+<!-- GOOGLE ANALYTICS -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-93GG50S9FZ"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -56,9 +54,7 @@ button{
  background:#00d9ff
 }
 
-button:hover{
- transform:scale(1.03)
-}
+button:hover{transform:scale(1.03)}
 
 .menu{
  display:block;
@@ -207,9 +203,7 @@ textarea{height:100px}
  border-radius:12px
 }
 
-#adbox small{
- color:#8998b5
-}
+#adbox small{color:#8998b5}
 
 #over,#pop{
  display:none;
@@ -238,41 +232,26 @@ textarea{height:100px}
 <h1>🎮 CATCH THE SQUARE</h1>
 <p>Catch it. Level up. Become the legend.</p>
 
-<!-- =========================
-     AD SPACE
-     ========================= -->
+<!-- AD SPACE -->
 <div id="adbox">
 <small>ADVERTISEMENT</small>
 </div>
 
 <div id="pop"></div>
 
-<!-- =========================
-     MENU
-     ========================= -->
+<!-- MENU -->
 <section id="menu" class="screen on">
-
 <div class="box">
 
-<button class="menu" onclick="startGame()">
-🎮 START GAME
-</button>
+<button class="menu" onclick="startGame()">🎮 START GAME</button>
 
-<button class="menu" onclick="show('shop')">
-🛒 SHOP
-</button>
+<button class="menu" onclick="show('shop')">🛒 SHOP</button>
 
-<button class="menu" onclick="show('leader')">
-🌍 LEADERBOARD
-</button>
+<button class="menu" onclick="show('leader')">🌍 LEADERBOARD</button>
 
-<button class="menu" onclick="show('chat')">
-💬 GLOBAL CHAT
-</button>
+<button class="menu" onclick="show('chat')">💬 GLOBAL CHAT</button>
 
-<button class="menu" onclick="show('updates')">
-📰 UPDATES
-</button>
+<button class="menu" onclick="show('updates')">📰 UPDATES</button>
 
 <button class="menu" onclick="show('missions')">
 🎯 MISSIONS & ACHIEVEMENTS
@@ -286,10 +265,12 @@ textarea{height:100px}
 
 <h2>❤️ Support Catch The Square</h2>
 
-<p><b>Support / Contact: 0700201218</b></p>
+<p><b>Support Number</b></p>
+
+<h2>0700201218</h2>
 
 <small>
-Never share a PIN, password, or OTP.
+Never share a PIN, password or OTP.
 </small>
 
 </div>
@@ -298,9 +279,7 @@ Never share a PIN, password, or OTP.
 
 <h2>👑 SATURDAY ADMIN ABUSE</h2>
 
-<p>
-Every Saturday • 8:00 PM – 9:00 PM
-</p>
+<p>Every Saturday • 8:00 PM – 9:00 PM</p>
 
 <div id="count" class="count">
 CHECKING...
@@ -318,134 +297,83 @@ Firebase:
 </div>
 </section>
 
-<!-- =========================
-     GAME
-     ========================= -->
+<!-- GAME -->
 <section id="game" class="screen">
-
 <div class="box">
 
 <div class="stats">
 
-<div class="stat">
-🏆 <b id="sc">0</b>
-</div>
-
-<div class="stat">
-❤️ <b id="li">3</b>
-</div>
-
-<div class="stat">
-⭐ <b id="lv">1</b>
-</div>
-
-<div class="stat">
-⏱️ <b id="ti">60</b>
-</div>
-
-<div class="stat">
-🔥 <b id="co">0</b>
-</div>
-
-<div class="stat">
-🪙 <b id="gc">0</b>
-</div>
+<div class="stat">🏆 <b id="sc">0</b></div>
+<div class="stat">❤️ <b id="li">3</b></div>
+<div class="stat">⭐ <b id="lv">1</b></div>
+<div class="stat">⏱️ <b id="ti">60</b></div>
+<div class="stat">🔥 <b id="co">0</b></div>
+<div class="stat">🪙 <b id="gc">0</b></div>
 
 </div>
 
 <div id="area">
 
-<button id="sq" onclick="hit()">
-CLICK!
-</button>
+<button id="sq" onclick="hit()">CLICK!</button>
 
-<button id="bonus" onclick="bhit()">
-+5
-</button>
+<button id="bonus" onclick="bhit()">+5</button>
 
 </div>
 
-<button onclick="life()">
-❤️ EXTRA LIFE — 20 COINS
-</button>
+<button onclick="life()">❤️ EXTRA LIFE — 20 COINS</button>
 
-<button onclick="quit()">
-🏠 MENU
-</button>
+<button onclick="quit()">🏠 MENU</button>
 
 </div>
 </section>
 
-<!-- =========================
-     SHOP
-     ========================= -->
+<!-- SHOP -->
 <section id="shop" class="screen">
-
 <div class="box">
 
 <h2>🛒 SHOP</h2>
 
-<p>
-Coins:
-<b id="shopc">0</b>
-</p>
+<p>Coins: <b id="shopc">0</b></p>
 
 <div class="card">
 🌈 Rainbow<br>
-<button onclick="buy(50)">
-50 🪙
-</button>
+<button onclick="buy(50)">50 🪙</button>
 </div>
 
 <div class="card">
 🔥 Fire<br>
-<button onclick="buy(75)">
-75 🪙
-</button>
+<button onclick="buy(75)">75 🪙</button>
 </div>
 
 <div class="card">
 ❄️ Ice<br>
-<button onclick="buy(100)">
-100 🪙
-</button>
+<button onclick="buy(100)">100 🪙</button>
 </div>
 
 <div class="card">
 👑 Gold<br>
-<button onclick="buy(150)">
-150 🪙
-</button>
+<button onclick="buy(150)">150 🪙</button>
 </div>
 
 <div class="card">
 🌌 Galaxy<br>
-<button onclick="buy(250)">
-250 🪙
-</button>
+<button onclick="buy(250)">250 🪙</button>
 </div>
 
 <br>
 
-<button onclick="show('menu')">
-🏠 BACK
-</button>
+<button onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-<!-- =========================
-     LEADERBOARD
-     ========================= -->
+<!-- LEADERBOARD -->
 <section id="leader" class="screen">
-
 <div class="box">
 
 <h2>🌍 GLOBAL LEADERBOARD</h2>
 
-<div id="leaders">
-Loading...
-</div>
+<div id="leaders">Loading...</div>
 
 <input
 id="pname"
@@ -455,32 +383,22 @@ placeholder="Player name"
 
 <br>
 
-<button onclick="saveScore()">
-🏆 SAVE SCORE
-</button>
+<button onclick="saveScore()">🏆 SAVE SCORE</button>
 
-<button onclick="loadScores()">
-🔄 REFRESH
-</button>
+<button onclick="loadScores()">🔄 REFRESH</button>
 
-<button onclick="show('menu')">
-🏠 BACK
-</button>
+<button onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-<!-- =========================
-     CHAT
-     ========================= -->
+<!-- CHAT -->
 <section id="chat" class="screen">
-
 <div class="box">
 
 <h2>💬 GLOBAL CHAT</h2>
 
-<div id="msgs" class="chat">
-</div>
+<div id="msgs" class="chat"></div>
 
 <input
 id="cname"
@@ -497,22 +415,15 @@ onkeydown="if(event.key==='Enter')sendChat()"
 
 <br>
 
-<button onclick="sendChat()">
-💬 SEND
-</button>
+<button onclick="sendChat()">💬 SEND</button>
 
-<button onclick="show('menu')">
-🏠 BACK
-</button>
+<button onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-<!-- =========================
-     UPDATES
-     ========================= -->
+<!-- UPDATES -->
 <section id="updates" class="screen">
-
 <div class="box">
 
 <h2>📰 UPDATES</h2>
@@ -525,18 +436,13 @@ onkeydown="if(event.key==='Enter')sendChat()"
 
 </div>
 
-<button onclick="show('menu')">
-🏠 BACK
-</button>
+<button onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-<!-- =========================
-     MISSIONS
-     ========================= -->
+<!-- MISSIONS -->
 <section id="missions" class="screen">
-
 <div class="box">
 
 <h2>🎯 MISSIONS & ACHIEVEMENTS</h2>
@@ -557,18 +463,13 @@ onkeydown="if(event.key==='Enter')sendChat()"
 📅 Daily: Catch 50 squares → +100 🪙
 </div>
 
-<button onclick="show('menu')">
-🏠 BACK
-</button>
+<button onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-<!-- =========================
-     DYLAN PANEL
-     ========================= -->
+<!-- DYLAN PANEL -->
 <section id="admin" class="screen">
-
 <div class="box">
 
 <h2>👑 DYLAN PANEL</h2>
@@ -576,21 +477,15 @@ onkeydown="if(event.key==='Enter')sendChat()"
 <div class="notice">
 
 Admin status:
-<b id="ast">
-CHECKING...
-</b>
+<b id="ast">CHECKING...</b>
 
-<p>
-Your Firebase Player UID:
-</p>
+<p>Your Firebase Player UID:</p>
 
 <div id="uid" class="uid">
 CONNECTING...
 </div>
 
-<button onclick="copyUid()">
-📋 COPY UID
-</button>
+<button onclick="copyUid()">📋 COPY UID</button>
 
 </div>
 
@@ -600,10 +495,7 @@ CONNECTING...
 
 <h3>🪙 GIVE COINS</h3>
 
-<input
-id="tuid"
-placeholder="Player UID"
->
+<input id="tuid" placeholder="Player UID">
 
 <input
 id="tamount"
@@ -645,9 +537,7 @@ maxlength="200"
 placeholder="Message"
 >
 
-<button onclick="announce()">
-📢 SEND
-</button>
+<button onclick="announce()">📢 SEND</button>
 
 </div>
 
@@ -661,9 +551,7 @@ maxlength="800"
 placeholder="Write an update"
 ></textarea>
 
-<button onclick="publish()">
-📰 PUBLISH
-</button>
+<button onclick="publish()">📰 PUBLISH</button>
 
 </div>
 
@@ -681,9 +569,7 @@ placeholder="Write an update"
 
 <h3>👹 ADMIN ABUSE</h3>
 
-<p id="estate">
-OFF
-</p>
+<p id="estate">OFF</p>
 
 <button class="gold" onclick="abuse('start')">
 👑 START
@@ -701,37 +587,21 @@ OFF
 
 <h3>⚡ LIVE ADMIN ABUSE</h3>
 
-<button class="gold" onclick="cmd('coins')">
-🪙 COIN RAIN
-</button>
+<button class="gold" onclick="cmd('coins')">🪙 COIN RAIN</button>
 
-<button onclick="cmd('2coins')">
-💰 2X COINS
-</button>
+<button onclick="cmd('2coins')">💰 2X COINS</button>
 
-<button onclick="cmd('2points')">
-⚡ 2X POINTS
-</button>
+<button onclick="cmd('2points')">⚡ 2X POINTS</button>
 
-<button class="gold" onclick="cmd('gold')">
-👑 GOLDEN SQUARE
-</button>
+<button class="gold" onclick="cmd('gold')">👑 GOLDEN SQUARE</button>
 
-<button onclick="cmd('tiny')">
-🐜 TINY SQUARE
-</button>
+<button onclick="cmd('tiny')">🐜 TINY SQUARE</button>
 
-<button class="bad" onclick="cmd('freeze')">
-🧊 FREEZE
-</button>
+<button class="bad" onclick="cmd('freeze')">🧊 FREEZE</button>
 
-<button onclick="cmd('chaos')">
-🌪️ CHAOS
-</button>
+<button onclick="cmd('chaos')">🌪️ CHAOS</button>
 
-<button onclick="cmd('boss')">
-💀 BOSS
-</button>
+<button onclick="cmd('boss')">💀 BOSS</button>
 
 </div>
 
@@ -745,29 +615,21 @@ OFF
 
 </div>
 
-<button onclick="show('menu')">
-🏠 BACK
-</button>
+<button onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-<!-- =========================
-     GAME OVER
-     ========================= -->
+<!-- GAME OVER -->
 <div id="over">
 
 <h2>💀 GAME OVER</h2>
 
-<h1 id="final">
-0
-</h1>
+<h1 id="final">0</h1>
 
 <p>
 High Score:
-<b id="fhigh">
-0
-</b>
+<b id="fhigh">0</b>
 </p>
 
 <button onclick="closeOver();startGame()">
@@ -780,9 +642,7 @@ High Score:
 
 </div>
 
-<!-- =========================
-     FIREBASE
-     ========================= -->
+<!-- FIREBASE -->
 <script type="module">
 
 import {
@@ -815,7 +675,7 @@ from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
-const cfg={
+const firebaseConfig={
 
 apiKey:
 "AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
@@ -840,19 +700,18 @@ appId:
 
 measurementId:
 "G-93GG50S9FZ"
-
 };
 
 
-const ADMIN=
+const ADMIN_UID=
 "gMsemyhyGSXfJqLdV0zlkVdJwz82";
 
-const SONGURL=
+const SONG_URL=
 "https://suno.com/s/jsqSWMTUl4VCGdjj";
 
 
 const app=
-initializeApp(cfg);
+initializeApp(firebaseConfig);
 
 const auth=
 getAuth(app);
@@ -861,83 +720,108 @@ const db=
 getDatabase(app);
 
 
+let firebaseReady=false;
 let listenersStarted=false;
 
 
-function ready(){
+function isReady(){
 return !!auth.currentUser;
 }
 
 
 function isAdmin(){
-return ready() &&
-auth.currentUser.uid===ADMIN;
+return isReady() &&
+auth.currentUser.uid===ADMIN_UID;
 }
 
 
-function status(ok){
+function setFirebaseStatus(online){
 
 fb.textContent=
-ok?"ONLINE":"OFFLINE";
+online?"ONLINE":"OFFLINE";
 
 fb.className=
-ok?"online":"offline";
+online?"online":"offline";
 
 }
 
 
-function firebaseError(action,e){
+function showFirebaseError(action,error){
 
 console.error(
-"Firebase "+action+" error:",
-e
+"Firebase error:",
+action,
+error
 );
 
+const code=
+error?.code ||
+"unknown";
+
+const message=
+error?.message ||
+"Unknown Firebase error";
+
+const currentUID=
+auth.currentUser?.uid ||
+"NOT SIGNED IN";
+
 alert(
-"❌ "+
-action+
-" failed: "+
-(e?.code||e?.message||"Unknown Firebase error")
+"❌ "+action+
+"\n\nFirebase code: "+
+code+
+"\n\nMessage: "+
+message+
+"\n\nCurrent UID: "+
+currentUID
 );
 
 }
 
 
 signInAnonymously(auth)
-.catch(e=>{
+.then(()=>{
 
-console.error(
-"Anonymous sign-in failed:",
-e
-);
+firebaseReady=true;
 
-status(false);
+})
+.catch(error=>{
 
-alert(
-"Firebase sign-in failed. Make sure Anonymous authentication is enabled in Firebase."
+firebaseReady=false;
+
+setFirebaseStatus(false);
+
+showFirebaseError(
+"Firebase sign-in",
+error
 );
 
 });
 
 
-onAuthStateChanged(auth,u=>{
+onAuthStateChanged(
+auth,
+user=>{
 
-if(!u){
+if(!user){
 
-status(false);
+setFirebaseStatus(false);
+
 return;
 
 }
 
-status(true);
+firebaseReady=true;
+
+setFirebaseStatus(true);
 
 uid.textContent=
-u.uid;
+user.uid;
 
 ast.textContent=
-isAdmin()?
-"👑 DYLAN":
-"PLAYER";
+isAdmin()
+?"👑 DYLAN"
+:"PLAYER";
 
 
 if(!listenersStarted){
@@ -955,15 +839,21 @@ chat();
 
 window.openAdmin=()=>{
 
-if(!ready())
+if(!isReady())
 return alert(
 "Firebase is still connecting."
 );
 
-if(!isAdmin())
-return alert(
-"❌ Dylan admin only."
+if(!isAdmin()){
+
+alert(
+"❌ Dylan admin only.\n\nYour current UID is:\n"+
+auth.currentUser.uid
 );
+
+return;
+
+}
 
 show("admin");
 
@@ -977,6 +867,9 @@ gtag(
 
 window.copyUid=async()=>{
 
+if(!isReady())
+return;
+
 try{
 
 await navigator.clipboard.writeText(
@@ -985,10 +878,11 @@ auth.currentUser.uid
 
 alert("UID copied!");
 
-}catch{
+}catch(error){
 
 alert(
-"Select the UID manually."
+"Copy failed. Your UID is:\n"+
+auth.currentUser.uid
 );
 
 }
@@ -996,11 +890,12 @@ alert(
 };
 
 
-window.song=()=>
-open(
-SONGURL,
+window.song=()=>{
+window.open(
+SONG_URL,
 "_blank"
 );
+};
 
 
 window.give=async()=>{
@@ -1010,15 +905,15 @@ return alert(
 "❌ Dylan admin only."
 );
 
-const u=
+const targetUID=
 tuid.value.trim();
 
-const a=
-+tamount.value;
+const amount=
+Number(tamount.value);
 
-if(!u||a<1)
+if(!targetUID||amount<1)
 return alert(
-"Enter UID and amount."
+"Enter a valid UID and amount."
 );
 
 try{
@@ -1026,10 +921,10 @@ try{
 await push(
 ref(
 db,
-"coinGrants/"+u
+"coinGrants/"+targetUID
 ),
 {
-amount:a,
+amount:amount,
 from:"Dylan",
 time:serverTimestamp()
 }
@@ -1038,18 +933,20 @@ time:serverTimestamp()
 gtag(
 "event",
 "admin_give_coins",
-{amount:a}
+{
+amount:amount
+}
 );
 
 alert(
 "🪙 Gift sent!"
 );
 
-}catch(e){
+}catch(error){
 
-firebaseError(
+showFirebaseError(
 "Give coins",
-e
+error
 );
 
 }
@@ -1064,10 +961,10 @@ return alert(
 "❌ Dylan admin only."
 );
 
-const a=
-+eamount.value;
+const amount=
+Number(eamount.value);
 
-if(a<1)
+if(amount<1)
 return alert(
 "Enter a valid amount."
 );
@@ -1078,7 +975,7 @@ await set(
 ref(db,"giftEveryone"),
 {
 id:Date.now(),
-amount:a,
+amount:amount,
 time:serverTimestamp()
 }
 );
@@ -1087,11 +984,11 @@ alert(
 "🎁 Gift everyone sent!"
 );
 
-}catch(e){
+}catch(error){
 
-firebaseError(
+showFirebaseError(
 "Gift everyone",
-e
+error
 );
 
 }
@@ -1106,10 +1003,10 @@ return alert(
 "❌ Dylan admin only."
 );
 
-const m=
+const message=
 ann.value.trim();
 
-if(!m)return;
+if(!message)return;
 
 try{
 
@@ -1117,7 +1014,7 @@ await push(
 ref(db,"adminBroadcasts"),
 {
 type:"announcement",
-message:m,
+message:message,
 time:serverTimestamp()
 }
 );
@@ -1125,14 +1022,14 @@ time:serverTimestamp()
 ann.value="";
 
 alert(
-"📢 Sent!"
+"📢 Announcement sent!"
 );
 
-}catch(e){
+}catch(error){
 
-firebaseError(
+showFirebaseError(
 "Announcement",
-e
+error
 );
 
 }
@@ -1147,10 +1044,10 @@ return alert(
 "❌ Dylan admin only."
 );
 
-const m=
+const message=
 up.value.trim();
 
-if(!m)return;
+if(!message)return;
 
 try{
 
@@ -1159,7 +1056,7 @@ ref(db,"adminBroadcasts"),
 {
 type:"update",
 title:"Catch The Square Update",
-message:m,
+message:message,
 time:serverTimestamp()
 }
 );
@@ -1167,14 +1064,14 @@ time:serverTimestamp()
 up.value="";
 
 alert(
-"📰 Published!"
+"📰 Update published!"
 );
 
-}catch(e){
+}catch(error){
 
-firebaseError(
-"Update",
-e
+showFirebaseError(
+"Publish update",
+error
 );
 
 }
@@ -1201,11 +1098,16 @@ time:serverTimestamp()
 }
 );
 
-}catch(e){
+alert(
+"⚡ Command sent: "+
+type
+);
 
-firebaseError(
+}catch(error){
+
+showFirebaseError(
 "Admin command",
-e
+error
 );
 
 }
@@ -1213,15 +1115,14 @@ e
 };
 
 
-window.abuse=async x=>{
+window.abuse=async type=>{
 
 if(!isAdmin())
 return alert(
 "❌ Dylan admin only."
 );
 
-
-if(x==="start"){
+if(type==="start"){
 
 pointMult=2;
 coinMult=2;
@@ -1249,16 +1150,17 @@ await push(
 ref(db,"adminBroadcasts"),
 {
 type:"announcement",
-message:"🚨 ADMIN ABUSE HAS STARTED! 🔥",
+message:
+"🚨 ADMIN ABUSE HAS STARTED! 🔥",
 time:serverTimestamp()
 }
 );
 
-}catch(e){
+}catch(error){
 
-console.error(
-"Global admin command failed:",
-e
+showFirebaseError(
+"Start Admin Abuse",
+error
 );
 
 }
@@ -1271,8 +1173,7 @@ return;
 pointMult=1;
 coinMult=1;
 
-estate.textContent=
-"OFF";
+estate.textContent="OFF";
 
 pop(
 "🛑 ADMIN ABUSE ENDED"
@@ -1284,16 +1185,17 @@ await push(
 ref(db,"adminBroadcasts"),
 {
 type:"announcement",
-message:"🛑 ADMIN ABUSE HAS ENDED.",
+message:
+"🛑 ADMIN ABUSE HAS ENDED.",
 time:serverTimestamp()
 }
 );
 
-}catch(e){
+}catch(error){
 
-console.error(
-"Global end failed:",
-e
+showFirebaseError(
+"End Admin Abuse",
+error
 );
 
 }
@@ -1320,14 +1222,14 @@ ref(db,"chat")
 );
 
 alert(
-"🗑️ Chat cleared!"
+"🗑️ Global chat cleared!"
 );
 
-}catch(e){
+}catch(error){
 
-firebaseError(
+showFirebaseError(
 "Clear chat",
-e
+error
 );
 
 }
@@ -1337,23 +1239,23 @@ e
 
 window.saveScore=async()=>{
 
-if(!ready())
+if(!isReady())
 return alert(
 "Firebase is still connecting."
 );
 
-const s=
-+localStorage.highScore||0;
+const scoreValue=
+Number(localStorage.highScore||0);
 
-const n=
+const playerName=
 (
 pname.value.trim()||
 "Player"
 ).slice(0,20);
 
-if(!s)
+if(scoreValue<=0)
 return alert(
-"Play first."
+"Play a game first."
 );
 
 try{
@@ -1362,8 +1264,8 @@ await push(
 ref(db,"leaderboard"),
 {
 uid:auth.currentUser.uid,
-name:n,
-score:s,
+name:playerName,
+score:scoreValue,
 time:serverTimestamp()
 }
 );
@@ -1372,7 +1274,7 @@ gtag(
 "event",
 "score_saved",
 {
-score:s
+score:scoreValue
 }
 );
 
@@ -1380,11 +1282,11 @@ alert(
 "🏆 Score saved!"
 );
 
-}catch(e){
+}catch(error){
 
-firebaseError(
+showFirebaseError(
 "Save score",
-e
+error
 );
 
 }
@@ -1393,20 +1295,14 @@ e
 
 
 window.loadScores=()=>{
-
-if(!ready())
-return alert(
-"Firebase is still connecting."
-);
-
 scores();
-
 };
 
 
 function scores(){
 
-if(!ready())return;
+if(!isReady())
+return;
 
 onValue(
 
@@ -1416,50 +1312,56 @@ orderByChild("score"),
 limitToLast(50)
 ),
 
-s=>{
+snapshot=>{
 
-let a=[];
+const list=[];
 
-s.forEach(c=>
-a.push(c.val())
+snapshot.forEach(
+child=>{
+list.push(child.val());
+}
 );
 
-a.sort(
-(x,y)=>
-(y.score||0)-
-(x.score||0)
+list.sort(
+(a,b)=>
+(b.score||0)-
+(a.score||0)
 );
 
 leaders.innerHTML=
-a.slice(0,20)
-.map((x,i)=>`
+list.slice(0,20)
+.map(
+(item,index)=>`
 
 <div class="notice">
 
-${i<3
-?["🥇","🥈","🥉"][i]
-:"🏆"}
+${
+index<3
+?["🥇","🥈","🥉"][index]
+:"🏆"
+}
 
-#${i+1}
+#${index+1}
 —
-${safe(x.name)}
+${safe(item.name)}
 —
-${x.score||0}
+${item.score||0}
 
 </div>
 
-`)
+`
+)
 .join("")
 ||
 "<p>No scores yet.</p>";
 
 },
 
-e=>{
+error=>{
 
-firebaseError(
+showFirebaseError(
 "Load leaderboard",
-e
+error
 );
 
 }
@@ -1469,22 +1371,22 @@ e
 }
 
 
-function safe(x){
+function safe(value){
 
-const d=
+const element=
 document.createElement("div");
 
-d.textContent=
-x||"";
+element.textContent=
+value||"";
 
-return d.innerHTML;
+return element.innerHTML;
 
 }
 
 
 function listen(){
 
-const myUid=
+const playerUID=
 auth.currentUser.uid;
 
 
@@ -1492,29 +1394,28 @@ onValue(
 
 ref(
 db,
-"coinGrants/"+myUid
+"coinGrants/"+playerUID
 ),
 
-s=>{
+snapshot=>{
 
-s.forEach(
-async c=>{
+snapshot.forEach(
+async child=>{
 
-const v=
-c.val()||{};
+const value=
+child.val()||{};
 
 coins+=
-+(v.amount||0);
+Number(value.amount||0);
 
 save();
 update();
 
 alert(
 "🎁 Dylan gave you "+
-v.amount+
+value.amount+
 " coins!"
 );
-
 
 try{
 
@@ -1522,17 +1423,17 @@ await remove(
 ref(
 db,
 "coinGrants/"+
-myUid+
+playerUID+
 "/"+
-c.key
+child.key
 )
 );
 
-}catch(e){
+}catch(error){
 
-console.warn(
-"Gift cleanup failed:",
-e
+console.error(
+"Grant cleanup failed:",
+error
 );
 
 }
@@ -1541,176 +1442,190 @@ e
 
 },
 
-e=>
-console.warn(
-"coinGrants listener:",
-e
-)
+error=>{
+
+console.error(
+"coinGrants:",
+error
+);
+
+}
 
 );
 
 
 onValue(
 
-ref(
-db,
-"giftEveryone"
-),
+ref(db,"giftEveryone"),
 
-s=>{
+snapshot=>{
 
-const v=
-s.val();
+const value=
+snapshot.val();
 
 if(
-!v||
-!v.id||
-localStorage.lastGift==v.id
+!value||
+!value.id||
+localStorage.lastGift===
+String(value.id)
 )
 return;
 
 localStorage.lastGift=
-v.id;
+String(value.id);
 
 coins+=
-+(v.amount||0);
+Number(value.amount||0);
 
 save();
 update();
 
 alert(
 "🎁 Gift received: "+
-v.amount+
+value.amount+
 " coins!"
 );
 
 },
 
-e=>
-console.warn(
-"giftEveryone listener:",
-e
-)
+error=>{
+
+console.error(
+"giftEveryone:",
+error
+);
+
+}
 
 );
 
 
 onValue(
 
-ref(
-db,
-"adminCommand"
-),
+ref(db,"adminCommand"),
 
-s=>{
+snapshot=>{
 
-const v=
-s.val();
+const value=
+snapshot.val();
 
 if(
-!v||
-!v.id||
-localStorage.lastCmd==v.id
+!value||
+!value.id||
+localStorage.lastCmd===
+String(value.id)
 )
 return;
 
 localStorage.lastCmd=
-v.id;
+String(value.id);
 
-apply(v);
+applyCommand(value);
 
 },
 
-e=>
-console.warn(
-"adminCommand listener:",
-e
-)
+error=>{
+
+console.error(
+"adminCommand:",
+error
+);
+
+}
 
 );
 
 
 onValue(
 
-ref(
-db,
-"adminBroadcasts"
-),
+ref(db,"adminBroadcasts"),
 
-s=>{
+snapshot=>{
 
-let a=[];
+const list=[];
 
-s.forEach(
-c=>
-a.push(c.val())
+snapshot.forEach(
+child=>{
+list.push(child.val());
+}
 );
 
-a.sort(
-(x,y)=>
-(x.time||0)-
-(y.time||0)
+list.sort(
+(a,b)=>
+(a.time||0)-
+(b.time||0)
 );
 
-const v=
-a[a.length-1];
+const latest=
+list[list.length-1];
 
 if(
-v&&
-v.type==="announcement"
-)
-pop(v.message);
+latest&&
+latest.type==="announcement"
+){
 
-const u=
-a
+pop(
+latest.message
+);
+
+}
+
+const updates=
+list
 .filter(
-x=>x.type==="update"
+item=>item.type==="update"
 )
 .slice(-8)
 .reverse();
 
-if(u.length){
+if(updates.length){
 
 ups.innerHTML=
-u.map(x=>`
+updates
+.map(
+item=>`
 
 <div class="notice">
 
 <h3>
-📰 ${safe(x.title)}
+📰 ${safe(item.title)}
 </h3>
 
 <p>
-${safe(x.message)}
+${safe(item.message)}
 </p>
 
 </div>
 
-`)
+`
+)
 .join("");
 
 }
 
 },
 
-e=>
-console.warn(
-"adminBroadcasts listener:",
-e
-)
+error=>{
+
+console.error(
+"adminBroadcasts:",
+error
+);
+
+}
 
 );
 
 }
 
 
-function apply(v){
+function applyCommand(value){
 
-const t=
-+(v.duration||10000);
+const duration=
+Number(value.duration||10000);
 
 
-if(v.type==="coins"){
+if(value.type==="coins"){
 
 coins+=25;
 
@@ -1724,13 +1639,13 @@ pop(
 }
 
 
-if(v.type==="2coins"){
+if(value.type==="2coins"){
 
 coinMult=2;
 
 setTimeout(
 ()=>coinMult=1,
-t
+duration
 );
 
 pop(
@@ -1740,13 +1655,13 @@ pop(
 }
 
 
-if(v.type==="2points"){
+if(value.type==="2points"){
 
 pointMult=2;
 
 setTimeout(
 ()=>pointMult=1,
-t
+duration
 );
 
 pop(
@@ -1756,17 +1671,16 @@ pop(
 }
 
 
-if(v.type==="gold"){
+if(value.type==="gold"){
 
-sq.style.background=
-"gold";
+sq.style.background="gold";
 
 sq.style.boxShadow=
 "0 0 30px gold";
 
 setTimeout(
-()=>resetSq(),
-t
+resetSq,
+duration
 );
 
 pop(
@@ -1776,14 +1690,14 @@ pop(
 }
 
 
-if(v.type==="tiny"){
+if(value.type==="tiny"){
 
 sq.style.width="30px";
 sq.style.height="30px";
 
 setTimeout(
-()=>sizeSq(),
-t
+sizeSq,
+duration
 );
 
 pop(
@@ -1793,10 +1707,10 @@ pop(
 }
 
 
-if(v.type==="freeze"){
+if(value.type==="freeze"){
 
 frozen=
-Date.now()+t;
+Date.now()+duration;
 
 pop(
 "🧊 FREEZE!"
@@ -1805,14 +1719,16 @@ pop(
 }
 
 
-if(v.type==="chaos"){
+if(value.type==="chaos"){
 
 document.body.style.transform=
 "rotate(1deg)";
 
 setTimeout(
-()=>document.body.style.transform="",
-t
+()=>{
+document.body.style.transform="";
+},
+duration
 );
 
 pop(
@@ -1822,10 +1738,10 @@ pop(
 }
 
 
-if(v.type==="boss"){
+if(value.type==="boss"){
 
 boss=
-Date.now()+t;
+Date.now()+duration;
 
 pop(
 "💀 BOSS SQUARE!"
@@ -1836,81 +1752,63 @@ pop(
 }
 
 
-function pop(m){
-
-const p=
-document.getElementById("pop");
-
-p.textContent=
-m;
-
-p.style.display=
-"block";
-
-clearTimeout(
-window.pt
-);
-
-window.pt=
-setTimeout(
-()=>{
-p.style.display="none";
-},
-6000
-);
-
-}
-
-
 function chat(){
 
-if(!ready())return;
+if(!isReady())
+return;
 
 onValue(
 
 ref(db,"chat"),
 
-s=>{
+snapshot=>{
 
-let a=[];
+const list=[];
 
-s.forEach(
-c=>
-a.push(c.val())
+snapshot.forEach(
+child=>{
+list.push(child.val());
+}
 );
 
-a.sort(
-(x,y)=>
-(x.time||0)-
-(y.time||0)
+list.sort(
+(a,b)=>
+(a.time||0)-
+(b.time||0)
 );
 
 msgs.innerHTML=
-a.slice(-50)
-.map(x=>`
+list
+.slice(-50)
+.map(
+item=>`
 
 <div class="msg">
 
 <b>
-👤 ${safe(x.name)}
+👤 ${safe(item.name)}
 </b>
 
 <br>
 
-${safe(x.message)}
+${safe(item.message)}
 
 </div>
 
-`)
+`
+)
 .join("");
 
 },
 
-e=>
-console.warn(
-"chat listener:",
-e
-)
+error=>{
+
+console.error(
+"Chat listener:",
+error
+);
+
+}
 
 );
 
@@ -1919,18 +1817,19 @@ e
 
 window.sendChat=async()=>{
 
-if(!ready())
+if(!isReady())
 return alert(
 "Firebase is still connecting."
 );
 
-const n=
+const name=
 cname.value.trim();
 
-const m=
+const message=
 cmsg.value.trim();
 
-if(!n||!m)return;
+if(!name||!message)
+return;
 
 try{
 
@@ -1938,8 +1837,8 @@ await push(
 ref(db,"chat"),
 {
 uid:auth.currentUser.uid,
-name:n,
-message:m,
+name:name,
+message:message,
 time:serverTimestamp()
 }
 );
@@ -1951,11 +1850,11 @@ gtag(
 "chat_message_sent"
 );
 
-}catch(e){
+}catch(error){
 
-firebaseError(
+showFirebaseError(
 "Send chat",
-e
+error
 );
 
 }
@@ -1964,16 +1863,14 @@ e
 
 </script>
 
-<!-- =========================
-     GAME ENGINE
-     ========================= -->
+<!-- GAME ENGINE -->
 <script>
 
 let coins=
-+(localStorage.coins||0);
+Number(localStorage.coins||0);
 
 let high=
-+(localStorage.highScore||0);
+Number(localStorage.highScore||0);
 
 let score=0;
 let lives=3;
@@ -1983,7 +1880,9 @@ let combo=0;
 
 let playing=false;
 
-let mt,gt,bt;
+let mt;
+let gt;
+let bt;
 
 let pointMult=1;
 let coinMult=1;
@@ -1997,7 +1896,8 @@ function show(id){
 document
 .querySelectorAll(".screen")
 .forEach(
-x=>x.classList.remove("on")
+element=>
+element.classList.remove("on")
 );
 
 document
@@ -2027,19 +1927,6 @@ show("game");
 
 move();
 
-try{
-
-gtag(
-"event",
-"game_start",
-{
-game_name:"Catch The Square"
-}
-);
-
-}catch(e){}
-
-
 gt=
 setInterval(
 ()=>{
@@ -2060,7 +1947,8 @@ mt=
 setInterval(
 ()=>{
 
-if(!playing)return;
+if(!playing)
+return;
 
 move();
 
@@ -2084,35 +1972,47 @@ bonusShow,
 7000
 );
 
+try{
+
+gtag(
+"event",
+"game_start",
+{
+game_name:"Catch The Square"
+}
+);
+
+}catch(error){}
+
 }
 
 
 function move(){
 
-const a=
+const gameArea=
 document.getElementById("area");
 
-const s=
+const square=
 document.getElementById("sq");
 
 const x=
 Math.random()*
 (
-a.clientWidth-
-s.offsetWidth
+gameArea.clientWidth-
+square.offsetWidth
 );
 
 const y=
 Math.random()*
 (
-a.clientHeight-
-s.offsetHeight
+gameArea.clientHeight-
+square.offsetHeight
 );
 
-s.style.left=
+square.style.left=
 Math.max(0,x)+"px";
 
-s.style.top=
+square.style.top=
 Math.max(0,y)+"px";
 
 }
@@ -2126,15 +2026,15 @@ Date.now()<frozen
 )
 return;
 
-const b=
+const isBoss=
 Date.now()<boss;
 
 score+=
-(b?10:1)*
+(isBoss?10:1)*
 pointMult;
 
 coins+=
-(b?25:1)*
+(isBoss?25:1)*
 coinMult;
 
 combo++;
@@ -2150,12 +2050,11 @@ coins+=
 }
 
 
-if(b){
+if(isBoss){
 
 boss=0;
 
 resetSq();
-
 sizeSq();
 
 }
@@ -2175,39 +2074,37 @@ level:level
 }
 );
 
-}catch(e){}
+}catch(error){}
 
 }
 
 
 function bonusShow(){
 
-if(!playing)return;
+if(!playing)
+return;
 
-const a=
+const gameArea=
 document.getElementById("area");
 
-const b=
-document.getElementById("bonus");
-
-b.style.left=
+bonus.style.left=
 Math.random()*
 (
-a.clientWidth-55
+gameArea.clientWidth-55
 )+"px";
 
-b.style.top=
+bonus.style.top=
 Math.random()*
 (
-a.clientHeight-55
+gameArea.clientHeight-55
 )+"px";
 
-b.style.display=
+bonus.style.display=
 "block";
 
 setTimeout(
 ()=>{
-b.style.display="none";
+bonus.style.display="none";
 },
 3500
 );
@@ -2241,7 +2138,8 @@ update();
 
 function end(){
 
-if(!playing)return;
+if(!playing)
+return;
 
 playing=false;
 
@@ -2271,7 +2169,7 @@ high_score:high
 }
 );
 
-}catch(e){}
+}catch(error){}
 
 over.style.display=
 "block";
@@ -2312,23 +2210,21 @@ coins-=20;
 lives++;
 
 save();
-
 update();
 
 }
 
 
-function buy(c){
+function buy(cost){
 
-if(coins<c)
+if(coins<cost)
 return alert(
 "Not enough coins."
 );
 
-coins-=c;
+coins-=cost;
 
 save();
-
 update();
 
 try{
@@ -2337,11 +2233,11 @@ gtag(
 "event",
 "shop_purchase",
 {
-coins_spent:c
+coins_spent:cost
 }
 );
 
-}catch(e){}
+}catch(error){}
 
 alert(
 "Skin equipped!"
@@ -2417,22 +2313,21 @@ sq.style.height=
 
 function countdown(){
 
-const n=
+const now=
 new Date();
 
-const d=
-n.getDay();
+const day=
+now.getDay();
 
-const s=
-n.getHours()*3600+
-n.getMinutes()*60+
-n.getSeconds();
-
+const seconds=
+now.getHours()*3600+
+now.getMinutes()*60+
+now.getSeconds();
 
 if(
-d===6&&
-s>=72000&&
-s<75600
+day===6&&
+seconds>=72000&&
+seconds<75600
 ){
 
 count.textContent=
