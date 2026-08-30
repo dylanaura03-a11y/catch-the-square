@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,224 +6,237 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Catch The Square</title>
 
-<!-- GOOGLE ANALYTICS -->
+<!-- =========================
+     GOOGLE ANALYTICS
+     ========================= -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-93GG50S9FZ"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-93GG50S9FZ');
+gtag('js',new Date());
+gtag('config','G-93GG50S9FZ');
 </script>
+
+<!-- =========================
+     GOOGLE ADSENSE
+     ========================= -->
+<script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9731155253732713"
+crossorigin="anonymous"></script>
 
 <style>
 *{box-sizing:border-box}
 
 body{
- margin:0;
- background:radial-gradient(circle at top,#253e76,#070a12 70%);
- color:#fff;
- font:16px Arial,sans-serif;
- text-align:center;
- min-height:100vh
+margin:0;
+background:radial-gradient(circle at top,#253e76,#070a12 70%);
+color:#fff;
+font:16px Arial,sans-serif;
+text-align:center;
+min-height:100vh
 }
 
 h1{
- font-size:42px;
- text-shadow:0 0 18px #00eaff
+font-size:42px;
+text-shadow:0 0 18px #00eaff
 }
 
 .screen{display:none}
 .on{display:block}
 
 .box{
- width:min(900px,94%);
- margin:18px auto;
- padding:22px;
- background:#0c1428ee;
- border:2px solid #00eaff;
- border-radius:20px;
- box-shadow:0 0 30px #00eaff22
+width:min(900px,94%);
+margin:18px auto;
+padding:22px;
+background:#0c1428ee;
+border:2px solid #00eaff;
+border-radius:20px;
+box-shadow:0 0 30px #00eaff22
 }
 
 button{
- border:0;
- border-radius:10px;
- padding:11px 16px;
- margin:5px;
- font-weight:bold;
- cursor:pointer;
- background:#00d9ff
+border:0;
+border-radius:10px;
+padding:11px 16px;
+margin:5px;
+font-weight:bold;
+cursor:pointer;
+background:#00d9ff
 }
 
-button:hover{transform:scale(1.03)}
+button:hover{
+transform:scale(1.03)
+}
 
 .menu{
- display:block;
- width:min(390px,90%);
- margin:8px auto
+display:block;
+width:min(390px,90%);
+margin:8px auto
 }
 
 .gold{background:#ffd21c}
 .bad{background:#ff4666;color:white}
 
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:10px
+}
+
+.tool{
+background:#101a31;
+border:1px solid #2b426f;
+padding:14px;
+border-radius:14px;
+text-align:left
+}
+
+.tool h3{
+color:#ffd21c;
+margin-top:0
+}
+
 input,textarea{
- width:min(560px,92%);
- padding:11px;
- margin:5px;
- border-radius:9px;
- border:1px solid #00eaff;
- background:#080d18;
- color:#fff
+width:min(560px,92%);
+padding:11px;
+margin:5px;
+border-radius:9px;
+border:1px solid #00eaff;
+background:#080d18;
+color:#fff
 }
 
 textarea{height:100px}
 
-.grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
- gap:10px
-}
-
-.tool{
- background:#101a31;
- border:1px solid #2b426f;
- padding:14px;
- border-radius:14px;
- text-align:left
-}
-
-.tool h3{
- color:#ffd21c;
- margin-top:0
-}
-
 .stats{
- display:flex;
- justify-content:center;
- flex-wrap:wrap;
- gap:7px
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:7px
 }
 
 .stat{
- background:#18223c;
- padding:9px 12px;
- border-radius:10px
+background:#18223c;
+padding:9px 12px;
+border-radius:10px
 }
 
 #area{
- position:relative;
- width:min(700px,96%);
- height:420px;
- margin:15px auto;
- background:#070c18;
- border:3px solid #00eaff;
- border-radius:16px;
- overflow:hidden
+position:relative;
+width:min(700px,96%);
+height:420px;
+margin:15px auto;
+background:#070c18;
+border:3px solid #00eaff;
+border-radius:16px;
+overflow:hidden
 }
 
 #sq{
- position:absolute;
- width:58px;
- height:58px;
- padding:0;
- background:lime;
- border:3px solid white;
- border-radius:12px;
- box-shadow:0 0 25px lime
+position:absolute;
+width:58px;
+height:58px;
+padding:0;
+background:lime;
+border:3px solid white;
+border-radius:12px;
+box-shadow:0 0 25px lime
 }
 
 #bonus{
- display:none;
- position:absolute;
- width:52px;
- height:52px;
- border-radius:50%;
- background:gold;
- color:#111
+display:none;
+position:absolute;
+width:52px;
+height:52px;
+border-radius:50%;
+background:gold;
+color:#111
 }
 
 .card,.notice{
- display:inline-block;
- margin:6px;
- padding:14px;
- background:#151f39;
- border-radius:13px
+display:inline-block;
+margin:6px;
+padding:14px;
+background:#151f39;
+border-radius:13px
 }
 
 .notice{display:block}
 
 .chat{
- height:280px;
- overflow:auto;
- text-align:left;
- background:#080d18;
- padding:10px;
- border-radius:10px
+height:280px;
+overflow:auto;
+text-align:left;
+background:#080d18;
+padding:10px;
+border-radius:10px
 }
 
 .msg{
- background:#17213a;
- padding:8px;
- margin:5px;
- border-radius:8px
+background:#17213a;
+padding:8px;
+margin:5px;
+border-radius:8px
 }
 
 .event{
- border:2px solid #ff4666;
- border-radius:14px;
- padding:14px;
- margin:14px auto;
- max-width:700px
+border:2px solid #ff4666;
+border-radius:14px;
+padding:14px;
+margin:14px auto;
+max-width:700px
 }
 
 .event h2{color:#ff4666}
 
 .count{
- font-size:24px;
- color:#ffd21c;
- font-weight:bold
+font-size:24px;
+color:#ffd21c;
+font-weight:bold
 }
 
 .uid{
- word-break:break-all;
- background:#080d18;
- padding:9px;
- border-radius:9px
+word-break:break-all;
+background:#080d18;
+padding:9px;
+border-radius:9px
 }
 
 .online{color:#63ff7b}
 .offline{color:#ff536e}
 
 #adbox{
- width:min(728px,94%);
- min-height:100px;
- margin:20px auto;
- padding:12px;
- background:#0a1020;
- border:1px dashed #496184;
- border-radius:12px
+width:min(728px,94%);
+min-height:100px;
+margin:20px auto;
+padding:10px;
+background:#0a1020;
+border:1px dashed #496184;
+border-radius:12px
 }
 
-#adbox small{color:#8998b5}
+#adbox small{
+color:#8998b5
+}
 
 #over,#pop{
- display:none;
- position:fixed;
- z-index:20;
- left:50%;
- transform:translateX(-50%);
- background:#090d18;
- border:3px solid #ff4666;
- border-radius:18px;
- padding:25px;
- width:min(430px,90%)
+display:none;
+position:fixed;
+z-index:20;
+left:50%;
+transform:translateX(-50%);
+background:#090d18;
+border:3px solid #ff4666;
+border-radius:18px;
+padding:25px;
+width:min(430px,90%)
 }
 
 #over{top:35%}
 
 #pop{
- top:20%;
- border-color:#ffd21c
+top:20%;
+border-color:#ffd21c
 }
 </style>
 </head>
@@ -230,28 +244,56 @@ textarea{height:100px}
 <body>
 
 <h1>🎮 CATCH THE SQUARE</h1>
+
 <p>Catch it. Level up. Become the legend.</p>
 
-<!-- AD SPACE -->
+
+<!-- =========================
+     AD SPACE
+     ========================= -->
+
 <div id="adbox">
+
 <small>ADVERTISEMENT</small>
+
+<!-- Google AdSense Auto Ads can use this page.
+     Your publisher ID is:
+     ca-pub-9731155253732713
+-->
+
 </div>
+
 
 <div id="pop"></div>
 
-<!-- MENU -->
+
+<!-- =========================
+     MENU
+     ========================= -->
+
 <section id="menu" class="screen on">
+
 <div class="box">
 
-<button class="menu" onclick="startGame()">🎮 START GAME</button>
+<button class="menu" onclick="startGame()">
+🎮 START GAME
+</button>
 
-<button class="menu" onclick="show('shop')">🛒 SHOP</button>
+<button class="menu" onclick="show('shop')">
+🛒 SHOP
+</button>
 
-<button class="menu" onclick="show('leader')">🌍 LEADERBOARD</button>
+<button class="menu" onclick="show('leader')">
+🌍 LEADERBOARD
+</button>
 
-<button class="menu" onclick="show('chat')">💬 GLOBAL CHAT</button>
+<button class="menu" onclick="show('chat')">
+💬 GLOBAL CHAT
+</button>
 
-<button class="menu" onclick="show('updates')">📰 UPDATES</button>
+<button class="menu" onclick="show('updates')">
+📰 UPDATES
+</button>
 
 <button class="menu" onclick="show('missions')">
 🎯 MISSIONS & ACHIEVEMENTS
@@ -261,19 +303,19 @@ textarea{height:100px}
 👑 DYLAN PANEL
 </button>
 
+
 <div class="notice">
 
 <h2>❤️ Support Catch The Square</h2>
 
-<p><b>Support Number</b></p>
+<p><b>Pochi la Biashara</b></p>
 
-<h2>0700201218</h2>
+<p>Support the game using the Pochi details provided by the game owner.</p>
 
-<small>
-Never share a PIN, password or OTP.
-</small>
+<small>Never share a PIN or OTP.</small>
 
 </div>
+
 
 <div class="event">
 
@@ -287,93 +329,168 @@ CHECKING...
 
 </div>
 
+
 <p>
+
 🪙 <b id="mc">0</b> coins •
+
 🏆 <b id="mh">0</b> high score •
+
 Firebase:
-<b id="fb" class="offline">CONNECTING</b>
+
+<b id="fb" class="offline">
+CONNECTING
+</b>
+
 </p>
 
 </div>
+
 </section>
 
-<!-- GAME -->
+
+<!-- =========================
+     GAME
+     ========================= -->
+
 <section id="game" class="screen">
+
 <div class="box">
 
 <div class="stats">
 
-<div class="stat">🏆 <b id="sc">0</b></div>
-<div class="stat">❤️ <b id="li">3</b></div>
-<div class="stat">⭐ <b id="lv">1</b></div>
-<div class="stat">⏱️ <b id="ti">60</b></div>
-<div class="stat">🔥 <b id="co">0</b></div>
-<div class="stat">🪙 <b id="gc">0</b></div>
+<div class="stat">
+🏆 <b id="sc">0</b>
+</div>
+
+<div class="stat">
+❤️ <b id="li">3</b>
+</div>
+
+<div class="stat">
+⭐ <b id="lv">1</b>
+</div>
+
+<div class="stat">
+⏱️ <b id="ti">60</b>
+</div>
+
+<div class="stat">
+🔥 <b id="co">0</b>
+</div>
+
+<div class="stat">
+🪙 <b id="gc">0</b>
+</div>
 
 </div>
+
 
 <div id="area">
 
-<button id="sq" onclick="hit()">CLICK!</button>
+<button id="sq" onclick="hit()">
+CLICK!
+</button>
 
-<button id="bonus" onclick="bhit()">+5</button>
+<button id="bonus" onclick="bhit()">
++5
+</button>
+
+</div>
+
+
+<button onclick="life()">
+❤️ EXTRA LIFE — 20 COINS
+</button>
+
+<button onclick="quit()">
+🏠 MENU
+</button>
 
 </div>
 
-<button onclick="life()">❤️ EXTRA LIFE — 20 COINS</button>
-
-<button onclick="quit()">🏠 MENU</button>
-
-</div>
 </section>
 
-<!-- SHOP -->
+
+<!-- =========================
+     SHOP
+     ========================= -->
+
 <section id="shop" class="screen">
+
 <div class="box">
 
 <h2>🛒 SHOP</h2>
 
-<p>Coins: <b id="shopc">0</b></p>
+<p>
+Coins:
+<b id="shopc">0</b>
+</p>
+
 
 <div class="card">
 🌈 Rainbow<br>
-<button onclick="buy(50)">50 🪙</button>
+<button onclick="buy(50)">
+50 🪙
+</button>
 </div>
+
 
 <div class="card">
 🔥 Fire<br>
-<button onclick="buy(75)">75 🪙</button>
+<button onclick="buy(75)">
+75 🪙
+</button>
 </div>
+
 
 <div class="card">
 ❄️ Ice<br>
-<button onclick="buy(100)">100 🪙</button>
+<button onclick="buy(100)">
+100 🪙
+</button>
 </div>
+
 
 <div class="card">
 👑 Gold<br>
-<button onclick="buy(150)">150 🪙</button>
+<button onclick="buy(150)">
+150 🪙
+</button>
 </div>
+
 
 <div class="card">
 🌌 Galaxy<br>
-<button onclick="buy(250)">250 🪙</button>
+<button onclick="buy(250)">
+250 🪙
+</button>
 </div>
 
 <br>
 
-<button onclick="show('menu')">🏠 BACK</button>
+<button onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
-<!-- LEADERBOARD -->
+
+<!-- =========================
+     LEADERBOARD
+     ========================= -->
+
 <section id="leader" class="screen">
+
 <div class="box">
 
 <h2>🌍 GLOBAL LEADERBOARD</h2>
 
-<div id="leaders">Loading...</div>
+<div id="leaders">
+Loading...
+</div>
 
 <input
 id="pname"
@@ -383,17 +500,29 @@ placeholder="Player name"
 
 <br>
 
-<button onclick="saveScore()">🏆 SAVE SCORE</button>
+<button onclick="saveScore()">
+🏆 SAVE SCORE
+</button>
 
-<button onclick="loadScores()">🔄 REFRESH</button>
+<button onclick="loadScores()">
+🔄 REFRESH
+</button>
 
-<button onclick="show('menu')">🏠 BACK</button>
+<button onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
-<!-- CHAT -->
+
+<!-- =========================
+     CHAT
+     ========================= -->
+
 <section id="chat" class="screen">
+
 <div class="box">
 
 <h2>💬 GLOBAL CHAT</h2>
@@ -415,15 +544,25 @@ onkeydown="if(event.key==='Enter')sendChat()"
 
 <br>
 
-<button onclick="sendChat()">💬 SEND</button>
+<button onclick="sendChat()">
+💬 SEND
+</button>
 
-<button onclick="show('menu')">🏠 BACK</button>
+<button onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
-<!-- UPDATES -->
+
+<!-- =========================
+     UPDATES
+     ========================= -->
+
 <section id="updates" class="screen">
+
 <div class="box">
 
 <h2>📰 UPDATES</h2>
@@ -436,13 +575,21 @@ onkeydown="if(event.key==='Enter')sendChat()"
 
 </div>
 
-<button onclick="show('menu')">🏠 BACK</button>
+<button onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
-<!-- MISSIONS -->
+
+<!-- =========================
+     MISSIONS
+     ========================= -->
+
 <section id="missions" class="screen">
+
 <div class="box">
 
 <h2>🎯 MISSIONS & ACHIEVEMENTS</h2>
@@ -463,39 +610,60 @@ onkeydown="if(event.key==='Enter')sendChat()"
 📅 Daily: Catch 50 squares → +100 🪙
 </div>
 
-<button onclick="show('menu')">🏠 BACK</button>
+<button onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
-<!-- DYLAN PANEL -->
+
+<!-- =========================
+     DYLAN PANEL
+     ========================= -->
+
 <section id="admin" class="screen">
+
 <div class="box">
 
 <h2>👑 DYLAN PANEL</h2>
 
+
 <div class="notice">
 
 Admin status:
-<b id="ast">CHECKING...</b>
 
-<p>Your Firebase Player UID:</p>
+<b id="ast">
+CHECKING...
+</b>
+
+<p>
+Your Firebase Player UID:
+</p>
 
 <div id="uid" class="uid">
 CONNECTING...
 </div>
 
-<button onclick="copyUid()">📋 COPY UID</button>
+<button onclick="copyUid()">
+📋 COPY UID
+</button>
 
 </div>
 
+
 <div class="grid">
+
 
 <div class="tool">
 
-<h3>🪙 GIVE COINS</h3>
+<h3>🪙 GIVE COINS TO PLAYER</h3>
 
-<input id="tuid" placeholder="Player UID">
+<input
+id="tuid"
+placeholder="Player UID"
+>
 
 <input
 id="tamount"
@@ -509,6 +677,7 @@ value="100"
 </button>
 
 </div>
+
 
 <div class="tool">
 
@@ -527,6 +696,7 @@ value="100"
 
 </div>
 
+
 <div class="tool">
 
 <h3>📢 GLOBAL ANNOUNCEMENT</h3>
@@ -537,9 +707,12 @@ maxlength="200"
 placeholder="Message"
 >
 
-<button onclick="announce()">📢 SEND</button>
+<button onclick="announce()">
+📢 SEND
+</button>
 
 </div>
+
 
 <div class="tool">
 
@@ -551,9 +724,12 @@ maxlength="800"
 placeholder="Write an update"
 ></textarea>
 
-<button onclick="publish()">📰 PUBLISH</button>
+<button onclick="publish()">
+📰 PUBLISH
+</button>
 
 </div>
+
 
 <div class="tool">
 
@@ -565,11 +741,14 @@ placeholder="Write an update"
 
 </div>
 
+
 <div class="tool">
 
 <h3>👹 ADMIN ABUSE</h3>
 
-<p id="estate">OFF</p>
+<p id="estate">
+OFF
+</p>
 
 <button class="gold" onclick="abuse('start')">
 👑 START
@@ -583,27 +762,45 @@ placeholder="Write an update"
 
 </div>
 
+
 <div class="tool">
 
 <h3>⚡ LIVE ADMIN ABUSE</h3>
 
-<button class="gold" onclick="cmd('coins')">🪙 COIN RAIN</button>
+<button class="gold" onclick="cmd('coins')">
+🪙 COIN RAIN
+</button>
 
-<button onclick="cmd('2coins')">💰 2X COINS</button>
+<button onclick="cmd('2coins')">
+💰 2X COINS
+</button>
 
-<button onclick="cmd('2points')">⚡ 2X POINTS</button>
+<button onclick="cmd('2points')">
+⚡ 2X POINTS
+</button>
 
-<button class="gold" onclick="cmd('gold')">👑 GOLDEN SQUARE</button>
+<button class="gold" onclick="cmd('gold')">
+👑 GOLDEN SQUARE
+</button>
 
-<button onclick="cmd('tiny')">🐜 TINY SQUARE</button>
+<button onclick="cmd('tiny')">
+🐜 TINY SQUARE
+</button>
 
-<button class="bad" onclick="cmd('freeze')">🧊 FREEZE</button>
+<button class="bad" onclick="cmd('freeze')">
+🧊 FREEZE
+</button>
 
-<button onclick="cmd('chaos')">🌪️ CHAOS</button>
+<button onclick="cmd('chaos')">
+🌪️ CHAOS
+</button>
 
-<button onclick="cmd('boss')">💀 BOSS</button>
+<button onclick="cmd('boss')">
+💀 BOSS
+</button>
 
 </div>
+
 
 <div class="tool">
 
@@ -615,17 +812,27 @@ placeholder="Write an update"
 
 </div>
 
-<button onclick="show('menu')">🏠 BACK</button>
+
+<button onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
-<!-- GAME OVER -->
+
+<!-- =========================
+     GAME OVER
+     ========================= -->
+
 <div id="over">
 
 <h2>💀 GAME OVER</h2>
 
-<h1 id="final">0</h1>
+<h1 id="final">
+0
+</h1>
 
 <p>
 High Score:
@@ -642,7 +849,11 @@ High Score:
 
 </div>
 
-<!-- FIREBASE -->
+
+<!-- =========================
+     FIREBASE
+     ========================= -->
+
 <script type="module">
 
 import {
@@ -675,7 +886,7 @@ from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
-const firebaseConfig={
+const cfg={
 
 apiKey:
 "AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
@@ -700,18 +911,20 @@ appId:
 
 measurementId:
 "G-93GG50S9FZ"
+
 };
 
 
-const ADMIN_UID=
+const ADMIN=
 "gMsemyhyGSXfJqLdV0zlkVdJwz82";
 
-const SONG_URL=
+
+const SONGURL=
 "https://suno.com/s/jsqSWMTUl4VCGdjj";
 
 
 const app=
-initializeApp(firebaseConfig);
+initializeApp(cfg);
 
 const auth=
 getAuth(app);
@@ -720,155 +933,73 @@ const db=
 getDatabase(app);
 
 
-let firebaseReady=false;
-let listenersStarted=false;
+const isAdmin=()=>
+auth.currentUser &&
+auth.currentUser.uid===ADMIN;
 
 
-function isReady(){
-return !!auth.currentUser;
-}
+const ready=()=>
+!!auth.currentUser;
 
 
-function isAdmin(){
-return isReady() &&
-auth.currentUser.uid===ADMIN_UID;
-}
-
-
-function setFirebaseStatus(online){
+function status(ok){
 
 fb.textContent=
-online?"ONLINE":"OFFLINE";
+ok?"ONLINE":"OFFLINE";
 
 fb.className=
-online?"online":"offline";
-
-}
-
-
-function showFirebaseError(action,error){
-
-console.error(
-"Firebase error:",
-action,
-error
-);
-
-const code=
-error?.code ||
-"unknown";
-
-const message=
-error?.message ||
-"Unknown Firebase error";
-
-const currentUID=
-auth.currentUser?.uid ||
-"NOT SIGNED IN";
-
-alert(
-"❌ "+action+
-"\n\nFirebase code: "+
-code+
-"\n\nMessage: "+
-message+
-"\n\nCurrent UID: "+
-currentUID
-);
+ok?"online":"offline";
 
 }
 
 
 signInAnonymously(auth)
-.then(()=>{
-
-firebaseReady=true;
-
-})
-.catch(error=>{
-
-firebaseReady=false;
-
-setFirebaseStatus(false);
-
-showFirebaseError(
-"Firebase sign-in",
-error
-);
-
+.catch(()=>{
+status(false);
 });
 
 
-onAuthStateChanged(
-auth,
-user=>{
+onAuthStateChanged(auth,u=>{
 
-if(!user){
+if(!u)return;
 
-setFirebaseStatus(false);
-
-return;
-
-}
-
-firebaseReady=true;
-
-setFirebaseStatus(true);
+status(true);
 
 uid.textContent=
-user.uid;
+u.uid;
 
 ast.textContent=
 isAdmin()
 ?"👑 DYLAN"
 :"PLAYER";
 
-
-if(!listenersStarted){
-
-listenersStarted=true;
-
 listen();
 scores();
 chat();
-
-}
 
 });
 
 
 window.openAdmin=()=>{
 
-if(!isReady())
+if(!ready())
 return alert(
 "Firebase is still connecting."
 );
 
-if(!isAdmin()){
-
-alert(
-"❌ Dylan admin only.\n\nYour current UID is:\n"+
-auth.currentUser.uid
+if(!isAdmin())
+return alert(
+"❌ Dylan admin only."
 );
-
-return;
-
-}
 
 show("admin");
 
-gtag(
-"event",
-"admin_panel_open"
-);
+gtag("event","admin_panel_open");
 
 };
 
 
 window.copyUid=async()=>{
-
-if(!isReady())
-return;
 
 try{
 
@@ -878,75 +1009,52 @@ auth.currentUser.uid
 
 alert("UID copied!");
 
-}catch(error){
+}catch{
 
-alert(
-"Copy failed. Your UID is:\n"+
-auth.currentUser.uid
-);
+alert("Select it manually.");
 
 }
 
 };
 
 
-window.song=()=>{
-window.open(
-SONG_URL,
-"_blank"
-);
-};
+window.song=()=>
+open(SONGURL,"_blank");
 
 
 window.give=async()=>{
 
 if(!isAdmin())
-return alert(
-"❌ Dylan admin only."
-);
+return alert("❌ Dylan admin only.");
 
-const targetUID=
+let u=
 tuid.value.trim();
 
-const amount=
-Number(tamount.value);
+let a=
++tamount.value;
 
-if(!targetUID||amount<1)
+if(!u||a<1)
 return alert(
-"Enter a valid UID and amount."
+"Enter UID and amount."
 );
 
 try{
 
 await push(
-ref(
-db,
-"coinGrants/"+targetUID
-),
+ref(db,"coinGrants/"+u),
 {
-amount:amount,
+amount:a,
 from:"Dylan",
 time:serverTimestamp()
 }
 );
 
-gtag(
-"event",
-"admin_give_coins",
-{
-amount:amount
-}
-);
+alert("🪙 Gift sent!");
+
+}catch(e){
 
 alert(
-"🪙 Gift sent!"
-);
-
-}catch(error){
-
-showFirebaseError(
-"Give coins",
-error
+"❌ Permission denied."
 );
 
 }
@@ -961,10 +1069,10 @@ return alert(
 "❌ Dylan admin only."
 );
 
-const amount=
-Number(eamount.value);
+let a=
++eamount.value;
 
-if(amount<1)
+if(a<1)
 return alert(
 "Enter a valid amount."
 );
@@ -975,7 +1083,7 @@ await set(
 ref(db,"giftEveryone"),
 {
 id:Date.now(),
-amount:amount,
+amount:a,
 time:serverTimestamp()
 }
 );
@@ -984,11 +1092,10 @@ alert(
 "🎁 Gift everyone sent!"
 );
 
-}catch(error){
+}catch(e){
 
-showFirebaseError(
-"Gift everyone",
-error
+alert(
+"❌ Permission denied."
 );
 
 }
@@ -1003,10 +1110,10 @@ return alert(
 "❌ Dylan admin only."
 );
 
-const message=
+let m=
 ann.value.trim();
 
-if(!message)return;
+if(!m)return;
 
 try{
 
@@ -1014,22 +1121,19 @@ await push(
 ref(db,"adminBroadcasts"),
 {
 type:"announcement",
-message:message,
+message:m,
 time:serverTimestamp()
 }
 );
 
 ann.value="";
 
+alert("📢 Announcement sent!");
+
+}catch(e){
+
 alert(
-"📢 Announcement sent!"
-);
-
-}catch(error){
-
-showFirebaseError(
-"Announcement",
-error
+"❌ Permission denied."
 );
 
 }
@@ -1044,10 +1148,10 @@ return alert(
 "❌ Dylan admin only."
 );
 
-const message=
+let m=
 up.value.trim();
 
-if(!message)return;
+if(!m)return;
 
 try{
 
@@ -1056,22 +1160,19 @@ ref(db,"adminBroadcasts"),
 {
 type:"update",
 title:"Catch The Square Update",
-message:message,
+message:m,
 time:serverTimestamp()
 }
 );
 
 up.value="";
 
+alert("📰 Published!");
+
+}catch(e){
+
 alert(
-"📰 Update published!"
-);
-
-}catch(error){
-
-showFirebaseError(
-"Publish update",
-error
+"❌ Permission denied."
 );
 
 }
@@ -1098,16 +1199,10 @@ time:serverTimestamp()
 }
 );
 
+}catch(e){
+
 alert(
-"⚡ Command sent: "+
-type
-);
-
-}catch(error){
-
-showFirebaseError(
-"Admin command",
-error
+"❌ Permission denied."
 );
 
 }
@@ -1115,14 +1210,15 @@ error
 };
 
 
-window.abuse=async type=>{
+window.abuse=async x=>{
 
 if(!isAdmin())
 return alert(
 "❌ Dylan admin only."
 );
 
-if(type==="start"){
+
+if(x==="start"){
 
 pointMult=2;
 coinMult=2;
@@ -1133,6 +1229,8 @@ estate.textContent=
 pop(
 "🚨 ADMIN ABUSE STARTED! 🔥"
 );
+
+gtag("event","admin_abuse_start");
 
 try{
 
@@ -1156,28 +1254,25 @@ time:serverTimestamp()
 }
 );
 
-}catch(error){
+}catch(e){
 
-showFirebaseError(
-"Start Admin Abuse",
-error
-);
+console.log(e);
 
 }
 
-return;
-
-}
-
+}else{
 
 pointMult=1;
 coinMult=1;
 
-estate.textContent="OFF";
+estate.textContent=
+"OFF";
 
 pop(
 "🛑 ADMIN ABUSE ENDED"
 );
+
+gtag("event","admin_abuse_end");
 
 try{
 
@@ -1191,12 +1286,11 @@ time:serverTimestamp()
 }
 );
 
-}catch(error){
+}catch(e){
 
-showFirebaseError(
-"End Admin Abuse",
-error
-);
+console.log(e);
+
+}
 
 }
 
@@ -1221,15 +1315,12 @@ await remove(
 ref(db,"chat")
 );
 
+alert("🗑️ Chat cleared!");
+
+}catch(e){
+
 alert(
-"🗑️ Global chat cleared!"
-);
-
-}catch(error){
-
-showFirebaseError(
-"Clear chat",
-error
+"❌ Permission denied."
 );
 
 }
@@ -1239,23 +1330,21 @@ error
 
 window.saveScore=async()=>{
 
-if(!isReady())
+if(!ready())
 return alert(
 "Firebase is still connecting."
 );
 
-const scoreValue=
-Number(localStorage.highScore||0);
+let s=
++localStorage.highScore||0;
 
-const playerName=
-(
-pname.value.trim()||
-"Player"
-).slice(0,20);
+let n=
+(pname.value.trim()||"Player")
+.slice(0,20);
 
-if(scoreValue<=0)
+if(!s)
 return alert(
-"Play a game first."
+"Play first."
 );
 
 try{
@@ -1264,29 +1353,22 @@ await push(
 ref(db,"leaderboard"),
 {
 uid:auth.currentUser.uid,
-name:playerName,
-score:scoreValue,
+name:n,
+score:s,
 time:serverTimestamp()
 }
 );
 
-gtag(
-"event",
-"score_saved",
-{
-score:scoreValue
-}
-);
+gtag("event","score_saved",{
+score:s
+});
+
+alert("🏆 Score saved!");
+
+}catch(e){
 
 alert(
-"🏆 Score saved!"
-);
-
-}catch(error){
-
-showFirebaseError(
-"Save score",
-error
+"❌ Permission denied. Check Firebase rules."
 );
 
 }
@@ -1294,15 +1376,11 @@ error
 };
 
 
-window.loadScores=()=>{
+window.loadScores=()=>
 scores();
-};
 
 
 function scores(){
-
-if(!isReady())
-return;
 
 onValue(
 
@@ -1312,58 +1390,43 @@ orderByChild("score"),
 limitToLast(50)
 ),
 
-snapshot=>{
+s=>{
 
-const list=[];
+let a=[];
 
-snapshot.forEach(
-child=>{
-list.push(child.val());
-}
+s.forEach(c=>
+a.push(c.val())
 );
 
-list.sort(
-(a,b)=>
-(b.score||0)-
-(a.score||0)
+a.sort(
+(x,y)=>
+(y.score||0)-
+(x.score||0)
 );
 
 leaders.innerHTML=
-list.slice(0,20)
-.map(
-(item,index)=>`
+a.slice(0,20)
+.map((x,i)=>`
 
 <div class="notice">
 
-${
-index<3
-?["🥇","🥈","🥉"][index]
-:"🏆"
-}
+${i<3
+?["🥇","🥈","🥉"][i]
+:"🏆"}
 
-#${index+1}
+#${i+1}
 —
-${safe(item.name)}
+${safe(x.name)}
 —
-${item.score||0}
+${x.score||0}
 
 </div>
 
-`
-)
+`)
 .join("")
 ||
 "<p>No scores yet.</p>";
 
-},
-
-error=>{
-
-showFirebaseError(
-"Load leaderboard",
-error
-);
-
 }
 
 );
@@ -1371,261 +1434,177 @@ error
 }
 
 
-function safe(value){
+function safe(x){
 
-const element=
+let d=
 document.createElement("div");
 
-element.textContent=
-value||"";
+d.textContent=
+x||"";
 
-return element.innerHTML;
+return d.innerHTML;
 
 }
 
 
 function listen(){
 
-const playerUID=
-auth.currentUser.uid;
-
-
 onValue(
-
 ref(
 db,
-"coinGrants/"+playerUID
+"coinGrants/"+
+auth.currentUser.uid
 ),
 
-snapshot=>{
+s=>{
 
-snapshot.forEach(
-async child=>{
+s.forEach(async c=>{
 
-const value=
-child.val()||{};
+let v=
+c.val()||{};
 
 coins+=
-Number(value.amount||0);
++(v.amount||0);
 
 save();
 update();
 
 alert(
 "🎁 Dylan gave you "+
-value.amount+
+v.amount+
 " coins!"
 );
-
-try{
 
 await remove(
 ref(
 db,
 "coinGrants/"+
-playerUID+
+auth.currentUser.uid+
 "/"+
-child.key
+c.key
 )
 );
-
-}catch(error){
-
-console.error(
-"Grant cleanup failed:",
-error
-);
-
-}
 
 });
 
-},
-
-error=>{
-
-console.error(
-"coinGrants:",
-error
-);
-
-}
-
-);
+});
 
 
 onValue(
-
 ref(db,"giftEveryone"),
+s=>{
 
-snapshot=>{
-
-const value=
-snapshot.val();
+let v=s.val();
 
 if(
-!value||
-!value.id||
-localStorage.lastGift===
-String(value.id)
-)
-return;
+!v||
+!v.id||
+localStorage.lastGift==v.id
+)return;
 
 localStorage.lastGift=
-String(value.id);
+v.id;
 
 coins+=
-Number(value.amount||0);
++(v.amount||0);
 
 save();
 update();
 
 alert(
 "🎁 Gift received: "+
-value.amount+
+v.amount+
 " coins!"
 );
 
-},
-
-error=>{
-
-console.error(
-"giftEveryone:",
-error
-);
-
-}
-
-);
+});
 
 
 onValue(
-
 ref(db,"adminCommand"),
+s=>{
 
-snapshot=>{
-
-const value=
-snapshot.val();
+let v=s.val();
 
 if(
-!value||
-!value.id||
-localStorage.lastCmd===
-String(value.id)
-)
-return;
+!v||
+!v.id||
+localStorage.lastCmd==v.id
+)return;
 
 localStorage.lastCmd=
-String(value.id);
+v.id;
 
-applyCommand(value);
+apply(v);
 
-},
-
-error=>{
-
-console.error(
-"adminCommand:",
-error
-);
-
-}
-
-);
+});
 
 
 onValue(
-
 ref(db,"adminBroadcasts"),
+s=>{
 
-snapshot=>{
+let a=[];
 
-const list=[];
-
-snapshot.forEach(
-child=>{
-list.push(child.val());
-}
+s.forEach(c=>
+a.push(c.val())
 );
 
-list.sort(
-(a,b)=>
-(a.time||0)-
-(b.time||0)
+a.sort(
+(x,y)=>
+(x.time||0)-
+(y.time||0)
 );
 
-const latest=
-list[list.length-1];
+let v=
+a[a.length-1];
 
 if(
-latest&&
-latest.type==="announcement"
-){
-
-pop(
-latest.message
-);
-
-}
-
-const updates=
-list
-.filter(
-item=>item.type==="update"
+v&&
+v.type==="announcement"
 )
+pop(v.message);
+
+let u=
+a
+.filter(x=>x.type==="update")
 .slice(-8)
 .reverse();
 
-if(updates.length){
+if(u.length){
 
 ups.innerHTML=
-updates
-.map(
-item=>`
+u.map(x=>`
 
 <div class="notice">
 
 <h3>
-📰 ${safe(item.title)}
+📰 ${safe(x.title)}
 </h3>
 
 <p>
-${safe(item.message)}
+${safe(x.message)}
 </p>
 
 </div>
 
-`
-)
+`)
 .join("");
 
 }
 
-},
-
-error=>{
-
-console.error(
-"adminBroadcasts:",
-error
-);
-
-}
-
-);
+});
 
 }
 
 
-function applyCommand(value){
+function apply(v){
 
-const duration=
-Number(value.duration||10000);
+let t=
++(v.duration||10000);
 
 
-if(value.type==="coins"){
+if(v.type==="coins"){
 
 coins+=25;
 
@@ -1639,13 +1618,13 @@ pop(
 }
 
 
-if(value.type==="2coins"){
+if(v.type==="2coins"){
 
 coinMult=2;
 
 setTimeout(
 ()=>coinMult=1,
-duration
+t
 );
 
 pop(
@@ -1655,13 +1634,13 @@ pop(
 }
 
 
-if(value.type==="2points"){
+if(v.type==="2points"){
 
 pointMult=2;
 
 setTimeout(
 ()=>pointMult=1,
-duration
+t
 );
 
 pop(
@@ -1671,16 +1650,17 @@ pop(
 }
 
 
-if(value.type==="gold"){
+if(v.type==="gold"){
 
-sq.style.background="gold";
+sq.style.background=
+"gold";
 
 sq.style.boxShadow=
 "0 0 30px gold";
 
 setTimeout(
-resetSq,
-duration
+()=>resetSq(),
+t
 );
 
 pop(
@@ -1690,14 +1670,14 @@ pop(
 }
 
 
-if(value.type==="tiny"){
+if(v.type==="tiny"){
 
 sq.style.width="30px";
 sq.style.height="30px";
 
 setTimeout(
-sizeSq,
-duration
+()=>sizeSq(),
+t
 );
 
 pop(
@@ -1707,10 +1687,10 @@ pop(
 }
 
 
-if(value.type==="freeze"){
+if(v.type==="freeze"){
 
 frozen=
-Date.now()+duration;
+Date.now()+t;
 
 pop(
 "🧊 FREEZE!"
@@ -1719,16 +1699,14 @@ pop(
 }
 
 
-if(value.type==="chaos"){
+if(v.type==="chaos"){
 
 document.body.style.transform=
 "rotate(1deg)";
 
 setTimeout(
-()=>{
-document.body.style.transform="";
-},
-duration
+()=>document.body.style.transform="",
+t
 );
 
 pop(
@@ -1738,10 +1716,10 @@ pop(
 }
 
 
-if(value.type==="boss"){
+if(v.type==="boss"){
 
 boss=
-Date.now()+duration;
+Date.now()+t;
 
 pop(
 "💀 BOSS SQUARE!"
@@ -1752,83 +1730,87 @@ pop(
 }
 
 
-function chat(){
+function pop(m){
 
-if(!isReady())
-return;
+let p=
+document.getElementById("pop");
 
-onValue(
+p.textContent=
+m;
 
-ref(db,"chat"),
+p.style.display=
+"block";
 
-snapshot=>{
+clearTimeout(window.pt);
 
-const list=[];
-
-snapshot.forEach(
-child=>{
-list.push(child.val());
-}
+window.pt=
+setTimeout(
+()=>{
+p.style.display="none";
+},
+6000
 );
 
-list.sort(
-(a,b)=>
-(a.time||0)-
-(b.time||0)
+}
+
+
+function chat(){
+
+onValue(
+ref(db,"chat"),
+s=>{
+
+let a=[];
+
+s.forEach(c=>
+a.push(c.val())
+);
+
+a.sort(
+(x,y)=>
+(x.time||0)-
+(y.time||0)
 );
 
 msgs.innerHTML=
-list
-.slice(-50)
-.map(
-item=>`
+a.slice(-50)
+.map(x=>`
 
 <div class="msg">
 
 <b>
-👤 ${safe(item.name)}
+👤 ${safe(x.name)}
 </b>
 
 <br>
 
-${safe(item.message)}
+${safe(x.message)}
 
 </div>
 
-`
-)
+`)
 .join("");
-
-},
-
-error=>{
-
-console.error(
-"Chat listener:",
-error
-);
 
 }
 
 );
+
 
 }
 
 
 window.sendChat=async()=>{
 
-if(!isReady())
-return alert(
-"Firebase is still connecting."
-);
+if(!ready())
+return;
 
-const name=
+let n=
 cname.value.trim();
 
-const message=
+let m=
 cmsg.value.trim();
 
-if(!name||!message)
+if(!n||!m)
 return;
 
 try{
@@ -1837,24 +1819,18 @@ await push(
 ref(db,"chat"),
 {
 uid:auth.currentUser.uid,
-name:name,
-message:message,
+name:n,
+message:m,
 time:serverTimestamp()
 }
 );
 
 cmsg.value="";
 
-gtag(
-"event",
-"chat_message_sent"
-);
+}catch(e){
 
-}catch(error){
-
-showFirebaseError(
-"Send chat",
-error
+alert(
+"❌ Permission denied."
 );
 
 }
@@ -1863,14 +1839,18 @@ error
 
 </script>
 
-<!-- GAME ENGINE -->
+
+<!-- =========================
+     GAME ENGINE
+     ========================= -->
+
 <script>
 
 let coins=
-Number(localStorage.coins||0);
++(localStorage.coins||0);
 
 let high=
-Number(localStorage.highScore||0);
++(localStorage.highScore||0);
 
 let score=0;
 let lives=3;
@@ -1880,9 +1860,7 @@ let combo=0;
 
 let playing=false;
 
-let mt;
-let gt;
-let bt;
+let mt,gt,bt;
 
 let pointMult=1;
 let coinMult=1;
@@ -1895,9 +1873,8 @@ function show(id){
 
 document
 .querySelectorAll(".screen")
-.forEach(
-element=>
-element.classList.remove("on")
+.forEach(x=>
+x.classList.remove("on")
 );
 
 document
@@ -1927,9 +1904,12 @@ show("game");
 
 move();
 
-gt=
-setInterval(
-()=>{
+gtag("event","game_start",{
+game_name:"Catch The Square"
+});
+
+
+gt=setInterval(()=>{
 
 time--;
 
@@ -1938,17 +1918,12 @@ update();
 if(time<=0)
 end();
 
-},
-1000
-);
+},1000);
 
 
-mt=
-setInterval(
-()=>{
+mt=setInterval(()=>{
 
-if(!playing)
-return;
+if(!playing)return;
 
 move();
 
@@ -1961,59 +1936,13 @@ update();
 if(lives<=0)
 end();
 
-},
-1100
-);
+},1100);
 
 
-bt=
-setInterval(
+bt=setInterval(
 bonusShow,
 7000
 );
-
-try{
-
-gtag(
-"event",
-"game_start",
-{
-game_name:"Catch The Square"
-}
-);
-
-}catch(error){}
-
-}
-
-
-function move(){
-
-const gameArea=
-document.getElementById("area");
-
-const square=
-document.getElementById("sq");
-
-const x=
-Math.random()*
-(
-gameArea.clientWidth-
-square.offsetWidth
-);
-
-const y=
-Math.random()*
-(
-gameArea.clientHeight-
-square.offsetHeight
-);
-
-square.style.left=
-Math.max(0,x)+"px";
-
-square.style.top=
-Math.max(0,y)+"px";
 
 }
 
@@ -2026,15 +1955,15 @@ Date.now()<frozen
 )
 return;
 
-const isBoss=
+let b=
 Date.now()<boss;
 
 score+=
-(isBoss?10:1)*
+(b?10:1)*
 pointMult;
 
 coins+=
-(isBoss?25:1)*
+(b?25:1)*
 coinMult;
 
 combo++;
@@ -2042,15 +1971,11 @@ combo++;
 level=
 Math.floor(score/5)+1;
 
-if(combo%5===0){
-
+if(combo%5===0)
 coins+=
 5*coinMult;
 
-}
-
-
-if(isBoss){
+if(b){
 
 boss=0;
 
@@ -2060,21 +1985,33 @@ sizeSq();
 }
 
 move();
-
 update();
 
-try{
-
-gtag(
-"event",
-"square_caught",
-{
+gtag("event","square_caught",{
 score:score,
 level:level
-}
-);
+});
 
-}catch(error){}
+}
+
+
+function move(){
+
+let x=
+Math.random()*
+(area.clientWidth-
+sq.offsetWidth);
+
+let y=
+Math.random()*
+(area.clientHeight-
+sq.offsetHeight);
+
+sq.style.left=
+Math.max(0,x)+"px";
+
+sq.style.top=
+Math.max(0,y)+"px";
 
 }
 
@@ -2084,20 +2021,15 @@ function bonusShow(){
 if(!playing)
 return;
 
-const gameArea=
-document.getElementById("area");
-
 bonus.style.left=
 Math.random()*
-(
-gameArea.clientWidth-55
-)+"px";
+(area.clientWidth-55)
++"px";
 
 bonus.style.top=
 Math.random()*
-(
-gameArea.clientHeight-55
-)+"px";
+(area.clientHeight-55)
++"px";
 
 bonus.style.display=
 "block";
@@ -2158,18 +2090,10 @@ score;
 fhigh.textContent=
 high;
 
-try{
-
-gtag(
-"event",
-"game_end",
-{
+gtag("event","game_end",{
 score:score,
 high_score:high
-}
-);
-
-}catch(error){}
+});
 
 over.style.display=
 "block";
@@ -2215,29 +2139,21 @@ update();
 }
 
 
-function buy(cost){
+function buy(c){
 
-if(coins<cost)
+if(coins<c)
 return alert(
 "Not enough coins."
 );
 
-coins-=cost;
+coins-=c;
 
 save();
 update();
 
-try{
-
-gtag(
-"event",
-"shop_purchase",
-{
-coins_spent:cost
-}
-);
-
-}catch(error){}
+gtag("event","shop_purchase",{
+coins_spent:c
+});
 
 alert(
 "Skin equipped!"
@@ -2313,21 +2229,22 @@ sq.style.height=
 
 function countdown(){
 
-const now=
+let n=
 new Date();
 
-const day=
-now.getDay();
+let d=
+n.getDay();
 
-const seconds=
-now.getHours()*3600+
-now.getMinutes()*60+
-now.getSeconds();
+let s=
+n.getHours()*3600+
+n.getMinutes()*60+
+n.getSeconds();
+
 
 if(
-day===6&&
-seconds>=72000&&
-seconds<75600
+d===6&&
+s>=72000&&
+s<75600
 ){
 
 count.textContent=
@@ -2356,3 +2273,4 @@ update();
 
 </body>
 </html>
+```
