@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -12,7 +13,9 @@
 <link rel="manifest" href="manifest.json">
 
 <!-- Google Analytics -->
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-93GG50S9FZ"></script>
+
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
@@ -21,16 +24,14 @@ gtag("config","G-93GG50S9FZ");
 </script>
 
 <!-- Google AdSense -->
-<script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9731155253732713"
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9731155253732713"
 crossorigin="anonymous"></script>
 
 <style>
 *{box-sizing:border-box}
 
-html{
-scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
 margin:0;
@@ -42,9 +43,7 @@ text-align:center;
 min-height:100vh;
 }
 
-header{
-padding:28px 15px 15px;
-}
+header{padding:28px 15px 15px}
 
 h1{
 font-size:clamp(32px,7vw,58px);
@@ -52,17 +51,10 @@ margin:5px 0;
 text-shadow:0 0 20px #00eaff;
 }
 
-h2{
-color:#00eaff;
-}
+h2{color:#00eaff}
+h3{color:#ffd21c}
 
-h3{
-color:#ffd21c;
-}
-
-p{
-line-height:1.7;
-}
+p{line-height:1.7}
 
 button{
 border:0;
@@ -75,9 +67,7 @@ background:#00d9ff;
 color:#031018;
 }
 
-button:hover{
-transform:scale(1.03);
-}
+button:hover{transform:scale(1.03)}
 
 .menu{
 display:block;
@@ -86,22 +76,11 @@ margin:9px auto;
 font-size:17px;
 }
 
-.gold{
-background:#ffd21c;
-}
+.gold{background:#ffd21c}
+.back{background:#263957;color:white}
 
-.back{
-background:#263957;
-color:white;
-}
-
-.screen{
-display:none;
-}
-
-.on{
-display:block;
-}
+.screen{display:none}
+.on{display:block}
 
 .box{
 width:min(950px,94%);
@@ -119,9 +98,7 @@ margin:20px auto;
 text-align:left;
 }
 
-.info p{
-color:#d9e7f7;
-}
+.info p{color:#d9e7f7}
 
 .grid{
 display:grid;
@@ -196,9 +173,7 @@ background:#070d17;
 color:white;
 }
 
-textarea{
-height:120px;
-}
+textarea{height:120px}
 
 .chat{
 height:280px;
@@ -271,6 +246,7 @@ background:transparent;
 color:#9eb2cc;
 }
 </style>
+
 </head>
 
 <body>
@@ -280,30 +256,26 @@ color:#9eb2cc;
 <p>Catch it. Score points. Earn coins. Beat your record.</p>
 </header>
 
-<!-- AD SPACE -->
+<!-- ADVERTISEMENT -->
+
 <div class="adbox">
 <div class="adlabel">ADVERTISEMENT</div>
 
-<!--
-AdSense ad unit goes here when you have your data-ad-slot ID.
-
-Example:
 <ins class="adsbygoogle"
 style="display:block"
 data-ad-client="ca-pub-9731155253732713"
-data-ad-slot="YOUR_AD_SLOT_ID"
+data-ad-slot="7817292096"
 data-ad-format="auto"
 data-full-width-responsive="true"></ins>
 
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
--->
 
 </div>
 
-
 <!-- MENU -->
+
 <section id="menu" class="screen on">
 <div class="box">
 
@@ -354,8 +326,8 @@ data-full-width-responsive="true"></ins>
 </div>
 </section>
 
-
 <!-- GAME -->
+
 <section id="game" class="screen">
 <div class="box">
 
@@ -372,13 +344,9 @@ data-full-width-responsive="true"></ins>
 
 <div id="area">
 
-<button id="sq" onclick="hit()">
-CLICK!
-</button>
+<button id="sq" onclick="hit()">CLICK!</button>
 
-<button id="bonus" onclick="bhit()">
-+5
-</button>
+<button id="bonus" onclick="bhit()">+5</button>
 
 </div>
 
@@ -393,17 +361,14 @@ CLICK!
 </div>
 </section>
 
-
 <!-- SHOP -->
+
 <section id="shop" class="screen">
 <div class="box">
 
 <h2>🛒 SHOP</h2>
 
-<p>
-Your coins:
-<b id="shopc">0</b> 🪙
-</p>
+<p>Your coins: <b id="shopc">0</b> 🪙</p>
 
 <div class="grid">
 
@@ -446,44 +411,32 @@ Your coins:
 </div>
 </section>
 
-
 <!-- LEADERBOARD -->
+
 <section id="leader" class="screen">
 <div class="box">
 
 <h2>🏆 GLOBAL LEADERBOARD</h2>
 
-<p>
-Compete for the highest score.
-</p>
+<p>Compete for the highest score.</p>
 
-<div id="leaders">
-Loading...
-</div>
+<div id="leaders">Loading...</div>
 
-<input id="pname"
-maxlength="20"
-placeholder="Player name">
+<input id="pname" maxlength="20" placeholder="Player name">
 
 <br>
 
-<button onclick="saveScore()">
-🏆 SAVE SCORE
-</button>
+<button onclick="saveScore()">🏆 SAVE SCORE</button>
 
-<button onclick="loadScores()">
-🔄 REFRESH
-</button>
+<button onclick="loadScores()">🔄 REFRESH</button>
 
-<button class="back" onclick="show('menu')">
-🏠 BACK
-</button>
+<button class="back" onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-
 <!-- CHAT -->
+
 <section id="chat" class="screen">
 <div class="box">
 
@@ -493,9 +446,7 @@ placeholder="Player name">
 Loading chat...
 </div>
 
-<input id="cname"
-maxlength="20"
-placeholder="Player name">
+<input id="cname" maxlength="20" placeholder="Player name">
 
 <input id="cmsg"
 maxlength="150"
@@ -504,19 +455,15 @@ onkeydown="if(event.key==='Enter')sendChat()">
 
 <br>
 
-<button onclick="sendChat()">
-💬 SEND
-</button>
+<button onclick="sendChat()">💬 SEND</button>
 
-<button class="back" onclick="show('menu')">
-🏠 BACK
-</button>
+<button class="back" onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-
 <!-- UPDATES -->
+
 <section id="updates" class="screen">
 <div class="box">
 
@@ -544,19 +491,15 @@ Save your best score and see how you compare with other players.
 </p>
 </div>
 
-<p>
-New updates will be posted here as the game develops.
-</p>
+<p>New updates will be posted here as the game develops.</p>
 
-<button class="back" onclick="show('menu')">
-🏠 BACK
-</button>
+<button class="back" onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-
 <!-- MISSIONS -->
+
 <section id="missions" class="screen">
 <div class="box">
 
@@ -590,24 +533,20 @@ New updates will be posted here as the game develops.
 
 </div>
 
-<button class="back" onclick="show('menu')">
-🏠 BACK
-</button>
+<button class="back" onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-
 <!-- HOW TO PLAY -->
+
 <section id="how" class="screen">
 <div class="box info">
 
 <h2>📖 HOW TO PLAY</h2>
 
 <h3>1. Start the game</h3>
-<p>
-Press <b>START GAME</b> to begin a 60-second round.
-</p>
+<p>Press <b>START GAME</b> to begin a 60-second round.</p>
 
 <h3>2. Catch the square</h3>
 <p>
@@ -638,15 +577,13 @@ Try to beat your personal high score every time you play.
 Visit the Shop to spend coins on different square styles.
 </p>
 
-<button class="back" onclick="show('menu')">
-🏠 BACK
-</button>
+<button class="back" onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-
 <!-- ABOUT -->
+
 <section id="about" class="screen">
 <div class="box info">
 
@@ -679,24 +616,20 @@ Improve your reaction speed, build combos and see how high you
 can push your score.
 </p>
 
-<button class="back" onclick="show('menu')">
-🏠 BACK
-</button>
+<button class="back" onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-
 <!-- FAQ -->
+
 <section id="faq" class="screen">
 <div class="box info">
 
 <h2>❓ FREQUENTLY ASKED QUESTIONS</h2>
 
 <h3>Is Catch The Square free?</h3>
-<p>
-Yes. The game can be played directly from the website.
-</p>
+<p>Yes. The game can be played directly from the website.</p>
 
 <h3>How do I earn coins?</h3>
 <p>
@@ -726,15 +659,13 @@ Shop items are cosmetic square styles that can be purchased using
 coins earned from gameplay.
 </p>
 
-<button class="back" onclick="show('menu')">
-🏠 BACK
-</button>
+<button class="back" onclick="show('menu')">🏠 BACK</button>
 
 </div>
 </section>
 
-
 <!-- GAME OVER -->
+
 <div id="over">
 
 <h2>💀 GAME OVER</h2>
@@ -746,9 +677,7 @@ High Score:
 <b id="fhigh">0</b>
 </p>
 
-<button onclick="closeOver();start()">
-🔄 PLAY AGAIN
-</button>
+<button onclick="closeOver();start()">🔄 PLAY AGAIN</button>
 
 <button class="back" onclick="closeOver();show('menu')">
 🏠 MENU
@@ -756,12 +685,9 @@ High Score:
 
 </div>
 
-
 <footer>
 
-<p>
-© 2026 Catch The Square
-</p>
+<p>© 2026 Catch The Square</p>
 
 <p>
 A free arcade game focused on quick gameplay,
@@ -770,22 +696,17 @@ high scores and achievements.
 
 </footer>
 
-
 <script type="module">
 
-import {
-initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
 getAuth,
 signInAnonymously,
 onAuthStateChanged
 }
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
 getDatabase,
@@ -798,9 +719,7 @@ query,
 orderByChild,
 limitToLast
 }
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 const firebaseConfig = {
 
@@ -830,30 +749,23 @@ measurementId:
 
 };
 
-
 const app=initializeApp(firebaseConfig);
-
 const auth=getAuth(app);
-
 const db=getDatabase(app);
-
 
 signInAnonymously(auth)
 .catch(error=>{
 console.log("Firebase authentication error:",error);
 });
 
-
 onAuthStateChanged(auth,user=>{
 
 if(!user)return;
 
 listenLeaderboard();
-
 listenChat();
 
 });
-
 
 function safe(value){
 
@@ -864,7 +776,6 @@ div.textContent=value || "";
 return div.innerHTML;
 
 }
-
 
 function listenLeaderboard(){
 
@@ -916,7 +827,6 @@ i===2?"🥉":"🏆"}
 
 }
 
-
 function listenChat(){
 
 onValue(
@@ -957,7 +867,6 @@ ${safe(x.message)}
 
 }
 
-
 window.saveScore=async()=>{
 
 if(!auth.currentUser)
@@ -997,13 +906,9 @@ alert("Could not save the score. Please try again.");
 
 };
 
-
 window.loadScores=()=>{
-
 location.reload();
-
 };
-
 
 window.sendChat=async()=>{
 
@@ -1044,7 +949,6 @@ alert("Could not send the message.");
 };
 
 </script>
-
 
 <script>
 
