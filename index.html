@@ -1,33 +1,37 @@
 <!doctype html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <script src="https://bridge.playgama.com/v2/stable/playgama-bridge.js"></script>
+<!-- PLAYGAMA BRIDGE -->
+<script src="https://bridge.playgama.com/v2/stable/playgama-bridge.js"></script>
 
 <title>Catch The Square — Free Online Game</title>
+
 <meta name="description" content="Catch The Square is a free arcade game where you catch moving squares, earn coins, beat your high score, complete missions and compete on the global leaderboard.">
 <meta name="keywords" content="Catch The Square, arcade game, online game, free game, score game">
 <meta name="theme-color" content="#07111f">
 
 <link rel="manifest" href="manifest.json">
 
-<!-- Google Analytics -->
-
+<!-- GOOGLE ANALYTICS -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-93GG50S9FZ"></script>
 
 <script>
 window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
+
+function gtag(){
+  dataLayer.push(arguments);
+}
+
 gtag("js",new Date());
 gtag("config","G-93GG50S9FZ");
 </script>
 
-<!-- Google AdSense -->
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9731155253732713"
+<!-- GOOGLE ADSENSE -->
+<script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9731155253732713"
 crossorigin="anonymous"></script>
 
 <style>
@@ -45,7 +49,9 @@ text-align:center;
 min-height:100vh;
 }
 
-header{padding:28px 15px 15px}
+header{
+padding:28px 15px 15px
+}
 
 h1{
 font-size:clamp(32px,7vw,58px);
@@ -53,10 +59,17 @@ margin:5px 0;
 text-shadow:0 0 20px #00eaff;
 }
 
-h2{color:#00eaff}
-h3{color:#ffd21c}
+h2{
+color:#00eaff
+}
 
-p{line-height:1.7}
+h3{
+color:#ffd21c
+}
+
+p{
+line-height:1.7
+}
 
 button{
 border:0;
@@ -69,7 +82,15 @@ background:#00d9ff;
 color:#031018;
 }
 
-button:hover{transform:scale(1.03)}
+button:hover{
+transform:scale(1.03)
+}
+
+button:disabled{
+opacity:.5;
+cursor:not-allowed;
+transform:none;
+}
 
 .menu{
 display:block;
@@ -78,11 +99,22 @@ margin:9px auto;
 font-size:17px;
 }
 
-.gold{background:#ffd21c}
-.back{background:#263957;color:white}
+.gold{
+background:#ffd21c
+}
 
-.screen{display:none}
-.on{display:block}
+.back{
+background:#263957;
+color:white
+}
+
+.screen{
+display:none
+}
+
+.on{
+display:block
+}
 
 .box{
 width:min(950px,94%);
@@ -100,7 +132,9 @@ margin:20px auto;
 text-align:left;
 }
 
-.info p{color:#d9e7f7}
+.info p{
+color:#d9e7f7
+}
 
 .grid{
 display:grid;
@@ -175,7 +209,9 @@ background:#070d17;
 color:white;
 }
 
-textarea{height:120px}
+textarea{
+height:120px
+}
 
 .chat{
 height:280px;
@@ -238,6 +274,12 @@ color:#ffd21c;
 font-weight:bold;
 }
 
+#bridgeStatus{
+font-size:12px;
+color:#7f95ad;
+margin-top:8px;
+}
+
 footer{
 padding:30px 15px;
 color:#9eb2cc;
@@ -254,14 +296,26 @@ color:#9eb2cc;
 <body>
 
 <header>
+
 <h1>🎮 CATCH THE SQUARE</h1>
-<p>Catch it. Score points. Earn coins. Beat your record.</p>
+
+<p>
+Catch it. Score points. Earn coins. Beat your record.
+</p>
+
+<div id="bridgeStatus">
+Connecting to game platform...
+</div>
+
 </header>
 
 <!-- ADVERTISEMENT -->
 
 <div class="adbox">
-<div class="adlabel">ADVERTISEMENT</div>
+
+<div class="adlabel">
+ADVERTISEMENT
+</div>
 
 <ins class="adsbygoogle"
 style="display:block"
@@ -279,6 +333,7 @@ data-full-width-responsive="true"></ins>
 <!-- MENU -->
 
 <section id="menu" class="screen on">
+
 <div class="box">
 
 <button class="menu gold" onclick="start()">
@@ -318,37 +373,64 @@ data-full-width-responsive="true"></ins>
 </button>
 
 <div class="notice">
+
 🪙 <b id="mc">0</b> coins
 &nbsp; • &nbsp;
 🏆 <b id="mh">0</b> high score
 &nbsp; • &nbsp;
 👥 <b id="playersOnline">Online</b>
+
 </div>
 
 </div>
+
 </section>
 
 <!-- GAME -->
 
 <section id="game" class="screen">
+
 <div class="box">
 
 <h2>🎮 CATCH THE SQUARE</h2>
 
 <div class="stats">
-<div class="stat">🏆 <b id="sc">0</b></div>
-<div class="stat">❤️ <b id="li">3</b></div>
-<div class="stat">⭐ <b id="lv">1</b></div>
-<div class="stat">⏱️ <b id="ti">60</b></div>
-<div class="stat">🔥 <b id="co">0</b></div>
-<div class="stat">🪙 <b id="gc">0</b></div>
+
+<div class="stat">
+🏆 <b id="sc">0</b>
+</div>
+
+<div class="stat">
+❤️ <b id="li">3</b>
+</div>
+
+<div class="stat">
+⭐ <b id="lv">1</b>
+</div>
+
+<div class="stat">
+⏱️ <b id="ti">60</b>
+</div>
+
+<div class="stat">
+🔥 <b id="co">0</b>
+</div>
+
+<div class="stat">
+🪙 <b id="gc">0</b>
+</div>
+
 </div>
 
 <div id="area">
 
-<button id="sq" onclick="hit()">CLICK!</button>
+<button id="sq" onclick="hit()">
+CLICK!
+</button>
 
-<button id="bonus" onclick="bhit()">+5</button>
+<button id="bonus" onclick="bhit()">
++5
+</button>
 
 </div>
 
@@ -361,16 +443,20 @@ data-full-width-responsive="true"></ins>
 </button>
 
 </div>
+
 </section>
 
 <!-- SHOP -->
 
 <section id="shop" class="screen">
+
 <div class="box">
 
 <h2>🛒 SHOP</h2>
 
-<p>Your coins: <b id="shopc">0</b> 🪙</p>
+<p>
+Your coins: <b id="shopc">0</b> 🪙
+</p>
 
 <div class="grid">
 
@@ -411,35 +497,52 @@ data-full-width-responsive="true"></ins>
 </button>
 
 </div>
+
 </section>
 
 <!-- LEADERBOARD -->
 
 <section id="leader" class="screen">
+
 <div class="box">
 
 <h2>🏆 GLOBAL LEADERBOARD</h2>
 
-<p>Compete for the highest score.</p>
+<p>
+Compete for the highest score.
+</p>
 
-<div id="leaders">Loading...</div>
+<div id="leaders">
+Loading...
+</div>
 
-<input id="pname" maxlength="20" placeholder="Player name">
+<input
+id="pname"
+maxlength="20"
+placeholder="Player name">
 
 <br>
 
-<button onclick="saveScore()">🏆 SAVE SCORE</button>
+<button onclick="saveScore()">
+🏆 SAVE SCORE
+</button>
 
-<button onclick="loadScores()">🔄 REFRESH</button>
+<button onclick="loadScores()">
+🔄 REFRESH
+</button>
 
-<button class="back" onclick="show('menu')">🏠 BACK</button>
+<button class="back" onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
 <!-- CHAT -->
 
 <section id="chat" class="screen">
+
 <div class="box">
 
 <h2>💬 GLOBAL CHAT</h2>
@@ -448,61 +551,86 @@ data-full-width-responsive="true"></ins>
 Loading chat...
 </div>
 
-<input id="cname" maxlength="20" placeholder="Player name">
+<input
+id="cname"
+maxlength="20"
+placeholder="Player name">
 
-<input id="cmsg"
+<input
+id="cmsg"
 maxlength="150"
 placeholder="Write a message"
 onkeydown="if(event.key==='Enter')sendChat()">
 
 <br>
 
-<button onclick="sendChat()">💬 SEND</button>
+<button onclick="sendChat()">
+💬 SEND
+</button>
 
-<button class="back" onclick="show('menu')">🏠 BACK</button>
+<button class="back" onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
 <!-- UPDATES -->
 
 <section id="updates" class="screen">
+
 <div class="box">
 
 <h2>📰 CATCH THE SQUARE UPDATES</h2>
 
 <div class="notice">
+
 <h3>🎮 Catch The Square is LIVE</h3>
+
 <p>
 The game is available to play directly from the website.
 Catch the moving square, earn coins and try to improve your high score.
 </p>
+
 </div>
 
 <div class="notice">
+
 <h3>🛒 Shop</h3>
+
 <p>
 Use coins earned during gameplay to unlock different square styles.
 </p>
+
 </div>
 
 <div class="notice">
+
 <h3>🏆 Global Leaderboard</h3>
+
 <p>
 Save your best score and see how you compare with other players.
 </p>
-</div>
-
-<p>New updates will be posted here as the game develops.</p>
-
-<button class="back" onclick="show('menu')">🏠 BACK</button>
 
 </div>
+
+<p>
+New updates will be posted here as the game develops.
+</p>
+
+<button class="back" onclick="show('menu')">
+🏠 BACK
+</button>
+
+</div>
+
 </section>
 
 <!-- MISSIONS -->
 
 <section id="missions" class="screen">
+
 <div class="box">
 
 <h2>🎯 MISSIONS & ACHIEVEMENTS</h2>
@@ -535,58 +663,74 @@ Save your best score and see how you compare with other players.
 
 </div>
 
-<button class="back" onclick="show('menu')">🏠 BACK</button>
+<button class="back" onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
 <!-- HOW TO PLAY -->
 
 <section id="how" class="screen">
+
 <div class="box info">
 
 <h2>📖 HOW TO PLAY</h2>
 
 <h3>1. Start the game</h3>
-<p>Press <b>START GAME</b> to begin a 60-second round.</p>
+
+<p>
+Press <b>START GAME</b> to begin a 60-second round.
+</p>
 
 <h3>2. Catch the square</h3>
+
 <p>
 Click the green square whenever it appears in a new position.
 Each successful catch gives you points and coins.
 </p>
 
 <h3>3. Watch your lives</h3>
+
 <p>
 The square moves automatically. Missing it costs a life,
 so stay focused and react quickly.
 </p>
 
 <h3>4. Use bonus squares</h3>
+
 <p>
 Occasionally a golden bonus button appears.
 Click it to earn extra points and coins.
 </p>
 
 <h3>5. Build your score</h3>
+
 <p>
 Your level increases as your score rises.
 Try to beat your personal high score every time you play.
 </p>
 
 <h3>6. Spend your coins</h3>
+
 <p>
 Visit the Shop to spend coins on different square styles.
 </p>
 
-<button class="back" onclick="show('menu')">🏠 BACK</button>
+<button class="back" onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
 <!-- ABOUT -->
 
 <section id="about" class="screen">
+
 <div class="box info">
 
 <h2>ℹ️ ABOUT CATCH THE SQUARE</h2>
@@ -618,52 +762,67 @@ Improve your reaction speed, build combos and see how high you
 can push your score.
 </p>
 
-<button class="back" onclick="show('menu')">🏠 BACK</button>
+<button class="back" onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
 <!-- FAQ -->
 
 <section id="faq" class="screen">
+
 <div class="box info">
 
 <h2>❓ FREQUENTLY ASKED QUESTIONS</h2>
 
 <h3>Is Catch The Square free?</h3>
-<p>Yes. The game can be played directly from the website.</p>
+
+<p>
+Yes. The game can be played directly from the website.
+</p>
 
 <h3>How do I earn coins?</h3>
+
 <p>
 You earn coins by successfully catching squares and bonus targets.
 </p>
 
 <h3>How do I get a high score?</h3>
+
 <p>
 Keep catching squares without missing them and use bonus targets
 when they appear.
 </p>
 
 <h3>Where can I see my high score?</h3>
+
 <p>
 Your personal high score is shown on the main menu and during gameplay.
 </p>
 
 <h3>How does the leaderboard work?</h3>
+
 <p>
 After playing, you can save your high score with a player name.
 The leaderboard displays the highest submitted scores.
 </p>
 
 <h3>What are the shop items?</h3>
+
 <p>
 Shop items are cosmetic square styles that can be purchased using
 coins earned from gameplay.
 </p>
 
-<button class="back" onclick="show('menu')">🏠 BACK</button>
+<button class="back" onclick="show('menu')">
+🏠 BACK
+</button>
 
 </div>
+
 </section>
 
 <!-- GAME OVER -->
@@ -679,7 +838,9 @@ High Score:
 <b id="fhigh">0</b>
 </p>
 
-<button onclick="closeOver();start()">🔄 PLAY AGAIN</button>
+<button onclick="closeOver();start()">
+🔄 PLAY AGAIN
+</button>
 
 <button class="back" onclick="closeOver();show('menu')">
 🏠 MENU
@@ -689,7 +850,9 @@ High Score:
 
 <footer>
 
-<p>© 2026 Catch The Square</p>
+<p>
+© 2026 Catch The Square
+</p>
 
 <p>
 A free arcade game focused on quick gameplay,
@@ -697,6 +860,11 @@ high scores and achievements.
 </p>
 
 </footer>
+
+
+<!-- ========================================================= -->
+<!-- FIREBASE -->
+<!-- ========================================================= -->
 
 <script type="module">
 
@@ -714,7 +882,6 @@ import {
 getDatabase,
 ref,
 push,
-set,
 onValue,
 serverTimestamp,
 query,
@@ -722,6 +889,7 @@ orderByChild,
 limitToLast
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
 
 const firebaseConfig = {
 
@@ -751,23 +919,33 @@ measurementId:
 
 };
 
+
 const app=initializeApp(firebaseConfig);
+
 const auth=getAuth(app);
+
 const db=getDatabase(app);
+
 
 signInAnonymously(auth)
 .catch(error=>{
-console.log("Firebase authentication error:",error);
+console.log(
+"Firebase authentication error:",
+error
+);
 });
+
 
 onAuthStateChanged(auth,user=>{
 
 if(!user)return;
 
 listenLeaderboard();
+
 listenChat();
 
 });
+
 
 function safe(value){
 
@@ -778,6 +956,7 @@ div.textContent=value || "";
 return div.innerHTML;
 
 }
+
 
 function listenLeaderboard(){
 
@@ -803,7 +982,9 @@ scores.sort(
 );
 
 leaders.innerHTML=
-scores.slice(0,20)
+
+scores
+.slice(0,20)
 .map((x,i)=>`
 
 <div class="notice">
@@ -822,12 +1003,15 @@ i===2?"🥉":"🏆"}
 
 `)
 .join("")
+
 ||
+
 "<p>No scores have been saved yet.</p>";
 
 });
 
 }
+
 
 function listenChat(){
 
@@ -847,7 +1031,9 @@ messages.sort(
 );
 
 msgs.innerHTML=
-messages.slice(-50)
+
+messages
+.slice(-50)
 .map(x=>`
 
 <div class="msg">
@@ -862,38 +1048,58 @@ ${safe(x.message)}
 
 `)
 .join("")
+
 ||
+
 "<p>No messages yet.</p>";
 
 });
 
 }
 
+
 window.saveScore=async()=>{
 
-if(!auth.currentUser)
-return alert("Firebase is still connecting.");
+if(!auth.currentUser){
+
+return alert(
+"Firebase is still connecting."
+);
+
+}
+
 
 const scoreToSave=
-Number(localStorage.highScore||0);
+Number(window.high||0);
 
-if(scoreToSave<=0)
-return alert("Play a game first.");
+
+if(scoreToSave<=0){
+
+return alert(
+"Play a game first."
+);
+
+}
+
 
 const name=
 (pname.value.trim()||"Player")
 .slice(0,20);
 
+
 try{
 
 await push(
+
 ref(db,"leaderboard"),
+
 {
 uid:auth.currentUser.uid,
 name:name,
 score:scoreToSave,
 time:serverTimestamp()
 }
+
 );
 
 alert("🏆 Score saved!");
@@ -902,20 +1108,30 @@ alert("🏆 Score saved!");
 
 console.error(error);
 
-alert("Could not save the score. Please try again.");
+alert(
+"Could not save the score. Please try again."
+);
 
 }
 
 };
 
+
 window.loadScores=()=>{
 location.reload();
 };
 
+
 window.sendChat=async()=>{
 
-if(!auth.currentUser)
-return alert("Firebase is still connecting.");
+if(!auth.currentUser){
+
+return alert(
+"Firebase is still connecting."
+);
+
+}
+
 
 const name=
 cname.value.trim();
@@ -923,19 +1139,23 @@ cname.value.trim();
 const message=
 cmsg.value.trim();
 
-if(!name||!message)
-return;
+
+if(!name||!message)return;
+
 
 try{
 
 await push(
+
 ref(db,"chat"),
+
 {
 uid:auth.currentUser.uid,
 name:name.slice(0,20),
 message:message.slice(0,150),
 time:serverTimestamp()
 }
+
 );
 
 cmsg.value="";
@@ -944,7 +1164,9 @@ cmsg.value="";
 
 console.error(error);
 
-alert("Could not send the message.");
+alert(
+"Could not send the message."
+);
 
 }
 
@@ -952,13 +1174,16 @@ alert("Could not send the message.");
 
 </script>
 
+
+<!-- ========================================================= -->
+<!-- PLAYGAMA + GAME -->
+<!-- ========================================================= -->
+
 <script>
 
-let coins=
-Number(localStorage.coins||0);
+let coins=0;
 
-let high=
-Number(localStorage.highScore||0);
+let high=0;
 
 let score=0;
 
@@ -972,53 +1197,343 @@ let combo=0;
 
 let playing=false;
 
+let pausedByBridge=false;
+
+let pauseRemaining=false;
+
 let mt=null;
 
 let gt=null;
 
 let bt=null;
 
+let bonusHideTimer=null;
 
-function show(id){
+let gameStartedOnce=false;
 
-document
-.querySelectorAll(".screen")
-.forEach(x=>
-x.classList.remove("on")
+let playgamaLanguage="en";
+
+let playgamaAudioEnabled=true;
+
+
+/* =========================================================
+   PLAYGAMA INITIALIZATION
+   ========================================================= */
+
+window.playgamaReady=false;
+
+window.playgamaReadyPromise=(async()=>{
+
+try{
+
+await bridge.initialize();
+
+window.playgamaReady=true;
+
+console.log(
+"Playgama Bridge initialized."
 );
 
-const target=
-document.getElementById(id);
 
-if(target)
-target.classList.add("on");
+if(
+bridge.platform &&
+bridge.platform.language
+){
 
-update();
+playgamaLanguage=
+bridge.platform.language;
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+console.log(
+"Playgama language:",
+playgamaLanguage
+);
 
 }
 
 
-function start(){
+if(
+bridge.platform &&
+typeof bridge.platform.isAudioEnabled!=="undefined"
+){
+
+playgamaAudioEnabled=
+bridge.platform.isAudioEnabled;
+
+}
+
+
+if(
+bridge.platform &&
+bridge.platform.on
+){
+
+bridge.platform.on(
+bridge.EVENT_NAME.PAUSE_STATE_CHANGED,
+isPaused=>{
+
+console.log(
+"Playgama pause state:",
+isPaused
+);
+
+if(isPaused){
+
+pauseGameForBridge();
+
+}else{
+
+resumeGameFromBridge();
+
+}
+
+}
+);
+
+
+bridge.platform.on(
+bridge.EVENT_NAME.AUDIO_STATE_CHANGED,
+isEnabled=>{
+
+playgamaAudioEnabled=
+isEnabled;
+
+console.log(
+"Playgama audio:",
+isEnabled
+);
+
+}
+);
+
+}
+
+
+bridge.platform.sendMessage(
+"game_ready"
+)
+.then(()=>{
+
+console.log(
+"Playgama game_ready sent."
+);
+
+})
+.catch(error=>{
+
+console.log(
+"game_ready error:",
+error
+);
+
+});
+
+
+const status=
+document.getElementById(
+"bridgeStatus"
+);
+
+if(status){
+
+status.textContent=
+"🟢 Game platform ready";
+
+}
+
+
+await loadProgress();
+
+
+update();
+
+
+}catch(error){
+
+console.error(
+"Playgama initialization failed:",
+error
+);
+
+const status=
+document.getElementById(
+"bridgeStatus"
+);
+
+if(status){
+
+status.textContent=
+"🟡 Web mode";
+
+}
+
+
+/*
+   We deliberately do NOT use localStorage.
+   The game can still run with the current
+   in-memory values if the platform storage
+   is unavailable.
+*/
+
+}
+
+})();
+
+
+/* =========================================================
+   PLAYGAMA STORAGE
+   ========================================================= */
+
+async function loadProgress(){
+
+try{
+
+const data=
+await bridge.storage.get([
+"catch_the_square_coins",
+"catch_the_square_high_score"
+]);
+
+
+if(
+Array.isArray(data)
+){
+
+if(data[0]!==null &&
+data[0]!==undefined &&
+data[0]!==""){
+
+coins=
+Number(data[0])||0;
+
+}
+
+
+if(data[1]!==null &&
+data[1]!==undefined &&
+data[1]!==""){
+
+high=
+Number(data[1])||0;
+
+}
+
+}
+
+
+console.log(
+"Playgama progress loaded:",
+coins,
+high
+);
+
+
+}catch(error){
+
+console.log(
+"Playgama storage load unavailable:",
+error
+);
+
+}
+
+}
+
+
+let saveQueue=
+Promise.resolve();
+
+
+function save(){
+
+const coinsToSave=
+Number(coins)||0;
+
+const highToSave=
+Number(high)||0;
+
+
+/*
+   Queue saves so multiple rapid catches
+   do not create storage collisions.
+*/
+
+saveQueue=
+saveQueue
+.then(async()=>{
+
+try{
+
+if(
+window.playgamaReady &&
+bridge.storage
+){
+
+await bridge.storage.set(
+[
+"catch_the_square_coins",
+"catch_the_square_high_score"
+],
+[
+String(coinsToSave),
+String(highToSave)
+]
+);
+
+console.log(
+"Progress saved."
+);
+
+}
+
+}catch(error){
+
+console.log(
+"Playgama storage save failed:",
+error
+);
+
+}
+
+})
+.catch(error=>{
+
+console.log(
+"Save queue error:",
+error
+);
+
+});
+
+return saveQueue;
+
+}
+
+
+/* =========================================================
+   PLAYGAMA PAUSE HANDLING
+   ========================================================= */
+
+function clearGameTimers(){
 
 clearInterval(mt);
+
 clearInterval(gt);
+
 clearInterval(bt);
 
-score=0;
-lives=3;
-level=1;
-time=60;
-combo=0;
-playing=true;
+mt=null;
 
-show("game");
+gt=null;
 
-move();
+bt=null;
+
+}
+
+
+function startGameTimers(){
+
+clearGameTimers();
+
 
 gt=setInterval(()=>{
 
@@ -1028,8 +1543,11 @@ time--;
 
 update();
 
-if(time<=0)
+if(time<=0){
+
 end();
+
+}
 
 },1000);
 
@@ -1046,8 +1564,11 @@ combo=0;
 
 update();
 
-if(lives<=0)
+if(lives<=0){
+
 end();
+
+}
 
 },1100);
 
@@ -1060,20 +1581,159 @@ bonusShow,
 }
 
 
+function pauseGameForBridge(){
+
+if(!playing)return;
+
+pausedByBridge=true;
+
+pauseRemaining=true;
+
+clearGameTimers();
+
+console.log(
+"Game paused by platform."
+);
+
+}
+
+
+function resumeGameFromBridge(){
+
+if(!pausedByBridge)return;
+
+pausedByBridge=false;
+
+if(
+pauseRemaining &&
+playing
+){
+
+startGameTimers();
+
+}
+
+console.log(
+"Game resumed."
+);
+
+}
+
+
+/* =========================================================
+   SCREEN NAVIGATION
+   ========================================================= */
+
+function show(id){
+
+document
+.querySelectorAll(".screen")
+.forEach(x=>
+x.classList.remove("on")
+);
+
+
+const target=
+document.getElementById(id);
+
+
+if(target){
+
+target.classList.add("on");
+
+}
+
+
+update();
+
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+/* =========================================================
+   START GAME
+   ========================================================= */
+
+async function start(){
+
+await window.playgamaReadyPromise;
+
+
+clearGameTimers();
+
+closeOver();
+
+score=0;
+
+lives=3;
+
+level=1;
+
+time=60;
+
+combo=0;
+
+playing=true;
+
+pausedByBridge=false;
+
+pauseRemaining=false;
+
+gameStartedOnce=true;
+
+
+show("game");
+
+move();
+
+
+if(
+window.playgamaReady &&
+bridge.platform
+){
+
+bridge.platform
+.sendMessage("gameplay_started")
+.catch(()=>{});
+
+}
+
+
+startGameTimers();
+
+}
+
+
+/* =========================================================
+   MOVE SQUARE
+   ========================================================= */
+
 function move(){
 
 const x=
 Math.random()*
-(area.clientWidth-
-sq.offsetWidth);
+(
+area.clientWidth-
+sq.offsetWidth
+);
+
 
 const y=
 Math.random()*
-(area.clientHeight-
-sq.offsetHeight);
+(
+area.clientHeight-
+sq.offsetHeight
+);
+
 
 sq.style.left=
 Math.max(0,x)+"px";
+
 
 sq.style.top=
 Math.max(0,y)+"px";
@@ -1081,9 +1741,16 @@ Math.max(0,y)+"px";
 }
 
 
+/* =========================================================
+   HIT
+   ========================================================= */
+
 function hit(){
 
 if(!playing)return;
+
+if(pausedByBridge)return;
+
 
 score++;
 
@@ -1091,14 +1758,17 @@ coins++;
 
 combo++;
 
+
 level=
 Math.floor(score/5)+1;
+
 
 if(combo%5===0){
 
 coins+=5;
 
 }
+
 
 move();
 
@@ -1109,23 +1779,45 @@ update();
 }
 
 
+/* =========================================================
+   BONUS
+   ========================================================= */
+
 function bonusShow(){
 
 if(!playing)return;
 
+if(pausedByBridge)return;
+
+
 bonus.style.left=
 Math.random()*
-(area.clientWidth-55)+"px";
+(
+area.clientWidth-55
+)+"px";
+
 
 bonus.style.top=
 Math.random()*
-(area.clientHeight-55)+"px";
+(
+area.clientHeight-55
+)+"px";
 
-bonus.style.display="block";
 
+bonus.style.display=
+"block";
+
+
+clearTimeout(
+bonusHideTimer
+);
+
+
+bonusHideTimer=
 setTimeout(()=>{
 
-bonus.style.display="none";
+bonus.style.display=
+"none";
 
 },3500);
 
@@ -1136,13 +1828,24 @@ function bhit(){
 
 if(!playing)return;
 
+if(pausedByBridge)return;
+
+
 score+=5;
 
 coins+=10;
 
 combo+=2;
 
-bonus.style.display="none";
+
+bonus.style.display=
+"none";
+
+
+clearTimeout(
+bonusHideTimer
+);
+
 
 save();
 
@@ -1151,15 +1854,24 @@ update();
 }
 
 
-function end(){
+/* =========================================================
+   GAME OVER
+   ========================================================= */
+
+async function end(){
 
 if(!playing)return;
 
+
 playing=false;
 
-clearInterval(mt);
-clearInterval(gt);
-clearInterval(bt);
+pausedByBridge=false;
+
+pauseRemaining=false;
+
+
+clearGameTimers();
+
 
 if(score>high){
 
@@ -1167,50 +1879,169 @@ high=score;
 
 }
 
-save();
 
-final.textContent=score;
+await save();
 
-fhigh.textContent=high;
 
-over.style.display="block";
+final.textContent=
+score;
+
+
+fhigh.textContent=
+high;
+
+
+over.style.display=
+"block";
+
+
+if(
+window.playgamaReady &&
+bridge.platform
+){
+
+bridge.platform
+.sendMessage("gameplay_stopped")
+.catch(()=>{});
 
 }
 
+
+/*
+   Playgama recommends interstitials at natural
+   breaks such as game over, not at game start.
+*/
+
+setTimeout(()=>{
+
+showPlaygamaInterstitial();
+
+},500);
+
+}
+
+
+/* =========================================================
+   PLAYGAMA INTERSTITIAL
+   ========================================================= */
+
+async function showPlaygamaInterstitial(){
+
+try{
+
+if(!window.playgamaReady)return;
+
+if(
+!bridge.advertisement
+)return;
+
+
+if(
+!bridge.advertisement
+.isInterstitialSupported
+){
+
+console.log(
+"Interstitial not supported here."
+);
+
+return;
+
+}
+
+
+await bridge.advertisement
+.showInterstitial();
+
+console.log(
+"Playgama interstitial requested."
+);
+
+}catch(error){
+
+console.log(
+"Interstitial unavailable:",
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   GAME OVER CLOSE
+   ========================================================= */
 
 function closeOver(){
 
-over.style.display="none";
+over.style.display=
+"none";
 
 }
 
+
+/* =========================================================
+   QUIT
+   ========================================================= */
 
 function quit(){
 
 playing=false;
 
-clearInterval(mt);
-clearInterval(gt);
-clearInterval(bt);
+pausedByBridge=false;
+
+pauseRemaining=false;
+
+clearGameTimers();
+
+bonus.style.display="none";
+
+clearTimeout(
+bonusHideTimer
+);
+
+
+if(
+window.playgamaReady &&
+bridge.platform
+){
+
+bridge.platform
+.sendMessage("gameplay_stopped")
+.catch(()=>{});
+
+}
+
 
 show("menu");
 
 }
 
 
+/* =========================================================
+   EXTRA LIFE
+   ========================================================= */
+
 function life(){
 
 if(coins<20){
 
-return alert("You need 20 coins.");
+return alert(
+"You need 20 coins."
+);
 
 }
+
 
 if(!playing){
 
-return alert("Start a game first.");
+return alert(
+"Start a game first."
+);
 
 }
+
 
 coins-=20;
 
@@ -1223,13 +2054,20 @@ update();
 }
 
 
+/* =========================================================
+   SHOP
+   ========================================================= */
+
 function buy(cost){
 
 if(coins<cost){
 
-return alert("Not enough coins.");
+return alert(
+"Not enough coins."
+);
 
 }
+
 
 coins-=cost;
 
@@ -1237,21 +2075,17 @@ save();
 
 update();
 
-alert("🛒 Item purchased!");
+
+alert(
+"🛒 Item purchased!"
+);
 
 }
 
 
-function save(){
-
-localStorage.coins=
-coins;
-
-localStorage.highScore=
-high;
-
-}
-
+/* =========================================================
+   UPDATE UI
+   ========================================================= */
 
 function update(){
 
@@ -1284,6 +2118,10 @@ combo;
 
 }
 
+
+/* =========================================================
+   STARTUP
+   ========================================================= */
 
 update();
 
