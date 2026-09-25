@@ -4,11 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Catch The Square</title>
+<title>Catch The Square — Free Online Reaction Game</title>
 
-<meta name="description" content="Catch The Square is a fun reaction game. Catch the moving square, score points, earn coins, unlock skins and complete missions.">
+<meta name="description"
+content="Play Catch The Square, a free browser reaction game. Catch the moving square, build combos, earn coins, unlock skins and beat your high score.">
 
-<meta name="google-adsense-account" content="ca-pub-9731155253732713">
+<link rel="canonical" href="https://catchthesquare.site/">
+
+<meta name="google-adsense-account"
+content="ca-pub-9731155253732713">
 
 <!-- GOOGLE ADSENSE -->
 <script async
@@ -16,745 +20,430 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
 crossorigin="anonymous"></script>
 
 <!-- GOOGLE ANALYTICS -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-93GG50S9FZ"></script>
+<script async
+src="https://www.googletagmanager.com/gtag/js?id=G-93GG50S9FZ"></script>
+
 <script>
 window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
+
+function gtag(){
+    dataLayer.push(arguments);
+}
+
 gtag('js', new Date());
 gtag('config', 'G-93GG50S9FZ');
 </script>
 
 <style>
-* {
-    box-sizing: border-box;
+
+*{
+    box-sizing:border-box;
 }
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
+html{
+    scroll-behavior:smooth;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #080b12;
-    color: white;
-    overflow-x: hidden;
+body{
+    margin:0;
+    background:#070b12;
+    color:#f7f9fc;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-button {
-    font-family: Arial, Helvetica, sans-serif;
-    cursor: pointer;
+a{
+    color:#35ed78;
+    text-decoration:none;
 }
 
-/* =================================
-   APP
-================================= */
-
-.app {
-    width: 100%;
-    min-height: 100vh;
+a:hover{
+    text-decoration:underline;
 }
 
-/* =================================
-   VISIBLE AD BOX
-================================= */
-
-.adContainer {
-    width: 100%;
-    max-width: 760px;
-    min-height: 150px;
-    margin: 25px auto;
-    padding: 10px;
-
-    background: #0b101a;
-
-    border: 2px dashed #39455d;
-    border-radius: 15px;
-
-    text-align: center;
+button{
+    font:inherit;
+    cursor:pointer;
 }
 
-.adTitle {
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: #7f8ba0;
-
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 2px;
+.wrap{
+    width:min(1050px,calc(100% - 28px));
+    margin:auto;
 }
 
-.adPlaceholder {
-    min-height: 100px;
+/* HEADER */
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: #4e5a70;
-
-    font-size: 13px;
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:#0b111c;
+    border-bottom:1px solid #202a3c;
 }
 
-/* =================================
-   MENU
-================================= */
-
-#menuScreen {
-    min-height: 100vh;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: flex-start;
-
-    padding: 35px 15px;
+.nav{
+    min-height:65px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
 }
 
-.menuBox {
-    width: 100%;
-    max-width: 650px;
-
-    padding: 30px 20px;
-
-    text-align: center;
-
-    background: #101521;
-
-    border: 2px solid #20283a;
-
-    border-radius: 25px;
-
-    box-shadow: 0 0 35px rgba(0,0,0,0.45);
+.logo{
+    font-size:21px;
+    font-weight:bold;
 }
 
-.logoSquare {
-    width: 75px;
-    height: 75px;
-
-    margin: 0 auto 18px;
-
-    background: #21e36b;
-
-    border: 5px solid white;
-
-    border-radius: 15px;
-
-    box-shadow:
-        0 0 25px rgba(33,227,107,0.5);
+.logo span{
+    color:#35ed78;
 }
 
-h1 {
-    margin: 0;
-
-    font-size: 42px;
+.navlinks{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    font-size:14px;
 }
 
-.subtitle {
-    margin: 10px 0 25px;
+/* HERO */
 
-    color: #aab4c7;
-
-    font-size: 16px;
+.hero{
+    padding:60px 0 35px;
+    text-align:center;
 }
 
-.menuButton {
-    display: block;
-
-    width: 100%;
-    max-width: 420px;
-
-    margin: 10px auto;
-
-    padding: 16px;
-
-    border: 0;
-
-    border-radius: 14px;
-
-    background: #1c2638;
-
-    color: white;
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    transition: 0.15s;
+.logoSquare{
+    width:75px;
+    height:75px;
+    margin:0 auto 20px;
+    background:#35ed78;
+    border:5px solid white;
+    border-radius:16px;
+    box-shadow:0 0 30px #35ed7860;
 }
 
-.menuButton:hover {
-    background: #27344c;
-
-    transform: scale(1.02);
+.hero h1{
+    margin:0 0 12px;
+    font-size:clamp(40px,7vw,68px);
 }
 
-.menuButton.primary {
-    background: #21e36b;
-
-    color: #061009;
+.hero p{
+    max-width:700px;
+    margin:0 auto 25px;
+    color:#aeb9cb;
+    line-height:1.7;
 }
 
-.menuButton.primary:hover {
-    background: #35f77d;
+.btn{
+    display:inline-block;
+    border:0;
+    border-radius:12px;
+    padding:15px 25px;
+    background:#35ed78;
+    color:#061009;
+    font-weight:bold;
 }
 
-.menuStats {
-    margin-top: 25px;
-
-    display: flex;
-
-    justify-content: center;
-
-    gap: 25px;
-
-    flex-wrap: wrap;
-
-    color: #cbd4e5;
+.btn:hover{
+    text-decoration:none;
+    filter:brightness(1.08);
 }
 
-.menuStats strong {
-    color: #21e36b;
+/* STATS */
+
+.stats{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top:30px;
 }
 
-/* =================================
-   SCREENS
-================================= */
-
-.screen {
-    display: none;
-
-    min-height: 100vh;
-
-    padding: 20px 15px;
+.stat{
+    min-width:130px;
+    padding:15px;
+    background:#101826;
+    border:1px solid #26334a;
+    border-radius:14px;
 }
 
-.screen.active {
-    display: block;
+.stat strong{
+    display:block;
+    color:#35ed78;
+    font-size:22px;
+    margin-bottom:5px;
 }
 
-.contentBox {
-    width: 100%;
-    max-width: 850px;
+/* ADS */
 
-    margin: 0 auto;
-
-    padding: 25px;
-
-    border-radius: 22px;
-
-    background: #101521;
-
-    border: 2px solid #20283a;
+.ad{
+    width:100%;
+    max-width:760px;
+    min-height:125px;
+    margin:30px auto;
+    padding:12px;
+    text-align:center;
+    background:#0b111b;
+    border:1px dashed #35445e;
+    border-radius:15px;
 }
 
-.screenTitle {
-    text-align: center;
-
-    font-size: 32px;
-
-    margin: 0 0 20px;
+.ad small{
+    display:block;
+    color:#748197;
+    font-size:10px;
+    letter-spacing:2px;
+    margin-bottom:8px;
 }
 
-.backButton {
-    width: 100%;
+/* SECTIONS */
 
-    padding: 13px;
-
-    margin-bottom: 20px;
-
-    border: 0;
-
-    border-radius: 12px;
-
-    background: #202b40;
-
-    color: white;
-
-    font-weight: bold;
-
-    font-size: 16px;
+section{
+    padding:40px 0;
 }
 
-.backButton:hover {
-    background: #2b3954;
+h2{
+    margin-top:0;
+    font-size:30px;
 }
 
-/* =================================
-   INFO
-================================= */
-
-.infoCard {
-    background: #171e2d;
-
-    border-radius: 15px;
-
-    padding: 18px;
-
-    margin: 12px 0;
-
-    border: 1px solid #263149;
-}
-
-.infoCard h3 {
-    margin-top: 0;
-
-    color: #21e36b;
-}
-
-.infoCard p {
-    color: #c6cede;
-
-    line-height: 1.6;
-}
-
-/* =================================
-   GAME
-================================= */
-
-#gameScreen {
-    padding: 12px;
-}
-
-.gameTop {
-    width: 100%;
-    max-width: 1000px;
-
-    margin: 0 auto 10px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    gap: 10px;
-
-    flex-wrap: wrap;
-}
-
-.gameStat {
-    background: #101521;
-
-    border: 1px solid #29344b;
-
-    border-radius: 12px;
-
-    padding: 10px 15px;
-
-    min-width: 90px;
-
-    text-align: center;
-}
-
-.gameStat span {
-    display: block;
-
-    color: #9ba7bc;
-
-    font-size: 12px;
-}
-
-.gameStat strong {
-    display: block;
-
-    margin-top: 3px;
-
-    font-size: 20px;
-
-    color: #21e36b;
-}
-
-/* =================================
-   GAME AREA
-================================= */
-
-#gameArea {
-    position: relative;
-
-    width: 100%;
-    max-width: 1000px;
-
-    height: 520px;
-
-    margin: 0 auto;
-
-    overflow: hidden;
-
-    background:
-        linear-gradient(
-            rgba(255,255,255,0.025) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,0.025) 1px,
-            transparent 1px
-        ),
-        #0b101a;
-
-    background-size: 30px 30px;
-
-    border: 3px solid #21e36b;
-
-    border-radius: 18px;
-}
-
-/* =================================
-   SQUARE
-================================= */
-
-#square {
-    position: absolute;
-
-    width: 82px;
-    height: 82px;
-
-    left: 0;
-    top: 0;
-
-    display: none;
-
-    visibility: visible;
-
-    opacity: 1;
-
-    background: #21e36b;
-
-    border: 5px solid white;
-
-    border-radius: 12px;
-
-    z-index: 1000;
-
-    transition:
-        left 0.12s linear,
-        top 0.12s linear;
-
-    box-shadow:
-        0 0 18px rgba(33,227,107,0.7);
-}
-
-/* =================================
-   GAME BOTTOM
-================================= */
-
-.gameBottom {
-    width: 100%;
-    max-width: 1000px;
-
-    margin: 12px auto 0;
-
-    display: flex;
-
-    gap: 10px;
-}
-
-.gameBottom button {
-    flex: 1;
-
-    padding: 13px;
-
-    border: 0;
-
-    border-radius: 12px;
-
-    font-weight: bold;
-
-    color: white;
-
-    background: #202b40;
-}
-
-.gameBottom button:hover {
-    background: #2c3954;
-}
-
-#message {
-    text-align: center;
-
-    min-height: 25px;
-
-    color: #aeb8ca;
-
-    margin-top: 8px;
-}
-
-/* =================================
-   SHOP
-================================= */
-
-.shopGrid {
-    display: grid;
-
+.grid{
+    display:grid;
     grid-template-columns:
-        repeat(auto-fit, minmax(160px, 1fr));
-
-    gap: 15px;
+        repeat(auto-fit,minmax(220px,1fr));
+    gap:16px;
 }
 
-.shopItem {
-    background: #171e2d;
-
-    border: 1px solid #29344b;
-
-    border-radius: 15px;
-
-    padding: 20px;
-
-    text-align: center;
+.card{
+    padding:22px;
+    background:#101826;
+    border:1px solid #253149;
+    border-radius:18px;
 }
 
-.skinPreview {
-    width: 65px;
-    height: 65px;
-
-    margin: 0 auto 12px;
-
-    border-radius: 10px;
-
-    border: 4px solid white;
+.card h3{
+    margin-top:0;
+    color:#35ed78;
 }
 
-.rainbow {
+.card p,
+.card li{
+    color:#bac5d5;
+    line-height:1.7;
+}
+
+/* GAME */
+
+.gameBox{
+    padding:14px;
+    background:#0c121e;
+    border:2px solid #35ed78;
+    border-radius:20px;
+}
+
+.hud{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:12px;
+}
+
+.hudBox{
+    min-width:85px;
+    padding:9px 14px;
+    background:#121c2b;
+    border:1px solid #2a3951;
+    border-radius:10px;
+    text-align:center;
+}
+
+.hudBox span{
+    display:block;
+    color:#8290a7;
+    font-size:11px;
+}
+
+.hudBox strong{
+    color:#35ed78;
+    font-size:18px;
+}
+
+.arena{
+    position:relative;
+    width:100%;
+    height:480px;
+    overflow:hidden;
+    border-radius:15px;
+
     background:
-        linear-gradient(
-            45deg,
-            red,
-            orange,
-            yellow,
-            green,
-            cyan,
-            blue,
-            purple
-        );
+    linear-gradient(#ffffff06 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff06 1px,transparent 1px),
+    #080e18;
+
+    background-size:30px 30px;
 }
 
-.fire {
-    background:
-        linear-gradient(
-            45deg,
-            #ff2600,
-            #ff8c00,
-            #ffe600
-        );
-}
+.target{
+    position:absolute;
+    width:70px;
+    height:70px;
 
-.ice {
-    background:
-        linear-gradient(
-            45deg,
-            #4bdfff,
-            #baf6ff,
-            white
-        );
-}
+    display:none;
 
-.gold {
-    background:
-        linear-gradient(
-            45deg,
-            #b8860b,
-            #ffe36e,
-            #fff1a3
-        );
-}
+    border:4px solid white;
+    border-radius:12px;
 
-.galaxy {
-    background:
-        linear-gradient(
-            45deg,
-            #12002f,
-            #5426a8,
-            #00c8ff
-        );
-}
-
-.shopItem h3 {
-    margin: 8px 0;
-}
-
-.shopItem p {
-    color: #aeb8ca;
-}
-
-.shopItem button {
-    width: 100%;
-
-    padding: 10px;
-
-    border: 0;
-
-    border-radius: 10px;
-
-    background: #21e36b;
-
-    color: #061009;
-
-    font-weight: bold;
-}
-
-/* =================================
-   MISSIONS
-================================= */
-
-.mission {
-    background: #171e2d;
-
-    border: 1px solid #29344b;
-
-    border-radius: 14px;
-
-    padding: 16px;
-
-    margin: 12px 0;
-}
-
-.missionTitle {
-    font-weight: bold;
-
-    font-size: 18px;
-}
-
-.progress {
-    height: 12px;
-
-    background: #0a0e16;
-
-    border-radius: 20px;
-
-    margin-top: 10px;
-
-    overflow: hidden;
-}
-
-.progressBar {
-    height: 100%;
-
-    width: 0%;
-
-    background: #21e36b;
-}
-
-/* =================================
-   GAME OVER
-================================= */
-
-#gameOverBox {
-    display: none;
-
-    position: fixed;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: calc(100% - 30px);
-
-    max-width: 450px;
-
-    padding: 30px;
-
-    background: #111827;
-
-    border: 2px solid #21e36b;
-
-    border-radius: 20px;
-
-    text-align: center;
-
-    z-index: 5000;
+    background:#35ed78;
 
     box-shadow:
-        0 0 50px rgba(0,0,0,0.8);
+        0 0 20px #35ed7899;
 }
 
-#gameOverBox h2 {
-    font-size: 32px;
-
-    margin-top: 0;
+.notice{
+    min-height:25px;
+    margin:10px;
+    text-align:center;
+    color:#9da9bb;
 }
 
-.finalScore {
-    font-size: 24px;
-
-    margin: 15px;
-
-    color: #21e36b;
+.gameControls{
+    display:flex;
+    gap:10px;
 }
 
-.overlayButton {
-    width: 100%;
-
-    padding: 14px;
-
-    margin-top: 10px;
-
-    border: 0;
-
-    border-radius: 12px;
-
-    background: #21e36b;
-
-    color: #061009;
-
-    font-size: 16px;
-
-    font-weight: bold;
+.gameControls button{
+    flex:1;
+    padding:13px;
+    border:0;
+    border-radius:11px;
+    background:#1c2940;
+    color:white;
+    font-weight:bold;
 }
 
-.overlayButton.secondary {
-    background: #27334a;
-
-    color: white;
+.gameControls button:first-child{
+    background:#35ed78;
+    color:#061009;
 }
 
-/* =================================
-   MOBILE
-================================= */
+/* SHOP */
 
-@media (max-width: 600px) {
+.skin{
+    width:60px;
+    height:60px;
+    margin:0 auto 10px;
+    border:4px solid white;
+    border-radius:10px;
+}
 
-    h1 {
-        font-size: 32px;
+.rainbow{
+    background:
+    linear-gradient(
+        45deg,
+        red,
+        orange,
+        yellow,
+        green,
+        cyan,
+        blue,
+        purple
+    );
+}
+
+.fire{
+    background:
+    linear-gradient(
+        45deg,
+        #f20,
+        #ff8c00,
+        #ffe600
+    );
+}
+
+.ice{
+    background:
+    linear-gradient(
+        45deg,
+        #3ddcff,
+        #c9f8ff,
+        #fff
+    );
+}
+
+.gold{
+    background:
+    linear-gradient(
+        45deg,
+        #9b7200,
+        #ffe36e,
+        #fff1a3
+    );
+}
+
+.galaxy{
+    background:
+    linear-gradient(
+        45deg,
+        #16002f,
+        #5726a8,
+        #00c8ff
+    );
+}
+
+.shopCard{
+    text-align:center;
+}
+
+.buyButton{
+    width:100%;
+    padding:10px;
+    border:0;
+    border-radius:10px;
+    background:#35ed78;
+    color:#061009;
+    font-weight:bold;
+}
+
+/* FOOTER */
+
+footer{
+    margin-top:40px;
+    padding:35px 0;
+    border-top:1px solid #202a3c;
+    color:#7f8ba0;
+}
+
+.footerLinks{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-top:12px;
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+    .nav{
+        flex-direction:column;
+        align-items:flex-start;
+        padding:14px 0;
     }
 
-    .menuBox {
-        padding: 25px 15px;
+    .navlinks{
+        gap:10px;
     }
 
-    .contentBox {
-        padding: 17px;
+    .hero{
+        padding-top:40px;
     }
 
-    #gameArea {
-        height: 430px;
+    .arena{
+        height:400px;
     }
 
-    #square {
-        width: 70px;
-        height: 70px;
-    }
-
-    .gameStat {
-        flex: 1;
-
-        min-width: 70px;
-
-        padding: 8px;
-    }
-
-    .gameStat strong {
-        font-size: 17px;
-    }
-
-    .gameBottom {
-        flex-direction: column;
+    .gameControls{
+        flex-direction:column;
     }
 
 }
@@ -764,352 +453,169 @@ h1 {
 
 <body>
 
-<div class="app">
+<header>
 
-<!-- =================================
-     MENU
-================================= -->
+<div class="wrap nav">
 
-<section id="menuScreen">
+<a class="logo" href="/">
+Catch <span>The Square</span>
+</a>
 
-<div class="menuBox">
+<nav class="navlinks">
 
-    <div class="logoSquare"></div>
+<a href="#play">Play</a>
+<a href="#how">How To Play</a>
+<a href="#shop">Shop</a>
+<a href="#missions">Missions</a>
+<a href="#about">About</a>
+<a href="#faq">FAQ</a>
 
-    <h1>Catch The Square</h1>
+</nav>
 
-    <p class="subtitle">
-        Catch it. Score it. Beat your high score.
-    </p>
+</div>
 
-
-    <button
-        class="menuButton primary"
-        onclick="startGame()">
-
-        🎮 Start Game
-
-    </button>
+</header>
 
 
-    <button
-        class="menuButton"
-        onclick="showScreen('shopScreen')">
-
-        🛍️ Shop
-
-    </button>
+<main>
 
 
-    <button
-        class="menuButton"
-        onclick="showScreen('missionsScreen')">
+<!-- HERO -->
 
-        🎯 Missions & Achievements
+<section class="hero">
 
-    </button>
+<div class="wrap">
 
+<div class="logoSquare"></div>
 
-    <button
-        class="menuButton"
-        onclick="showScreen('howScreen')">
+<h1>Catch The Square</h1>
 
-        📖 How To Play
+<p>
+A fast and simple browser reaction game.
+Catch the moving square, build combos,
+earn coins, unlock skins and beat your
+high score.
+</p>
 
-    </button>
-
-
-    <button
-        class="menuButton"
-        onclick="showScreen('updatesScreen')">
-
-        📢 Updates
-
-    </button>
+<a class="btn" href="#play">
+🎮 Play Now
+</a>
 
 
-    <button
-        class="menuButton"
-        onclick="showScreen('aboutScreen')">
+<div class="stats">
 
-        ℹ️ About
+<div class="stat">
+<strong id="heroHigh">0</strong>
+High Score
+</div>
 
-    </button>
+<div class="stat">
+<strong id="heroCoins">0</strong>
+Coins
+</div>
 
+<div class="stat">
+<strong id="heroGames">0</strong>
+Games Played
+</div>
 
-    <button
-        class="menuButton"
-        onclick="showScreen('faqScreen')">
-
-        ❓ FAQ
-
-    </button>
-
-
-    <!-- =================================
-         ACTUAL ADSENSE AD SPACE
-    ================================= -->
-
-    <div class="adContainer">
-
-        <span class="adTitle">
-            ADVERTISEMENT
-        </span>
-
-        <div class="adPlaceholder">
-
-            <ins class="adsbygoogle"
-                 style="display:block;width:100%;min-height:100px"
-                 data-ad-client="ca-pub-9731155253732713"
-                 data-ad-slot="7817292096"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true">
-            </ins>
-
-        </div>
-
-        <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-
-    </div>
-
-
-    <div class="menuStats">
-
-        <div>
-            🪙
-            <strong id="menuCoins">0</strong>
-            <br>
-            Coins
-        </div>
-
-        <div>
-            🏆
-            <strong id="menuHighScore">0</strong>
-            <br>
-            High Score
-        </div>
-
-        <div>
-            🎮
-            <strong id="menuGames">0</strong>
-            <br>
-            Games
-        </div>
-
-    </div>
+</div>
 
 </div>
 
 </section>
 
 
-<!-- =================================
-     GAME
-================================= -->
+<!-- AD -->
 
-<section id="gameScreen" class="screen">
+<div class="ad">
 
-<div class="gameTop">
+<small>ADVERTISEMENT</small>
 
-    <div class="gameStat">
-        <span>Score</span>
-        <strong id="score">0</strong>
-    </div>
+<ins class="adsbygoogle"
+style="display:block;min-height:90px"
+data-ad-client="ca-pub-9731155253732713"
+data-ad-slot="7817292096"
+data-ad-format="auto"
+data-full-width-responsive="true">
+</ins>
 
-    <div class="gameStat">
-        <span>Time</span>
-        <strong id="time">60</strong>
-    </div>
-
-    <div class="gameStat">
-        <span>Lives</span>
-        <strong id="lives">❤️❤️❤️</strong>
-    </div>
-
-    <div class="gameStat">
-        <span>Coins</span>
-        <strong id="coins">0</strong>
-    </div>
-
-    <div class="gameStat">
-        <span>Combo</span>
-        <strong id="combo">0</strong>
-    </div>
-
-    <div class="gameStat">
-        <span>Level</span>
-        <strong id="level">1</strong>
-    </div>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 </div>
 
 
-<div id="gameArea">
+<!-- GAME -->
 
-    <div id="square"></div>
+<section id="play">
+
+<div class="wrap">
+
+<h2>🎮 Play Catch The Square</h2>
+
+<div class="gameBox">
+
+<div class="hud">
+
+<div class="hudBox">
+<span>Score</span>
+<strong id="score">0</strong>
+</div>
+
+<div class="hudBox">
+<span>Time</span>
+<strong id="time">60</strong>
+</div>
+
+<div class="hudBox">
+<span>Lives</span>
+<strong id="lives">❤️❤️❤️</strong>
+</div>
+
+<div class="hudBox">
+<span>Coins</span>
+<strong id="coins">0</strong>
+</div>
+
+<div class="hudBox">
+<span>Combo</span>
+<strong id="combo">0</strong>
+</div>
 
 </div>
 
 
-<div id="message">
-    Catch the square!
-</div>
-
-
-<div class="gameBottom">
-
-    <button
-        onclick="pauseGame()"
-        id="pauseButton">
-
-        ⏸️ Pause
-
-    </button>
-
-
-    <button
-        onclick="returnToMenu()">
-
-        🏠 Back To Menu
-
-    </button>
-
-</div>
-
-
-<!-- =================================
-     GAME ADSENSE AD SPACE
-================================= -->
-
-<div class="adContainer">
-
-    <span class="adTitle">
-        ADVERTISEMENT
-    </span>
-
-    <div class="adPlaceholder">
-
-        <ins class="adsbygoogle"
-             style="display:block;width:100%;min-height:100px"
-             data-ad-client="ca-pub-9731155253732713"
-             data-ad-slot="7817292096"
-             data-ad-format="auto"
-             data-full-width-responsive="true">
-        </ins>
-
-    </div>
-
-    <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
-</div>
-
-</section>
-
-
-<!-- =================================
-     SHOP
-================================= -->
-
-<section id="shopScreen" class="screen">
-
-<div class="contentBox">
+<div id="arena" class="arena">
 
 <button
-    class="backButton"
-    onclick="showScreen('menuScreen')">
-
-    ← Back To Menu
-
+id="target"
+class="target"
+aria-label="Catch the square">
 </button>
 
-<h2 class="screenTitle">
-    🛍️ Shop
-</h2>
-
-<div style="text-align:center;margin-bottom:20px;">
-
-    🪙 Your Coins:
-    <strong id="shopCoins">0</strong>
-
-</div>
-
-<div class="shopGrid">
-
-<div class="shopItem">
-
-    <div class="skinPreview rainbow"></div>
-
-    <h3>Rainbow</h3>
-
-    <p>50 coins</p>
-
-    <button onclick="buySkin('rainbow',50)">
-        Buy / Equip
-    </button>
-
 </div>
 
 
-<div class="shopItem">
-
-    <div class="skinPreview fire"></div>
-
-    <h3>Fire</h3>
-
-    <p>75 coins</p>
-
-    <button onclick="buySkin('fire',75)">
-        Buy / Equip
-    </button>
-
+<div id="notice" class="notice">
+Press Start Game, then catch the square!
 </div>
 
 
-<div class="shopItem">
+<div class="gameControls">
 
-    <div class="skinPreview ice"></div>
+<button id="startButton">
+▶ Start Game
+</button>
 
-    <h3>Ice</h3>
+<button id="pauseButton">
+⏸ Pause
+</button>
 
-    <p>100 coins</p>
-
-    <button onclick="buySkin('ice',100)">
-        Buy / Equip
-    </button>
-
-</div>
-
-
-<div class="shopItem">
-
-    <div class="skinPreview gold"></div>
-
-    <h3>Gold</h3>
-
-    <p>150 coins</p>
-
-    <button onclick="buySkin('gold',150)">
-        Buy / Equip
-    </button>
-
-</div>
-
-
-<div class="shopItem">
-
-    <div class="skinPreview galaxy"></div>
-
-    <h3>Galaxy</h3>
-
-    <p>250 coins</p>
-
-    <button onclick="buySkin('galaxy',250)">
-        Buy / Equip
-    </button>
+<button id="resetButton">
+↩ Reset
+</button>
 
 </div>
 
@@ -1120,188 +626,75 @@ h1 {
 </section>
 
 
-<!-- =================================
-     MISSIONS
-================================= -->
+<!-- HOW TO PLAY -->
 
-<section id="missionsScreen" class="screen">
+<section id="how">
 
-<div class="contentBox">
+<div class="wrap">
 
-<button
-    class="backButton"
-    onclick="showScreen('menuScreen')">
+<h2>📖 How To Play</h2>
 
-    ← Back To Menu
+<div class="grid">
 
-</button>
-
-<h2 class="screenTitle">
-    🎯 Missions & Achievements
-</h2>
-
-
-<div class="mission">
-
-    <div class="missionTitle">
-        Catch 10 Squares
-    </div>
-
-    <div>
-        <span id="catchProgress">0</span> / 10
-    </div>
-
-    <div class="progress">
-        <div
-            id="catchBar"
-            class="progressBar">
-        </div>
-    </div>
-
-</div>
-
-
-<div class="mission">
-
-    <div class="missionTitle">
-        Play 5 Games
-    </div>
-
-    <div>
-        <span id="gamesProgress">0</span> / 5
-    </div>
-
-    <div class="progress">
-        <div
-            id="gamesBar"
-            class="progressBar">
-        </div>
-    </div>
-
-</div>
-
-
-<div class="mission">
-
-    <div class="missionTitle">
-        Earn 100 Coins
-    </div>
-
-    <div>
-        <span id="coinsProgress">0</span> / 100
-    </div>
-
-    <div class="progress">
-        <div
-            id="coinsBar"
-            class="progressBar">
-        </div>
-    </div>
-
-</div>
-
-
-<div class="mission">
-
-    <div class="missionTitle">
-        Best Combo
-    </div>
-
-    <div>
-        <span id="comboProgress">0</span> / 20
-    </div>
-
-    <div class="progress">
-        <div
-            id="comboBar"
-            class="progressBar">
-        </div>
-    </div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =================================
-     HOW TO PLAY
-================================= -->
-
-<section id="howScreen" class="screen">
-
-<div class="contentBox">
-
-<button
-    class="backButton"
-    onclick="showScreen('menuScreen')">
-
-    ← Back To Menu
-
-</button>
-
-<h2 class="screenTitle">
-    📖 How To Play
-</h2>
-
-
-<div class="infoCard">
+<div class="card">
 
 <h3>1. Start</h3>
 
 <p>
-Press Start Game from the menu to begin a
-60-second round.
+Press Start Game to begin a
+60-second round with three lives.
 </p>
 
 </div>
 
 
-<div class="infoCard">
+<div class="card">
 
-<h3>2. Catch The Square</h3>
+<h3>2. Catch</h3>
 
 <p>
-Click or tap the green square before it
-moves somewhere else.
+Click or tap the green square
+before it moves.
 </p>
 
 </div>
 
 
-<div class="infoCard">
+<div class="card">
 
-<h3>3. Build Your Combo</h3>
+<h3>3. Build Combos</h3>
 
 <p>
-Every successful catch increases your combo.
-Every 5 catches in a row gives bonus coins.
+Successful catches increase your
+combo. Every five catches gives
+bonus coins.
 </p>
 
 </div>
 
 
-<div class="infoCard">
+<div class="card">
 
-<h3>4. Watch Your Lives</h3>
+<h3>4. Avoid Misses</h3>
 
 <p>
-Missing the square costs a life. Lose all
-three lives and the round ends.
+Clicking empty space costs one
+life and resets your combo.
 </p>
 
 </div>
 
 
-<div class="infoCard">
+<div class="card">
 
-<h3>5. Spend Coins</h3>
+<h3>5. Beat Your Score</h3>
 
 <p>
-Use coins in the Shop to unlock different
-square skins.
+Keep playing to improve your
+high score and earn more coins.
 </p>
+
+</div>
 
 </div>
 
@@ -1310,62 +703,122 @@ square skins.
 </section>
 
 
-<!-- =================================
-     UPDATES
-================================= -->
+<!-- SHOP -->
 
-<section id="updatesScreen" class="screen">
+<section id="shop">
 
-<div class="contentBox">
+<div class="wrap">
+
+<h2>🛍️ Square Shop</h2>
+
+<p>
+Your Coins:
+<strong id="shopCoins">0</strong>
+</p>
+
+
+<div class="grid">
+
+
+<div class="card shopCard">
+
+<div class="skin rainbow"></div>
+
+<h3>Rainbow</h3>
+
+<p>50 coins</p>
 
 <button
-    class="backButton"
-    onclick="showScreen('menuScreen')">
+class="buyButton"
+data-skin="rainbow"
+data-price="50">
 
-    ← Back To Menu
+Buy / Equip
 
 </button>
 
-<h2 class="screenTitle">
-    📢 Updates
-</h2>
+</div>
 
 
-<div class="infoCard">
+<div class="card shopCard">
 
-<h3>Current Version</h3>
+<div class="skin fire"></div>
 
-<p>
-Catch The Square has been upgraded with a
-cleaner menu, moving gameplay, missions,
-shop skins and improved mobile support.
-</p>
+<h3>Fire</h3>
+
+<p>75 coins</p>
+
+<button
+class="buyButton"
+data-skin="fire"
+data-price="75">
+
+Buy / Equip
+
+</button>
 
 </div>
 
 
-<div class="infoCard">
+<div class="card shopCard">
 
-<h3>Gameplay</h3>
+<div class="skin ice"></div>
 
-<p>
-The square moves automatically during the
-round. Score, coins, lives, combo and levels
-are tracked locally.
-</p>
+<h3>Ice</h3>
+
+<p>100 coins</p>
+
+<button
+class="buyButton"
+data-skin="ice"
+data-price="100">
+
+Buy / Equip
+
+</button>
 
 </div>
 
 
-<div class="infoCard">
+<div class="card shopCard">
 
-<h3>More Content</h3>
+<div class="skin gold"></div>
 
-<p>
-The site includes How To Play, About, FAQ,
-Missions and Shop sections to make the game
-easier to understand and explore.
-</p>
+<h3>Gold</h3>
+
+<p>150 coins</p>
+
+<button
+class="buyButton"
+data-skin="gold"
+data-price="150">
+
+Buy / Equip
+
+</button>
+
+</div>
+
+
+<div class="card shopCard">
+
+<div class="skin galaxy"></div>
+
+<h3>Galaxy</h3>
+
+<p>250 coins</p>
+
+<button
+class="buyButton"
+data-skin="galaxy"
+data-price="250">
+
+Buy / Equip
+
+</button>
+
+</div>
+
 
 </div>
 
@@ -1374,61 +827,91 @@ easier to understand and explore.
 </section>
 
 
-<!-- =================================
-     ABOUT
-================================= -->
+<!-- MISSIONS -->
 
-<section id="aboutScreen" class="screen">
+<section id="missions">
 
-<div class="contentBox">
+<div class="wrap">
 
-<button
-    class="backButton"
-    onclick="showScreen('menuScreen')">
+<h2>🏆 Missions & Achievements</h2>
 
-    ← Back To Menu
+<div class="grid">
 
-</button>
+<div class="card">
+<h3>Catch 10 Squares</h3>
+<p id="missionCatches">0 / 10</p>
+</div>
 
-<h2 class="screenTitle">
-    ℹ️ About Catch The Square
-</h2>
+<div class="card">
+<h3>Play 5 Games</h3>
+<p id="missionGames">0 / 5</p>
+</div>
+
+<div class="card">
+<h3>Earn 100 Coins</h3>
+<p id="missionCoins">0 / 100</p>
+</div>
+
+<div class="card">
+<h3>Best Combo: 20</h3>
+<p id="missionCombo">0 / 20</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
 
 
-<div class="infoCard">
+<!-- ABOUT -->
+
+<section id="about">
+
+<div class="wrap">
+
+<h2>ℹ️ About Catch The Square</h2>
+
+<div class="grid">
+
+<div class="card">
 
 <h3>What Is It?</h3>
 
 <p>
-Catch The Square is a simple reaction game
-where you try to catch a moving square as
-many times as possible before the round ends.
+Catch The Square is an independent
+browser reaction game built around
+quick rounds, moving targets,
+combos, coins and unlockable skins.
 </p>
 
 </div>
 
 
-<div class="infoCard">
+<div class="card">
 
-<h3>Why Play?</h3>
+<h3>Why Was It Made?</h3>
 
 <p>
-It is designed to be quick to understand and
-easy to play on both computers and phones.
+The goal is to provide a simple game
+that can be opened directly in a web
+browser without a complicated setup.
 </p>
 
 </div>
 
 
-<div class="infoCard">
+<div class="card">
 
 <h3>Your Progress</h3>
 
 <p>
-Your coins, high score, games played,
-catches and unlocked skins are saved in
-your browser.
+Game progress is saved locally in
+your browser. Clearing browser
+storage can remove saved progress.
 </p>
+
+</div>
 
 </div>
 
@@ -1437,84 +920,92 @@ your browser.
 </section>
 
 
-<!-- =================================
-     FAQ
-================================= -->
+<!-- FAQ -->
 
-<section id="faqScreen" class="screen">
+<section id="faq">
 
-<div class="contentBox">
+<div class="wrap">
 
-<button
-    class="backButton"
-    onclick="showScreen('menuScreen')">
+<h2>❓ Frequently Asked Questions</h2>
 
-    ← Back To Menu
-
-</button>
-
-<h2 class="screenTitle">
-    ❓ FAQ
-</h2>
+<div class="grid">
 
 
-<div class="infoCard">
+<div class="card">
 
-<h3>How long is a game?</h3>
+<h3>How long is a round?</h3>
 
 <p>
-Each round lasts up to 60 seconds unless
-you lose all your lives first.
+Each round lasts up to 60 seconds,
+unless all three lives are lost first.
 </p>
 
 </div>
 
 
-<div class="infoCard">
-
-<h3>Does the game save my progress?</h3>
-
-<p>
-Yes. The game uses your browser's local
-storage to save progress on the device.
-</p>
-
-</div>
-
-
-<div class="infoCard">
+<div class="card">
 
 <h3>Can I play on a phone?</h3>
 
 <p>
-Yes. The game supports touch controls as
-well as mouse clicking.
+Yes. The game supports touch
+interaction as well as mouse clicks.
 </p>
 
 </div>
 
 
-<div class="infoCard">
+<div class="card">
+
+<h3>Does the game save progress?</h3>
+
+<p>
+Yes. Game progress is saved using
+your browser's local storage.
+</p>
+
+</div>
+
+
+<div class="card">
 
 <h3>What can I buy?</h3>
 
 <p>
-You can spend coins on Rainbow, Fire, Ice,
+You can unlock Rainbow, Fire, Ice,
 Gold and Galaxy square skins.
 </p>
 
 </div>
 
 
-<div class="infoCard">
+<div class="card">
 
-<h3>Why isn't an ad showing?</h3>
+<h3>Why might an ad not appear?</h3>
 
 <p>
-Advertisements are controlled by the
-advertising system and may not appear every
-time the page loads.
+Advertising availability is controlled
+by the advertising system, so an ad
+may not appear on every visit.
 </p>
+
+</div>
+
+
+<div class="card">
+
+<h3>How can I contact you?</h3>
+
+<p>
+Email
+<a href="mailto:dylanaura03@gmail.com">
+dylanaura03@gmail.com
+</a>
+for questions or feedback.
+</p>
+
+</div>
+
 
 </div>
 
@@ -1523,1101 +1014,675 @@ time the page loads.
 </section>
 
 
-<!-- =================================
-     GAME OVER
-================================= -->
+<!-- SECOND AD -->
 
-<div id="gameOverBox">
+<div class="ad">
 
-<h2>
-    Game Over!
-</h2>
+<small>ADVERTISEMENT</small>
 
-<div class="finalScore">
+<ins class="adsbygoogle"
+style="display:block;min-height:90px"
+data-ad-client="ca-pub-9731155253732713"
+data-ad-slot="7817292096"
+data-ad-format="auto"
+data-full-width-responsive="true">
+</ins>
 
-    Score:
-    <span id="finalScore">0</span>
-
-</div>
-
-<div>
-
-    High Score:
-    <strong id="finalHighScore">0</strong>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 </div>
 
 
-<button
-    class="overlayButton"
-    onclick="startGame()">
-
-    🔄 Play Again
-
-</button>
+</main>
 
 
-<button
-    class="overlayButton secondary"
-    onclick="closeGameOverAndMenu()">
+<!-- FOOTER -->
 
-    🏠 Back To Menu
+<footer>
 
-</button>
+<div class="wrap">
+
+<strong>© 2026 Catch The Square</strong>
+
+<div class="footerLinks">
+
+<a href="about.html">
+About
+</a>
+
+<a href="privacy.html">
+Privacy Policy
+</a>
+
+<a href="terms.html">
+Terms & Conditions
+</a>
+
+<a href="contact.html">
+Contact
+</a>
 
 </div>
+
+<p>
+Catch The Square is an independent
+browser game.
+</p>
+
+<p>
+Contact:
+<a href="mailto:dylanaura03@gmail.com">
+dylanaura03@gmail.com
+</a>
+</p>
+
+</div>
+
+</footer>
 
 
 <script>
 
-/* =================================
-   DATA
-================================= */
+/* ================================
+   SAVED DATA
+================================ */
 
-var coins =
-    Number(localStorage.getItem("cts_coins") || 0);
+let coins =
+Number(localStorage.getItem("cts_coins") || 0);
 
-var highScore =
-    Number(localStorage.getItem("cts_highScore") || 0);
+let highScore =
+Number(localStorage.getItem("cts_highScore") || 0);
 
-var gamesPlayed =
-    Number(localStorage.getItem("cts_games") || 0);
+let gamesPlayed =
+Number(localStorage.getItem("cts_games") || 0);
 
-var catchesTotal =
-    Number(localStorage.getItem("cts_catches") || 0);
+let catches =
+Number(localStorage.getItem("cts_catches") || 0);
 
-var coinsEarned =
-    Number(localStorage.getItem("cts_coinsEarned") || 0);
+let coinsEarned =
+Number(localStorage.getItem("cts_coinsEarned") || 0);
 
-var bestCombo =
-    Number(localStorage.getItem("cts_bestCombo") || 0);
-
-
-var ownedSkins;
-
-try {
-
-    ownedSkins =
-        JSON.parse(
-            localStorage.getItem("cts_ownedSkins")
-            || '["default"]'
-        );
-
-} catch(e) {
-
-    ownedSkins = ["default"];
-
-}
+let bestCombo =
+Number(localStorage.getItem("cts_bestCombo") || 0);
 
 
-if (
-    ownedSkins.indexOf("default") === -1
-) {
+let ownedSkins;
 
-    ownedSkins.push("default");
+try{
+
+ownedSkins =
+JSON.parse(
+localStorage.getItem("cts_ownedSkins")
+|| '["default"]'
+);
+
+}catch(e){
+
+ownedSkins=["default"];
 
 }
 
 
-var currentSkin =
-    localStorage.getItem("cts_skin")
-    || "default";
+if(!ownedSkins.includes("default")){
+ownedSkins.push("default");
+}
 
 
-/* =================================
-   GAME
-================================= */
-
-var score = 0;
-
-var lives = 3;
-
-var timeLeft = 60;
-
-var combo = 0;
-
-var gameRunning = false;
-
-var paused = false;
-
-var moveTimer = null;
-
-var countdownTimer = null;
-
-var messageTimer = null;
+let currentSkin =
+localStorage.getItem("cts_skin")
+|| "default";
 
 
-/* =================================
+/* ================================
+   GAME VARIABLES
+================================ */
+
+let score=0;
+let lives=3;
+let time=60;
+let combo=0;
+
+let running=false;
+let paused=false;
+
+let countdown=null;
+let movement=null;
+
+
+/* ================================
    ELEMENTS
-================================= */
+================================ */
 
-var square =
-    document.getElementById("square");
+const arena =
+document.getElementById("arena");
 
-var gameArea =
-    document.getElementById("gameArea");
+const target =
+document.getElementById("target");
+
+const notice =
+document.getElementById("notice");
 
 
-/* =================================
+/* ================================
    SAVE
-================================= */
+================================ */
 
-function saveData() {
+function saveData(){
 
-    localStorage.setItem(
-        "cts_coins",
-        coins
-    );
+localStorage.setItem(
+"cts_coins",
+coins
+);
 
-    localStorage.setItem(
-        "cts_highScore",
-        highScore
-    );
+localStorage.setItem(
+"cts_highScore",
+highScore
+);
 
-    localStorage.setItem(
-        "cts_games",
-        gamesPlayed
-    );
+localStorage.setItem(
+"cts_games",
+gamesPlayed
+);
 
-    localStorage.setItem(
-        "cts_catches",
-        catchesTotal
-    );
+localStorage.setItem(
+"cts_catches",
+catches
+);
 
-    localStorage.setItem(
-        "cts_coinsEarned",
-        coinsEarned
-    );
+localStorage.setItem(
+"cts_coinsEarned",
+coinsEarned
+);
 
-    localStorage.setItem(
-        "cts_bestCombo",
-        bestCombo
-    );
+localStorage.setItem(
+"cts_bestCombo",
+bestCombo
+);
 
-    localStorage.setItem(
-        "cts_ownedSkins",
-        JSON.stringify(ownedSkins)
-    );
+localStorage.setItem(
+"cts_ownedSkins",
+JSON.stringify(ownedSkins)
+);
 
-    localStorage.setItem(
-        "cts_skin",
-        currentSkin
-    );
-
-}
-
-
-/* =================================
-   SCREENS
-================================= */
-
-function showScreen(id) {
-
-    var screens =
-        document.querySelectorAll(".screen");
-
-
-    for (
-        var i = 0;
-        i < screens.length;
-        i++
-    ) {
-
-        screens[i]
-            .classList
-            .remove("active");
-
-    }
-
-
-    document.getElementById("menuScreen")
-        .style.display = "none";
-
-
-    document.getElementById(id)
-        .classList
-        .add("active");
-
-
-    if (id === "menuScreen") {
-
-        document.getElementById("menuScreen")
-            .style.display = "flex";
-
-        updateMenu();
-
-    }
-
-
-    if (id === "shopScreen") {
-        updateShop();
-    }
-
-
-    if (id === "missionsScreen") {
-        updateMissions();
-    }
+localStorage.setItem(
+"cts_skin",
+currentSkin
+);
 
 }
 
 
-/* =================================
-   MENU
-================================= */
+/* ================================
+   UPDATE UI
+================================ */
 
-function updateMenu() {
+function updateUI(){
 
-    document.getElementById("menuCoins")
-        .textContent = coins;
+document.getElementById("heroHigh")
+.textContent=highScore;
 
-    document.getElementById("menuHighScore")
-        .textContent = highScore;
+document.getElementById("heroCoins")
+.textContent=coins;
 
-    document.getElementById("menuGames")
-        .textContent = gamesPlayed;
+document.getElementById("heroGames")
+.textContent=gamesPlayed;
 
-}
+document.getElementById("score")
+.textContent=score;
 
+document.getElementById("time")
+.textContent=time;
 
-/* =================================
-   START GAME
-================================= */
+document.getElementById("coins")
+.textContent=coins;
 
-function startGame() {
+document.getElementById("combo")
+.textContent=combo;
 
-    closeGameOver();
+document.getElementById("lives")
+.textContent=
+"❤️".repeat(lives)+
+"🖤".repeat(3-lives);
 
-    stopTimers();
+document.getElementById("shopCoins")
+.textContent=coins;
 
+document.getElementById("missionCatches")
+.textContent=
+Math.min(catches,10)+" / 10";
 
-    score = 0;
+document.getElementById("missionGames")
+.textContent=
+Math.min(gamesPlayed,5)+" / 5";
 
-    lives = 3;
+document.getElementById("missionCoins")
+.textContent=
+Math.min(coinsEarned,100)+" / 100";
 
-    timeLeft = 60;
-
-    combo = 0;
-
-
-    gameRunning = true;
-
-    paused = false;
-
-
-    document.getElementById("pauseButton")
-        .textContent = "⏸️ Pause";
-
-
-    showScreen("gameScreen");
-
-
-    updateGameUI();
-
-    applySkin();
-
-
-    square.style.display = "block";
-
-    square.style.visibility = "visible";
-
-    square.style.opacity = "1";
-
-
-    window.setTimeout(
-        function() {
-
-            moveSquare();
-
-        },
-        100
-    );
-
-
-    moveTimer =
-        window.setInterval(
-            function() {
-
-                if (!gameRunning) {
-                    return;
-                }
-
-                if (paused) {
-                    return;
-                }
-
-                moveSquare();
-
-            },
-            800
-        );
-
-
-    countdownTimer =
-        window.setInterval(
-            function() {
-
-                if (!gameRunning) {
-                    return;
-                }
-
-                if (paused) {
-                    return;
-                }
-
-                timeLeft--;
-
-                updateGameUI();
-
-
-                if (timeLeft <= 0) {
-
-                    endGame();
-
-                }
-
-            },
-            1000
-        );
+document.getElementById("missionCombo")
+.textContent=
+Math.min(bestCombo,20)+" / 20";
 
 }
 
 
-/* =================================
-   MOVE SQUARE
-================================= */
+/* ================================
+   SKIN
+================================ */
 
-function moveSquare() {
+function applySkin(){
 
-    if (!gameRunning || paused) {
-        return;
-    }
+const skins={
 
+default:"#35ed78",
 
-    var areaWidth =
-        gameArea.clientWidth;
+rainbow:
+"linear-gradient(45deg,red,orange,yellow,green,cyan,blue,purple)",
 
-    var areaHeight =
-        gameArea.clientHeight;
+fire:
+"linear-gradient(45deg,#f20,#ff8c00,#ffe600)",
 
+ice:
+"linear-gradient(45deg,#3ddcff,#c9f8ff,#fff)",
 
-    var squareWidth =
-        square.offsetWidth;
+gold:
+"linear-gradient(45deg,#9b7200,#ffe36e,#fff1a3)",
 
-    var squareHeight =
-        square.offsetHeight;
+galaxy:
+"linear-gradient(45deg,#16002f,#5726a8,#00c8ff)"
 
+};
 
-    if (
-        areaWidth <= 0 ||
-        areaHeight <= 0
-    ) {
-
-        return;
-
-    }
-
-
-    var maxX =
-        areaWidth - squareWidth;
-
-    var maxY =
-        areaHeight - squareHeight;
-
-
-    if (maxX < 0) {
-        maxX = 0;
-    }
-
-    if (maxY < 0) {
-        maxY = 0;
-    }
-
-
-    var x =
-        Math.floor(
-            Math.random() *
-            (maxX + 1)
-        );
-
-
-    var y =
-        Math.floor(
-            Math.random() *
-            (maxY + 1)
-        );
-
-
-    square.style.left =
-        x + "px";
-
-    square.style.top =
-        y + "px";
+target.style.background =
+skins[currentSkin] ||
+skins.default;
 
 }
 
 
-/* =================================
-   SQUARE CLICK
-================================= */
+/* ================================
+   MOVE
+================================ */
 
-square.addEventListener(
-    "click",
-    function(e) {
+function moveTarget(){
 
-        e.preventDefault();
+if(!running || paused){
+return;
+}
 
-        if (
-            !gameRunning ||
-            paused
-        ) {
-            return;
-        }
+const maxX =
+arena.clientWidth -
+target.offsetWidth;
 
-        catchSquare();
+const maxY =
+arena.clientHeight -
+target.offsetHeight;
 
-    }
+
+const x =
+Math.floor(
+Math.random() *
+Math.max(1,maxX)
+);
+
+const y =
+Math.floor(
+Math.random() *
+Math.max(1,maxY)
 );
 
 
-square.addEventListener(
-    "touchstart",
-    function(e) {
-
-        e.preventDefault();
-
-        if (
-            !gameRunning ||
-            paused
-        ) {
-            return;
-        }
-
-        catchSquare();
-
-    },
-    false
-);
-
-
-/* =================================
-   CATCH
-================================= */
-
-function catchSquare() {
-
-    score++;
-
-    combo++;
-
-    catchesTotal++;
-
-    coins++;
-
-    coinsEarned++;
-
-
-    if (combo > bestCombo) {
-
-        bestCombo = combo;
-
-    }
-
-
-    if (combo % 5 === 0) {
-
-        coins += 5;
-
-        coinsEarned += 5;
-
-        showMessage(
-            "🔥 " +
-            combo +
-            " COMBO! +5 bonus coins!"
-        );
-
-    } else {
-
-        showMessage(
-            "Nice catch! +1 coin"
-        );
-
-    }
-
-
-    if (Math.random() < 0.08) {
-
-        score += 5;
-
-        coins += 10;
-
-        coinsEarned += 10;
-
-        combo += 2;
-
-        showMessage(
-            "⭐ BONUS! +5 score +10 coins!"
-        );
-
-    }
-
-
-    if (score > highScore) {
-
-        highScore = score;
-
-    }
-
-
-    updateGameUI();
-
-    saveData();
-
-
-    moveSquare();
+target.style.left=x+"px";
+target.style.top=y+"px";
 
 }
 
 
-/* =================================
-   MISS
-================================= */
+/* ================================
+   START
+================================ */
 
-gameArea.addEventListener(
-    "click",
-    function(e) {
+function startGame(){
 
-        if (
-            !gameRunning ||
-            paused
-        ) {
-            return;
-        }
+clearInterval(countdown);
+clearInterval(movement);
 
+score=0;
+lives=3;
+time=60;
+combo=0;
 
-        if (e.target === square) {
-            return;
-        }
+running=true;
+paused=false;
 
+document.getElementById(
+"pauseButton"
+).textContent="⏸ Pause";
 
-        lives--;
-
-        combo = 0;
-
-
-        updateGameUI();
-
-
-        if (lives <= 0) {
-
-            endGame();
-
-        } else {
-
-            showMessage(
-                "Miss! You lost a life."
-            );
-
-        }
-
-    }
-);
-
-
-/* =================================
-   PAUSE
-================================= */
-
-function pauseGame() {
-
-    if (!gameRunning) {
-        return;
-    }
-
-
-    paused = !paused;
-
-
-    var button =
-        document.getElementById(
-            "pauseButton"
-        );
-
-
-    if (paused) {
-
-        button.textContent =
-            "▶️ Resume";
-
-        showMessage(
-            "Game paused"
-        );
-
-    } else {
-
-        button.textContent =
-            "⏸️ Pause";
-
-        showMessage(
-            "Game resumed"
-        );
-
-        moveSquare();
-
-    }
-
-}
-
-
-/* =================================
-   RETURN MENU
-================================= */
-
-function returnToMenu() {
-
-    gameRunning = false;
-
-    paused = false;
-
-    stopTimers();
-
-
-    square.style.display = "none";
-
-
-    showScreen("menuScreen");
-
-}
-
-
-/* =================================
-   END GAME
-================================= */
-
-function endGame() {
-
-    if (!gameRunning) {
-        return;
-    }
-
-
-    gameRunning = false;
-
-
-    stopTimers();
-
-
-    square.style.display = "none";
-
-
-    gamesPlayed++;
-
-
-    if (score > highScore) {
-
-        highScore = score;
-
-    }
-
-
-    saveData();
-
-
-    document.getElementById(
-        "finalScore"
-    ).textContent = score;
-
-
-    document.getElementById(
-        "finalHighScore"
-    ).textContent = highScore;
-
-
-    document.getElementById(
-        "gameOverBox"
-    ).style.display = "block";
-
-
-    updateGameUI();
-
-}
-
-
-/* =================================
-   STOP TIMERS
-================================= */
-
-function stopTimers() {
-
-    if (moveTimer !== null) {
-
-        window.clearInterval(
-            moveTimer
-        );
-
-        moveTimer = null;
-
-    }
-
-
-    if (countdownTimer !== null) {
-
-        window.clearInterval(
-            countdownTimer
-        );
-
-        countdownTimer = null;
-
-    }
-
-}
-
-
-/* =================================
-   GAME OVER
-================================= */
-
-function closeGameOver() {
-
-    document.getElementById(
-        "gameOverBox"
-    ).style.display = "none";
-
-}
-
-
-function closeGameOverAndMenu() {
-
-    closeGameOver();
-
-    gameRunning = false;
-
-    stopTimers();
-
-    square.style.display = "none";
-
-    showScreen("menuScreen");
-
-}
-
-
-/* =================================
-   GAME UI
-================================= */
-
-function updateGameUI() {
-
-    document.getElementById("score")
-        .textContent = score;
-
-
-    document.getElementById("time")
-        .textContent = timeLeft;
-
-
-    document.getElementById("coins")
-        .textContent = coins;
-
-
-    document.getElementById("combo")
-        .textContent = combo;
-
-
-    document.getElementById("level")
-        .textContent =
-            Math.floor(score / 5) + 1;
-
-
-    var heartText = "";
-
-
-    for (
-        var i = 0;
-        i < 3;
-        i++
-    ) {
-
-        if (i < lives) {
-
-            heartText += "❤️";
-
-        } else {
-
-            heartText += "🖤";
-
-        }
-
-    }
-
-
-    document.getElementById("lives")
-        .textContent = heartText;
-
-}
-
-
-/* =================================
-   MESSAGE
-================================= */
-
-function showMessage(text) {
-
-    document.getElementById(
-        "message"
-    ).textContent = text;
-
-
-    if (messageTimer !== null) {
-
-        window.clearTimeout(
-            messageTimer
-        );
-
-    }
-
-
-    messageTimer =
-        window.setTimeout(
-            function() {
-
-                if (gameRunning) {
-
-                    document.getElementById(
-                        "message"
-                    ).textContent =
-                        "Catch the square!";
-
-                }
-
-            },
-            1200
-        );
-
-}
-
-
-/* =================================
-   SKINS
-================================= */
-
-function applySkin() {
-
-    if (currentSkin === "rainbow") {
-
-        square.style.background =
-            "linear-gradient(45deg, red, orange, yellow, green, cyan, blue, purple)";
-
-    }
-
-    else if (currentSkin === "fire") {
-
-        square.style.background =
-            "linear-gradient(45deg, #ff2600, #ff8c00, #ffe600)";
-
-    }
-
-    else if (currentSkin === "ice") {
-
-        square.style.background =
-            "linear-gradient(45deg, #4bdfff, #baf6ff, white)";
-
-    }
-
-    else if (currentSkin === "gold") {
-
-        square.style.background =
-            "linear-gradient(45deg, #b8860b, #ffe36e, #fff1a3)";
-
-    }
-
-    else if (currentSkin === "galaxy") {
-
-        square.style.background =
-            "linear-gradient(45deg, #12002f, #5426a8, #00c8ff)";
-
-    }
-
-    else {
-
-        square.style.background =
-            "#21e36b";
-
-    }
-
-}
-
-
-/* =================================
-   SHOP
-================================= */
-
-function buySkin(name, price) {
-
-    if (
-        ownedSkins.indexOf(name) !== -1
-    ) {
-
-        currentSkin = name;
-
-        saveData();
-
-        applySkin();
-
-        updateShop();
-
-
-        alert(
-            name.toUpperCase() +
-            " equipped!"
-        );
-
-        return;
-
-    }
-
-
-    if (coins < price) {
-
-        alert(
-            "You need " +
-            (price - coins) +
-            " more coins."
-        );
-
-        return;
-
-    }
-
-
-    coins -= price;
-
-    ownedSkins.push(name);
-
-    currentSkin = name;
-
-
-    saveData();
-
-    updateShop();
-
-
-    alert(
-        name.toUpperCase() +
-        " unlocked!"
-    );
-
-}
-
-
-/* =================================
-   SHOP UI
-================================= */
-
-function updateShop() {
-
-    document.getElementById(
-        "shopCoins"
-    ).textContent = coins;
-
-}
-
-
-/* =================================
-   MISSIONS
-================================= */
-
-function updateMissions() {
-
-    var catches =
-        Math.min(
-            catchesTotal,
-            10
-        );
-
-
-    var games =
-        Math.min(
-            gamesPlayed,
-            5
-        );
-
-
-    var earned =
-        Math.min(
-            coinsEarned,
-            100
-        );
-
-
-    var comboValue =
-        Math.min(
-            bestCombo,
-            20
-        );
-
-
-    document.getElementById(
-        "catchProgress"
-    ).textContent = catches;
-
-
-    document.getElementById(
-        "gamesProgress"
-    ).textContent = games;
-
-
-    document.getElementById(
-        "coinsProgress"
-    ).textContent = earned;
-
-
-    document.getElementById(
-        "comboProgress"
-    ).textContent = comboValue;
-
-
-    document.getElementById(
-        "catchBar"
-    ).style.width =
-        (catches / 10 * 100) + "%";
-
-
-    document.getElementById(
-        "gamesBar"
-    ).style.width =
-        (games / 5 * 100) + "%";
-
-
-    document.getElementById(
-        "coinsBar"
-    ).style.width =
-        (earned / 100 * 100) + "%";
-
-
-    document.getElementById(
-        "comboBar"
-    ).style.width =
-        (comboValue / 20 * 100) + "%";
-
-}
-
-
-/* =================================
-   INITIALIZE
-================================= */
+target.style.display="block";
 
 applySkin();
+updateUI();
+moveTarget();
 
-updateMenu();
+notice.textContent=
+"Catch the square!";
 
-updateShop();
 
-updateMissions();
+movement=setInterval(
+moveTarget,
+800
+);
 
-showScreen("menuScreen");
+
+countdown=setInterval(
+
+function(){
+
+if(!running || paused){
+return;
+}
+
+time--;
+
+updateUI();
+
+if(time<=0){
+
+endGame();
+
+}
+
+},
+
+1000
+
+);
+
+}
+
+
+/* ================================
+   CATCH
+================================ */
+
+target.addEventListener(
+"click",
+function(event){
+
+event.stopPropagation();
+
+if(!running || paused){
+return;
+}
+
+score++;
+combo++;
+catches++;
+
+coins++;
+coinsEarned++;
+
+
+if(combo>bestCombo){
+bestCombo=combo;
+}
+
+
+if(combo%5===0){
+
+coins+=5;
+coinsEarned+=5;
+
+notice.textContent=
+"🔥 Combo bonus! +5 coins";
+
+}else{
+
+notice.textContent=
+"Nice catch! +1 coin";
+
+}
+
+
+/* BONUS */
+
+if(Math.random()<0.08){
+
+score+=5;
+coins+=10;
+coinsEarned+=10;
+
+notice.textContent=
+"⭐ BONUS! +5 score +10 coins";
+
+}
+
+
+if(score>highScore){
+highScore=score;
+}
+
+
+saveData();
+updateUI();
+moveTarget();
+
+});
+
+
+/* ================================
+   MISS
+================================ */
+
+arena.addEventListener(
+"click",
+function(event){
+
+if(!running || paused){
+return;
+}
+
+if(event.target===target){
+return;
+}
+
+lives--;
+combo=0;
+
+updateUI();
+
+
+if(lives<=0){
+
+endGame();
+
+}else{
+
+notice.textContent=
+"Miss! You lost a life.";
+
+}
+
+});
+
+
+/* ================================
+   PAUSE
+================================ */
+
+document.getElementById(
+"pauseButton"
+).addEventListener(
+"click",
+function(){
+
+if(!running){
+return;
+}
+
+paused=!paused;
+
+this.textContent=
+paused
+?"▶ Resume"
+:"⏸ Pause";
+
+notice.textContent=
+paused
+?"Game paused"
+:"Game resumed";
+
+if(!paused){
+moveTarget();
+}
+
+});
+
+
+/* ================================
+   RESET
+================================ */
+
+document.getElementById(
+"resetButton"
+).addEventListener(
+"click",
+function(){
+
+running=false;
+paused=false;
+
+clearInterval(countdown);
+clearInterval(movement);
+
+target.style.display="none";
+
+score=0;
+lives=3;
+time=60;
+combo=0;
+
+updateUI();
+
+notice.textContent=
+"Game reset. Press Start!";
+
+});
+
+
+/* ================================
+   END GAME
+================================ */
+
+function endGame(){
+
+if(!running){
+return;
+}
+
+running=false;
+
+clearInterval(countdown);
+clearInterval(movement);
+
+target.style.display="none";
+
+gamesPlayed++;
+
+if(score>highScore){
+highScore=score;
+}
+
+saveData();
+updateUI();
+
+notice.textContent=
+"Round over! Score: "+
+score+
+" — press Start to play again.";
+
+}
+
+
+/* ================================
+   SHOP
+================================ */
+
+document
+.querySelectorAll(".buyButton")
+.forEach(
+
+function(button){
+
+button.addEventListener(
+"click",
+function(){
+
+const name=
+this.dataset.skin;
+
+const price=
+Number(this.dataset.price);
+
+
+if(ownedSkins.includes(name)){
+
+currentSkin=name;
+
+saveData();
+applySkin();
+
+notice.textContent=
+name+
+" equipped!";
+
+return;
+
+}
+
+
+if(coins<price){
+
+notice.textContent=
+"You need "+
+(price-coins)+
+" more coins.";
+
+return;
+
+}
+
+
+coins-=price;
+
+ownedSkins.push(name);
+
+currentSkin=name;
+
+saveData();
+applySkin();
+updateUI();
+
+notice.textContent=
+name+
+" unlocked!";
+
+});
+
+});
+
+
+/* ================================
+   INITIALIZE
+================================ */
+
+applySkin();
+updateUI();
 
 </script>
-
-</div>
 
 </body>
 </html>
