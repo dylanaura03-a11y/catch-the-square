@@ -1,1753 +1,784 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://quge5.com/88/tag.min.js" data-zone="290609" async data-cfasync="false"></script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Catch The Square</title>
-
-<meta name="description"
-content="Play Catch The Square, a free browser reaction game. Catch the moving square, build combos, earn coins, unlock skins and beat your high score.">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d16">
+<meta name="description" content="Play Catch The Square, a free browser reaction game. Catch targets, build combos, earn coins and unlock skins.">
 <link rel="canonical" href="https://catchthesquare.site/">
-    
-
-<script async
-src="https://www.googletagmanager.com/gtag/js?id=G-93GG50S9FZ"></script>
-
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-93GG50S9FZ');
-</script>
+<title>Catch The Square — Neon Arcade</title>
 
 <style>
-*{
-    box-sizing:border-box;
+:root {
+  --bg:#080d16;--panel:#111a2a;--panel2:#172338;
+  --green:#54ff9f;--cyan:#52e5ff;--purple:#bc82ff;
+  --text:#f3f7ff;--muted:#9aaac3;--red:#ff6079;
+  --line:#263650;
 }
-
-body{
-    margin:0;
-    background:#070b12;
-    color:#f7f9fc;
-    font-family:Arial,Helvetica,sans-serif;
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#14243b 0%,var(--bg) 60%);
+ color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;font-weight:800;
+ background:var(--green);color:#07130d;transition:transform .15s,filter .15s}
+button:hover{filter:brightness(1.1);transform:translateY(-1px)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+button.secondary{background:#22314a;color:white;border:1px solid #344761}
+button.purple{background:var(--purple);color:#160b25}
+button.danger{background:#512333;color:#fff}
+input,select,textarea{background:#09111e;color:white;border:1px solid #35465f;
+ border-radius:10px;padding:11px;width:100%;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--green)}
+a{color:var(--cyan)}
+header{max-width:1100px;margin:auto;padding:22px 16px 12px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:45px;height:45px;display:grid;place-items:center;border-radius:13px;
+ background:linear-gradient(135deg,var(--green),var(--cyan));color:#07130d;font-size:24px;font-weight:1000}
+h1{font-size:clamp(23px,4vw,34px);margin:0;letter-spacing:-1px}
+.subtitle{color:var(--muted);font-size:13px;margin-top:3px}
+.topstats{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.pill{padding:8px 12px;background:#111c2c;border:1px solid var(--line);
+ border-radius:99px;font-size:13px;color:#dfe9fa}
+nav{max-width:1100px;margin:10px auto 18px;padding:0 16px;display:flex;
+ gap:8px;flex-wrap:wrap}
+nav button{background:#142035;color:#bdcbe0;border:1px solid #293b55;padding:9px 13px}
+nav button.active{background:var(--green);color:#07130d}
+main{max-width:1100px;margin:auto;padding:0 16px 35px}
+.page{display:none}.page.active{display:block}
+.panel{background:linear-gradient(145deg,rgba(20,32,51,.97),rgba(13,22,36,.97));
+ border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:16px;
+ box-shadow:0 12px 40px #0002}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+.hero h2{font-size:clamp(28px,5vw,47px);line-height:1.05;margin:12px 0}
+.hero p,.muted{color:var(--muted);line-height:1.6}
+.tag{color:var(--green);font-weight:900;font-size:12px;letter-spacing:2px}
+.hero-art{min-height:220px;display:grid;place-items:center;position:relative;overflow:hidden;
+ background:radial-gradient(circle,#183d39 0%,#111a2b 55%,#101827 100%)}
+.big-target{width:95px;height:95px;background:var(--green);border-radius:14px;
+ box-shadow:0 0 30px #54ff9f99,0 0 85px #54ff9f44;animation:float 2s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-12px) rotate(8deg)}}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}
+.stat{padding:14px;background:#0c1523;border:1px solid var(--line);border-radius:13px}
+.stat strong{display:block;font-size:23px}.stat span{font-size:12px;color:var(--muted)}
+.game-layout{display:grid;grid-template-columns:1fr 270px;gap:16px}
+.arena{height:410px;position:relative;overflow:hidden;touch-action:manipulation;
+ background:radial-gradient(ellipse at center,#17283a,#070d17 75%);
+ border:1px solid #33435c;border-radius:18px;user-select:none}
+.arena:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.25;
+ background-image:linear-gradient(#293e55 1px,transparent 1px),linear-gradient(90deg,#293e55 1px,transparent 1px);
+ background-size:30px 30px}
+.target{position:absolute;width:48px;height:48px;background:var(--green);border-radius:9px;
+ display:none;z-index:2;box-shadow:0 0 18px #54ff9f99;touch-action:manipulation}
+.target.gold{background:#ffd45c;box-shadow:0 0 23px #ffd45c99}
+.arena-message{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+ justify-content:center;text-align:center;padding:22px;z-index:3;pointer-events:none}
+.arena-message h3{font-size:25px;margin:0 0 8px}.arena-message p{color:var(--muted);max-width:300px}
+.arena-message .hint{font-size:12px;color:var(--green)}
+.side-stack{display:flex;flex-direction:column;gap:12px}
+.sidebox{padding:14px;background:#0b1421;border:1px solid var(--line);border-radius:14px}
+.sidebox h3{margin:0 0 8px;font-size:14px}
+.big-number{font-size:29px;font-weight:950}
+.row{display:flex;gap:9px;align-items:center}.row>*{min-width:0}
+.row>*:first-child{flex:1}
+.row.wrap{flex-wrap:wrap}
+.row.wrap>*{flex:initial}
+.section-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}
+.section-title h2,.section-title h3{margin:0}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.item{padding:14px;background:#0c1523;border:1px solid var(--line);border-radius:14px}
+.item h3{margin:0 0 6px}.item p{font-size:13px;color:var(--muted);line-height:1.5}
+.item .emoji{font-size:28px;margin-bottom:7px}
+.item button{width:100%;margin-top:8px}
+.list{display:flex;flex-direction:column;gap:8px}
+.listrow{display:flex;align-items:center;gap:12px;padding:12px;
+ background:#0c1523;border:1px solid var(--line);border-radius:12px}
+.rank{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;
+ background:#203149;font-weight:900}
+.listrow .grow{flex:1;min-width:0}.listrow small{color:var(--muted)}
+.chatlog{height:250px;overflow:auto;background:#09111e;border:1px solid var(--line);
+ border-radius:12px;padding:12px;margin-bottom:10px}
+.chatline{padding:7px 0;border-bottom:1px solid #1b2a3e;overflow-wrap:anywhere}
+.chatline strong{color:var(--green)}
+.notice{font-size:12px;color:var(--muted);line-height:1.6}
+footer{max-width:1100px;margin:auto;padding:20px 16px 35px;color:var(--muted);
+ font-size:12px;text-align:center}
+.hidden{display:none!important}
+.progress{height:8px;background:#26364a;border-radius:99px;overflow:hidden;margin:8px 0}
+.progress div{height:100%;background:var(--green);width:0%;transition:width .2s}
+hr{border:0;border-top:1px solid var(--line);margin:15px 0}
+@media(max-width:800px){
+ .hero,.game-layout{grid-template-columns:1fr}.hero-art{min-height:155px}
+ .game-layout .side-stack{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .stats-grid{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .arena{height:370px}
 }
-
-button{
-    font:inherit;
-    cursor:pointer;
-}
-
-a{
-    color:#35ed78;
-    text-decoration:none;
-}
-
-.wrap{
-    width:min(1050px,calc(100% - 28px));
-    margin:auto;
-}
-
-/* HEADER */
-
-header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:#0b111c;
-    border-bottom:1px solid #202a3c;
-}
-
-.nav{
-    min-height:65px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-}
-
-.logo{
-    color:white;
-    font-size:21px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.logo span{
-    color:#35ed78;
-}
-
-.coinTop{
-    background:#101826;
-    border:1px solid #26334a;
-    padding:9px 14px;
-    border-radius:20px;
-    font-weight:bold;
-}
-
-/* SCREENS */
-
-.screen{
-    display:none;
-}
-
-.screen.active{
-    display:block;
-    animation:fadeIn .2s ease;
-}
-
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(8px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-/* HOME */
-
-.hero{
-    padding:65px 0 35px;
-    text-align:center;
-}
-
-.logoSquare{
-    width:75px;
-    height:75px;
-    margin:0 auto 20px;
-    background:#35ed78;
-    border:5px solid white;
-    border-radius:16px;
-    box-shadow:0 0 30px #35ed7860;
-}
-
-.hero h1{
-    margin:0 0 12px;
-    font-size:clamp(40px,7vw,68px);
-}
-
-.hero h1 span{
-    color:#35ed78;
-}
-
-.hero p{
-    max-width:700px;
-    margin:0 auto 30px;
-    color:#aeb9cb;
-    line-height:1.7;
-}
-
-/* MENU */
-
-.menu{
-    max-width:700px;
-    margin:25px auto 40px;
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
-}
-
-.menuButton{
-    padding:20px;
-    border:1px solid #26334a;
-    border-radius:15px;
-    background:#101826;
-    color:white;
-    font-weight:bold;
-    font-size:16px;
-    transition:.15s;
-}
-
-.menuButton:hover{
-    transform:translateY(-3px);
-    border-color:#35ed78;
-    background:#162234;
-}
-
-.menuButton.start{
-    grid-column:1/-1;
-    background:#35ed78;
-    color:#061009;
-    border:0;
-    font-size:20px;
-}
-
-.menuButton.start:hover{
-    background:#62f58f;
-}
-
-/* STATS */
-
-.stats{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:14px;
-    margin-top:25px;
-}
-
-.stat{
-    min-width:130px;
-    padding:15px;
-    background:#101826;
-    border:1px solid #26334a;
-    border-radius:14px;
-}
-
-.stat strong{
-    display:block;
-    color:#35ed78;
-    font-size:22px;
-    margin-bottom:5px;
-}
-
-/* PAGE */
-
-.page{
-    padding:35px 0 60px;
-}
-
-.pageTitle{
-    text-align:center;
-    font-size:34px;
-    margin:15px 0 25px;
-}
-
-.backButton{
-    border:1px solid #2b3951;
-    border-radius:10px;
-    padding:11px 16px;
-    background:#101826;
-    color:white;
-    font-weight:bold;
-}
-
-.backButton:hover{
-    border-color:#35ed78;
-}
-
-.card{
-    padding:22px;
-    background:#101826;
-    border:1px solid #253149;
-    border-radius:18px;
-}
-
-.card h3{
-    margin-top:0;
-    color:#35ed78;
-}
-
-.card p,
-.card li{
-    color:#bac5d5;
-    line-height:1.7;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:16px;
-}
-
-/* ADS */
-
-.ad{
-    width:100%;
-    max-width:760px;
-    min-height:125px;
-    margin:30px auto;
-    padding:12px;
-    text-align:center;
-    background:#0b111b;
-    border:1px dashed #35445e;
-    border-radius:15px;
-}
-
-.ad small{
-    display:block;
-    color:#748197;
-    font-size:10px;
-    letter-spacing:2px;
-    margin-bottom:8px;
-}
-
-/* GAME */
-
-.gameBox{
-    padding:14px;
-    background:#0c121e;
-    border:2px solid #35ed78;
-    border-radius:20px;
-}
-
-.hud{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:12px;
-}
-
-.hudBox{
-    min-width:85px;
-    padding:9px 14px;
-    background:#121c2b;
-    border:1px solid #2a3951;
-    border-radius:10px;
-    text-align:center;
-}
-
-.hudBox span{
-    display:block;
-    color:#8290a7;
-    font-size:11px;
-}
-
-.hudBox strong{
-    color:#35ed78;
-    font-size:18px;
-}
-
-.arena{
-    position:relative;
-    width:100%;
-    height:480px;
-    overflow:hidden;
-    border-radius:15px;
-    background:
-        linear-gradient(#ffffff06 1px,transparent 1px),
-        linear-gradient(90deg,#ffffff06 1px,transparent 1px),
-        #080e18;
-    background-size:30px 30px;
-}
-
-.target{
-    position:absolute;
-    width:70px;
-    height:70px;
-    display:none;
-    border:4px solid white;
-    border-radius:12px;
-    background:#35ed78;
-    box-shadow:0 0 20px #35ed7899;
-    color:#ffffff;
-    font-size:42px;
-    font-weight:bold;
-    line-height:1;
-    text-shadow:0 2px 8px #00000070;
-    padding:0;
-}
-
-.notice{
-    min-height:25px;
-    margin:10px;
-    text-align:center;
-    color:#9da9bb;
-}
-
-.gameControls{
-    display:flex;
-    gap:10px;
-}
-
-.gameControls button{
-    flex:1;
-    padding:13px;
-    border:0;
-    border-radius:11px;
-    background:#1c2940;
-    color:white;
-    font-weight:bold;
-}
-
-.gameControls button:first-child{
-    background:#35ed78;
-    color:#061009;
-}
-
-/* SHOP */
-
-.shopCard{
-    text-align:center;
-}
-
-.skin{
-    width:60px;
-    height:60px;
-    margin:0 auto 10px;
-    border:4px solid white;
-    border-radius:10px;
-}
-
-.rainbow{
-    background:linear-gradient(
-        45deg,red,orange,yellow,green,cyan,blue,purple
-    );
-}
-
-.fire{
-    background:linear-gradient(
-        45deg,#f20,#ff8c00,#ffe600
-    );
-}
-
-.ice{
-    background:linear-gradient(
-        45deg,#3ddcff,#c9f8ff,#fff
-    );
-}
-
-.gold{
-    background:linear-gradient(
-        45deg,#9b7200,#ffe36e,#fff1a3
-    );
-}
-
-.galaxy{
-    background:linear-gradient(
-        45deg,#16002f,#5726a8,#00c8ff
-    );
-}
-
-.buyButton{
-    width:100%;
-    padding:11px;
-    border:0;
-    border-radius:10px;
-    background:#35ed78;
-    color:#061009;
-    font-weight:bold;
-}
-
-/* FAQ */
-
-.faqButton{
-    width:100%;
-    padding:18px;
-    border:0;
-    background:#101826;
-    color:white;
-    text-align:left;
-    font-weight:bold;
-    display:flex;
-    justify-content:space-between;
-}
-
-.faqAnswer{
-    display:none;
-    padding:0 18px 18px;
-    color:#bac5d5;
-    line-height:1.7;
-    background:#101826;
-}
-
-.faq.open .faqAnswer{
-    display:block;
-}
-
-/* FOOTER */
-
-footer{
-    padding:35px 0;
-    border-top:1px solid #202a3c;
-    color:#7f8ba0;
-}
-
-.footerLinks{
-    display:flex;
-    flex-wrap:wrap;
-    gap:16px;
-    margin-top:12px;
-}
-
-/* MOBILE */
-
-@media(max-width:650px){
-
-    .nav{
-        padding:12px 0;
-    }
-
-    .menu{
-        grid-template-columns:1fr;
-    }
-
-    .menuButton.start{
-        grid-column:auto;
-    }
-
-    .arena{
-        height:400px;
-    }
-
-    .gameControls{
-        flex-direction:column;
-    }
+@media(max-width:480px){
+ .panel{padding:14px;border-radius:16px}.grid{grid-template-columns:1fr 1fr}
+ .game-layout .side-stack{grid-template-columns:1fr 1fr}.arena{height:340px}
+ nav{gap:6px}nav button{padding:8px 10px;font-size:12px}
 }
 </style>
 </head>
-
 <body>
-
 <header>
-
-<div class="wrap nav">
-
-<div class="logo" onclick="showScreen('home')">
-Catch <span>The Square</span>
-</div>
-
-<div class="coinTop">
-🪙 <span id="topCoins">0</span>
-</div>
-
-</div>
-
+ <div class="brand">
+  <div class="logo">■</div>
+  <div><h1>Catch The Square</h1><div class="subtitle">NEON ARCADE · REACT FAST. LEVEL UP.</div></div>
+ </div>
+ <div class="topstats">
+  <div class="pill">🪙 <span id="headerCoins">0</span> coins</div>
+  <div class="pill">⭐ Level <span id="headerLevel">1</span></div>
+  <div class="pill">🏆 Best <span id="headerBest">0</span></div>
+  <div class="pill" id="userPill">👤 Guest player</div>
+ </div>
 </header>
 
+<nav id="navigation">
+ <button class="active" data-page="home">Home</button>
+ <button data-page="play">🎮 Play</button>
+ <button data-page="shop">🛍️ Shop</button>
+ <button data-page="missions">🎯 Missions</button>
+ <button data-page="leaderboard">🏆 Leaderboard</button>
+ <button data-page="community">💬 Community</button>
+ <button data-page="profile">👤 Profile</button>
+ <button data-page="about">ℹ️ About</button>
+</nav>
 
 <main>
-
-
-<!-- ================= HOME ================= -->
-
-<section id="home" class="screen active">
-
-<div class="hero">
-
-<div class="wrap">
-
-<div class="logoSquare"></div>
-
-<h1>Catch <span>The Square</span></h1>
-
-<p>
-A fast-paced reaction game with levels, changing target colors, unlockable shapes, difficulty modes, combos and rewards.
-</p>
-
-
-<div class="menu">
-
-<button class="menuButton start"
-onclick="startFromMenu()">
-🎮 START GAME
-</button>
-
-<button class="menuButton"
-onclick="showScreen('how')">
-📖 HOW TO PLAY
-</button>
-
-<button class="menuButton"
-onclick="showScreen('shop')">
-🛍️ SHOP
-</button>
-
-<button class="menuButton"
-onclick="showScreen('missions')">
-🏆 MISSIONS
-</button>
-
-<button class="menuButton"
-onclick="showScreen('about')">
-ℹ️ ABOUT
-</button>
-
-<button class="menuButton"
-onclick="showScreen('faq')">
-❓ FAQ
-</button>
-
-</div>
-
-
-<div class="stats">
-
-<div class="stat">
-<strong id="heroHigh">0</strong>
-High Score
-</div>
-
-<div class="stat">
-<strong id="heroCoins">0</strong>
-Coins
-</div>
-
-<div class="stat">
-<strong id="heroGames">0</strong>
-Games Played
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="ad">
-
-<small>ADVERTISEMENT</small>
-
-<!-- Aadimite ad integration -->
-<script async src="https://www.adimite.com/api/serve/a56a1286-8ee0-456b-b42e-797674958f1c"></script>
-
-</div>
-
+<section class="page active" id="page-home">
+ <div class="hero">
+  <div class="panel">
+   <div class="tag">YOUR NEXT HIGH SCORE STARTS HERE</div>
+   <h2>Can you catch<br><span style="color:var(--green)">the square?</span></h2>
+   <p>Catch targets before time runs out. Build combos, collect coins, unlock shapes and compete for the high score.</p>
+   <div class="row wrap">
+    <button onclick="showPage('play')">▶ PLAY NOW</button>
+    <button class="secondary" onclick="showPage('shop')">Explore Shop</button>
+   </div>
+   <hr>
+   <div class="notice">60-second rounds · Three lives · New challenges as you level up</div>
+  </div>
+  <div class="panel hero-art"><div class="big-target"></div></div>
+ </div>
+ <div class="stats-grid">
+  <div class="stat"><strong id="homeBest">0</strong><span>Personal best</span></div>
+  <div class="stat"><strong id="homeGames">0</strong><span>Games played</span></div>
+  <div class="stat"><strong id="homeCatches">0</strong><span>Targets caught</span></div>
+  <div class="stat"><strong id="homeCombo">0</strong><span>Best combo</span></div>
+ </div>
+ <div class="panel">
+  <div class="section-title"><h2>⚡ How to play</h2></div>
+  <div class="grid">
+   <div class="item"><div class="emoji">👆</div><h3>Catch</h3><p>Tap the glowing target as quickly as you can.</p></div>
+   <div class="item"><div class="emoji">🔥</div><h3>Build combos</h3><p>Keep catching targets to increase your combo bonus.</p></div>
+   <div class="item"><div class="emoji">🪙</div><h3>Earn coins</h3><p>Use coins to unlock skins and gameplay upgrades.</p></div>
+  </div>
+ </div>
 </section>
 
-
-<!-- ================= PLAY ================= -->
-
-<section id="play" class="screen">
-
-<div class="wrap page">
-
-<button class="backButton"
-onclick="showScreen('home')">
-← Back To Menu
-</button>
-
-<h2 class="pageTitle">🎮 Catch The Square</h2>
-
-<div class="gameBox">
-
-<div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;color:#bac5d5;">
-<label for="difficultySelect"><strong>Difficulty:</strong></label>
-<select id="difficultySelect" style="padding:9px 12px;border-radius:9px;background:#121c2b;color:white;border:1px solid #2a3951;">
-<option value="easy">Easy</option>
-<option value="normal" selected>Normal</option>
-<option value="hard">Hard</option>
-</select>
-<span style="font-size:12px;">Speed increases every 10 catches!</span>
-</div>
-
-<div class="hud">
-
-<div class="hudBox">
-<span>Score</span>
-<strong id="score">0</strong>
-</div>
-
-<div class="hudBox">
-<span>Time</span>
-<strong id="time">60</strong>
-</div>
-
-<div class="hudBox">
-<span>Lives</span>
-<strong id="lives">❤️❤️❤️</strong>
-</div>
-
-<div class="hudBox">
-<span>Coins</span>
-<strong id="coins">0</strong>
-</div>
-
-<div class="hudBox">
-<span>Combo</span>
-<strong id="combo">0</strong>
-</div>
-
-<div class="hudBox">
-<span>Level</span>
-<strong id="level">1</strong>
-</div>
-
-<div class="hudBox">
-<span>Shapes</span>
-<strong id="shapeCount">1/24</strong>
-</div>
-
-</div>
-
-
-<div id="arena" class="arena">
-
-<button
-id="target"
-class="target"
-aria-label="Catch the square">
-</button>
-
-</div>
-
-
-<div id="notice" class="notice">
-Press Start Game, then catch the square!
-</div>
-
-
-<div class="gameControls">
-
-<button id="startButton">
-▶ Start Game
-</button>
-
-<button id="pauseButton">
-⏸ Pause
-</button>
-
-<button id="resetButton">
-↩ Reset
-</button>
-
-</div>
-
-</div>
-
-</div>
-
+<section class="page" id="page-play">
+ <div class="panel">
+  <div class="section-title"><h2>🎮 Arcade</h2><span class="pill">Level <span id="gameLevel">1</span></span></div>
+  <div class="row wrap" style="margin-bottom:14px">
+   <label style="flex:1;min-width:150px">Difficulty
+    <select id="difficulty">
+     <option value="easy">Easy</option>
+     <option value="normal" selected>Normal</option>
+     <option value="hard">Hard</option>
+     <option value="insane">Insane</option>
+    </select>
+   </label>
+   <label style="flex:1;min-width:150px">World
+    <select id="world">
+     <option value="forest">🌲 Neon Forest</option>
+     <option value="lava">🌋 Lava Zone</option>
+     <option value="ice">❄️ Frozen Zone</option>
+     <option value="void">🌌 Void Zone</option>
+    </select>
+   </label>
+   <button class="secondary" id="musicBtn" onclick="toggleMusic()">🔊 Sound: On</button>
+  </div>
+  <div class="stats-grid">
+   <div class="stat"><strong id="score">0</strong><span>Score</span></div>
+   <div class="stat"><strong id="timer">60</strong><span>Seconds</span></div>
+   <div class="stat"><strong id="lives">❤️❤️❤️</strong><span>Lives</span></div>
+   <div class="stat"><strong id="combo">0</strong><span>Combo</span></div>
+  </div>
+  <div class="game-layout">
+   <div class="arena" id="arena">
+    <button class="target" id="target" aria-label="Catch the target"></button>
+    <div class="arena-message" id="arenaMessage">
+     <h3 id="arenaTitle">Ready, player?</h3>
+     <p id="arenaText">Press START and catch as many targets as possible in 60 seconds.</p>
+     <div class="hint">⚡ Every 10 catches, the target gets faster and changes color.</div>
+    </div>
+   </div>
+   <div class="side-stack">
+    <div class="sidebox"><h3>🏆 ROUND SCORE</h3><div class="big-number" id="sideScore">0</div><small class="muted">Beat your personal best.</small></div>
+    <div class="sidebox"><h3>🪙 YOUR COINS</h3><div class="big-number" id="sideCoins">0</div><button class="secondary" onclick="showPage('shop')">Visit shop</button></div>
+    <div class="sidebox"><h3>📈 LEVEL PROGRESS</h3><div id="levelText">0 / 10 catches</div><div class="progress"><div id="levelProgress"></div></div><small class="muted">Level up to earn bonus coins.</small></div>
+    <div class="sidebox"><h3>🎁 QUICK REWARD</h3><p class="muted">Finish a round to earn coins. Gold targets are worth extra points.</p><button id="startBtn" onclick="startGame()">▶ START</button></div>
+   </div>
+  </div>
+ </div>
 </section>
 
-
-<!-- ================= HOW ================= -->
-
-<section id="how" class="screen">
-
-<div class="wrap page">
-
-<button class="backButton"
-onclick="showScreen('home')">
-← Back To Menu
-</button>
-
-<h2 class="pageTitle">📖 How To Play</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>1. Start</h3>
-<p>
-Press Start Game to begin a
-60-second round with three lives.
-</p>
-</div>
-
-<div class="card">
-<h3>2. Catch</h3>
-<p>
-Click or tap the green square
-before it moves.
-</p>
-</div>
-
-<div class="card">
-<h3>3. Build Combos</h3>
-<p>
-Successful catches increase your
-combo. Every five catches gives
-bonus coins.
-</p>
-</div>
-
-<div class="card">
-<h3>4. Avoid Misses</h3>
-<p>
-Clicking empty space costs one
-life and resets your combo.
-</p>
-</div>
-
-<div class="card">
-<h3>5. Beat Your Score</h3>
-<p>
-Keep playing to improve your
-high score and earn more coins.
-</p>
-</div>
-
-</div>
-
-</div>
-
+<section class="page" id="page-shop">
+ <div class="panel">
+  <div class="section-title"><h2>🛍️ Coin Shop</h2><span class="pill">🪙 <span id="shopCoins">0</span></span></div>
+  <p class="muted">Spend coins earned by playing. Purchases are saved on this device.</p>
+  <h3>Target skins</h3><div class="grid" id="skinShop"></div>
+  <hr><h3>Power-ups</h3><div class="grid" id="powerShop"></div>
+  <hr><h3>Shape collection</h3><p class="muted">Unlock a new shape every 15 levels. Your unlocked shapes appear automatically as you progress.</p>
+  <div class="grid" id="shapeShop"></div>
+ </div>
 </section>
 
-
-<!-- ================= SHOP ================= -->
-
-<section id="shop" class="screen">
-
-<div class="wrap page">
-
-<button class="backButton"
-onclick="showScreen('home')">
-← Back To Menu
-</button>
-
-<h2 class="pageTitle">🛍️ Square Shop</h2>
-
-<div class="card" style="margin-bottom:18px;text-align:center;">
-Your Coins:
-<strong id="shopCoins">0</strong> 🪙
-</div>
-
-<div class="grid">
-
-<div class="card shopCard">
-<div class="skin rainbow"></div>
-<h3>Rainbow</h3>
-<p>50 coins</p>
-<button class="buyButton"
-data-skin="rainbow"
-data-price="50">
-Buy / Equip
-</button>
-</div>
-
-<div class="card shopCard">
-<div class="skin fire"></div>
-<h3>Fire</h3>
-<p>75 coins</p>
-<button class="buyButton"
-data-skin="fire"
-data-price="75">
-Buy / Equip
-</button>
-</div>
-
-<div class="card shopCard">
-<div class="skin ice"></div>
-<h3>Ice</h3>
-<p>100 coins</p>
-<button class="buyButton"
-data-skin="ice"
-data-price="100">
-Buy / Equip
-</button>
-</div>
-
-<div class="card shopCard">
-<div class="skin gold"></div>
-<h3>Gold</h3>
-<p>150 coins</p>
-<button class="buyButton"
-data-skin="gold"
-data-price="150">
-Buy / Equip
-</button>
-</div>
-
-<div class="card shopCard">
-<div class="skin galaxy"></div>
-<h3>Galaxy</h3>
-<p>250 coins</p>
-<button class="buyButton"
-data-skin="galaxy"
-data-price="250">
-Buy / Equip
-</button>
-</div>
-
-</div>
-
-</div>
-
+<section class="page" id="page-missions">
+ <div class="panel">
+  <div class="section-title"><h2>🎯 Missions</h2><span class="pill">Daily-style challenges</span></div>
+  <p class="muted">Complete these goals to earn extra coins. Progress is saved on this device.</p>
+  <div class="list" id="missionList"></div>
+ </div>
 </section>
 
-
-<!-- ================= MISSIONS ================= -->
-
-<section id="missions" class="screen">
-
-<div class="wrap page">
-
-<button class="backButton"
-onclick="showScreen('home')">
-← Back To Menu
-</button>
-
-<h2 class="pageTitle">🏆 Missions & Achievements</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>Catch 10 Squares</h3>
-<p id="missionCatches">0 / 10</p>
-</div>
-
-<div class="card">
-<h3>Play 5 Games</h3>
-<p id="missionGames">0 / 5</p>
-</div>
-
-<div class="card">
-<h3>Earn 100 Coins</h3>
-<p id="missionCoins">0 / 100</p>
-</div>
-
-<div class="card">
-<h3>Best Combo: 20</h3>
-<p id="missionCombo">0 / 20</p>
-</div>
-
-</div>
-
-</div>
-
+<section class="page" id="page-leaderboard">
+ <div class="panel">
+  <div class="section-title"><h2>🏆 Global Leaderboard</h2><button class="secondary" onclick="loadLeaderboard()">↻ Refresh</button></div>
+  <p class="muted">Scores submitted by players connected to the same Firebase project.</p>
+  <div class="notice" id="leaderStatus">Connecting to leaderboard…</div>
+  <div class="list" id="leaderList" style="margin-top:12px"></div>
+ </div>
 </section>
 
-
-<!-- ================= ABOUT ================= -->
-
-<section id="about" class="screen">
-
-<div class="wrap page">
-
-<button class="backButton"
-onclick="showScreen('home')">
-← Back To Menu
-</button>
-
-<h2 class="pageTitle">ℹ️ About Catch The Square</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<h3>What Is It?</h3>
-
-<p>
-Catch The Square is an independent
-browser reaction game built around
-quick rounds, changing target colors,
-level rewards, unlockable shapes, difficulty modes,
-combos, coins and unlockable skins.
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>Why Was It Made?</h3>
-
-<p>
-The goal is to provide a simple game
-that can be opened directly in a web
-browser without a complicated setup.
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>Your Progress</h3>
-
-<p>
-Game progress is saved locally in
-your browser. Clearing browser
-storage can remove saved progress.
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>Contact</h3>
-
-<p>
-Questions or feedback?
-Email:
-<a href="mailto:dylanaura03@gmail.com">
-dylanaura03@gmail.com
-</a>
-</p>
-
-</div>
-
-</div>
-
-</div>
-
+<section class="page" id="page-community">
+ <div class="panel">
+  <div class="section-title"><h2>💬 Global Chat</h2><button class="secondary" onclick="loadChat()">↻ Refresh</button></div>
+  <p class="muted">Keep messages friendly. Never post passwords, your address, or private information.</p>
+  <div class="chatlog" id="chatLog"><div class="muted">Connecting to chat…</div></div>
+  <form id="chatForm" class="row">
+   <input id="chatInput" maxlength="220" placeholder="Write a friendly message…" required>
+   <button type="submit">Send</button>
+  </form>
+  <div class="notice" id="chatStatus">Chat needs an authenticated Firebase session and suitable database rules.</div>
+ </div>
+ <div class="panel">
+  <h2>⭐ Player reviews</h2>
+  <p class="muted">Leave a rating on this device. Public reviews require a database rules setup.</p>
+  <form id="reviewForm">
+   <label>Rating
+    <select id="reviewRating"><option value="5">★★★★★ — Amazing</option><option value="4">★★★★ — Great</option><option value="3">★★★ — Good</option><option value="2">★★ — Needs work</option><option value="1">★ — Not for me</option></select>
+   </label>
+   <label style="display:block;margin-top:10px">Your review
+    <textarea id="reviewText" maxlength="300" rows="3" placeholder="What do you like about the game?" required></textarea>
+   </label>
+   <button style="margin-top:10px">Save review</button>
+  </form>
+  <div id="reviewList" class="list" style="margin-top:12px"></div>
+ </div>
+ <div class="panel">
+  <h2>🤝 Invite friends</h2>
+  <p class="muted">Share the game with friends and challenge them to beat your score.</p>
+  <div class="row">
+   <input id="inviteLink" readonly value="https://catchthesquare.site/">
+   <button onclick="copyInvite()">Copy link</button>
+  </div>
+ </div>
 </section>
 
-
-<!-- ================= FAQ ================= -->
-
-<section id="faq" class="screen">
-
-<div class="wrap page">
-
-<button class="backButton"
-onclick="showScreen('home')">
-← Back To Menu
-</button>
-
-<h2 class="pageTitle">❓ FAQ</h2>
-
-
-<div class="faq card" style="padding:0;margin-bottom:12px;">
-
-<button class="faqButton"
-onclick="toggleFAQ(this)">
-<span>How long is a round?</span>
-<span>+</span>
-</button>
-
-<div class="faqAnswer">
-Each round lasts up to 60 seconds,
-unless all three lives are lost first.
-</div>
-
-</div>
-
-
-<div class="faq card" style="padding:0;margin-bottom:12px;">
-
-<button class="faqButton"
-onclick="toggleFAQ(this)">
-<span>Can I play on a phone?</span>
-<span>+</span>
-</button>
-
-<div class="faqAnswer">
-Yes. The game supports touch interaction
-as well as mouse clicks.
-</div>
-
-</div>
-
-
-<div class="faq card" style="padding:0;margin-bottom:12px;">
-
-<button class="faqButton"
-onclick="toggleFAQ(this)">
-<span>Does the game save progress?</span>
-<span>+</span>
-</button>
-
-<div class="faqAnswer">
-Yes. Game progress is saved using
-your browser's local storage.
-</div>
-
-</div>
-
-
-<div class="faq card" style="padding:0;margin-bottom:12px;">
-
-<button class="faqButton"
-onclick="toggleFAQ(this)">
-<span>What can I buy?</span>
-<span>+</span>
-</button>
-
-<div class="faqAnswer">
-You can unlock Rainbow, Fire, Ice,
-Gold and Galaxy skins. Level up every 10 catches,
-earn 10 bonus coins per level, and unlock a new shape
-at levels 15, 30, 45 and beyond.
-</div>
-
-</div>
-
-
-<div class="faq card" style="padding:0;margin-bottom:12px;">
-
-<button class="faqButton"
-onclick="toggleFAQ(this)">
-<span>Why might an ad not appear?</span>
-<span>+</span>
-</button>
-
-<div class="faqAnswer">
-Advertising availability is controlled
-by the advertising system, so an ad
-may not appear on every visit.
-</div>
-
-</div>
-
-
-<div class="faq card" style="padding:0;">
-
-<button class="faqButton"
-onclick="toggleFAQ(this)">
-<span>How can I contact you?</span>
-<span>+</span>
-</button>
-
-<div class="faqAnswer">
-Email
-<a href="mailto:dylanaura03@gmail.com">
-dylanaura03@gmail.com
-</a>
-for questions or feedback.
-</div>
-
-</div>
-
-</div>
-
+<section class="page" id="page-profile">
+ <div class="panel">
+  <div class="section-title"><h2>👤 Player profile</h2><span class="pill" id="authState">Guest mode</span></div>
+  <p class="muted">Play as a guest or create an account to sign in on supported devices. Account features depend on Firebase Authentication settings.</p>
+  <label>Display name<input id="displayName" maxlength="20" placeholder="Your player name"></label>
+  <label style="display:block;margin-top:10px">Bio<textarea id="bioText" rows="2" maxlength="140" placeholder="A little about your gaming style"></textarea></label>
+  <div class="row wrap" style="margin-top:10px">
+   <button onclick="saveProfile()">Save profile</button>
+   <button class="secondary" onclick="showPage('leaderboard')">View scores</button>
+  </div>
+  <hr>
+  <h3>Account sign-in / registration</h3>
+  <p class="notice">Use an email you can access. Never share your password with anyone. Ask a parent or guardian before making an account if required.</p>
+  <label>Email<input id="email" type="email" autocomplete="email" placeholder="you@example.com"></label>
+  <label style="display:block;margin-top:10px">Password<input id="password" type="password" autocomplete="current-password" minlength="6" placeholder="At least 6 characters"></label>
+  <div class="row wrap" style="margin-top:10px">
+   <button onclick="registerAccount()">Create account</button>
+   <button class="secondary" onclick="loginAccount()">Sign in</button>
+   <button class="secondary" onclick="logoutAccount()">Sign out</button>
+  </div>
+  <div id="profileStatus" class="notice" style="margin-top:12px">Guest progress is stored in this browser.</div>
+  <hr>
+  <h3>Find a friend</h3>
+  <p class="muted">Searches public leaderboard names. This is not a private messaging or friend-request system.</p>
+  <div class="row"><input id="friendSearch" maxlength="20" placeholder="Player username"><button onclick="findFriend()">Search</button></div>
+  <div id="friendResult" class="notice" style="margin-top:10px"></div>
+  <hr>
+  <h3>VIP photo / ball upload</h3>
+  <p class="muted">Preview an image locally on this device. This does not upload it to a server or share it with friends.</p>
+  <input id="localPhoto" type="file" accept="image/*">
+  <img id="photoPreview" alt="Local image preview" class="hidden" style="max-width:100%;max-height:180px;margin-top:12px;border-radius:12px">
+ </div>
 </section>
 
+<section class="page" id="page-about">
+ <div class="panel">
+  <h2>ℹ️ About Catch The Square</h2>
+  <p>Catch The Square is a free browser reaction game. Catch targets, earn coins, level up and beat your personal best.</p>
+  <div class="grid">
+   <div class="item"><h3>🎮 Gameplay</h3><p>Short rounds, combos, lives, difficulty settings and changing target colors.</p></div>
+   <div class="item"><h3>🌍 Worlds</h3><p>Choose Neon Forest, Lava Zone, Frozen Zone or Void Zone.</p></div>
+   <div class="item"><h3>🚀 Suggestions</h3><p>Help improve the game by sending ideas to the developer.</p><a href="mailto:dylanaura03@gmail.com?subject=Catch%20The%20Square%20suggestion">Send a suggestion</a></div>
+  </div>
+  <hr>
+  <h3>Support the creator</h3>
+  <p class="muted">Payment checkout is not configured in this file, so no real-money purchase is offered here. Never enter payment details into an unverified form.</p>
+  <h3>Game portal compatibility</h3>
+  <p class="muted">This is a single-file web game. Submitting to a portal such as CrazyGames may require their current SDK, privacy checks and submission requirements. This page does not claim portal approval.</p>
+  <p><a href="mailto:dylanaura03@gmail.com">Contact the developer</a></p>
+ </div>
+</section>
 </main>
 
-
 <footer>
-
-<div class="wrap">
-
-<strong>© 2026 Catch The Square</strong>
-
-<div class="footerLinks">
-
-<a href="about.html">About</a>
-<a href="privacy.html">Privacy Policy</a>
-<a href="terms.html">Terms & Conditions</a>
-<a href="contact.html">Contact</a>
-
-</div>
-
-<p>
-Catch The Square is an independent browser game.
-</p>
-
-</div>
-
+ Catch The Square · Free browser game · <a href="mailto:dylanaura03@gmail.com">Contact</a><br>
+ Your local game progress is stored in this browser. Online features depend on connection and database permissions.
 </footer>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
 <script>
-
-/* =========================
-   SAVED DATA
-========================= */
-
-let coins =
-Number(localStorage.getItem("cts_coins") || 0);
-
-let highScore =
-Number(localStorage.getItem("cts_highScore") || 0);
-
-let gamesPlayed =
-Number(localStorage.getItem("cts_games") || 0);
-
-let catches =
-Number(localStorage.getItem("cts_catches") || 0);
-
-let coinsEarned =
-Number(localStorage.getItem("cts_coinsEarned") || 0);
-
-let bestCombo =
-Number(localStorage.getItem("cts_bestCombo") || 0);
-
-// Persistent progression: 10 catches per level, with a coin reward.
-let level = Math.max(1, Number(localStorage.getItem("cts_level") || 1));
-let levelCatches = Math.max(0, Number(localStorage.getItem("cts_levelCatches") || 0));
-let roundCatches = 0;
-let colorStep = 0;
-let baseMoveSpeed = 800;
-
-const targetColors = ["#35ed78", "#35b8ff", "#ff4fd8", "#ffcf33", "#ff6b35", "#a879ff", "#ffffff", "#35ffe0", "#ff477e", "#8cff45"];
-const shapeGlyphs = ["■", "●", "◆", "▲", "★", "⬟", "✦", "♥", "✿", "☀", "⬢", "✚", "✖", "⬣", "❖", "♠", "♦", "♣", "☂", "☯", "✪", "✧", "⬡", "✹"];
-
-function unlockedShapeCount(){
-    return Math.min(24, Math.floor(level / 15) + 1);
-}
-
-function updateTargetAppearance(){
-    const shapeIndex = unlockedShapeCount() - 1;
-    target.textContent = shapeGlyphs[shapeIndex];
-    const color = targetColors[colorStep % targetColors.length];
-    if(currentSkin === "default") target.style.background = color;
-    target.style.borderColor = color;
-    target.style.boxShadow = "0 0 24px " + color + "99";
-    target.style.borderRadius = ["10px", "50%", "8px", "8px", "14px", "10px", "50%", "18px", "50%", "50%"][shapeIndex % 10];
-    target.style.transform = shapeIndex === 2 ? "rotate(45deg)" : "none";
-}
-
-function movementDelay(){
-    const speedStep = Math.floor(roundCatches / 10);
-    return Math.max(180, baseMoveSpeed - speedStep * 55);
-}
-
-function restartMovementTimer(){
-    clearInterval(movement);
-    if(running && !paused){
-        movement = setInterval(moveTarget, movementDelay());
-    }
-}
-
-
-let ownedSkins;
-
-try{
-
-ownedSkins = JSON.parse(
-localStorage.getItem("cts_ownedSkins")
-|| '["default"]'
-);
-
-}catch(e){
-
-ownedSkins=["default"];
-
-}
-
-if(!ownedSkins.includes("default")){
-ownedSkins.push("default");
-}
-
-let currentSkin =
-localStorage.getItem("cts_skin")
-|| "default";
-
-
-/* =========================
-   GAME
-========================= */
-
-let score=0;
-let lives=3;
-let time=60;
-let combo=0;
-
-let running=false;
-let paused=false;
-
-let countdown=null;
-let movement=null;
-
-
-const arena =
-document.getElementById("arena");
-
-const target =
-document.getElementById("target");
-
-const notice =
-document.getElementById("notice");
-
-
-/* =========================
-   SCREEN NAVIGATION
-========================= */
-
-function showScreen(screen){
-
-document.querySelectorAll(".screen")
-.forEach(function(item){
-
-item.classList.remove("active");
-
-});
-
-const selected =
-document.getElementById(screen);
-
-if(selected){
-
-selected.classList.add("active");
-
-}
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-updateUI();
-
-}
-
-
-/* =========================
-   SAVE
-========================= */
-
-function saveData(){
-
-localStorage.setItem("cts_coins",coins);
-localStorage.setItem("cts_highScore",highScore);
-localStorage.setItem("cts_games",gamesPlayed);
-localStorage.setItem("cts_catches",catches);
-localStorage.setItem("cts_coinsEarned",coinsEarned);
-localStorage.setItem("cts_bestCombo",bestCombo);
-localStorage.setItem("cts_level",level);
-localStorage.setItem("cts_levelCatches",levelCatches);
-
-localStorage.setItem(
-"cts_ownedSkins",
-JSON.stringify(ownedSkins)
-);
-
-localStorage.setItem("cts_skin",currentSkin);
-
-}
-
-
-/* =========================
-   UI
-========================= */
-
-function updateUI(){
-
-document.getElementById("heroHigh").textContent=highScore;
-document.getElementById("heroCoins").textContent=coins;
-document.getElementById("heroGames").textContent=gamesPlayed;
-
-document.getElementById("topCoins").textContent=coins;
-
-document.getElementById("score").textContent=score;
-document.getElementById("time").textContent=time;
-document.getElementById("coins").textContent=coins;
-document.getElementById("combo").textContent=combo;
-document.getElementById("level").textContent=level;
-document.getElementById("shapeCount").textContent=unlockedShapeCount()+"/24";
-
-document.getElementById("lives").textContent=
-"❤️".repeat(lives)+
-"🖤".repeat(3-lives);
-
-document.getElementById("shopCoins").textContent=coins;
-
-document.getElementById("missionCatches").textContent=
-Math.min(catches,10)+" / 10";
-
-document.getElementById("missionGames").textContent=
-Math.min(gamesPlayed,5)+" / 5";
-
-document.getElementById("missionCoins").textContent=
-Math.min(coinsEarned,100)+" / 100";
-
-document.getElementById("missionCombo").textContent=
-Math.min(bestCombo,20)+" / 20";
-
-}
-
-
-/* =========================
-   SKIN
-========================= */
-
-function applySkin(){
-
-const skins={
-
-default:"#35ed78",
-
-rainbow:
-"linear-gradient(45deg,red,orange,yellow,green,cyan,blue,purple)",
-
-fire:
-"linear-gradient(45deg,#f20,#ff8c00,#ffe600)",
-
-ice:
-"linear-gradient(45deg,#3ddcff,#c9f8ff,#fff)",
-
-gold:
-"linear-gradient(45deg,#9b7200,#ffe36e,#fff1a3)",
-
-galaxy:
-"linear-gradient(45deg,#16002f,#5726a8,#00c8ff)"
-
+"use strict";
+
+/* Firebase project configuration */
+const firebaseConfig = {
+ apiKey: "AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
+ authDomain: "catch-the-square-79110.firebaseapp.com",
+ databaseURL: "https://catch-the-square-79110-default-rtdb.firebaseio.com",
+ projectId: "catch-the-square-79110",
+ appId: "1:855556289213:web:6ffe7fe9ec18c451623dd4"
 };
 
-target.style.background =
-skins[currentSkin] || skins.default;
-updateTargetAppearance();
+const $ = id => document.getElementById(id);
+const getNum = (key, fallback=0) => {
+ const n = Number(localStorage.getItem(key));
+ return Number.isFinite(n) && localStorage.getItem(key)!==null ? n : fallback;
+};
+const setNum = (key, value) => localStorage.setItem(key, String(value));
+const safeText = value => String(value ?? "").slice(0,300);
+const defaultName = () => localStorage.getItem("cts_name") || "Guest";
 
+const SHAPES = [
+ {name:"Square",glyph:"■"},{name:"Circle",glyph:"●"},{name:"Triangle",glyph:"▲"},
+ {name:"Diamond",glyph:"◆"},{name:"Star",glyph:"★"},{name:"Hexagon",glyph:"⬢"},
+ {name:"Heart",glyph:"♥"},{name:"Bolt",glyph:"ϟ"},{name:"Flower",glyph:"✿"},
+ {name:"Moon",glyph:"☾"},{name:"Cross",glyph:"✚"},{name:"Ring",glyph:"◎"},
+ {name:"Spiral",glyph:"❋"},{name:"Clover",glyph:"♣"},{name:"Sun",glyph:"☀"},
+ {name:"Spark",glyph:"✦"},{name:"Arrow",glyph:"➤"},{name:"Gem",glyph:"♦"},
+ {name:"Wave",glyph:"≋"},{name:"Crown",glyph:"♛"},{name:"Comet",glyph:"☄"},
+ {name:"Planet",glyph:"◉"},{name:"Snowflake",glyph:"❄"},{name:"Infinity",glyph:"∞"}
+];
+const SKINS = [
+ {id:"green",name:"Neon Green",price:0,color:"#54ff9f",icon:"🟩"},
+ {id:"rainbow",name:"Rainbow",price:50,color:"rainbow",icon:"🌈"},
+ {id:"fire",name:"Fire",price:75,color:"#ff754c",icon:"🔥"},
+ {id:"ice",name:"Ice",price:100,color:"#67eaff",icon:"❄️"},
+ {id:"gold",name:"Gold",price:150,color:"#ffd45c",icon:"🌟"},
+ {id:"galaxy",name:"Galaxy",price:250,color:"#bc82ff",icon:"🌌"}
+];
+const POWERS = [
+ {id:"extraLife",name:"Extra Life",icon:"❤️",price:20,desc:"Adds one life during your next round."},
+ {id:"coinBoost",name:"Coin Boost",icon:"🪙",price:60,desc:"Earn double coins in your next round."},
+ {id:"autoTap",name:"Auto-catcher",icon:"⚙️",price:100,desc:"Adds a small score bonus after a round. It does not automatically click."}
+];
+const LEVEL_CATCHES = 10;
+let coins=getNum("cts_coins"), highScore=getNum("cts_highScore"), games=getNum("cts_games"),
+ catches=getNum("cts_catches"), coinsEarned=getNum("cts_coinsEarned"),
+ bestCombo=getNum("cts_bestCombo"), level=Math.max(1,getNum("cts_level",1)),
+ levelCatches=getNum("cts_levelCatches"), ownedSkins=JSON.parse(localStorage.getItem("cts_ownedSkins")||'["green"]'),
+ currentSkin=localStorage.getItem("cts_skin")||"green",
+ activePowers=JSON.parse(localStorage.getItem("cts_powers")||"{}"),
+ missions=JSON.parse(localStorage.getItem("cts_missions")||"{}"),
+ reviews=JSON.parse(localStorage.getItem("cts_reviews")||"[]"),
+ profileBio=localStorage.getItem("cts_bio")||"",
+ user=null, database=null, auth=null, firebaseReady=false,
+ gameRunning=false, score=0, timeLeft=60, lives=3, combo=0, roundCatches=0,
+ targetColorStep=0, targetSpeed=1, timerHandle=null, tickHandle=null,
+ musicOn=true, audioContext=null, lastTargetTime=0, currentWorld="forest";
+
+function saveProgress(){
+ setNum("cts_coins",coins);setNum("cts_highScore",highScore);
+ setNum("cts_games",games);setNum("cts_catches",catches);
+ setNum("cts_coinsEarned",coinsEarned);setNum("cts_bestCombo",bestCombo);
+ setNum("cts_level",level);setNum("cts_levelCatches",levelCatches);
+ localStorage.setItem("cts_ownedSkins",JSON.stringify(ownedSkins));
+ localStorage.setItem("cts_skin",currentSkin);
+ localStorage.setItem("cts_powers",JSON.stringify(activePowers));
+ localStorage.setItem("cts_missions",JSON.stringify(missions));
 }
+function updateUI(){
+ $("headerCoins").textContent=coins;$("shopCoins").textContent=coins;
+ $("sideCoins").textContent=coins;$("headerLevel").textContent=level;
+ $("gameLevel").textContent=level;$("headerBest").textContent=highScore;
+ $("homeBest").textContent=highScore;$("homeGames").textContent=games;
+ $("homeCatches").textContent=catches;$("homeCombo").textContent=bestCombo;
+ $("levelText").textContent=levelCatches+" / "+LEVEL_CATCHES+" catches";
+ $("levelProgress").style.width=(levelCatches/LEVEL_CATCHES*100)+"%";
+ $("sideScore").textContent=score;
+ $("score").textContent=score;$("timer").textContent=timeLeft;
+ $("lives").textContent="❤️".repeat(Math.max(0,lives))+"🖤".repeat(Math.max(0,3-lives));
+ $("combo").textContent=combo;$("sideCoins").textContent=coins;
+ $("userPill").textContent="👤 "+(user ? defaultName() : defaultName());
+ $("target").style.background=skinColor();
+}
+function skinColor(){
+ const skin=SKINS.find(s=>s.id===currentSkin)||SKINS[0];
+ if(skin.color==="rainbow")return "linear-gradient(135deg,#ff6c9b,#ffd45c,#54ff9f,#52e5ff,#bc82ff)";
+ return skin.color;
+}
+function showPage(name){
+ document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+name));
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
+ if(name==="leaderboard")loadLeaderboard();
+ if(name==="community"){loadChat();renderReviews();}
+ if(name==="shop")renderShop();
+ if(name==="missions")renderMissions();
+ if(name==="play")updateUI();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
 
-
-/* =========================
-   MOVE TARGET
-========================= */
-
+function setArenaMessage(title,text){
+ $("arenaTitle").textContent=title;$("arenaText").textContent=text;
+ $("arenaMessage").classList.remove("hidden");
+}
 function moveTarget(){
-
-if(!running || paused){
-return;
+ const arena=$("arena"), target=$("target");
+ const maxX=Math.max(0,arena.clientWidth-target.offsetWidth-12);
+ const maxY=Math.max(0,arena.clientHeight-target.offsetHeight-12);
+ target.style.left=(6+Math.random()*maxX)+"px";
+ target.style.top=(6+Math.random()*maxY)+"px";
 }
-
-const maxX =
-arena.clientWidth-target.offsetWidth;
-
-const maxY =
-arena.clientHeight-target.offsetHeight;
-
-const x =
-Math.floor(
-Math.random()*Math.max(1,maxX)
-);
-
-const y =
-Math.floor(
-Math.random()*Math.max(1,maxY)
-);
-
-target.style.left=x+"px";
-target.style.top=y+"px";
-
-}
-
-
-/* =========================
-   START
-========================= */
-
-document.getElementById("startButton")
-.addEventListener("click",startGame);
-
-function startFromMenu(){
-    showScreen("play");
-    startGame();
-}
-
 function startGame(){
-
-clearInterval(countdown);
-clearInterval(movement);
-
-score=0;
-lives=3;
-time=60;
-combo=0;
-roundCatches=0;
-colorStep=0;
-const difficulty = document.getElementById("difficultySelect").value;
-baseMoveSpeed = difficulty === "easy" ? 1100 : (difficulty === "hard" ? 550 : 800);
-
-running=true;
-paused=false;
-
-document.getElementById("pauseButton")
-.textContent="⏸ Pause";
-
-target.style.display="block";
-
-applySkin();
-updateUI();
-moveTarget();
-
-notice.textContent="Catch the square!";
-
-movement=setInterval(moveTarget, movementDelay());
-
-countdown=setInterval(function(){
-
-if(!running || paused){
-return;
+ if(gameRunning)return;
+ showPage("play");
+ gameRunning=true;score=0;timeLeft=60;combo=0;roundCatches=0;
+ targetColorStep=0;targetSpeed=1;
+ const difficulty=$("difficulty").value;
+ lives=difficulty==="easy"?4:difficulty==="insane"?2:3;
+ currentWorld=$("world").value;
+ $("arena").style.background={
+  forest:"radial-gradient(ellipse at center,#173d35,#070d17 75%)",
+  lava:"radial-gradient(ellipse at center,#54251c,#100b14 75%)",
+  ice:"radial-gradient(ellipse at center,#193b56,#070d17 75%)",
+  void:"radial-gradient(ellipse at center,#39234f,#070d17 75%)"
+ }[currentWorld];
+ $("target").style.display="block";$("startBtn").disabled=true;
+ $("startBtn").textContent="ROUND RUNNING…";
+ $("arenaMessage").classList.add("hidden");
+ if(activePowers.extraLife){lives++;delete activePowers.extraLife;}
+ if(activePowers.coinBoost){activePowers._doubleCoins=true;delete activePowers.coinBoost;}
+ saveProgress();moveTarget();updateUI();
+ clearInterval(timerHandle);clearInterval(tickHandle);
+ timerHandle=setInterval(()=>{
+  timeLeft--;updateUI();
+  if(timeLeft<=0)endGame("Time's up!");
+ },1000);
+ tickHandle=setInterval(()=>{
+  if(!gameRunning)return;
+  const missChance={easy:0,normal:.015,hard:.04,insane:.075}[$("difficulty").value];
+  if(Math.random()<missChance){lives--;combo=0;updateUI();if(lives<=0)endGame("Out of lives!");}
+ },1800/targetSpeed);
 }
-
-time--;
-
-updateUI();
-
-if(time<=0){
-endGame();
+function targetCatch(){
+ if(!gameRunning)return;
+ const now=Date.now();
+ if(now-lastTargetTime<80)return;
+ lastTargetTime=now;
+ const difficulty=$("difficulty").value;
+ const multiplier={easy:1,normal:1.25,hard:1.6,insane:2}[difficulty];
+ combo++;roundCatches++;catches++;score+=Math.round(multiplier*(1+Math.floor(combo/5)));
+ if(combo>bestCombo)bestCombo=combo;
+ if(roundCatches%10===0){
+  targetColorStep++;
+  targetSpeed+=.15;
+  $("target").classList.toggle("gold");
+  $("arenaTitle").textContent="SPEED UP! ⚡";
+  $("arenaText").textContent="Target color changed. Stay sharp!";
+  $("arenaMessage").classList.remove("hidden");
+  setTimeout(()=>{if(gameRunning)$("arenaMessage").classList.add("hidden");},650);
+ }
+ if($("target").classList.contains("gold"))score+=5;
+ levelCatches++;
+ if(levelCatches>=LEVEL_CATCHES){
+  levelCatches=0;level++;coins+=10;coinsEarned+=10;
+  $("arenaTitle").textContent="LEVEL UP! ⭐";
+  $("arenaText").textContent="Level "+level+" reached! +10 coins";
+  $("arenaMessage").classList.remove("hidden");
+  setTimeout(()=>{if(gameRunning)$("arenaMessage").classList.add("hidden");},900);
+ }
+ const coinRate=activePowers._doubleCoins?2:1;
+ const reward=Math.max(1,Math.floor(multiplier*coinRate));
+ coins+=reward;coinsEarned+=reward;
+ updateMissionProgress("catches",1);updateMissionProgress("gamesCatches",1);
+ saveProgress();updateUI();moveTarget();playTone(480+Math.min(combo,20)*18);
 }
-
-},1000);
-
-}
-
-
-/* =========================
-   CATCH
-========================= */
-
-target.addEventListener("click",function(event){
-
-event.stopPropagation();
-
-if(!running || paused){
-return;
-}
-
-score++;
-combo++;
-catches++;
-roundCatches++;
-
-// Target color and movement speed change every 10 catches in this round.
-if(roundCatches % 10 === 0){
-    colorStep++;
-    notice.textContent = "⚡ " + roundCatches + " catches! New color and faster target!";
-    restartMovementTimer();
-}
-
-// Level up every 10 catches across play sessions; each level gives 10 coins.
-levelCatches++;
-if(levelCatches >= 10){
-    levelCatches = 0;
-    const oldShapeCount = unlockedShapeCount();
-    level++;
-    coins += 10;
-    coinsEarned += 10;
-    const newShapeCount = unlockedShapeCount();
-    notice.textContent = "🏆 LEVEL " + level + "! +10 bonus coins!";
-    if(newShapeCount > oldShapeCount){
-        notice.textContent += " New shape unlocked: " + shapeGlyphs[newShapeCount - 1];
-    }
-    applySkin();
-}
-
-coins++;
-coinsEarned++;
-
-if(combo>bestCombo){
-bestCombo=combo;
-}
-
-if(combo%5===0){
-
-coins+=5;
-coinsEarned+=5;
-
-notice.textContent=
-"🔥 Combo bonus! +5 coins";
-
-}else{
-
-notice.textContent=
-"Nice catch! +1 coin";
-
-}
-
-if(Math.random()<0.08){
-
-score+=5;
-coins+=10;
-coinsEarned+=10;
-
-notice.textContent=
-"⭐ BONUS! +5 score +10 coins";
-
-}
-
-if(score>highScore){
-highScore=score;
-}
-
-updateTargetAppearance();
-saveData();
-updateUI();
-moveTarget();
-
+$("target").addEventListener("click",e=>{e.stopPropagation();targetCatch();});
+$("arena").addEventListener("click",e=>{
+ if(!gameRunning||e.target===$("target"))return;
+ lives--;combo=0;updateUI();playTone(150);
+ if(lives<=0)endGame("Out of lives!");
 });
-
-
-/* =========================
-   MISS
-========================= */
-
-arena.addEventListener("click",function(event){
-
-if(!running || paused){
-return;
+function endGame(reason){
+ if(!gameRunning)return;
+ gameRunning=false;clearInterval(timerHandle);clearInterval(tickHandle);
+ $("target").style.display="none";$("startBtn").disabled=false;$("startBtn").textContent="▶ PLAY AGAIN";
+ games++;highScore=Math.max(highScore,score);
+ if(activePowers._doubleCoins)delete activePowers._doubleCoins;
+ if(activePowers.autoTap){coins+=5;coinsEarned+=5;delete activePowers.autoTap;}
+ saveProgress();updateUI();submitScore();
+ setArenaMessage(reason,"Final score: "+score+". Best score: "+highScore+". Press PLAY AGAIN for another round.");
+ $("arenaMessage").classList.remove("hidden");
+ updateMissionProgress("games",1);
+ renderMissions();
 }
-
-if(event.target===target){
-return;
+function playTone(freq=440){
+ if(!musicOn)return;
+ try{
+  audioContext=audioContext||new (window.AudioContext||window.webkitAudioContext)();
+  if(audioContext.state==="suspended")audioContext.resume();
+  const osc=audioContext.createOscillator(),gain=audioContext.createGain();
+  osc.frequency.value=freq;osc.type="sine";gain.gain.value=.035;
+  osc.connect(gain);gain.connect(audioContext.destination);
+  osc.start();gain.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+.09);
+  osc.stop(audioContext.currentTime+.1);
+ }catch(e){}
 }
-
-lives--;
-combo=0;
-
-updateUI();
-
-if(lives<=0){
-
-endGame();
-
-}else{
-
-notice.textContent=
-"Miss! You lost a life.";
-
+function toggleMusic(){
+ musicOn=!musicOn;$("musicBtn").textContent=musicOn?"🔊 Sound: On":"🔇 Sound: Off";
 }
-
+function renderShop(){
+ $("skinShop").innerHTML="";
+ SKINS.forEach(s=>{
+  const owned=ownedSkins.includes(s.id),equipped=currentSkin===s.id;
+  const card=document.createElement("div");card.className="item";
+  card.innerHTML=`<div class="emoji">${s.icon}</div><h3>${s.name}</h3><p>${s.price===0?"Free":s.price+" coins"}</p>`;
+  const btn=document.createElement("button");
+  btn.textContent=equipped?"Equipped":owned?"Equip":`Unlock · ${s.price} 🪙`;
+  btn.disabled=equipped;
+  btn.onclick=()=>{
+   if(owned){currentSkin=s.id;}
+   else if(coins>=s.price){coins-=s.price;ownedSkins.push(s.id);currentSkin=s.id;}
+   else{alert("Not enough coins yet. Play another round!");return;}
+   saveProgress();updateUI();renderShop();
+  };
+  card.appendChild(btn);$("skinShop").appendChild(card);
+ });
+ $("powerShop").innerHTML="";
+ POWERS.forEach(p=>{
+  const card=document.createElement("div");card.className="item";
+  card.innerHTML=`<div class="emoji">${p.icon}</div><h3>${p.name}</h3><p>${p.desc}</p><p><b>${p.price} coins</b></p>`;
+  const btn=document.createElement("button");btn.textContent="Buy";
+  btn.onclick=()=>{
+   if(coins<p.price){alert("Not enough coins yet!");return;}
+   coins-=p.price;activePowers[p.id]=true;saveProgress();updateUI();
+   btn.textContent="Purchased ✓";btn.disabled=true;
+  };
+  card.appendChild(btn);$("powerShop").appendChild(card);
+ });
+ $("shapeShop").innerHTML="";
+ const unlocked=Math.min(24,Math.floor((level-1)/15)+1);
+ SHAPES.forEach((s,i)=>{
+  const card=document.createElement("div");card.className="item";
+  card.innerHTML=`<div class="emoji">${s.glyph}</div><h3>${s.name}</h3><p>${i<unlocked?"Unlocked":"Unlocks at level "+(i*15+1)}</p>`;
+  $("shapeShop").appendChild(card);
+ });
+}
+function updateMissionProgress(key,amount){
+ missions[key]=(missions[key]||0)+amount;
+ localStorage.setItem("cts_missions",JSON.stringify(missions));
+}
+function renderMissions(){
+ const items=[
+  {key:"catches",title:"Catch 10 targets",goal:10,reward:20,desc:"Catch targets during your rounds."},
+  {key:"games",title:"Play 5 games",goal:5,reward:30,desc:"Finish five rounds."},
+  {key:"gamesCatches",title:"Catch 100 targets",goal:100,reward:50,desc:"Keep improving your reactions."},
+  {key:"comboMission",title:"Reach a 20 combo",goal:20,reward:35,desc:"Catch targets without missing."}
+ ];
+ $("missionList").innerHTML="";
+ items.forEach(m=>{
+  const value=m.key==="comboMission"?bestCombo:(missions[m.key]||0);
+  const claimed=!!missions["claimed_"+m.key],done=value>=m.goal;
+  const card=document.createElement("div");card.className="listrow";
+  const grow=document.createElement("div");grow.className="grow";
+  grow.innerHTML=`<b>${m.title}</b><br><small>${m.desc}</small><div class="progress"><div style="width:${Math.min(100,value/m.goal*100)}%"></div></div><small>${Math.min(value,m.goal)} / ${m.goal} · Reward ${m.reward} coins</small>`;
+  const btn=document.createElement("button");btn.textContent=claimed?"Claimed":done?"Claim":"In progress";
+  btn.disabled=!done||claimed;
+  btn.onclick=()=>{coins+=m.reward;coinsEarned+=m.reward;missions["claimed_"+m.key]=true;saveProgress();updateUI();renderMissions();};
+  card.appendChild(grow);card.appendChild(btn);$("missionList").appendChild(card);
+ });
+}
+function saveProfile(){
+ const name=($("displayName").value.trim()||"Guest").slice(0,20);
+ profileBio=$("bioText").value.trim().slice(0,140);
+ localStorage.setItem("cts_name",name);localStorage.setItem("cts_bio",profileBio);
+ updateUI();$("profileStatus").textContent="Profile saved on this device.";
+ if(user&&database){
+  database.ref("profiles/"+user.uid).update({name,bio:profileBio,updatedAt:Date.now()})
+   .catch(()=>{$("profileStatus").textContent="Saved locally. Firebase profile rules may need updating.";});
+ }
+}
+function firebaseInit(){
+ try{
+  if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
+  auth=firebase.auth();database=firebase.database();firebaseReady=true;
+  auth.onAuthStateChanged(async current=>{
+   user=current;
+   if(!user){
+    try{await auth.signInAnonymously();}catch(e){$("leaderStatus").textContent="Guest mode: "+e.message;}
+    return;
+   }
+   $("authState").textContent=user.isAnonymous?"Guest session":"Signed in";
+   $("userPill").textContent="👤 "+defaultName();
+   if(user.isAnonymous)$("profileStatus").textContent="Guest session connected.";
+   loadLeaderboard();loadChat();
+  });
+ }catch(e){
+  firebaseReady=false;
+  $("leaderStatus").textContent="Firebase unavailable. Local gameplay still works.";
+  $("chatStatus").textContent="Chat unavailable until Firebase loads.";
+ }
+}
+async function registerAccount(){
+ if(!auth){$("profileStatus").textContent="Firebase is not connected.";return;}
+ const email=$("email").value.trim(),password=$("password").value;
+ if(!email||password.length<6){$("profileStatus").textContent="Enter a valid email and a password of at least 6 characters.";return;}
+ try{
+  const credential=await auth.createUserWithEmailAndPassword(email,password);
+  user=credential.user;
+  $("profileStatus").textContent="Account created. Save your display name next.";
+  await saveRemoteProfile();
+ }catch(e){$("profileStatus").textContent="Could not create account: "+e.message;}
+}
+async function loginAccount(){
+ if(!auth){$("profileStatus").textContent="Firebase is not connected.";return;}
+ try{
+  const credential=await auth.signInWithEmailAndPassword($("email").value.trim(),$("password").value);
+  user=credential.user;$("profileStatus").textContent="Signed in successfully.";
+ }catch(e){$("profileStatus").textContent="Sign-in failed: "+e.message;}
+}
+async function logoutAccount(){
+ if(!auth)return;
+ try{await auth.signOut();user=null;$("profileStatus").textContent="Signed out. Guest progress remains on this device.";await auth.signInAnonymously();}
+ catch(e){$("profileStatus").textContent="Sign-out failed: "+e.message;}
+}
+async function saveRemoteProfile(){
+ if(!database||!user)return;
+ try{await database.ref("profiles/"+user.uid).update({name:defaultName(),bio:profileBio,updatedAt:Date.now()});}
+ catch(e){$("profileStatus").textContent+=" Profile database rules may need updating.";}
+}
+async function submitScore(){
+ if(!database||!user){$("leaderStatus").textContent="Score saved locally; online leaderboard is unavailable.";return;}
+ try{
+  const name=defaultName();
+  await database.ref("leaderboard/"+user.uid).transaction(old=>{
+   if(!old||score>Number(old.score||0))return {name:name.slice(0,20),score:score,updatedAt:Date.now()};
+   return;
+  });
+  $("leaderStatus").textContent="Score submitted to the global leaderboard.";
+  loadLeaderboard();
+ }catch(e){$("leaderStatus").textContent="Score saved locally. Firebase leaderboard rules may need updating.";}
+}
+async function loadLeaderboard(){
+ if(!database){$("leaderStatus").textContent="Firebase is not connected.";return;}
+ try{
+  const snap=await database.ref("leaderboard").orderByChild("score").limitToLast(50).once("value");
+  const arr=[];snap.forEach(child=>{const v=child.val()||{};arr.push({name:safeText(v.name||"Player").slice(0,20),score:Number(v.score)||0});});
+  arr.sort((a,b)=>b.score-a.score);
+  $("leaderList").innerHTML="";
+  if(!arr.length){$("leaderList").innerHTML='<div class="muted">No scores yet. Be the first!</div>';return;}
+  arr.slice(0,20).forEach((entry,i)=>{
+   const row=document.createElement("div");row.className="listrow";
+   row.innerHTML=`<div class="rank">${i+1}</div><div class="grow"><b></b><br><small>Global score</small></div><strong>${entry.score.toLocaleString()}</strong>`;
+   row.querySelector(".grow b").textContent=entry.name;
+   $("leaderList").appendChild(row);
+  });
+  $("leaderStatus").textContent="Showing the top "+Math.min(20,arr.length)+" scores.";
+ }catch(e){$("leaderStatus").textContent="Unable to load scores. Check Firebase database rules and connection.";}
+}
+function loadChat(){
+ if(!database){$("chatStatus").textContent="Firebase is not connected.";return;}
+ database.ref("chat").limitToLast(50).once("value").then(snap=>{
+  const messages=[];snap.forEach(child=>messages.push(child.val()));
+  $("chatLog").innerHTML="";
+  messages.forEach(m=>{
+   if(!m)return;
+   const line=document.createElement("div");line.className="chatline";
+   const strong=document.createElement("strong");strong.textContent=safeText(m.name||"Player").slice(0,20)+": ";
+   const body=document.createElement("span");body.textContent=safeText(m.text||"").slice(0,220);
+   line.append(strong,body);$("chatLog").appendChild(line);
+  });
+  $("chatLog").scrollTop=$("chatLog").scrollHeight;
+  $("chatStatus").textContent="Showing recent public messages.";
+ }).catch(()=>{$("chatStatus").textContent="Unable to read chat. Check Firebase rules.";});
+}
+$("chatForm").addEventListener("submit",async e=>{
+ e.preventDefault();const text=$("chatInput").value.trim();
+ if(!text)return;
+ if(!database||!user){$("chatStatus").textContent="Chat is not connected.";return;}
+ try{
+  await database.ref("chat").push({uid:user.uid,name:defaultName().slice(0,20),text:text.slice(0,220),timestamp:Date.now()});
+  $("chatInput").value="";loadChat();
+ }catch(err){$("chatStatus").textContent="Message not sent. Firebase chat rules may need updating.";}
 });
-
-
-/* =========================
-   PAUSE
-========================= */
-
-document.getElementById("pauseButton")
-.addEventListener("click",function(){
-
-if(!running){
-return;
+function renderReviews(){
+ $("reviewList").innerHTML="";
+ if(!reviews.length){$("reviewList").innerHTML='<div class="muted">No local reviews yet.</div>';return;}
+ reviews.slice().reverse().forEach(r=>{
+  const row=document.createElement("div");row.className="listrow";
+  const content=document.createElement("div");content.className="grow";
+  const stars=document.createElement("b");stars.textContent="★".repeat(r.rating)+"☆".repeat(5-r.rating);
+  const text=document.createElement("p");text.textContent=r.text;
+  const small=document.createElement("small");small.textContent=r.name+" · saved locally";
+  content.append(stars,text,small);row.appendChild(content);$("reviewList").appendChild(row);
+ });
 }
-
-paused=!paused;
-
-this.textContent=
-paused ? "▶ Resume" : "⏸ Pause";
-
-notice.textContent=
-paused ? "Game paused" : "Game resumed";
-
-if(!paused){
-moveTarget();
-}
-
+$("reviewForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const text=$("reviewText").value.trim();if(!text)return;
+ reviews.push({name:defaultName(),rating:Number($("reviewRating").value),text:text.slice(0,300),date:Date.now()});
+ reviews=reviews.slice(-30);localStorage.setItem("cts_reviews",JSON.stringify(reviews));
+ $("reviewText").value="";renderReviews();
 });
-
-
-/* =========================
-   RESET
-========================= */
-
-document.getElementById("resetButton")
-.addEventListener("click",function(){
-
-running=false;
-paused=false;
-
-clearInterval(countdown);
-clearInterval(movement);
-
-target.style.display="none";
-
-score=0;
-lives=3;
-time=60;
-combo=0;
-
-document.getElementById("pauseButton")
-.textContent="⏸ Pause";
-
-updateUI();
-
-notice.textContent=
-"Game reset. Press Start!";
-
+async function findFriend(){
+ const name=$("friendSearch").value.trim().toLowerCase();
+ if(!name){$("friendResult").textContent="Enter a username first.";return;}
+ if(!database){$("friendResult").textContent="Online search is unavailable.";return;}
+ try{
+  const snap=await database.ref("leaderboard").once("value");let matches=[];
+  snap.forEach(c=>{const v=c.val()||{};if(String(v.name||"").toLowerCase()===name)matches.push(v);});
+  $("friendResult").textContent=matches.length
+   ?matches.map(m=>safeText(m.name)+" — score "+(Number(m.score)||0)).join(" · ")
+   :"No leaderboard player found with that name.";
+ }catch(e){$("friendResult").textContent="Could not search players. Check Firebase rules.";}
+}
+function copyInvite(){
+ const text="Come play Catch The Square and try to beat my score! https://catchthesquare.site/";
+ if(navigator.clipboard&&navigator.clipboard.writeText){
+  navigator.clipboard.writeText(text).then(()=>alert("Invite copied!")).catch(()=>prompt("Copy this invite:",text));
+ }else prompt("Copy this invite:",text);
+}
+$("localPhoto").addEventListener("change",e=>{
+ const file=e.target.files&&e.target.files[0];if(!file)return;
+ if(!file.type.startsWith("image/")){alert("Choose an image file.");return;}
+ if(file.size>3*1024*1024){alert("Choose an image under 3 MB.");return;}
+ const url=URL.createObjectURL(file);$("photoPreview").src=url;$("photoPreview").classList.remove("hidden");
 });
-
-
-/* =========================
-   END GAME
-========================= */
-
-function endGame(){
-
-if(!running){
-return;
-}
-
-running=false;
-
-clearInterval(countdown);
-clearInterval(movement);
-
-target.style.display="none";
-
-gamesPlayed++;
-
-if(score>highScore){
-highScore=score;
-}
-
-updateTargetAppearance();
-saveData();
-updateUI();
-
-notice.textContent=
-"Round over! Score: "+
-score+
-" — press Start to play again.";
-
-}
-
-
-/* =========================
-   SHOP
-========================= */
-
-document.querySelectorAll(".buyButton")
-.forEach(function(button){
-
-button.addEventListener("click",function(){
-
-const name=this.dataset.skin;
-const price=Number(this.dataset.price);
-
-if(ownedSkins.includes(name)){
-
-currentSkin=name;
-
-saveData();
-applySkin();
-updateUI();
-
-alert(name+" equipped!");
-
-return;
-
-}
-
-if(coins<price){
-
-alert(
-"You need "+
-(price-coins)+
-" more coins."
-);
-
-return;
-
-}
-
-coins-=price;
-
-ownedSkins.push(name);
-currentSkin=name;
-
-saveData();
-applySkin();
-updateUI();
-
-alert(name+" unlocked and equipped!");
-
-});
-
-});
-
-
-/* =========================
-   FAQ
-========================= */
-
-function toggleFAQ(button){
-
-const faq=button.parentElement;
-
-faq.classList.toggle("open");
-
-const symbol=
-button.querySelector("span:last-child");
-
-symbol.textContent=
-faq.classList.contains("open")
-? "−"
-: "+";
-
-}
-
-
-/* =========================
-   INITIALIZE
-========================= */
-
-applySkin();
-updateUI();
-
-target.style.left="0px";
-target.style.top="0px";
-target.style.transform="none";
-target.textContent=shapeGlyphs[0];
-
+$("displayName").value=defaultName();$("bioText").value=profileBio;
+$("inviteLink").value="https://catchthesquare.site/";
+updateUI();renderShop();renderMissions();renderReviews();firebaseInit();
 </script>
-
 </body>
 </html>
