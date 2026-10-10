@@ -336,6 +336,12 @@ header{
     border-radius:12px;
     background:#35ed78;
     box-shadow:0 0 20px #35ed7899;
+    color:#ffffff;
+    font-size:42px;
+    font-weight:bold;
+    line-height:1;
+    text-shadow:0 2px 8px #00000070;
+    padding:0;
 }
 
 .notice{
@@ -522,17 +528,14 @@ Catch <span>The Square</span>
 <h1>Catch <span>The Square</span></h1>
 
 <p>
-A fast and simple browser reaction game.
-Catch the moving square, build combos,
-earn coins, unlock skins and beat your
-high score.
+A fast-paced reaction game with levels, changing target colors, unlockable shapes, difficulty modes, combos and rewards.
 </p>
 
 
 <div class="menu">
 
 <button class="menuButton start"
-onclick="showScreen('play')">
+onclick="startFromMenu()">
 🎮 START GAME
 </button>
 
@@ -592,16 +595,8 @@ Games Played
 
 <small>ADVERTISEMENT</small>
 
-<ins class="adsbygoogle"
-style="display:block;min-height:90px"
-data-ad-client="ca-pub-9731155253732713"
-data-ad-slot="7817292096"
-data-ad-format="auto"
-data-full-width-responsive="true"></ins>
-
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<!-- Aadimite ad integration -->
+<script async src="https://www.adimite.com/api/serve/a56a1286-8ee0-456b-b42e-797674958f1c"></script>
 
 </div>
 
@@ -622,6 +617,16 @@ onclick="showScreen('home')">
 <h2 class="pageTitle">🎮 Catch The Square</h2>
 
 <div class="gameBox">
+
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;color:#bac5d5;">
+<label for="difficultySelect"><strong>Difficulty:</strong></label>
+<select id="difficultySelect" style="padding:9px 12px;border-radius:9px;background:#121c2b;color:white;border:1px solid #2a3951;">
+<option value="easy">Easy</option>
+<option value="normal" selected>Normal</option>
+<option value="hard">Hard</option>
+</select>
+<span style="font-size:12px;">Speed increases every 10 catches!</span>
+</div>
 
 <div class="hud">
 
@@ -648,6 +653,16 @@ onclick="showScreen('home')">
 <div class="hudBox">
 <span>Combo</span>
 <strong id="combo">0</strong>
+</div>
+
+<div class="hudBox">
+<span>Level</span>
+<strong id="level">1</strong>
+</div>
+
+<div class="hudBox">
+<span>Shapes</span>
+<strong id="shapeCount">1/24</strong>
 </div>
 
 </div>
@@ -901,7 +916,8 @@ onclick="showScreen('home')">
 <p>
 Catch The Square is an independent
 browser reaction game built around
-quick rounds, moving targets,
+quick rounds, changing target colors,
+level rewards, unlockable shapes, difficulty modes,
 combos, coins and unlockable skins.
 </p>
 
@@ -1024,7 +1040,9 @@ onclick="toggleFAQ(this)">
 
 <div class="faqAnswer">
 You can unlock Rainbow, Fire, Ice,
-Gold and Galaxy square skins.
+Gold and Galaxy skins. Level up every 10 catches,
+earn 10 bonus coins per level, and unlock a new shape
+at levels 15, 30, 45 and beyond.
 </div>
 
 </div>
@@ -1119,6 +1137,43 @@ Number(localStorage.getItem("cts_coinsEarned") || 0);
 
 let bestCombo =
 Number(localStorage.getItem("cts_bestCombo") || 0);
+
+// Persistent progression: 10 catches per level, with a coin reward.
+let level = Math.max(1, Number(localStorage.getItem("cts_level") || 1));
+let levelCatches = Math.max(0, Number(localStorage.getItem("cts_levelCatches") || 0));
+let roundCatches = 0;
+let colorStep = 0;
+let baseMoveSpeed = 800;
+
+const targetColors = ["#35ed78", "#35b8ff", "#ff4fd8", "#ffcf33", "#ff6b35", "#a879ff", "#ffffff", "#35ffe0", "#ff477e", "#8cff45"];
+const shapeGlyphs = ["■", "●", "◆", "▲", "★", "⬟", "✦", "♥", "✿", "☀", "⬢", "✚", "✖", "⬣", "❖", "♠", "♦", "♣", "☂", "☯", "✪", "✧", "⬡", "✹"];
+
+function unlockedShapeCount(){
+    return Math.min(24, Math.floor(level / 15) + 1);
+}
+
+function updateTargetAppearance(){
+    const shapeIndex = unlockedShapeCount() - 1;
+    target.textContent = shapeGlyphs[shapeIndex];
+    const color = targetColors[colorStep % targetColors.length];
+    if(currentSkin === "default") target.style.background = color;
+    target.style.borderColor = color;
+    target.style.boxShadow = "0 0 24px " + color + "99";
+    target.style.borderRadius = ["10px", "50%", "8px", "8px", "14px", "10px", "50%", "18px", "50%", "50%"][shapeIndex % 10];
+    target.style.transform = shapeIndex === 2 ? "rotate(45deg)" : "none";
+}
+
+function movementDelay(){
+    const speedStep = Math.floor(roundCatches / 10);
+    return Math.max(180, baseMoveSpeed - speedStep * 55);
+}
+
+function restartMovementTimer(){
+    clearInterval(movement);
+    if(running && !paused){
+        movement = setInterval(moveTarget, movementDelay());
+    }
+}
 
 
 let ownedSkins;
@@ -1215,6 +1270,8 @@ localStorage.setItem("cts_games",gamesPlayed);
 localStorage.setItem("cts_catches",catches);
 localStorage.setItem("cts_coinsEarned",coinsEarned);
 localStorage.setItem("cts_bestCombo",bestCombo);
+localStorage.setItem("cts_level",level);
+localStorage.setItem("cts_levelCatches",levelCatches);
 
 localStorage.setItem(
 "cts_ownedSkins",
@@ -1242,6 +1299,8 @@ document.getElementById("score").textContent=score;
 document.getElementById("time").textContent=time;
 document.getElementById("coins").textContent=coins;
 document.getElementById("combo").textContent=combo;
+document.getElementById("level").textContent=level;
+document.getElementById("shapeCount").textContent=unlockedShapeCount()+"/24";
 
 document.getElementById("lives").textContent=
 "❤️".repeat(lives)+
@@ -1293,6 +1352,7 @@ galaxy:
 
 target.style.background =
 skins[currentSkin] || skins.default;
+updateTargetAppearance();
 
 }
 
@@ -1336,6 +1396,10 @@ target.style.top=y+"px";
 document.getElementById("startButton")
 .addEventListener("click",startGame);
 
+function startFromMenu(){
+    showScreen("play");
+    startGame();
+}
 
 function startGame(){
 
@@ -1346,6 +1410,10 @@ score=0;
 lives=3;
 time=60;
 combo=0;
+roundCatches=0;
+colorStep=0;
+const difficulty = document.getElementById("difficultySelect").value;
+baseMoveSpeed = difficulty === "easy" ? 1100 : (difficulty === "hard" ? 550 : 800);
 
 running=true;
 paused=false;
@@ -1361,10 +1429,7 @@ moveTarget();
 
 notice.textContent="Catch the square!";
 
-movement=setInterval(
-moveTarget,
-800
-);
+movement=setInterval(moveTarget, movementDelay());
 
 countdown=setInterval(function(){
 
@@ -1400,6 +1465,30 @@ return;
 score++;
 combo++;
 catches++;
+roundCatches++;
+
+// Target color and movement speed change every 10 catches in this round.
+if(roundCatches % 10 === 0){
+    colorStep++;
+    notice.textContent = "⚡ " + roundCatches + " catches! New color and faster target!";
+    restartMovementTimer();
+}
+
+// Level up every 10 catches across play sessions; each level gives 10 coins.
+levelCatches++;
+if(levelCatches >= 10){
+    levelCatches = 0;
+    const oldShapeCount = unlockedShapeCount();
+    level++;
+    coins += 10;
+    coinsEarned += 10;
+    const newShapeCount = unlockedShapeCount();
+    notice.textContent = "🏆 LEVEL " + level + "! +10 bonus coins!";
+    if(newShapeCount > oldShapeCount){
+        notice.textContent += " New shape unlocked: " + shapeGlyphs[newShapeCount - 1];
+    }
+    applySkin();
+}
 
 coins++;
 coinsEarned++;
@@ -1438,6 +1527,7 @@ if(score>highScore){
 highScore=score;
 }
 
+updateTargetAppearance();
 saveData();
 updateUI();
 moveTarget();
@@ -1558,6 +1648,7 @@ if(score>highScore){
 highScore=score;
 }
 
+updateTargetAppearance();
 saveData();
 updateUI();
 
@@ -1651,10 +1742,10 @@ faq.classList.contains("open")
 applySkin();
 updateUI();
 
-target.style.left="50%";
-target.style.top="50%";
-target.style.transform=
-"translate(-50%,-50%)";
+target.style.left="0px";
+target.style.top="0px";
+target.style.transform="none";
+target.textContent=shapeGlyphs[0];
 
 </script>
 
