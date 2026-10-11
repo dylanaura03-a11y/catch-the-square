@@ -1248,7 +1248,7 @@ let colorStep = 0;
 let baseMoveSpeed = 800;
 let selectedWorld = localStorage.getItem("cts_world") || "neon";
 let soundEnabled = localStorage.getItem("cts_sound") !== "off";
-let musicEnabled = localStorage.getItem("cts_music") === "on";
+let musicEnabled = localStorage.getItem("cts_music") !== "off";
 let audioContext = null;
 let musicTimer = null;
 let slowPowerActive = false;
@@ -1332,18 +1332,42 @@ function updateAudioButtons(){
     if(musicButton) musicButton.textContent = "Music: " + (musicEnabled ? "ON" : "OFF");
 }
 
+function playMusicNote(frequency, duration, when, volume){
+    const ctx = getAudioContext();
+    if(!ctx) return;
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+    oscillator.type = "triangle";
+    oscillator.frequency.setValueAtTime(frequency, when);
+    gain.gain.setValueAtTime(0.0001, when);
+    gain.gain.linearRampToValueAtTime(volume, when + 0.025);
+    gain.gain.setValueAtTime(volume, when + Math.max(0.03, duration - 0.05));
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + duration);
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+    oscillator.start(when);
+    oscillator.stop(when + duration + 0.02);
+}
+
 function startMusic(){
     stopMusic();
     if(!musicEnabled) return;
-    const notes = [262,330,392,330,294,349,440,349];
+    const melody = [523.25,659.25,783.99,659.25,587.33,698.46,880,698.46,
+                    523.25,659.25,783.99,987.77,880,783.99,659.25,587.33];
     let index = 0;
+    // Play a short note immediately after the user's click, then keep a looping arcade melody.
+    const ctx = getAudioContext();
+    if(ctx && ctx.state === "running") playMusicNote(melody[index++ % melody.length],0.28,ctx.currentTime+0.02,0.035);
     musicTimer = setInterval(function(){
-        if(!musicEnabled || !running || paused) return;
-        const wasEnabled = soundEnabled;
-        soundEnabled = true;
-        playTone(notes[index++ % notes.length],.16,"triangle",.012);
-        soundEnabled = wasEnabled;
-    },360);
+        if(!musicEnabled) return;
+        const audio = getAudioContext();
+        if(!audio || audio.state !== "running") return;
+        const note = melody[index++ % melody.length];
+        const now = audio.currentTime + 0.02;
+        playMusicNote(note,0.28,now,0.035);
+        // A quiet bass note gives the loop a fuller arcade-game feel.
+        if(index % 4 === 1) playMusicNote(note / 2,0.34,now,0.018);
+    },300);
 }
 function stopMusic(){ if(musicTimer){clearInterval(musicTimer);musicTimer=null;} }
 
@@ -1947,7 +1971,7 @@ document.getElementById("musicToggle").addEventListener("click",function(){
     musicEnabled = !musicEnabled;
     localStorage.setItem("cts_music",musicEnabled?"on":"off");
     updateAudioButtons();
-    if(musicEnabled && running) startMusic(); else stopMusic();
+    if(musicEnabled) startMusic(); else stopMusic();
 });
 
 document.getElementById("slowPowerButton").addEventListener("click",function(){
