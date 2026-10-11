@@ -1,998 +1,2008 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://quge5.com/88/tag.min.js" data-zone="290609" async data-cfasync="false"></script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Catch The Square — Neon Arcade</title>
-<meta name="description" content="Play Catch The Square, a free browser reaction game. Catch the moving target, build combos, earn coins, unlock shapes and beat your high score.">
-<link rel="canonical" href="https://catchthesquare.site/">
-<meta name="theme-color" content="#080b16">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Monetag MultiTag -->
-<script src="https://quge5.com/88/tag.min.js" data-zone="293742" async data-cfasync="false"></script>
+<title>Catch The Square</title>
+
+<meta name="description"
+content="Play Catch The Square, a free browser reaction game. Catch the moving square, build combos, earn coins, unlock skins and beat your high score.">
+
+<link rel="canonical" href="https://catchthesquare.site/">
+    
+
+<script async
+src="https://www.googletagmanager.com/gtag/js?id=G-93GG50S9FZ"></script>
+
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-93GG50S9FZ');
+</script>
 
 <style>
-:root {
-  --bg:#080b16;
-  --panel:#11182a;
-  --panel2:#17223a;
-  --border:#283654;
-  --text:#f4f7ff;
-  --muted:#9eabc6;
-  --green:#54ff9f;
-  --cyan:#5de7ff;
-  --gold:#ffd45c;
-  --red:#ff657d;
-  --purple:#bc82ff;
+*{
+    box-sizing:border-box;
 }
-*{box-sizing:border-box}
+
 body{
-  margin:0;background:radial-gradient(ellipse at top,#14213d 0%,var(--bg) 55%);
-  color:var(--text);font-family:Arial,Helvetica,sans-serif;min-height:100vh
+    margin:0;
+    background:#070b12;
+    color:#f7f9fc;
+    font-family:Arial,Helvetica,sans-serif;
 }
-button,input,textarea,select{font:inherit}
+
 button{
-  border:1px solid var(--border);background:var(--panel2);color:var(--text);
-  padding:11px 14px;border-radius:10px;cursor:pointer;transition:.15s
+    font:inherit;
+    cursor:pointer;
 }
-button:hover{border-color:var(--green);transform:translateY(-1px)}
-button:disabled{opacity:.45;cursor:not-allowed;transform:none}
-input,textarea,select{
-  width:100%;padding:12px;border-radius:9px;border:1px solid var(--border);
-  color:var(--text);background:#090f1e;margin:5px 0 12px
+
+a{
+    color:#35ed78;
+    text-decoration:none;
 }
-textarea{min-height:80px;resize:vertical}
-a{color:var(--cyan)}
+
+.wrap{
+    width:min(1050px,calc(100% - 28px));
+    margin:auto;
+}
+
+/* HEADER */
+
 header{
-  padding:20px 16px;text-align:center;border-bottom:1px solid var(--border);
-  background:#080b16cc
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:#0b111c;
+    border-bottom:1px solid #202a3c;
 }
-.logo{font-size:clamp(25px,5vw,40px);font-weight:900;letter-spacing:-1px}
-.logo span{color:var(--green);text-shadow:0 0 20px #54ff9f55}
-header p{color:var(--muted);margin:8px 0 0}
-.layout{display:flex;max-width:1200px;margin:auto;gap:18px;padding:18px}
-nav{
-  width:190px;flex-shrink:0;display:flex;flex-direction:column;gap:8px;
-  align-self:flex-start;position:sticky;top:12px
+
+.nav{
+    min-height:65px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
 }
-nav button{text-align:left;width:100%;padding:13px}
-nav button.active{border-color:var(--green);background:#153327;color:var(--green)}
-main{flex:1;min-width:0}
-.page{display:none}
-.page.active{display:block}
-.panel{
-  background:linear-gradient(145deg,#131d32,#0d1425);
-  border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;
-  box-shadow:0 12px 35px #0002
+
+.logo{
+    color:white;
+    font-size:21px;
+    font-weight:bold;
+    cursor:pointer;
 }
-h1,h2,h3{margin-top:0}
-h2{font-size:24px}
-h3{font-size:17px}
-.muted{color:var(--muted)}
-.green{color:var(--green)}
-.gold{color:var(--gold)}
-.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.row>*{flex:1}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.stat{padding:15px;background:#0a1120;border:1px solid var(--border);border-radius:12px}
-.stat strong{display:block;font-size:23px;color:var(--green);margin-top:6px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
-.item{background:#0a1120;border:1px solid var(--border);border-radius:12px;padding:15px}
-.item .emoji{font-size:32px;display:block;margin-bottom:9px}
-.item button{width:100%;margin-top:8px}
-.primary{background:var(--green);color:#06130b;border-color:var(--green);font-weight:bold}
-.danger{border-color:#713043;color:#ff91a2}
+
+.logo span{
+    color:#35ed78;
+}
+
+.coinTop{
+    background:#101826;
+    border:1px solid #26334a;
+    padding:9px 14px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+/* SCREENS */
+
+.screen{
+    display:none;
+}
+
+.screen.active{
+    display:block;
+    animation:fadeIn .2s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* HOME */
+
+.hero{
+    padding:65px 0 35px;
+    text-align:center;
+}
+
+.logoSquare{
+    width:75px;
+    height:75px;
+    margin:0 auto 20px;
+    background:#35ed78;
+    border:5px solid white;
+    border-radius:16px;
+    box-shadow:0 0 30px #35ed7860;
+}
+
+.hero h1{
+    margin:0 0 12px;
+    font-size:clamp(40px,7vw,68px);
+}
+
+.hero h1 span{
+    color:#35ed78;
+}
+
+.hero p{
+    max-width:700px;
+    margin:0 auto 30px;
+    color:#aeb9cb;
+    line-height:1.7;
+}
+
+/* MENU — centered, straight, equal-width buttons */
+.hero{
+    min-height:calc(100vh - 65px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px 0;
+}
+.hero > .wrap{width:min(100% - 28px,760px);}
+.menu{
+    width:min(100%,360px);
+    margin:25px auto 28px;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:12px;
+}
+.menuButton{
+    width:100%;
+    min-height:54px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:15px 18px;
+}
+.menuButton.start{order:-1;}
+
+.menuButton{
+    padding:20px;
+    border:1px solid #26334a;
+    border-radius:15px;
+    background:#101826;
+    color:white;
+    font-weight:bold;
+    font-size:16px;
+    transition:.15s;
+}
+
+.menuButton:hover{
+    transform:translateY(-3px);
+    border-color:#35ed78;
+    background:#162234;
+}
+
+.menuButton.start{
+    grid-column:1/-1;
+    background:#35ed78;
+    color:#061009;
+    border:0;
+    font-size:20px;
+}
+
+.menuButton.start:hover{
+    background:#62f58f;
+}
+
+/* STATS */
+
+.stats{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top:25px;
+}
+
+.stat{
+    min-width:130px;
+    padding:15px;
+    background:#101826;
+    border:1px solid #26334a;
+    border-radius:14px;
+}
+
+.stat strong{
+    display:block;
+    color:#35ed78;
+    font-size:22px;
+    margin-bottom:5px;
+}
+
+/* PAGE */
+
+.page{
+    padding:35px 0 60px;
+}
+
+.pageTitle{
+    text-align:center;
+    font-size:34px;
+    margin:15px 0 25px;
+}
+
+.backButton{
+    border:1px solid #2b3951;
+    border-radius:10px;
+    padding:11px 16px;
+    background:#101826;
+    color:white;
+    font-weight:bold;
+}
+
+.backButton:hover{
+    border-color:#35ed78;
+}
+
+.card{
+    padding:22px;
+    background:#101826;
+    border:1px solid #253149;
+    border-radius:18px;
+}
+
+.card h3{
+    margin-top:0;
+    color:#35ed78;
+}
+
+.card p,
+.card li{
+    color:#bac5d5;
+    line-height:1.7;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:16px;
+}
+
+/* ADS */
+
+.ad{
+    width:100%;
+    max-width:760px;
+    min-height:125px;
+    margin:30px auto;
+    padding:12px;
+    text-align:center;
+    background:#0b111b;
+    border:1px dashed #35445e;
+    border-radius:15px;
+}
+
+.ad small{
+    display:block;
+    color:#748197;
+    font-size:10px;
+    letter-spacing:2px;
+    margin-bottom:8px;
+}
+
+/* GAME */
+
+.gameBox{
+    padding:14px;
+    background:#0c121e;
+    border:2px solid #35ed78;
+    border-radius:20px;
+}
+
+.hud{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:12px;
+}
+
+.hudBox{
+    min-width:85px;
+    padding:9px 14px;
+    background:#121c2b;
+    border:1px solid #2a3951;
+    border-radius:10px;
+    text-align:center;
+}
+
+.hudBox span{
+    display:block;
+    color:#8290a7;
+    font-size:11px;
+}
+
+.hudBox strong{
+    color:#35ed78;
+    font-size:18px;
+}
+
 .arena{
-  position:relative;min-height:340px;height:min(52vh,480px);overflow:hidden;
-  border:2px solid #304363;border-radius:16px;
-  background:
-    linear-gradient(#ffffff08 1px,transparent 1px),
-    linear-gradient(90deg,#ffffff08 1px,transparent 1px),
-    #080e1b;
-  background-size:25px 25px;isolation:isolate
+    position:relative;
+    width:100%;
+    height:480px;
+    overflow:hidden;
+    border-radius:15px;
+    background:
+        linear-gradient(#ffffff06 1px,transparent 1px),
+        linear-gradient(90deg,#ffffff06 1px,transparent 1px),
+        #080e18;
+    background-size:30px 30px;
 }
+
 .target{
-  position:absolute;left:40%;top:40%;width:48px;height:48px;
-  display:none;z-index:10;align-items:center;justify-content:center;
-  padding:0;border:2px solid #baffd4;background:var(--green);color:#06130b;
-  border-radius:8px;box-shadow:0 0 24px #54ff9fbb;
-  font-size:27px;font-weight:900;line-height:1;touch-action:manipulation
+    position:absolute;
+    width:70px;
+    height:70px;
+    display:none;
+    border:4px solid white;
+    border-radius:12px;
+    background:#35ed78;
+    box-shadow:0 0 20px #35ed7899;
+    color:#ffffff;
+    font-size:42px;
+    font-weight:bold;
+    line-height:1;
+    text-shadow:0 2px 8px #00000070;
+    padding:0;
 }
-.target.gold{
-  background:var(--gold);border-color:#fff0a7;color:#302000;
-  box-shadow:0 0 27px #ffd45ccc
+
+.notice{
+    min-height:25px;
+    margin:10px;
+    text-align:center;
+    color:#9da9bb;
 }
-.arena-message{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:20px;color:var(--muted);pointer-events:none;z-index:1
+
+.gameControls{
+    display:flex;
+    gap:10px;
 }
-.arena-message strong{color:var(--text)}
-.arena-message.hidden{display:none}
-.big-score{font-size:34px;font-weight:900;color:var(--green)}
-.notice{padding:12px;border:1px solid var(--border);border-radius:10px;background:#0a1120;margin:10px 0}
-.notice.error{border-color:#713043;color:#ff9aaa}
-.notice.success{border-color:#236a48;color:var(--green)}
-.list-row{padding:11px 0;border-bottom:1px solid var(--border);overflow-wrap:anywhere}
-.list-row:last-child{border-bottom:0}
-.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#24304a;color:var(--cyan);font-size:12px}
-footer{text-align:center;padding:25px;color:var(--muted);font-size:13px}
-.small{font-size:13px}
-.hidden{display:none!important}
-@media(max-width:760px){
-  .layout{flex-direction:column;padding:12px}
-  nav{position:static;width:100%;display:flex;flex-direction:column}
-  nav button{width:100%}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .arena{min-height:300px;height:42vh}
-  .panel{padding:15px}
+
+.gameControls button{
+    flex:1;
+    padding:13px;
+    border:0;
+    border-radius:11px;
+    background:#1c2940;
+    color:white;
+    font-weight:bold;
+}
+
+.gameControls button:first-child{
+    background:#35ed78;
+    color:#061009;
+}
+
+/* WORLDS, CHARACTERS AND POWER-UPS */
+.worldChoices{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:18px 0;}
+.worldChoice{min-height:105px;border:2px solid #2a3951;border-radius:14px;padding:16px 10px;color:white;background:#101826;font-weight:bold;cursor:pointer;text-align:center;}
+.worldChoice.active{border-color:#35ed78;box-shadow:0 0 0 2px #35ed7830;background:#162234;}
+.worldChoice span{display:block;font-size:28px;margin-bottom:7px;}
+.powerups{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:12px 0;}
+.powerups button,.settingButton{padding:11px 14px;border:1px solid #2a3951;border-radius:10px;background:#162234;color:white;font-weight:bold;}
+.powerups button:hover,.settingButton:hover{border-color:#35ed78;}
+.arena.world-neon{background:radial-gradient(ellipse at center,#173b2b,#080e18 75%);background-size:cover;}
+.arena.world-sunset{background:linear-gradient(180deg,#42214e,#e66b4b 55%,#22172e);}
+.arena.world-ocean{background:radial-gradient(ellipse at top,#126a83,#071a2c 75%);}
+.arena.world-space{background:radial-gradient(ellipse at center,#34205f,#080715 75%);}
+.arena.world-forest{background:radial-gradient(ellipse at center,#24552c,#07150c 75%);}
+.arena.world-lava{background:radial-gradient(ellipse at bottom,#9b321e,#210b13 75%);}
+.worldTag{color:#b8c5d0;text-align:center;font-size:13px;margin:0 0 10px;}
+
+/* SHOP */
+
+.shopCard{
+    text-align:center;
+}
+
+.skin{
+    width:60px;
+    height:60px;
+    margin:0 auto 10px;
+    border:4px solid white;
+    border-radius:10px;
+}
+
+.rainbow{
+    background:linear-gradient(
+        45deg,red,orange,yellow,green,cyan,blue,purple
+    );
+}
+
+.fire{
+    background:linear-gradient(
+        45deg,#f20,#ff8c00,#ffe600
+    );
+}
+
+.ice{
+    background:linear-gradient(
+        45deg,#3ddcff,#c9f8ff,#fff
+    );
+}
+
+.gold{
+    background:linear-gradient(
+        45deg,#9b7200,#ffe36e,#fff1a3
+    );
+}
+
+.galaxy{
+    background:linear-gradient(
+        45deg,#16002f,#5726a8,#00c8ff
+    );
+}
+
+.buyButton{
+    width:100%;
+    padding:11px;
+    border:0;
+    border-radius:10px;
+    background:#35ed78;
+    color:#061009;
+    font-weight:bold;
+}
+
+/* FAQ */
+
+.faqButton{
+    width:100%;
+    padding:18px;
+    border:0;
+    background:#101826;
+    color:white;
+    text-align:left;
+    font-weight:bold;
+    display:flex;
+    justify-content:space-between;
+}
+
+.faqAnswer{
+    display:none;
+    padding:0 18px 18px;
+    color:#bac5d5;
+    line-height:1.7;
+    background:#101826;
+}
+
+.faq.open .faqAnswer{
+    display:block;
+}
+
+/* FOOTER */
+
+footer{
+    padding:35px 0;
+    border-top:1px solid #202a3c;
+    color:#7f8ba0;
+}
+
+.footerLinks{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-top:12px;
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+    .nav{
+        padding:12px 0;
+    }
+
+    .hero{min-height:calc(100vh - 65px);padding:22px 0;}
+    .menu{width:min(100%,360px);}
+    .menuButton.start{grid-column:auto;}
+
+    .arena{
+        height:400px;
+    }
+
+    .gameControls{
+        flex-direction:column;
+    }
 }
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">CATCH <span>THE SQUARE</span> 🟩</div>
-  <p>Catch fast. Level up. Unlock your style.</p>
+
+<div class="wrap nav">
+
+<div class="logo" onclick="showScreen('home')">
+Catch <span>The Square</span>
+</div>
+
+<div class="coinTop">
+🪙 <span id="topCoins">0</span>
+</div>
+
+</div>
+
 </header>
 
-<div class="layout">
-<nav id="nav">
-  <button class="active" data-page="home">🏠 Home</button>
-  <button data-page="play">🎮 Play</button>
-  <button data-page="shop">🛒 Coin Shop</button>
-  <button data-page="shapes">🔷 Shape Store</button>
-  <button data-page="missions">🎯 Missions</button>
-  <button data-page="leaderboard">🏆 Leaderboard</button>
-  <button data-page="community">💬 Community</button>
-  <button data-page="profile">👤 Account</button>
-  <button data-page="about">ℹ️ About</button>
-</nav>
 
 <main>
-<section class="page active" id="page-home">
-  <div class="panel">
-    <span class="badge">NEON ARCADE</span>
-    <h1>Ready to catch it?</h1>
-    <p class="muted">Catch the moving target before time runs out. Earn coins, build combos, level up, and unlock new shapes.</p>
-    <div class="row">
-      <button class="primary" onclick="go('play')">🎮 Play Now</button>
-      <button onclick="go('shapes')">🔷 Explore Shapes</button>
-    </div>
-  </div>
-  <div class="panel">
-    <h2>Your Progress</h2>
-    <div class="stats">
-      <div class="stat">Level<strong id="homeLevel">1</strong></div>
-      <div class="stat">Coins<strong id="homeCoins">0</strong></div>
-      <div class="stat">High Score<strong id="homeHigh">0</strong></div>
-      <div class="stat">Games<strong id="homeGames">0</strong></div>
-      <div class="stat">Catches<strong id="homeCatches">0</strong></div>
-      <div class="stat">Best Combo<strong id="homeCombo">0</strong></div>
-    </div>
-  </div>
-  <div class="panel">
-    <h2>How to Play</h2>
-    <ol>
-      <li>Create an account or sign in.</li>
-      <li>Open Play and press Start Game.</li>
-      <li>Catch the target as many times as possible in 60 seconds.</li>
-      <li>Earn coins and experience catches to level up.</li>
-      <li>Visit the Shape Store to unlock shapes at levels 15, 30, 45 and beyond.</li>
-    </ol>
-  </div>
+
+
+<!-- ================= HOME ================= -->
+
+<section id="home" class="screen active">
+
+<div class="hero">
+
+<div class="wrap">
+
+<div class="logoSquare"></div>
+
+<h1>Catch <span>The Square</span></h1>
+
+<p>
+A fast-paced reaction game with levels, changing target colors, unlockable shapes, difficulty modes, combos and rewards.
+</p>
+
+
+<div class="menu">
+
+<button class="menuButton start"
+onclick="startFromMenu()">
+🎮 START GAME
+</button>
+
+<button class="menuButton" onclick="showScreen('characters')">🎨 CHARACTERS</button>
+<button class="menuButton" onclick="showScreen('shop')">🛒 SHOP</button>
+<button class="menuButton" onclick="showScreen('missions')">🎯 MISSIONS</button>
+<button class="menuButton" onclick="showScreen('leaderboard')">🏆 GLOBAL LEADERBOARD</button>
+<button class="menuButton" onclick="showScreen('globalchat')">💬 GLOBAL CHAT</button>
+<button class="menuButton" onclick="showScreen('settings')">⚙️ SETTINGS</button>
+<button class="menuButton" onclick="showScreen('worlds')">🌍 WORLDS</button>
+<button class="menuButton" onclick="showScreen('how')">📖 HOW TO PLAY</button>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+<strong id="heroHigh">0</strong>
+High Score
+</div>
+
+<div class="stat">
+<strong id="heroCoins">0</strong>
+Coins
+</div>
+
+<div class="stat">
+<strong id="heroGames">0</strong>
+Games Played
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="ad">
+
+<small>ADVERTISEMENT</small>
+
+<!-- Aadimite ad integration -->
+<script async src="https://www.adimite.com/api/serve/a56a1286-8ee0-456b-b42e-797674958f1c"></script>
+
+</div>
+
 </section>
 
-<section class="page" id="page-play">
-  <div class="panel">
-    <h2>🎮 Play</h2>
-    <p class="muted" id="playStatus">Sign in to unlock gameplay.</p>
-    <div class="row">
-      <div>
-        <label for="difficulty">Difficulty</label>
-        <select id="difficulty">
-          <option value="normal">Normal</option>
-          <option value="fast">Fast</option>
-          <option value="expert">Expert</option>
-        </select>
-      </div>
-      <div>
-        <label for="world">Arena</label>
-        <select id="world">
-          <option value="neon">Neon Grid</option>
-          <option value="forest">Forest</option>
-          <option value="lava">Lava</option>
-          <option value="ice">Ice</option>
-        </select>
-      </div>
-    </div>
-    <div class="stats">
-      <div class="stat">Time<strong id="time">60</strong></div>
-      <div class="stat">Score<strong id="score">0</strong></div>
-      <div class="stat">Lives<strong id="lives">3</strong></div>
-      <div class="stat">Combo<strong id="combo">0</strong></div>
-      <div class="stat">Round Catches<strong id="roundCatches">0</strong></div>
-      <div class="stat">Level<strong id="playLevel">1</strong></div>
-    </div>
-    <div class="row" style="margin:14px 0">
-      <button class="primary" id="startBtn" onclick="startGame()">Start Game</button>
-      <button id="stopBtn" onclick="endGame(false)" disabled>End Game</button>
-    </div>
-    <div class="arena" id="arena">
-      <button class="target" id="target" aria-label="Catch the target" onclick="catchTarget()">■</button>
-      <div class="arena-message" id="arenaMessage"><div><strong>Ready?</strong><br>Sign in, then press Start Game.</div></div>
-    </div>
-    <p class="muted small">Tip: Gold targets give bonus points. Misses cost lives.</p>
-  </div>
+
+<!-- ================= PLAY ================= -->
+
+<section id="play" class="screen">
+
+<div class="wrap page">
+
+<button class="backButton"
+onclick="showScreen('home')">
+← Back To Menu
+</button>
+
+<h2 class="pageTitle">🎮 Catch The Square</h2>
+
+<div class="gameBox">
+
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;color:#bac5d5;">
+<label for="difficultySelect"><strong>Difficulty:</strong></label>
+<select id="difficultySelect" style="padding:9px 12px;border-radius:9px;background:#121c2b;color:white;border:1px solid #2a3951;">
+<option value="easy">Easy</option>
+<option value="normal" selected>Normal</option>
+<option value="hard">Hard</option>
+</select>
+<span style="font-size:12px;">Speed increases every 10 catches!</span>
+</div>
+
+<div class="worldTag">🌍 World: <strong id="currentWorldLabel">Neon Grid</strong> — choose a world in the Worlds menu</div>
+<div class="powerups">
+<button id="slowPowerButton" type="button">⏳ Slow Time · 15 🪙</button>
+<button id="lifePowerButton" type="button">❤️ Extra Life · 25 🪙</button>
+</div>
+
+<div class="hud">
+
+<div class="hudBox">
+<span>Score</span>
+<strong id="score">0</strong>
+</div>
+
+<div class="hudBox">
+<span>Time</span>
+<strong id="time">60</strong>
+</div>
+
+<div class="hudBox">
+<span>Lives</span>
+<strong id="lives">❤️❤️❤️</strong>
+</div>
+
+<div class="hudBox">
+<span>Coins</span>
+<strong id="coins">0</strong>
+</div>
+
+<div class="hudBox">
+<span>Combo</span>
+<strong id="combo">0</strong>
+</div>
+
+<div class="hudBox">
+<span>Level</span>
+<strong id="level">1</strong>
+</div>
+
+<div class="hudBox">
+<span>Shapes</span>
+<strong id="shapeCount">1/24</strong>
+</div>
+
+</div>
+
+
+<div id="arena" class="arena">
+
+<button
+id="target"
+class="target"
+aria-label="Catch the square">
+</button>
+
+</div>
+
+
+<div id="notice" class="notice">
+Press Start Game, then catch the square!
+</div>
+
+
+<div class="gameControls">
+
+<button id="startButton">
+▶ Start Game
+</button>
+
+<button id="pauseButton">
+⏸ Pause
+</button>
+
+<button id="resetButton">
+↩ Reset
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<section class="page" id="page-shop">
-  <div class="panel">
-    <h2>🛒 Coin Shop</h2>
-    <p>Your coins: <strong class="gold" id="shopCoins">0</strong></p>
-    <p class="muted">Buy skins and power-ups with coins. Shapes are unlocked separately by leveling up.</p>
-    <h3>Target Skins</h3>
-    <div class="cards" id="skinCards"></div>
-    <h3 style="margin-top:22px">Power-ups</h3>
-    <div class="cards" id="powerCards"></div>
-  </div>
+
+<!-- ================= WORLDS ================= -->
+<section id="worlds" class="screen">
+<div class="wrap page">
+<button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
+<h2 class="pageTitle">🌍 Choose Your World</h2>
+<p style="text-align:center;color:#bac5d5;">Choose a visual arena theme. Your selection is saved automatically.</p>
+<div class="worldChoices">
+<button class="worldChoice active" data-world="neon"><span>🟩</span>Neon Grid</button>
+<button class="worldChoice" data-world="sunset"><span>🌇</span>Sunset Rush</button>
+<button class="worldChoice" data-world="ocean"><span>🌊</span>Deep Ocean</button>
+<button class="worldChoice" data-world="space"><span>🌌</span>Galaxy Void</button>
+<button class="worldChoice" data-world="forest"><span>🌲</span>Pixel Forest</button>
+<button class="worldChoice" data-world="lava"><span>🌋</span>Lava Zone</button>
+</div>
+<div class="card"><h3>World selected</h3><p id="worldDescription">Neon Grid — a classic dark grid with neon glow.</p></div>
+</div>
 </section>
 
-<section class="page" id="page-shapes">
-  <div class="panel">
-    <h2>🔷 Shape Store</h2>
-    <p>Your level: <strong class="green" id="shapeLevel">1</strong></p>
-    <p class="muted">Unlock a new shape every 15 levels. No coins required. Reach the required level and equip your shape.</p>
-    <div class="notice">Square is available from the beginning. Circle unlocks at level 15, Triangle at level 30, and so on.</div>
-    <div class="cards" id="shapeCards"></div>
-  </div>
+<!-- ================= GLOBAL LEADERBOARD PLACEHOLDER ================= -->
+<section id="leaderboard" class="screen">
+<div class="wrap page">
+<button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
+<h2 class="pageTitle">🏆 Global Leaderboard</h2>
+<div class="card" style="text-align:center;margin-bottom:16px;">
+<h3>🌐 Online rankings are coming soon</h3>
+<p>The leaderboard screen is ready. It will show real players and scores after the online database is connected.</p>
+<p style="color:#ffd166;font-weight:700;">Preview only — these are not real global scores.</p>
+</div>
+<div class="card" style="padding:0;overflow:hidden;">
+<div style="display:grid;grid-template-columns:70px 1fr 100px;gap:12px;padding:14px 16px;background:#18263a;font-weight:800;"><span>RANK</span><span>PLAYER</span><span style="text-align:right;">SCORE</span></div>
+<div style="display:grid;grid-template-columns:70px 1fr 100px;gap:12px;padding:14px 16px;border-top:1px solid #2a3951;"><span>🥇</span><span>Waiting for players</span><span style="text-align:right;">—</span></div>
+<div style="display:grid;grid-template-columns:70px 1fr 100px;gap:12px;padding:14px 16px;border-top:1px solid #2a3951;"><span>🥈</span><span>Online connection pending</span><span style="text-align:right;">—</span></div>
+<div style="display:grid;grid-template-columns:70px 1fr 100px;gap:12px;padding:14px 16px;border-top:1px solid #2a3951;"><span>🥉</span><span>Your score will appear here</span><span style="text-align:right;">—</span></div>
+</div>
+</div>
 </section>
 
-<section class="page" id="page-missions">
-  <div class="panel">
-    <h2>🎯 Missions</h2>
-    <p class="muted">Complete challenges to earn bonus coins. Progress is saved on this device.</p>
-    <div id="missionList"></div>
-  </div>
+<!-- ================= GLOBAL CHAT PLACEHOLDER ================= -->
+<section id="globalchat" class="screen">
+<div class="wrap page">
+<button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
+<h2 class="pageTitle">💬 Global Chat</h2>
+<div class="card" style="text-align:center;margin-bottom:16px;">
+<h3>🌐 Chat is getting ready</h3>
+<p>This is the chat screen layout. Once the online database is connected, players will be able to chat with everyone playing Catch The Square.</p>
+<p style="color:#ffd166;font-weight:700;">Messages are not sent or received yet.</p>
+</div>
+<div class="card">
+<div id="globalChatMessages" style="min-height:180px;max-height:300px;overflow-y:auto;padding:12px;background:#0b1220;border:1px solid #2a3951;border-radius:10px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;text-align:center;color:#9aa9bd;">Global messages will appear here after chat is connected.</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;">
+<input id="globalChatInput" type="text" maxlength="160" placeholder="Chat will be available soon…" disabled style="flex:1;min-width:180px;padding:12px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;opacity:.7;">
+<button class="settingButton" type="button" disabled style="opacity:.55;cursor:not-allowed;">Send</button>
+</div>
+<p style="font-size:.85rem;color:#9aa9bd;margin-top:10px;">Chat input is disabled until online chat is connected.</p>
+</div>
+</div>
 </section>
 
-<section class="page" id="page-leaderboard">
-  <div class="panel">
-    <h2>🏆 Global Leaderboard</h2>
-    <p class="muted">Scores are submitted when you finish a round. The leaderboard needs Firebase database access configured correctly.</p>
-    <button onclick="loadLeaderboard()">↻ Refresh</button>
-    <div id="leaderboardList" style="margin-top:12px">Loading leaderboard…</div>
-  </div>
+<!-- ================= CHARACTERS ================= -->
+<section id="characters" class="screen">
+<div class="wrap page">
+<button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
+<h2 class="pageTitle">🎨 Shape Collection</h2>
+<div class="card" style="margin-bottom:16px;text-align:center;">Level <strong id="characterLevel">1</strong> · Unlocked <strong id="characterUnlocked">1/24</strong><p>Unlock a new shape every 15 levels. Keep catching squares to level up!</p></div>
+<div id="characterGrid" class="grid"></div>
+</div>
 </section>
 
-<section class="page" id="page-community">
-  <div class="panel">
-    <h2>💬 Community Chat</h2>
-    <p class="muted">Keep messages friendly. Do not post private information.</p>
-    <div id="chatMessages" style="max-height:300px;overflow:auto;margin-bottom:12px">Loading chat…</div>
-    <form id="chatForm">
-      <label for="chatInput">Your message</label>
-      <textarea id="chatInput" maxlength="250" placeholder="Say hello to the community…" required></textarea>
-      <button class="primary" type="submit">Send Message</button>
-    </form>
-    <div id="chatStatus" class="muted small"></div>
-  </div>
+<!-- ================= SETTINGS ================= -->
+<section id="settings" class="screen">
+<div class="wrap page">
+<button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
+<h2 class="pageTitle">⚙️ Settings</h2>
+<div class="grid">
+<div class="card"><h3>🔊 Sound Effects</h3><p>Play a short sound when you catch the target or earn a bonus.</p><button class="settingButton" id="soundToggle">Sound: ON</button></div>
+<div class="card"><h3>🎵 Background Music</h3><p>Toggle a simple, generated game music loop. No music files or downloads needed.</p><button class="settingButton" id="musicToggle">Music: OFF</button></div>
+<div class="card"><h3>🎮 How To Play</h3><p>Learn the controls, combos, levels, and rewards.</p><button class="settingButton" onclick="showScreen('how')">Open Instructions</button></div>
+<div class="card"><h3>❓ Help & FAQ</h3><p>Answers about saved progress and game rules.</p><button class="settingButton" onclick="showScreen('faq')">Open FAQ</button></div>
+</div>
+</div>
 </section>
 
-<section class="page" id="page-profile">
-  <div class="panel">
-    <h2>👤 Account</h2>
-    <div id="authStatus" class="notice">You are signed out. Create an account or sign in to play.</div>
-    <div id="authForms">
-      <h3>Create an account</h3>
-      <form id="signupForm">
-        <label for="signupName">Display name</label>
-        <input id="signupName" maxlength="20" placeholder="Your player name" required>
-        <label for="signupEmail">Email</label>
-        <input id="signupEmail" type="email" autocomplete="email" required>
-        <label for="signupPassword">Password (at least 6 characters)</label>
-        <input id="signupPassword" type="password" minlength="6" autocomplete="new-password" required>
-        <button class="primary" type="submit">Create Account</button>
-      </form>
-      <hr style="border-color:var(--border);margin:24px 0">
-      <h3>Sign in</h3>
-      <form id="signinForm">
-        <label for="signinEmail">Email</label>
-        <input id="signinEmail" type="email" autocomplete="email" required>
-        <label for="signinPassword">Password</label>
-        <input id="signinPassword" type="password" autocomplete="current-password" required>
-        <button type="submit">Sign In</button>
-      </form>
-    </div>
-    <div id="signedInPanel" class="hidden">
-      <h3>Player Details</h3>
-      <label for="profileName">Display name</label>
-      <input id="profileName" maxlength="20" placeholder="Display name">
-      <button onclick="saveProfile()">Save Name</button>
-      <p class="muted" id="profileEmail"></p>
-      <button class="danger" onclick="signOutUser()">Sign Out</button>
-    </div>
-    <div id="authMessage" class="muted small" aria-live="polite"></div>
-  </div>
+<!-- ================= HOW ================= -->
+
+<section id="how" class="screen">
+
+<div class="wrap page">
+
+<button class="backButton"
+onclick="showScreen('home')">
+← Back To Menu
+</button>
+
+<h2 class="pageTitle">📖 How To Play</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>1. Start</h3>
+<p>
+Press Start Game to begin a
+60-second round with three lives.
+</p>
+</div>
+
+<div class="card">
+<h3>2. Catch</h3>
+<p>
+Click or tap the green square
+before it moves.
+</p>
+</div>
+
+<div class="card">
+<h3>3. Build Combos</h3>
+<p>
+Successful catches increase your
+combo. Every five catches gives
+bonus coins.
+</p>
+</div>
+
+<div class="card">
+<h3>4. Avoid Misses</h3>
+<p>
+Clicking empty space costs one
+life and resets your combo.
+</p>
+</div>
+
+<div class="card">
+<h3>5. Beat Your Score</h3>
+<p>
+Keep playing to improve your
+high score and earn more coins.
+</p>
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<section class="page" id="page-about">
-  <div class="panel">
-    <h2>ℹ️ About Catch The Square</h2>
-    <p>Catch The Square is a free browser reaction game. Catch targets, collect coins, complete missions and unlock shapes as you level up.</p>
-    <h3>Contact</h3>
-    <p><a href="mailto:dylanaura03@gmail.com">dylanaura03@gmail.com</a></p>
-    <h3>Privacy reminder</h3>
-    <p class="muted">Do not share passwords, home addresses, phone numbers or other private information in public chat. Account credentials are handled by Firebase Authentication.</p>
-  </div>
+
+<!-- ================= SHOP ================= -->
+
+<section id="shop" class="screen">
+
+<div class="wrap page">
+
+<button class="backButton"
+onclick="showScreen('home')">
+← Back To Menu
+</button>
+
+<h2 class="pageTitle">🛍️ Square Shop</h2>
+
+<div class="card" style="margin-bottom:18px;text-align:center;">
+Your Coins:
+<strong id="shopCoins">0</strong> 🪙
+</div>
+
+<div class="grid">
+
+<div class="card shopCard">
+<div class="skin rainbow"></div>
+<h3>Rainbow</h3>
+<p>50 coins</p>
+<button class="buyButton"
+data-skin="rainbow"
+data-price="50">
+Buy / Equip
+</button>
+</div>
+
+<div class="card shopCard">
+<div class="skin fire"></div>
+<h3>Fire</h3>
+<p>75 coins</p>
+<button class="buyButton"
+data-skin="fire"
+data-price="75">
+Buy / Equip
+</button>
+</div>
+
+<div class="card shopCard">
+<div class="skin ice"></div>
+<h3>Ice</h3>
+<p>100 coins</p>
+<button class="buyButton"
+data-skin="ice"
+data-price="100">
+Buy / Equip
+</button>
+</div>
+
+<div class="card shopCard">
+<div class="skin gold"></div>
+<h3>Gold</h3>
+<p>150 coins</p>
+<button class="buyButton"
+data-skin="gold"
+data-price="150">
+Buy / Equip
+</button>
+</div>
+
+<div class="card shopCard">
+<div class="skin galaxy"></div>
+<h3>Galaxy</h3>
+<p>250 coins</p>
+<button class="buyButton"
+data-skin="galaxy"
+data-price="250">
+Buy / Equip
+</button>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= MISSIONS ================= -->
+
+<section id="missions" class="screen">
+
+<div class="wrap page">
+
+<button class="backButton"
+onclick="showScreen('home')">
+← Back To Menu
+</button>
+
+<h2 class="pageTitle">🏆 Missions & Achievements</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Catch 10 Squares</h3>
+<p id="missionCatches">0 / 10</p>
+</div>
+
+<div class="card">
+<h3>Play 5 Games</h3>
+<p id="missionGames">0 / 5</p>
+</div>
+
+<div class="card">
+<h3>Earn 100 Coins</h3>
+<p id="missionCoins">0 / 100</p>
+</div>
+
+<div class="card">
+<h3>Best Combo: 20</h3>
+<p id="missionCombo">0 / 20</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section id="about" class="screen">
+
+<div class="wrap page">
+
+<button class="backButton"
+onclick="showScreen('home')">
+← Back To Menu
+</button>
+
+<h2 class="pageTitle">ℹ️ About Catch The Square</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>What Is It?</h3>
+
+<p>
+Catch The Square is an independent
+browser reaction game built around
+quick rounds, changing target colors,
+level rewards, unlockable shapes, difficulty modes,
+combos, coins and unlockable skins.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Why Was It Made?</h3>
+
+<p>
+The goal is to provide a simple game
+that can be opened directly in a web
+browser without a complicated setup.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Your Progress</h3>
+
+<p>
+Game progress is saved locally in
+your browser. Clearing browser
+storage can remove saved progress.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Contact</h3>
+
+<p>
+Questions or feedback?
+Email:
+<a href="mailto:dylanaura03@gmail.com">
+dylanaura03@gmail.com
+</a>
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FAQ ================= -->
+
+<section id="faq" class="screen">
+
+<div class="wrap page">
+
+<button class="backButton"
+onclick="showScreen('home')">
+← Back To Menu
+</button>
+
+<h2 class="pageTitle">❓ FAQ</h2>
+
+
+<div class="faq card" style="padding:0;margin-bottom:12px;">
+
+<button class="faqButton"
+onclick="toggleFAQ(this)">
+<span>How long is a round?</span>
+<span>+</span>
+</button>
+
+<div class="faqAnswer">
+Each round lasts up to 60 seconds,
+unless all three lives are lost first.
+</div>
+
+</div>
+
+
+<div class="faq card" style="padding:0;margin-bottom:12px;">
+
+<button class="faqButton"
+onclick="toggleFAQ(this)">
+<span>Can I play on a phone?</span>
+<span>+</span>
+</button>
+
+<div class="faqAnswer">
+Yes. The game supports touch interaction
+as well as mouse clicks.
+</div>
+
+</div>
+
+
+<div class="faq card" style="padding:0;margin-bottom:12px;">
+
+<button class="faqButton"
+onclick="toggleFAQ(this)">
+<span>Does the game save progress?</span>
+<span>+</span>
+</button>
+
+<div class="faqAnswer">
+Yes. Game progress is saved using
+your browser's local storage.
+</div>
+
+</div>
+
+
+<div class="faq card" style="padding:0;margin-bottom:12px;">
+
+<button class="faqButton"
+onclick="toggleFAQ(this)">
+<span>What can I buy?</span>
+<span>+</span>
+</button>
+
+<div class="faqAnswer">
+You can unlock Rainbow, Fire, Ice,
+Gold and Galaxy skins. Level up every 10 catches,
+earn 10 bonus coins per level, and unlock a new shape
+at levels 15, 30, 45 and beyond.
+</div>
+
+</div>
+
+
+<div class="faq card" style="padding:0;margin-bottom:12px;">
+
+<button class="faqButton"
+onclick="toggleFAQ(this)">
+<span>Why might an ad not appear?</span>
+<span>+</span>
+</button>
+
+<div class="faqAnswer">
+Advertising availability is controlled
+by the advertising system, so an ad
+may not appear on every visit.
+</div>
+
+</div>
+
+
+<div class="faq card" style="padding:0;">
+
+<button class="faqButton"
+onclick="toggleFAQ(this)">
+<span>How can I contact you?</span>
+<span>+</span>
+</button>
+
+<div class="faqAnswer">
+Email
+<a href="mailto:dylanaura03@gmail.com">
+dylanaura03@gmail.com
+</a>
+for questions or feedback.
+</div>
+
+</div>
+
+</div>
+
 </section>
 
 </main>
+
+
+<footer>
+
+<div class="wrap">
+
+<strong>© 2026 Catch The Square</strong>
+
+<div class="footerLinks">
+
+<a href="about.html">About</a>
+<a href="privacy.html">Privacy Policy</a>
+<a href="terms.html">Terms & Conditions</a>
+<a href="contact.html">Contact</a>
+
 </div>
 
-<footer>Catch The Square · Play fair, have fun.</footer>
+<p>
+Catch The Square is an independent browser game.
+</p>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+</div>
+
+</footer>
+
 
 <script>
-"use strict";
 
-/* Firebase project */
-const firebaseConfig = {
-  apiKey: "AIzaSyAqCSLFcitRWFaTYJCAwzwJHJoJjvtmjI_0",
-  authDomain: "catch-the-square-79110.firebaseapp.com",
-  databaseURL: "https://catch-the-square-79110-default-rtdb.firebaseio.com",
-  projectId: "catch-the-square-79110",
-  appId: "1:855556289213:web:6ffe7fe9ec18c451623dd4"
+/* =========================
+   SAVED DATA
+========================= */
+
+let coins =
+Number(localStorage.getItem("cts_coins") || 0);
+
+let highScore =
+Number(localStorage.getItem("cts_highScore") || 0);
+
+let gamesPlayed =
+Number(localStorage.getItem("cts_games") || 0);
+
+let catches =
+Number(localStorage.getItem("cts_catches") || 0);
+
+let coinsEarned =
+Number(localStorage.getItem("cts_coinsEarned") || 0);
+
+let bestCombo =
+Number(localStorage.getItem("cts_bestCombo") || 0);
+
+// Persistent progression: 10 catches per level, with a coin reward.
+let level = Math.max(1, Number(localStorage.getItem("cts_level") || 1));
+let levelCatches = Math.max(0, Number(localStorage.getItem("cts_levelCatches") || 0));
+let roundCatches = 0;
+let colorStep = 0;
+let baseMoveSpeed = 800;
+let selectedWorld = localStorage.getItem("cts_world") || "neon";
+let soundEnabled = localStorage.getItem("cts_sound") !== "off";
+let musicEnabled = localStorage.getItem("cts_music") === "on";
+let audioContext = null;
+let musicTimer = null;
+let slowPowerActive = false;
+
+const worldInfo = {
+ neon:{name:"Neon Grid",description:"A classic dark grid with neon glow."},
+ sunset:{name:"Sunset Rush",description:"Warm sunset colors for a fiery reaction challenge."},
+ ocean:{name:"Deep Ocean",description:"A cool underwater-inspired arena."},
+ space:{name:"Galaxy Void",description:"A deep-space arena with cosmic colors."},
+ forest:{name:"Pixel Forest",description:"A green forest-inspired challenge world."},
+ lava:{name:"Lava Zone",description:"A hot volcanic arena for fast catches."}
 };
 
-let auth = null;
-let db = null;
-let user = null;
-let firebaseReady = false;
-let chatListener = null;
+const targetColors = ["#35ed78", "#35b8ff", "#ff4fd8", "#ffcf33", "#ff6b35", "#a879ff", "#ffffff", "#35ffe0", "#ff477e", "#8cff45"];
+const shapeGlyphs = ["■", "●", "◆", "▲", "★", "⬟", "✦", "♥", "✿", "☀", "⬢", "✚", "✖", "⬣", "❖", "♠", "♦", "♣", "☂", "☯", "✪", "✧", "⬡", "✹"];
 
-const ADMIN_UID = "gMsemyhyGSXfJqLdV0zlkVdJwz82";
-
-function $(id){ return document.getElementById(id); }
-function safeText(value){ return String(value ?? "").replace(/[&<>"']/g, c => ({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c])); }
-
-const SHAPES = [
-  {name:"Square",glyph:"■"},
-  {name:"Circle",glyph:"●"},
-  {name:"Triangle",glyph:"▲"},
-  {name:"Diamond",glyph:"◆"},
-  {name:"Star",glyph:"★"},
-  {name:"Hexagon",glyph:"⬢"},
-  {name:"Heart",glyph:"♥"},
-  {name:"Bolt",glyph:"ϟ"},
-  {name:"Flower",glyph:"✿"},
-  {name:"Moon",glyph:"☾"},
-  {name:"Cross",glyph:"✚"},
-  {name:"Ring",glyph:"◎"},
-  {name:"Spiral",glyph:"❋"},
-  {name:"Clover",glyph:"♣"},
-  {name:"Sun",glyph:"☀"},
-  {name:"Spark",glyph:"✦"},
-  {name:"Arrow",glyph:"➤"},
-  {name:"Gem",glyph:"♦"},
-  {name:"Wave",glyph:"≋"},
-  {name:"Crown",glyph:"♛"},
-  {name:"Comet",glyph:"☄"},
-  {name:"Planet",glyph:"◉"},
-  {name:"Snowflake",glyph:"❄"},
-  {name:"Infinity",glyph:"∞"}
-];
-
-const SKINS = [
-  {id:"green",name:"Neon Green",price:0,color:"#54ff9f",icon:"🟩"},
-  {id:"rainbow",name:"Rainbow",price:50,color:"rainbow",icon:"🌈"},
-  {id:"fire",name:"Fire",price:75,color:"#ff754c",icon:"🔥"},
-  {id:"ice",name:"Ice",price:100,color:"#67eaff",icon:"❄️"},
-  {id:"gold",name:"Gold",price:150,color:"#ffd45c",icon:"🌟"},
-  {id:"galaxy",name:"Galaxy",price:250,color:"#bc82ff",icon:"🌌"}
-];
-
-const POWERS = [
-  {id:"life",name:"Extra Life",price:20,icon:"❤️",desc:"Adds one life for your next round."},
-  {id:"boost",name:"Coin Boost",price:60,icon:"🪙",desc:"Earn double coins in your next round."},
-  {id:"auto",name:"Auto-catcher",price:100,icon:"🤖",desc:"Adds a small score bonus to your next round."}
-];
-
-const MISSIONS = [
-  {id:"catch10",name:"Warm Up",desc:"Catch 10 targets in total.",goal:10,field:"catches",reward:20},
-  {id:"play5",name:"Regular Player",desc:"Play 5 games.",goal:5,field:"games",reward:30},
-  {id:"coins100",name:"Coin Collector",desc:"Earn 100 coins in total.",goal:100,field:"coinsEarned",reward:40},
-  {id:"combo20",name:"Combo Master",desc:"Reach a combo of 20 in one round.",goal:20,field:"bestCombo",reward:50}
-];
-
-const defaults = {
-  coins:0, highScore:0, games:0, catches:0, coinsEarned:0, bestCombo:0,
-  level:1, levelCatches:0, ownedSkins:["green"], skin:"green",
-  powers:{life:0,boost:0,auto:0}, missions:{}, shapeIndex:0, name:""
-};
-
-let state = loadState();
-let round = {
-  active:false, score:0, time:60, lives:3, combo:0, roundCatches:0,
-  targetSpeed:1, gold:false, boost:false, auto:false
-};
-let gameTimer = null;
-let missTimer = null;
-let moveTimer = null;
-
-function loadState(){
-  let s = {};
-  try { s = JSON.parse(localStorage.getItem("cts_save_v2") || "{}"); } catch(e){}
-  const merged = {...defaults,...s};
-  merged.powers = {...defaults.powers,...(s.powers || {})};
-  merged.missions = {...defaults.missions,...(s.missions || {})};
-  merged.ownedSkins = Array.isArray(s.ownedSkins) ? s.ownedSkins : ["green"];
-  if(!merged.ownedSkins.includes("green")) merged.ownedSkins.unshift("green");
-  merged.level = Math.max(1, Number(merged.level) || 1);
-  merged.shapeIndex = Math.max(0, Number(merged.shapeIndex) || 0);
-  if(!SHAPES[merged.shapeIndex]) merged.shapeIndex = 0;
-  return merged;
+function unlockedShapeCount(){
+    return Math.min(24, Math.floor(level / 15) + 1);
 }
 
-function saveState(){
-  localStorage.setItem("cts_save_v2", JSON.stringify(state));
-  updateUI();
+function getAudioContext(){
+    if(!audioContext){
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if(AudioCtx) audioContext = new AudioCtx();
+    }
+    if(audioContext && audioContext.state === "suspended") audioContext.resume();
+    return audioContext;
 }
 
-function updateUI(){
-  ["homeLevel","playLevel","shapeLevel"].forEach(id => $(id).textContent = state.level);
-  $("homeCoins").textContent = state.coins;
-  $("shopCoins").textContent = state.coins;
-  $("homeHigh").textContent = state.highScore;
-  $("homeGames").textContent = state.games;
-  $("homeCatches").textContent = state.catches;
-  $("homeCombo").textContent = state.bestCombo;
-  renderShop();
-  renderShapes();
-  renderMissions();
-  applyTargetAppearance();
+function playTone(frequency, duration, type, volume){
+    if(!soundEnabled) return;
+    const ctx = getAudioContext();
+    if(!ctx) return;
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+    oscillator.type = type || "sine";
+    oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
+    gain.gain.setValueAtTime(volume || 0.045, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    oscillator.connect(gain); gain.connect(ctx.destination);
+    oscillator.start(); oscillator.stop(ctx.currentTime + duration);
 }
 
-function go(page){
-  if(page === "play" && !canPlay()){
-    showAuthNeeded();
-    page = "profile";
-  }
-  document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
-  document.querySelectorAll("nav button").forEach(el => el.classList.toggle("active", el.dataset.page === page));
-  $("page-" + page).classList.add("active");
-  if(page === "leaderboard") loadLeaderboard();
-  if(page === "community") startChatListener();
-  if(page === "shapes") renderShapes();
-  if(page === "shop") renderShop();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-$("nav").addEventListener("click", e => {
-  const button = e.target.closest("button[data-page]");
-  if(button) go(button.dataset.page);
-});
-
-function canPlay(){
-  return !!(user && !user.isAnonymous);
-}
-
-function showAuthNeeded(){
-  $("playStatus").textContent = "Create an account or sign in before playing.";
-  $("arenaMessage").innerHTML = "<div><strong>🔐 Account required</strong><br>Sign in to start playing.</div>";
-  $("arenaMessage").classList.remove("hidden");
-}
-
-function setAuthMessage(message, isError=false){
-  $("authMessage").textContent = message;
-  $("authMessage").className = isError ? "notice error" : "notice";
-}
-
-function initFirebase(){
-  try{
-    if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-    auth = firebase.auth();
-    db = firebase.database();
-    firebaseReady = true;
-
-    /* No anonymous sign-in: players must create an account or sign in. */
-    auth.onAuthStateChanged(async currentUser => {
-      user = currentUser;
-      updateAuthUI();
-      if(canPlay()){
-        await loadPlayerProfile();
-        $("playStatus").textContent = "Signed in. You're ready to play!";
-        $("arenaMessage").innerHTML = "<div><strong>Ready?</strong><br>Press Start Game to begin.</div>";
-        if(db) submitLeaderboard().catch(()=>{});
-      }else{
-        $("playStatus").textContent = "Sign in to unlock gameplay.";
-        if(!round.active) showAuthNeeded();
-      }
-      if($("page-leaderboard").classList.contains("active")) loadLeaderboard();
-      if($("page-community").classList.contains("active")) startChatListener();
-    });
-  }catch(err){
-    console.error(err);
-    $("authStatus").textContent = "Firebase could not initialize. Check your internet connection and Firebase configuration.";
-    $("authMessage").textContent = "Account features are currently unavailable.";
-  }
-}
-
-function updateAuthUI(){
-  const signed = canPlay();
-  $("authForms").classList.toggle("hidden", signed);
-  $("signedInPanel").classList.toggle("hidden", !signed);
-  if(signed){
-    $("authStatus").textContent = "Signed in as " + (user.email || "player");
-    $("authStatus").className = "notice success";
-    $("profileEmail").textContent = user.email || "";
-    $("profileName").value = state.name || (user.displayName || "");
-    setAuthMessage("Account active.");
-  }else{
-    $("authStatus").textContent = "You are signed out. Create an account or sign in to play.";
-    $("authStatus").className = "notice";
-  }
-}
-
-$("signupForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  if(!auth){ setAuthMessage("Firebase is not ready.",true); return; }
-  const name = $("signupName").value.trim().slice(0,20);
-  const email = $("signupEmail").value.trim();
-  const password = $("signupPassword").value;
-  if(name.length < 2){ setAuthMessage("Use a display name with at least 2 characters.",true); return; }
-  try{
-    const result = await auth.createUserWithEmailAndPassword(email,password);
-    await result.user.updateProfile({displayName:name});
-    state.name = name;
-    saveState();
-    if(db) await db.ref("players/" + result.user.uid).update({
-      name:name, email:email, level:state.level, highScore:state.highScore,
-      updatedAt:firebase.database.ServerValue.TIMESTAMP
-    });
-    setAuthMessage("Account created! You're ready to play.");
-    go("play");
-  }catch(err){
-    setAuthMessage(friendlyAuthError(err),true);
-  }
-});
-
-$("signinForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  if(!auth){ setAuthMessage("Firebase is not ready.",true); return; }
-  try{
-    await auth.signInWithEmailAndPassword($("signinEmail").value.trim(),$("signinPassword").value);
-    setAuthMessage("Signed in successfully.");
-    go("play");
-  }catch(err){
-    setAuthMessage(friendlyAuthError(err),true);
-  }
-});
-
-function friendlyAuthError(err){
-  const messages = {
-    "auth/email-already-in-use":"That email already has an account. Please sign in.",
-    "auth/invalid-email":"Please enter a valid email address.",
-    "auth/weak-password":"Choose a stronger password with at least 6 characters.",
-    "auth/user-not-found":"No account was found for that email.",
-    "auth/wrong-password":"Incorrect email or password.",
-    "auth/invalid-credential":"Incorrect email or password.",
-    "auth/too-many-requests":"Too many attempts. Please try again later.",
-    "auth/network-request-failed":"Network error. Check your connection."
-  };
-  return messages[err.code] || (err.message || "Something went wrong.");
-}
-
-async function saveProfile(){
-  if(!canPlay()) return;
-  const name = $("profileName").value.trim().slice(0,20);
-  if(name.length < 2){ setAuthMessage("Display name must contain at least 2 characters.",true); return; }
-  try{
-    await user.updateProfile({displayName:name});
-    state.name = name;
-    saveState();
-    if(db) await db.ref("players/" + user.uid).update({
-      name:name, level:state.level, highScore:state.highScore,
-      updatedAt:firebase.database.ServerValue.TIMESTAMP
-    });
-    setAuthMessage("Display name saved.");
-  }catch(err){ setAuthMessage(friendlyAuthError(err),true); }
-}
-
-async function signOutUser(){
-  endGame(false);
-  if(auth) await auth.signOut();
-  setAuthMessage("Signed out.");
-  go("home");
-}
-
-async function loadPlayerProfile(){
-  if(!canPlay() || !db) return;
-  try{
-    const snap = await db.ref("players/" + user.uid).once("value");
-    const profile = snap.val();
-    if(profile && profile.name && !state.name) state.name = profile.name;
-    updateAuthUI();
-  }catch(e){ console.warn("Player profile could not load.",e); }
-}
-
-function applyTargetAppearance(){
-  const target = $("target");
-  const shape = SHAPES[state.shapeIndex] || SHAPES[0];
-  target.textContent = shape.glyph;
-  target.style.background = "";
-  target.style.color = "#06130b";
-  target.style.borderColor = "";
-  target.style.backgroundImage = "";
-  target.style.borderRadius = state.shapeIndex === 1 ? "50%" : "8px";
-
-  const skin = SKINS.find(s => s.id === state.skin) || SKINS[0];
-  if(skin.color === "rainbow"){
-    target.style.backgroundImage = "linear-gradient(135deg,#ff4c9a,#ffd45c,#54ff9f,#5de7ff,#bc82ff)";
-    target.style.color = "#111";
-  }else{
-    target.style.background = skin.color;
-  }
-  target.style.boxShadow = "0 0 24px " + (skin.color === "rainbow" ? "#bc82ff99" : skin.color + "99");
-  if(round.gold){
-    target.classList.add("gold");
-  }else{
-    target.classList.remove("gold");
-  }
-}
-
-function renderShop(){
-  $("skinCards").innerHTML = SKINS.map(skin => {
-    const owned = state.ownedSkins.includes(skin.id);
-    const equipped = state.skin === skin.id;
-    let action = equipped ? "Equipped" : owned ? "Equip" : "Buy";
-    return `<div class="item">
-      <span class="emoji">${skin.icon}</span>
-      <strong>${safeText(skin.name)}</strong>
-      <p class="muted">${skin.price === 0 ? "Free" : skin.price + " coins"}</p>
-      <button ${equipped ? "disabled" : ""} onclick="skinAction('${skin.id}')">${action}</button>
-    </div>`;
-  }).join("");
-
-  $("powerCards").innerHTML = POWERS.map(power => `
-    <div class="item">
-      <span class="emoji">${power.icon}</span>
-      <strong>${safeText(power.name)}</strong>
-      <p class="muted">${safeText(power.desc)}</p>
-      <p>Owned: <strong>${Number(state.powers[power.id] || 0)}</strong></p>
-      <p class="gold">${power.price} coins</p>
-      <button onclick="buyPower('${power.id}')">Buy</button>
-    </div>`).join("");
-}
-
-function skinAction(id){
-  const skin = SKINS.find(s => s.id === id);
-  if(!skin) return;
-  if(state.ownedSkins.includes(id)){
-    state.skin = id;
-    saveState();
-    return;
-  }
-  if(state.coins < skin.price){ alert("Not enough coins yet. Keep playing!"); return; }
-  state.coins -= skin.price;
-  state.ownedSkins.push(id);
-  state.skin = id;
-  saveState();
-}
-
-function buyPower(id){
-  const power = POWERS.find(p => p.id === id);
-  if(!power) return;
-  if(state.coins < power.price){ alert("Not enough coins yet. Keep playing!"); return; }
-  state.coins -= power.price;
-  state.powers[id] = Number(state.powers[id] || 0) + 1;
-  saveState();
-}
-
-function renderShapes(){
-  $("shapeCards").innerHTML = SHAPES.map((shape,index) => {
-    const requiredLevel = index === 0 ? 1 : index * 15;
-    const unlocked = state.level >= requiredLevel;
-    const equipped = state.shapeIndex === index;
-    return `<div class="item">
-      <span class="emoji">${safeText(shape.glyph)}</span>
-      <strong>${safeText(shape.name)}</strong>
-      <p class="muted">${index === 0 ? "Starting shape" : "Unlock at level " + requiredLevel}</p>
-      ${unlocked
-        ? `<button ${equipped ? "disabled" : ""} onclick="equipShape(${index})">${equipped ? "Equipped" : "Equip Shape"}</button>`
-        : `<button disabled>🔒 Level ${requiredLevel}</button>`}
-    </div>`;
-  }).join("");
-}
-
-function equipShape(index){
-  const requiredLevel = index === 0 ? 1 : index * 15;
-  if(!SHAPES[index] || state.level < requiredLevel) return;
-  state.shapeIndex = index;
-  saveState();
-}
-
-function renderMissions(){
-  $("missionList").innerHTML = MISSIONS.map(m => {
-    const progress = Math.min(m.goal, Number(state[m.field] || 0));
-    const done = !!state.missions[m.id];
-    return `<div class="list-row">
-      <div class="row">
-        <div>
-          <strong>${safeText(m.name)}</strong>
-          <div class="muted small">${safeText(m.desc)}</div>
-          <div class="muted small">Progress: ${progress}/${m.goal} · Reward: ${m.reward} coins</div>
-        </div>
-        <div style="flex:0 0 auto">
-          ${done ? `<span class="badge">Claimed</span>` :
-            progress >= m.goal ? `<button class="primary" onclick="claimMission('${m.id}')">Claim</button>` :
-            `<span class="badge">In progress</span>`}
-        </div>
-      </div>
-    </div>`;
-  }).join("");
-}
-
-function claimMission(id){
-  const m = MISSIONS.find(x => x.id === id);
-  if(!m || state.missions[id] || Number(state[m.field] || 0) < m.goal) return;
-  state.missions[id] = true;
-  state.coins += m.reward;
-  state.coinsEarned += m.reward;
-  saveState();
-}
-
-function startGame(){
-  if(!canPlay()){
-    showAuthNeeded();
-    go("profile");
-    return;
-  }
-  if(round.active) return;
-  round = {
-    active:true, score:0, time:60,
-    lives:3 + (state.powers.life > 0 ? 1 : 0),
-    combo:0, roundCatches:0, targetSpeed:1,
-    gold:false, boost:state.powers.boost > 0, auto:state.powers.auto > 0
-  };
-  if(round.boost) state.powers.boost--;
-  if(round.lives > 3) state.powers.life--;
-  if(round.auto) state.powers.auto--;
-
-  $("score").textContent = "0";
-  $("time").textContent = round.time;
-  $("lives").textContent = round.lives;
-  $("combo").textContent = "0";
-  $("roundCatches").textContent = "0";
-  $("startBtn").disabled = true;
-  $("stopBtn").disabled = false;
-  $("arenaMessage").classList.add("hidden");
-  $("target").style.display = "flex";
-  $("target").disabled = false;
-  $("playStatus").textContent = "Game running — catch the target!";
-  $("world").onchange = applyWorld;
-  applyWorld();
-  applyTargetAppearance();
-  moveTarget();
-
-  gameTimer = setInterval(() => {
-    if(!round.active) return;
-    round.time--;
-    $("time").textContent = round.time;
-    if(round.time <= 0) endGame(true);
-  },1000);
-
-  missTimer = setInterval(() => {
-    if(!round.active) return;
-    round.lives--;
-    round.combo = 0;
-    $("lives").textContent = round.lives;
-    $("combo").textContent = round.combo;
-    if(round.lives <= 0) endGame(true);
-  }, difficultyMissDelay());
-  saveState();
-}
-
-function difficultyMissDelay(){
-  const d = $("difficulty").value;
-  return d === "expert" ? 4500 : d === "fast" ? 6000 : 8000;
-}
+function playCatchSound(){ playTone(660,.08,"sine",.04); setTimeout(function(){playTone(880,.1,"sine",.035);},55); }
+function playBonusSound(){ playTone(520,.12,"triangle",.05); setTimeout(function(){playTone(780,.15,"triangle",.04);},80); }
 
 function applyWorld(){
-  const arena = $("arena");
-  const world = $("world").value;
-  const backgrounds = {
-    neon:"linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px),#080e1b",
-    forest:"linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px),#0b1b18",
-    lava:"linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px),#21100f",
-    ice:"linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px),#0b1a2a"
-  };
-  arena.style.backgroundImage = backgrounds[world];
-  arena.style.backgroundSize = "25px 25px";
-}
-
-function moveTarget(){
-  if(!round.active) return;
-  const arena = $("arena");
-  const target = $("target");
-  const maxX = Math.max(0,arena.clientWidth - target.offsetWidth);
-  const maxY = Math.max(0,arena.clientHeight - target.offsetHeight);
-  const difficulty = $("difficulty").value;
-  const speedBoost = difficulty === "expert" ? 1.7 : difficulty === "fast" ? 1.3 : 1;
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-  target.style.left = x + "px";
-  target.style.top = y + "px";
-  target.style.display = "flex";
-  target.style.zIndex = "10";
-  clearTimeout(moveTimer);
-  moveTimer = setTimeout(() => {
-    if(round.active){
-      round.lives--;
-      round.combo = 0;
-      $("lives").textContent = round.lives;
-      $("combo").textContent = "0";
-      if(round.lives <= 0) endGame(true);
-      else moveTarget();
-    }
-  }, Math.max(800, 2400 / (round.targetSpeed * speedBoost)));
-}
-
-function catchTarget(){
-  if(!round.active) return;
-  clearTimeout(moveTimer);
-  round.roundCatches++;
-  round.combo++;
-  round.score += round.gold ? 6 : 1;
-  if(round.gold) round.score += 4;
-  if(round.roundCatches % 10 === 0){
-    round.gold = !round.gold;
-    round.targetSpeed += .15;
-  }
-  $("score").textContent = round.score;
-  $("combo").textContent = round.combo;
-  $("roundCatches").textContent = round.roundCatches;
-  $("lives").textContent = round.lives;
-  applyTargetAppearance();
-
-  if(round.auto && round.roundCatches % 5 === 0) round.score += 2;
-  moveTarget();
-}
-
-function endGame(saveResult){
-  if(!round.active){
-    $("target").style.display = "none";
-    $("startBtn").disabled = !canPlay();
-    $("stopBtn").disabled = true;
-    return;
-  }
-  round.active = false;
-  clearInterval(gameTimer);
-  clearInterval(missTimer);
-  clearTimeout(moveTimer);
-  gameTimer = missTimer = moveTimer = null;
-  $("target").style.display = "none";
-  $("startBtn").disabled = !canPlay();
-  $("stopBtn").disabled = true;
-
-  if(saveResult){
-    state.games++;
-    state.catches += round.roundCatches;
-    state.bestCombo = Math.max(state.bestCombo,round.combo);
-    const earned = Math.max(0,Math.floor(round.score / 2)) * (round.boost ? 2 : 1);
-    state.coins += earned;
-    state.coinsEarned += earned;
-    state.highScore = Math.max(state.highScore,round.score);
-
-    state.levelCatches += round.roundCatches;
-    while(state.levelCatches >= 10){
-      state.levelCatches -= 10;
-      state.level++;
-    }
-
-    saveState();
-    $("arenaMessage").innerHTML = `<div><strong>Round Over!</strong><br>
-      Score: <span class="big-score">${round.score}</span><br>
-      Catches: ${round.roundCatches}<br>
-      Coins earned: <span class="gold">${earned}</span><br>
-      Level: ${state.level}<br><br>Press Start Game to play again.</div>`;
-    $("arenaMessage").classList.remove("hidden");
-    $("playStatus").textContent = "Round complete! You earned " + earned + " coins.";
-    submitLeaderboard().catch(e => console.warn("Leaderboard update failed.",e));
-  }else{
-    $("arenaMessage").innerHTML = "<div><strong>Game stopped.</strong><br>Press Start Game when you're ready.</div>";
-    $("arenaMessage").classList.remove("hidden");
-  }
-}
-
-async function submitLeaderboard(){
-  if(!canPlay() || !db) return;
-  const displayName = (state.name || user.displayName || user.email.split("@")[0] || "Player").slice(0,20);
-  await db.ref("leaderboard/" + user.uid).update({
-    uid:user.uid, name:displayName, score:state.highScore, level:state.level,
-    updatedAt:firebase.database.ServerValue.TIMESTAMP
-  });
-  await db.ref("players/" + user.uid).update({
-    name:displayName, level:state.level, highScore:state.highScore,
-    updatedAt:firebase.database.ServerValue.TIMESTAMP
-  });
-}
-
-async function loadLeaderboard(){
-  const list = $("leaderboardList");
-  if(!db){ list.textContent = "Leaderboard unavailable: Firebase is not ready."; return; }
-  list.textContent = "Loading…";
-  try{
-    const snap = await db.ref("leaderboard").orderByChild("score").limitToLast(50).once("value");
-    const rows = [];
-    snap.forEach(child => rows.push(child.val()));
-    rows.sort((a,b) => Number(b.score || 0) - Number(a.score || 0));
-    if(!rows.length){ list.textContent = "No scores yet. Be the first to play!"; return; }
-    list.innerHTML = rows.slice(0,20).map((p,i) => `
-      <div class="list-row row">
-        <div style="flex:0 0 35px"><strong>${i+1}.</strong></div>
-        <div><strong>${safeText(p.name || "Player")}</strong><div class="muted small">Level ${Number(p.level || 1)}</div></div>
-        <div style="text-align:right;flex:0 0 auto"><strong class="green">${Number(p.score || 0)}</strong></div>
-      </div>`).join("");
-  }catch(err){
-    list.textContent = "Could not load scores. Check Firebase Realtime Database rules.";
-  }
-}
-
-function startChatListener(){
-  if(!db){ $("chatMessages").textContent = "Chat unavailable: Firebase is not ready."; return; }
-  if(chatListener) return;
-  chatListener = db.ref("chat").limitToLast(50);
-  chatListener.on("value",snap => {
-    const messages = [];
-    snap.forEach(child => messages.push(child.val()));
-    $("chatMessages").innerHTML = messages.map(m => `
-      <div class="list-row">
-        <strong>${safeText(m.name || "Player")}</strong>
-        <div>${safeText(m.text || "")}</div>
-        <div class="muted small">${m.createdAt ? new Date(m.createdAt).toLocaleString() : ""}</div>
-      </div>`).join("") || "No messages yet. Say hello!";
-    $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
-  },() => {
-    $("chatMessages").textContent = "Could not load chat. Check Firebase rules.";
-  });
-}
-
-$("chatForm").addEventListener("submit",async e => {
-  e.preventDefault();
-  if(!canPlay()){ $("chatStatus").textContent = "Sign in to send messages."; go("profile"); return; }
-  if(!db){ $("chatStatus").textContent = "Chat is unavailable."; return; }
-  const text = $("chatInput").value.trim().slice(0,250);
-  if(!text) return;
-  try{
-    await db.ref("chat").push({
-      uid:user.uid,
-      name:(state.name || user.displayName || "Player").slice(0,20),
-      text:text,
-      createdAt:firebase.database.ServerValue.TIMESTAMP
+    const info = worldInfo[selectedWorld] || worldInfo.neon;
+    arena.className = "arena world-" + selectedWorld;
+    const label = document.getElementById("currentWorldLabel");
+    if(label) label.textContent = info.name;
+    document.querySelectorAll(".worldChoice").forEach(function(button){
+        button.classList.toggle("active", button.dataset.world === selectedWorld);
     });
-    $("chatInput").value = "";
-    $("chatStatus").textContent = "Message sent.";
-  }catch(err){
-    $("chatStatus").textContent = "Message could not be sent. Check Firebase database rules.";
-  }
+    const desc = document.getElementById("worldDescription");
+    if(desc) desc.textContent = info.name + " — " + info.description;
+    localStorage.setItem("cts_world", selectedWorld);
+}
+
+function renderCharacters(){
+    const grid = document.getElementById("characterGrid");
+    if(!grid) return;
+    grid.innerHTML = "";
+    const count = unlockedShapeCount();
+    document.getElementById("characterLevel").textContent = level;
+    document.getElementById("characterUnlocked").textContent = count + "/24";
+    shapeGlyphs.forEach(function(glyph,index){
+        const unlocked = index < count;
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.textAlign = "center";
+        card.innerHTML = '<div style="font-size:42px;color:'+(unlocked?'#35ed78':'#657186')+';padding:8px">'+(unlocked?glyph:'🔒')+'</div><h3>'+(unlocked?'Shape '+(index+1):'Locked Shape')+'</h3><p>'+(unlocked?'Unlocked':'Unlock at level '+Math.max(1,index*15))+'</p>';
+        grid.appendChild(card);
+    });
+}
+
+function updateAudioButtons(){
+    const soundButton = document.getElementById("soundToggle");
+    const musicButton = document.getElementById("musicToggle");
+    if(soundButton) soundButton.textContent = "Sound: " + (soundEnabled ? "ON" : "OFF");
+    if(musicButton) musicButton.textContent = "Music: " + (musicEnabled ? "ON" : "OFF");
+}
+
+function startMusic(){
+    stopMusic();
+    if(!musicEnabled) return;
+    const notes = [262,330,392,330,294,349,440,349];
+    let index = 0;
+    musicTimer = setInterval(function(){
+        if(!musicEnabled || !running || paused) return;
+        const wasEnabled = soundEnabled;
+        soundEnabled = true;
+        playTone(notes[index++ % notes.length],.16,"triangle",.012);
+        soundEnabled = wasEnabled;
+    },360);
+}
+function stopMusic(){ if(musicTimer){clearInterval(musicTimer);musicTimer=null;} }
+
+function updateTargetAppearance(){
+    const shapeIndex = unlockedShapeCount() - 1;
+    target.textContent = shapeGlyphs[shapeIndex];
+    const color = targetColors[colorStep % targetColors.length];
+    if(currentSkin === "default") target.style.background = color;
+    target.style.borderColor = color;
+    target.style.boxShadow = "0 0 24px " + color + "99";
+    target.style.borderRadius = ["10px", "50%", "8px", "8px", "14px", "10px", "50%", "18px", "50%", "50%"][shapeIndex % 10];
+    target.style.transform = shapeIndex === 2 ? "rotate(45deg)" : "none";
+}
+
+function movementDelay(){
+    const speedStep = Math.floor(roundCatches / 10);
+    const normalDelay = Math.max(180, baseMoveSpeed - speedStep * 55);
+    return slowPowerActive ? Math.min(1600, normalDelay * 1.8) : normalDelay;
+}
+
+function restartMovementTimer(){
+    clearInterval(movement);
+    if(running && !paused){
+        movement = setInterval(moveTarget, movementDelay());
+    }
+}
+
+
+let ownedSkins;
+
+try{
+
+ownedSkins = JSON.parse(
+localStorage.getItem("cts_ownedSkins")
+|| '["default"]'
+);
+
+}catch(e){
+
+ownedSkins=["default"];
+
+}
+
+if(!ownedSkins.includes("default")){
+ownedSkins.push("default");
+}
+
+let currentSkin =
+localStorage.getItem("cts_skin")
+|| "default";
+
+
+/* =========================
+   GAME
+========================= */
+
+let score=0;
+let lives=3;
+let time=60;
+let combo=0;
+
+let running=false;
+let paused=false;
+
+let countdown=null;
+let movement=null;
+
+
+const arena =
+document.getElementById("arena");
+
+const target =
+document.getElementById("target");
+
+const notice =
+document.getElementById("notice");
+
+
+/* =========================
+   SCREEN NAVIGATION
+========================= */
+
+function showScreen(screen){
+
+document.querySelectorAll(".screen")
+.forEach(function(item){
+
+item.classList.remove("active");
+
 });
 
-window.addEventListener("beforeunload",() => {
-  clearInterval(gameTimer);
-  clearInterval(missTimer);
-  clearTimeout(moveTimer);
+const selected =
+document.getElementById(screen);
+
+if(selected){
+
+selected.classList.add("active");
+
+}
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
 });
 
 updateUI();
+if(screen === "characters") renderCharacters();
+if(screen === "worlds") applyWorld();
+updateAudioButtons();
+
+}
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveData(){
+
+localStorage.setItem("cts_coins",coins);
+localStorage.setItem("cts_highScore",highScore);
+localStorage.setItem("cts_games",gamesPlayed);
+localStorage.setItem("cts_catches",catches);
+localStorage.setItem("cts_coinsEarned",coinsEarned);
+localStorage.setItem("cts_bestCombo",bestCombo);
+localStorage.setItem("cts_level",level);
+localStorage.setItem("cts_levelCatches",levelCatches);
+
+localStorage.setItem(
+"cts_ownedSkins",
+JSON.stringify(ownedSkins)
+);
+
+localStorage.setItem("cts_skin",currentSkin);
+
+}
+
+
+/* =========================
+   UI
+========================= */
+
+function updateUI(){
+
+document.getElementById("heroHigh").textContent=highScore;
+document.getElementById("heroCoins").textContent=coins;
+document.getElementById("heroGames").textContent=gamesPlayed;
+
+document.getElementById("topCoins").textContent=coins;
+
+document.getElementById("score").textContent=score;
+document.getElementById("time").textContent=time;
+document.getElementById("coins").textContent=coins;
+document.getElementById("combo").textContent=combo;
+document.getElementById("level").textContent=level;
+document.getElementById("shapeCount").textContent=unlockedShapeCount()+"/24";
+
+document.getElementById("lives").textContent=
+"❤️".repeat(lives)+
+"🖤".repeat(3-lives);
+
+document.getElementById("shopCoins").textContent=coins;
+if(document.getElementById("characterLevel")){
+ document.getElementById("characterLevel").textContent=level;
+ document.getElementById("characterUnlocked").textContent=unlockedShapeCount()+"/24";
+}
+
+document.getElementById("missionCatches").textContent=
+Math.min(catches,10)+" / 10";
+
+document.getElementById("missionGames").textContent=
+Math.min(gamesPlayed,5)+" / 5";
+
+document.getElementById("missionCoins").textContent=
+Math.min(coinsEarned,100)+" / 100";
+
+document.getElementById("missionCombo").textContent=
+Math.min(bestCombo,20)+" / 20";
+
+}
+
+
+/* =========================
+   SKIN
+========================= */
+
+function applySkin(){
+
+const skins={
+
+default:"#35ed78",
+
+rainbow:
+"linear-gradient(45deg,red,orange,yellow,green,cyan,blue,purple)",
+
+fire:
+"linear-gradient(45deg,#f20,#ff8c00,#ffe600)",
+
+ice:
+"linear-gradient(45deg,#3ddcff,#c9f8ff,#fff)",
+
+gold:
+"linear-gradient(45deg,#9b7200,#ffe36e,#fff1a3)",
+
+galaxy:
+"linear-gradient(45deg,#16002f,#5726a8,#00c8ff)"
+
+};
+
+target.style.background =
+skins[currentSkin] || skins.default;
+updateTargetAppearance();
+
+}
+
+
+/* =========================
+   MOVE TARGET
+========================= */
+
+function moveTarget(){
+
+if(!running || paused){
+return;
+}
+
+const maxX =
+arena.clientWidth-target.offsetWidth;
+
+const maxY =
+arena.clientHeight-target.offsetHeight;
+
+const x =
+Math.floor(
+Math.random()*Math.max(1,maxX)
+);
+
+const y =
+Math.floor(
+Math.random()*Math.max(1,maxY)
+);
+
+target.style.left=x+"px";
+target.style.top=y+"px";
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+document.getElementById("startButton")
+.addEventListener("click",startGame);
+
+function startFromMenu(){
+    showScreen("play");
+    startGame();
+}
+
+function startGame(){
+
+clearInterval(countdown);
+clearInterval(movement);
+
+score=0;
+lives=3;
+time=60;
+combo=0;
+roundCatches=0;
+colorStep=0;
+const difficulty = document.getElementById("difficultySelect").value;
+baseMoveSpeed = difficulty === "easy" ? 1100 : (difficulty === "hard" ? 550 : 800);
+
+running=true;
+paused=false;
+slowPowerActive=false;
 applyWorld();
-initFirebase();
+startMusic();
+
+document.getElementById("pauseButton")
+.textContent="⏸ Pause";
+
+target.style.display="block";
+
+applySkin();
+updateUI();
+moveTarget();
+
+notice.textContent="Catch the square!";
+
+movement=setInterval(moveTarget, movementDelay());
+
+countdown=setInterval(function(){
+
+if(!running || paused){
+return;
+}
+
+time--;
+
+updateUI();
+
+if(time<=0){
+endGame();
+}
+
+},1000);
+
+}
+
+
+/* =========================
+   CATCH
+========================= */
+
+target.addEventListener("click",function(event){
+
+event.stopPropagation();
+
+if(!running || paused){
+return;
+}
+
+score++;
+combo++;
+playCatchSound();
+catches++;
+roundCatches++;
+
+// Target color and movement speed change every 10 catches in this round.
+if(roundCatches % 10 === 0){
+    colorStep++;
+    notice.textContent = "⚡ " + roundCatches + " catches! New color and faster target!";
+    restartMovementTimer();
+}
+
+// Level up every 10 catches across play sessions; each level gives 10 coins.
+levelCatches++;
+if(levelCatches >= 10){
+    levelCatches = 0;
+    const oldShapeCount = unlockedShapeCount();
+    level++;
+    coins += 10;
+    coinsEarned += 10;
+    const newShapeCount = unlockedShapeCount();
+    notice.textContent = "🏆 LEVEL " + level + "! +10 bonus coins!";
+    if(newShapeCount > oldShapeCount){
+        notice.textContent += " New shape unlocked: " + shapeGlyphs[newShapeCount - 1];
+    }
+    applySkin();
+}
+
+coins++;
+coinsEarned++;
+
+if(combo>bestCombo){
+bestCombo=combo;
+}
+
+if(combo%5===0){
+
+playBonusSound();
+coins+=5;
+coinsEarned+=5;
+
+notice.textContent=
+"🔥 Combo bonus! +5 coins";
+
+}else{
+
+notice.textContent=
+"Nice catch! +1 coin";
+
+}
+
+if(Math.random()<0.08){
+
+playBonusSound();
+score+=5;
+coins+=10;
+coinsEarned+=10;
+
+notice.textContent=
+"⭐ BONUS! +5 score +10 coins";
+
+}
+
+if(score>highScore){
+highScore=score;
+}
+
+updateTargetAppearance();
+saveData();
+updateUI();
+moveTarget();
+
+});
+
+
+/* =========================
+   MISS
+========================= */
+
+arena.addEventListener("click",function(event){
+
+if(!running || paused){
+return;
+}
+
+if(event.target===target){
+return;
+}
+
+lives--;
+combo=0;
+
+updateUI();
+
+if(lives<=0){
+
+endGame();
+
+}else{
+
+notice.textContent=
+"Miss! You lost a life.";
+
+}
+
+});
+
+
+/* =========================
+   PAUSE
+========================= */
+
+document.getElementById("pauseButton")
+.addEventListener("click",function(){
+
+if(!running){
+return;
+}
+
+paused=!paused;
+
+this.textContent=
+paused ? "▶ Resume" : "⏸ Pause";
+
+notice.textContent=
+paused ? "Game paused" : "Game resumed";
+
+if(!paused){
+moveTarget();
+}
+
+});
+
+
+/* =========================
+   RESET
+========================= */
+
+document.getElementById("resetButton")
+.addEventListener("click",function(){
+
+running=false;
+paused=false;
+stopMusic();
+slowPowerActive=false;
+
+clearInterval(countdown);
+clearInterval(movement);
+
+target.style.display="none";
+
+score=0;
+lives=3;
+time=60;
+combo=0;
+
+document.getElementById("pauseButton")
+.textContent="⏸ Pause";
+
+updateUI();
+
+notice.textContent=
+"Game reset. Press Start!";
+
+});
+
+
+/* =========================
+   END GAME
+========================= */
+
+function endGame(){
+
+if(!running){
+return;
+}
+
+running=false;
+stopMusic();
+
+clearInterval(countdown);
+clearInterval(movement);
+
+target.style.display="none";
+
+gamesPlayed++;
+
+if(score>highScore){
+highScore=score;
+}
+
+updateTargetAppearance();
+saveData();
+updateUI();
+
+notice.textContent=
+"Round over! Score: "+
+score+
+" — press Start to play again.";
+
+}
+
+
+/* =========================
+   SHOP
+========================= */
+
+document.querySelectorAll(".buyButton")
+.forEach(function(button){
+
+button.addEventListener("click",function(){
+
+const name=this.dataset.skin;
+const price=Number(this.dataset.price);
+
+if(ownedSkins.includes(name)){
+
+currentSkin=name;
+
+saveData();
+applySkin();
+updateUI();
+
+alert(name+" equipped!");
+
+return;
+
+}
+
+if(coins<price){
+
+alert(
+"You need "+
+(price-coins)+
+" more coins."
+);
+
+return;
+
+}
+
+coins-=price;
+
+ownedSkins.push(name);
+currentSkin=name;
+
+saveData();
+applySkin();
+updateUI();
+
+alert(name+" unlocked and equipped!");
+
+});
+
+});
+
+
+/* =========================
+   WORLDS, AUDIO AND POWER-UPS
+========================= */
+document.querySelectorAll(".worldChoice").forEach(function(button){
+    button.addEventListener("click",function(){
+        selectedWorld = this.dataset.world;
+        applyWorld();
+        notice.textContent = "World changed to " + worldInfo[selectedWorld].name + "!";
+    });
+});
+
+document.getElementById("soundToggle").addEventListener("click",function(){
+    soundEnabled = !soundEnabled;
+    localStorage.setItem("cts_sound",soundEnabled?"on":"off");
+    updateAudioButtons();
+    if(soundEnabled) playTone(700,.1,"sine",.04);
+});
+document.getElementById("musicToggle").addEventListener("click",function(){
+    musicEnabled = !musicEnabled;
+    localStorage.setItem("cts_music",musicEnabled?"on":"off");
+    updateAudioButtons();
+    if(musicEnabled && running) startMusic(); else stopMusic();
+});
+
+document.getElementById("slowPowerButton").addEventListener("click",function(){
+    if(!running || paused){notice.textContent="Start a round first to use power-ups.";return;}
+    if(slowPowerActive){notice.textContent="Slow Time is already active this round.";return;}
+    if(coins<15){notice.textContent="You need 15 coins for Slow Time.";return;}
+    coins-=15; slowPowerActive=true; saveData(); updateUI(); restartMovementTimer();
+    notice.textContent="⏳ Slow Time activated! The target moves more slowly for this round.";
+});
+
+document.getElementById("lifePowerButton").addEventListener("click",function(){
+    if(!running || paused){notice.textContent="Start a round first to use power-ups.";return;}
+    if(lives>=3){notice.textContent="You already have all 3 lives.";return;}
+    if(coins<25){notice.textContent="You need 25 coins for an extra life.";return;}
+    coins-=25; lives=Math.min(3,lives+1); saveData(); updateUI(); playBonusSound();
+    notice.textContent="❤️ Extra life added!";
+});
+
+/* =========================
+   FAQ
+========================= */
+
+function toggleFAQ(button){
+
+const faq=button.parentElement;
+
+faq.classList.toggle("open");
+
+const symbol=
+button.querySelector("span:last-child");
+
+symbol.textContent=
+faq.classList.contains("open")
+? "−"
+: "+";
+
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+applySkin();
+applyWorld();
+updateAudioButtons();
+updateUI();
+renderCharacters();
+
+target.style.left="0px";
+target.style.top="0px";
+target.style.transform="none";
+target.textContent=shapeGlyphs[0];
+
 </script>
+
 </body>
 </html>
-```
