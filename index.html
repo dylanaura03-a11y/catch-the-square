@@ -574,12 +574,38 @@ onclick="startFromMenu()">
 <button class="menuButton" onclick="showScreen('missions')">🎯 MISSIONS</button>
 <button class="menuButton" onclick="showScreen('leaderboard')">🏆 GLOBAL LEADERBOARD</button>
 <button class="menuButton" onclick="showScreen('globalchat')">💬 GLOBAL CHAT</button>
+<button class="menuButton" onclick="showScreen('players')">👥 ALL PLAYERS</button>
+<button class="menuButton" onclick="showScreen('invite')">🎁 INVITE A FRIEND</button>
 <button class="menuButton" onclick="showScreen('settings')">⚙️ SETTINGS</button>
 <button class="menuButton" onclick="showScreen('worlds')">🌍 WORLDS</button>
 <button class="menuButton" onclick="showScreen('how')">📖 HOW TO PLAY</button>
 
 </div>
 
+<div class="card" id="accountCard" style="max-width:520px;margin:18px auto;text-align:left;">
+  <h3>👤 Player Account</h3>
+  <p id="accountStatus" role="status" style="color:#ffd166;font-weight:700;">Connect to create an account or log in.</p>
+  <form id="accountForm" style="display:grid;gap:9px;">
+    <label for="accountNickname">Nickname (2–20 characters)</label>
+    <input id="accountNickname" type="text" minlength="2" maxlength="20" autocomplete="nickname" placeholder="Your player nickname" required style="padding:11px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
+    <label for="accountEmail">Email</label>
+    <input id="accountEmail" type="email" autocomplete="email" placeholder="you@example.com" required style="padding:11px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
+    <label for="accountPassword">Password (at least 6 characters)</label>
+    <input id="accountPassword" type="password" minlength="6" autocomplete="current-password" placeholder="Your password" required style="padding:11px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="settingButton" type="submit" id="createAccountButton">Create Account</button>
+      <button class="settingButton" type="button" id="loginButton">Log In</button>
+      <button class="settingButton" type="button" id="forgotPasswordButton">Forgot Password?</button>
+      <button class="settingButton" type="button" id="logoutButton" hidden>Log Out</button>
+    </div>
+  </form>
+  <div style="margin-top:14px;padding-top:12px;border-top:1px solid #2a3951;">
+    <h4 style="margin:0 0 8px;">🔁 Accounts used on this computer</h4>
+    <p style="font-size:.85rem;color:#9aa9bd;">Choose a saved account to fill its email. Passwords are never saved here.</p>
+    <div id="savedAccountsList" style="display:flex;gap:8px;flex-wrap:wrap;"><span style="color:#9aa9bd;">No saved accounts yet.</span></div>
+  </div>
+  <p style="font-size:.85rem;color:#9aa9bd;margin-top:10px;">Use an email you can access to reset your password. Never share your password with anyone.</p>
+</div>
 
 <div class="stats">
 
@@ -616,6 +642,42 @@ Games Played
 
 </section>
 
+
+<!-- ================= INVITE FRIENDS ================= -->
+<section id="invite" class="screen">
+  <div class="wrap page">
+    <button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
+    <h2 class="pageTitle">🎁 Invite a Friend</h2>
+    <div class="card" style="max-width:650px;margin:0 auto;text-align:center;">
+      <div style="font-size:3rem;">🟩🎮</div>
+      <h3>Challenge your friends!</h3>
+      <p>Enter a player's exact nickname to send them an in-game friend invitation. They will see a notification the next time they are online.</p>
+      <div style="text-align:left;margin:18px 0;padding:14px;border:1px solid #2a3951;border-radius:12px;">
+        <label for="friendNickname" style="display:block;margin:0 0 6px;font-weight:700;">Friend's player nickname</label>
+        <input id="friendNickname" type="text" maxlength="20" autocomplete="off" placeholder="Enter their nickname" style="box-sizing:border-box;width:100%;padding:12px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
+        <button id="sendFriendInviteButton" class="settingButton" type="button" onclick="sendFriendInvite()" style="width:100%;margin-top:10px;">🔔 Send Friend Invitation</button>
+        <p id="friendInviteStatus" role="status" style="color:#ffd166;font-weight:700;"></p>
+        <h3 style="margin-top:20px;">🔔 Friend Notifications</h3>
+        <div id="friendNotifications" style="text-align:left;"><p style="color:#9aa9bd;">Log in to view friend invitations.</p></div>
+      </div>
+      <h3 style="margin-top:24px;">🎙️ Voice Chat</h3>
+      <p>Call a registered player from the All Players list. Voice chat needs microphone permission and a secure connection (HTTPS).</p>
+      <p id="voiceCallStatus" role="status" style="color:#ffd166;font-weight:700;">Log in to start a voice call.</p>
+      <div id="incomingVoiceCalls" style="text-align:left;"><p style="color:#9aa9bd;">Incoming calls will appear here when you are logged in.</p></div>
+      <audio id="remoteVoiceAudio" autoplay playsinline></audio>
+      <button class="settingButton" type="button" id="hangUpVoiceButton" hidden>📴 Hang Up</button>
+      <p>You can also share the game link with friends who haven't created an account yet.</p>
+      <label for="inviteLink" style="display:block;text-align:left;margin:12px 0 6px;font-weight:700;">Game link</label>
+      <input id="inviteLink" type="url" readonly value="https://catchthesquare.site/" onclick="this.select()" style="box-sizing:border-box;width:100%;padding:12px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
+        <button class="settingButton" type="button" onclick="shareGameWithFriend()">📤 Share with a Friend</button>
+        <button class="settingButton" type="button" onclick="copyGameInvite()">📋 Copy Game Link</button>
+      </div>
+      <p id="inviteStatus" role="status" style="margin-top:12px;color:#ffd166;font-weight:700;">Invite a friend to play!</p>
+      <p style="font-size:.85rem;color:#9aa9bd;">Only share the game link. Never share your password or private account details.</p>
+    </div>
+  </div>
+</section>
 
 <!-- ================= PLAY ================= -->
 
@@ -745,42 +807,57 @@ Press Start Game, then catch the square!
 </div>
 </section>
 
-<!-- ================= GLOBAL LEADERBOARD PLACEHOLDER ================= -->
+<!-- ================= GLOBAL LEADERBOARD ================= -->
 <section id="leaderboard" class="screen">
 <div class="wrap page">
 <button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
 <h2 class="pageTitle">🏆 Global Leaderboard</h2>
 <div class="card" style="text-align:center;margin-bottom:16px;">
-<h3>🌐 Online rankings are coming soon</h3>
-<p>The leaderboard screen is ready. It will show real players and scores after the online database is connected.</p>
-<p style="color:#ffd166;font-weight:700;">Preview only — these are not real global scores.</p>
+<h3>🌐 Top Catchers Worldwide</h3>
+<p>Finish a round to submit your score. The highest scores appear here for everyone.</p>
+<p id="leaderboardStatus" role="status" style="color:#ffd166;font-weight:700;">Connecting to Firebase…</p>
 </div>
 <div class="card" style="padding:0;overflow:hidden;">
 <div style="display:grid;grid-template-columns:70px 1fr 100px;gap:12px;padding:14px 16px;background:#18263a;font-weight:800;"><span>RANK</span><span>PLAYER</span><span style="text-align:right;">SCORE</span></div>
-<div style="display:grid;grid-template-columns:70px 1fr 100px;gap:12px;padding:14px 16px;border-top:1px solid #2a3951;"><span>🥇</span><span>Waiting for players</span><span style="text-align:right;">—</span></div>
-<div style="display:grid;grid-template-columns:70px 1fr 100px;gap:12px;padding:14px 16px;border-top:1px solid #2a3951;"><span>🥈</span><span>Online connection pending</span><span style="text-align:right;">—</span></div>
-<div style="display:grid;grid-template-columns:70px 1fr 100px;gap:12px;padding:14px 16px;border-top:1px solid #2a3951;"><span>🥉</span><span>Your score will appear here</span><span style="text-align:right;">—</span></div>
+<div id="leaderboardRows"><div style="padding:18px;text-align:center;color:#9aa9bd;">Loading global scores…</div></div>
 </div>
 </div>
 </section>
 
-<!-- ================= GLOBAL CHAT PLACEHOLDER ================= -->
+<!-- ================= ALL PLAYERS ================= -->
+<section id="players" class="screen">
+<div class="wrap page">
+<button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
+<h2 class="pageTitle">👥 All Players</h2>
+<div class="card" style="margin-bottom:16px;">
+<p>Find registered Catch The Square players by nickname and send a friend invitation. Only public nicknames are shown—not email addresses.</p>
+<label for="playerDirectorySearch" style="display:block;font-weight:700;margin:10px 0 6px;">Search players</label>
+<input id="playerDirectorySearch" type="search" maxlength="20" placeholder="Type a nickname…" style="box-sizing:border-box;width:100%;padding:12px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
+<p id="playerDirectoryStatus" role="status" style="color:#ffd166;font-weight:700;">Loading registered players…</p>
+<div id="playerDirectoryRows" style="display:grid;gap:10px;"><p style="color:#9aa9bd;">Connecting to player directory…</p></div>
+</div>
+</div>
+</section>
+
+<!-- ================= GLOBAL CHAT ================= -->
 <section id="globalchat" class="screen">
 <div class="wrap page">
 <button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
 <h2 class="pageTitle">💬 Global Chat</h2>
 <div class="card" style="text-align:center;margin-bottom:16px;">
-<h3>🌐 Chat is getting ready</h3>
-<p>This is the chat screen layout. Once the online database is connected, players will be able to chat with everyone playing Catch The Square.</p>
-<p style="color:#ffd166;font-weight:700;">Messages are not sent or received yet.</p>
+<h3>🌐 Chat with other players</h3>
+<p id="chatStatus" role="status" style="color:#ffd166;font-weight:700;">Connecting to Firebase…</p>
+<p style="font-size:.9rem;color:#bac5d5;">Keep it friendly. Never share your real name, address, school, phone number, passwords, or other private information.</p>
 </div>
 <div class="card">
-<div id="globalChatMessages" style="min-height:180px;max-height:300px;overflow-y:auto;padding:12px;background:#0b1220;border:1px solid #2a3951;border-radius:10px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;text-align:center;color:#9aa9bd;">Global messages will appear here after chat is connected.</div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;">
-<input id="globalChatInput" type="text" maxlength="160" placeholder="Chat will be available soon…" disabled style="flex:1;min-width:180px;padding:12px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;opacity:.7;">
-<button class="settingButton" type="button" disabled style="opacity:.55;cursor:not-allowed;">Send</button>
-</div>
-<p style="font-size:.85rem;color:#9aa9bd;margin-top:10px;">Chat input is disabled until online chat is connected.</p>
+<label for="globalChatName" style="display:block;margin-bottom:6px;font-weight:bold;">Display name (max 20 characters)</label>
+<input id="globalChatName" type="text" maxlength="20" autocomplete="nickname" placeholder="Choose a display name" style="width:100%;padding:12px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;margin-bottom:10px;">
+<div id="globalChatMessages" aria-live="polite" style="min-height:180px;max-height:300px;overflow-y:auto;padding:12px;background:#0b1220;border:1px solid #2a3951;border-radius:10px;margin-bottom:12px;color:#9aa9bd;">Loading messages…</div>
+<form id="globalChatForm" style="display:flex;gap:8px;flex-wrap:wrap;">
+<input id="globalChatInput" type="text" maxlength="150" placeholder="Write a friendly message…" autocomplete="off" required style="flex:1;min-width:180px;padding:12px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
+<button id="globalChatSend" class="settingButton" type="submit">Send</button>
+</form>
+<p style="font-size:.85rem;color:#9aa9bd;margin-top:10px;">Messages are public to other players and limited to 150 characters.</p>
 </div>
 </div>
 </section>
@@ -1446,6 +1523,51 @@ const notice =
 document.getElementById("notice");
 
 
+function getGameInviteMessage(){
+  var gameUrl = "https://catchthesquare.site/";
+  return { title: "Catch The Square", text: "🎮 Try Catch The Square! Catch the moving square, build combos, and challenge me to beat your score!", url: gameUrl };
+}
+
+async function shareGameWithFriend(){
+  var invite = getGameInviteMessage();
+  var status = document.getElementById("inviteStatus");
+  try {
+    if (navigator.share) {
+      await navigator.share(invite);
+      if (status) status.textContent = "Share sheet opened — send the game to your friend!";
+    } else {
+      await copyGameInvite();
+      if (status) status.textContent = "Game link copied (if supported). Paste it into a message to your friend.";
+    }
+  } catch (err) {
+    if (err && err.name === "AbortError") {
+      if (status) status.textContent = "Share cancelled. You can still copy the link.";
+    } else {
+      if (status) status.textContent = "Sharing isn't supported here. Use Copy Game Link instead.";
+    }
+  }
+}
+
+async function copyGameInvite(){
+  var input = document.getElementById("inviteLink");
+  var status = document.getElementById("inviteStatus");
+  var url = "https://catchthesquare.site/";
+  if (input) { input.value = url; input.focus(); input.select(); }
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(url);
+    } else if (document.execCommand) {
+      var copied = document.execCommand("copy");
+      if (!copied) throw new Error("Copy command unavailable");
+    } else {
+      throw new Error("Clipboard unavailable");
+    }
+    if (status) status.textContent = "Game link copied! Paste it into a message to your friend.";
+  } catch (err) {
+    if (status) status.textContent = "The link is selected above. Press Ctrl+C to copy it, then send it to your friend.";
+  }
+}
+
 /* =========================
    SCREEN NAVIGATION
 ========================= */
@@ -1887,6 +2009,7 @@ highScore=score;
 updateTargetAppearance();
 saveData();
 updateUI();
+if (typeof window.ctsSubmitScore === "function") window.ctsSubmitScore(score);
 
 notice.textContent=
 "Round over! Score: "+
@@ -2026,6 +2149,605 @@ target.style.top="0px";
 target.style.transform="none";
 target.textContent=shapeGlyphs[0];
 
+</script>
+
+<!-- Firebase email/password accounts, password reset, live global chat, and leaderboard -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getDatabase, ref, push, onValue, query, limitToLast, get, set, update, remove, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
+  authDomain: "catch-the-square-79110.firebaseapp.com",
+  databaseURL: "https://catch-the-square-79110-default-rtdb.firebaseio.com",
+  projectId: "catch-the-square-79110",
+  storageBucket: "catch-the-square-79110.firebasestorage.app",
+  messagingSenderId: "855556289213",
+  appId: "1:855556289213:web:6ffe7fe9ec18c451623dd4",
+  measurementId: "G-BNKEM99H41"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getDatabase(firebaseApp);
+const chatMessages = document.getElementById("globalChatMessages");
+const chatInput = document.getElementById("globalChatInput");
+const chatName = document.getElementById("globalChatName");
+const chatForm = document.getElementById("globalChatForm");
+const chatSend = document.getElementById("globalChatSend");
+const chatStatus = document.getElementById("chatStatus");
+const leaderboardStatus = document.getElementById("leaderboardStatus");
+const leaderboardRows = document.getElementById("leaderboardRows");
+const accountForm = document.getElementById("accountForm");
+const accountNickname = document.getElementById("accountNickname");
+const accountEmail = document.getElementById("accountEmail");
+const accountPassword = document.getElementById("accountPassword");
+const accountStatus = document.getElementById("accountStatus");
+const createAccountButton = document.getElementById("createAccountButton");
+const loginButton = document.getElementById("loginButton");
+const forgotPasswordButton = document.getElementById("forgotPasswordButton");
+const logoutButton = document.getElementById("logoutButton");
+const savedAccountsList = document.getElementById("savedAccountsList");
+const friendNicknameInput = document.getElementById("friendNickname");
+const friendInviteStatus = document.getElementById("friendInviteStatus");
+const friendNotifications = document.getElementById("friendNotifications");
+const sendFriendInviteButton = document.getElementById("sendFriendInviteButton");
+const playerDirectorySearch = document.getElementById("playerDirectorySearch");
+const playerDirectoryRows = document.getElementById("playerDirectoryRows");
+const playerDirectoryStatus = document.getElementById("playerDirectoryStatus");
+let publicPlayers = [];
+let stopPlayerDirectory = null;
+let stopFriendNotifications = null;
+let firebaseUser = null;
+let stopVoiceCalls = null;
+let activePeerConnection = null;
+let activeVoiceCallRef = null;
+let activeVoiceCallId = null;
+let activeVoiceCallRole = null;
+let localVoiceStream = null;
+const voiceCallStatus = document.getElementById("voiceCallStatus");
+const incomingVoiceCalls = document.getElementById("incomingVoiceCalls");
+const remoteVoiceAudio = document.getElementById("remoteVoiceAudio");
+const hangUpVoiceButton = document.getElementById("hangUpVoiceButton");
+let lastChatSendAt = 0;
+let lastSubmittedScore = null;
+
+function getPlayerName() {
+  const cleaned = (accountNickname.value || chatName.value || firebaseUser?.displayName || "").trim().replace(/\s+/g, " ").slice(0, 20);
+  return cleaned || "Player";
+}
+
+function setStatus(el, message, good) {
+  if (!el) return;
+  el.textContent = message;
+  el.style.color = good ? "#35ed78" : "#ffd166";
+}
+
+function makeRow(rank, name, score) {
+  const row = document.createElement("div");
+  row.style.cssText = "display:grid;grid-template-columns:70px minmax(0,1fr) 100px;gap:12px;padding:14px 16px;border-top:1px solid #2a3951;align-items:center;";
+  const rankCell = document.createElement("span");
+  rankCell.textContent = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : String(rank);
+  const nameCell = document.createElement("span");
+  nameCell.style.cssText = "overflow-wrap:anywhere;";
+  nameCell.textContent = name;
+  const scoreCell = document.createElement("strong");
+  scoreCell.style.cssText = "text-align:right;color:#35ed78;";
+  scoreCell.textContent = String(score);
+  row.append(rankCell, nameCell, scoreCell);
+  return row;
+}
+
+function listenForLeaderboard() {
+  onValue(ref(db, "leaderboard"), snapshot => {
+    const scores = [];
+    snapshot.forEach(child => {
+      const item = child.val() || {};
+      const value = Number(item.score);
+      if (Number.isFinite(value) && value >= 0 && item.uid && item.name) {
+        scores.push({ name: String(item.name).slice(0, 20), score: Math.floor(value), time: Number(item.time || 0) });
+      }
+    });
+    scores.sort((a, b) => b.score - a.score || a.time - b.time);
+    leaderboardRows.replaceChildren();
+    if (!scores.length) {
+      const empty = document.createElement("div");
+      empty.style.cssText = "padding:20px;text-align:center;color:#9aa9bd;";
+      empty.textContent = "No scores yet. Finish a round to claim the first spot!";
+      leaderboardRows.appendChild(empty);
+    } else {
+      scores.slice(0, 20).forEach((item, i) => leaderboardRows.appendChild(makeRow(i + 1, item.name, item.score)));
+    }
+    setStatus(leaderboardStatus, "🟢 Live leaderboard connected", true);
+  }, error => {
+    console.error("Leaderboard read failed:", error);
+    setStatus(leaderboardStatus, "Could not load scores. Check Firebase Database rules.", false);
+  });
+}
+
+function listenForChat() {
+  const recentMessages = query(ref(db, "chat"), limitToLast(50));
+  onValue(recentMessages, snapshot => {
+    const messages = [];
+    snapshot.forEach(child => messages.push({ id: child.key, ...(child.val() || {}) }));
+    chatMessages.replaceChildren();
+    chatMessages.style.display = "block";
+    chatMessages.style.textAlign = "left";
+    if (!messages.length) {
+      const empty = document.createElement("p");
+      empty.style.cssText = "text-align:center;color:#9aa9bd;";
+      empty.textContent = "No messages yet. Say hello!";
+      chatMessages.appendChild(empty);
+      return;
+    }
+    messages.forEach(item => {
+      const bubble = document.createElement("div");
+      bubble.style.cssText = "padding:9px 10px;margin-bottom:8px;border-bottom:1px solid #253149;overflow-wrap:anywhere;";
+      const author = document.createElement("strong");
+      author.style.cssText = "color:#35ed78;";
+      author.textContent = String(item.name || "Player").slice(0, 20) + ": ";
+      const body = document.createElement("span");
+      body.style.color = "#f7f9fc";
+      body.textContent = String(item.message || "").slice(0, 150);
+      bubble.append(author, body);
+      chatMessages.appendChild(bubble);
+    });
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    setStatus(chatStatus, "🟢 Live chat connected", true);
+  }, error => {
+    console.error("Chat read failed:", error);
+    setStatus(chatStatus, "Could not load chat. Check Firebase Database rules.", false);
+    chatMessages.textContent = "Chat is unavailable right now. Please try again later.";
+  });
+}
+
+function renderPlayerDirectory() {
+  if (!playerDirectoryRows) return;
+  const search = String(playerDirectorySearch?.value || "").trim().toLowerCase();
+  const players = publicPlayers.filter(player => player.uid !== firebaseUser?.uid && player.nickname.toLowerCase().includes(search));
+  playerDirectoryRows.replaceChildren();
+  if (!firebaseUser) {
+    const note = document.createElement("p"); note.style.color = "#ffd166"; note.textContent = "Log in to see players and invite them."; playerDirectoryRows.appendChild(note); return;
+  }
+  if (!players.length) {
+    const empty = document.createElement("p"); empty.style.color = "#9aa9bd"; empty.textContent = search ? "No players match that nickname." : "No other registered players yet. Invite a friend to join!"; playerDirectoryRows.appendChild(empty); return;
+  }
+  players.forEach(player => {
+    const card = document.createElement("div");
+    card.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px;border:1px solid #2a3951;border-radius:10px;background:#121c2b;";
+    const name = document.createElement("strong"); name.textContent = "🟩 " + player.nickname; name.style.overflowWrap = "anywhere";
+    const actions = document.createElement("div"); actions.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;";
+    const invite = document.createElement("button"); invite.className = "settingButton"; invite.type = "button"; invite.textContent = "➕ Invite";
+    invite.addEventListener("click", () => {
+      if (friendNicknameInput) friendNicknameInput.value = player.nickname;
+      showScreen("invite");
+      showFriendInviteStatus("Ready to invite " + player.nickname + ". Tap Send Friend Invitation.", true);
+    });
+    const call = document.createElement("button"); call.className = "settingButton"; call.type = "button"; call.textContent = "🎙️ Voice Call";
+    call.addEventListener("click", () => { showScreen("invite"); startVoiceCall(player).catch(error => { console.error("Voice call failed:", error); setVoiceStatus("Could not start call. Check microphone permission and Firebase rules."); }); });
+    actions.append(invite, call);
+    card.append(name, actions); playerDirectoryRows.appendChild(card);
+  });
+}
+
+function listenForPlayerDirectory() {
+  if (typeof stopPlayerDirectory === "function") stopPlayerDirectory();
+  stopPlayerDirectory = onValue(ref(db, "playerProfiles"), snapshot => {
+    publicPlayers = [];
+    snapshot.forEach(child => {
+      const value = child.val() || {};
+      if (child.key && value.uid === child.key && typeof value.nickname === "string" && value.nickname.trim().length >= 2) {
+        publicPlayers.push({ uid: child.key, nickname: value.nickname.trim().replace(/\s+/g, " ").slice(0,20) });
+      }
+    });
+    publicPlayers.sort((a,b) => a.nickname.localeCompare(b.nickname));
+    setStatus(playerDirectoryStatus, "🟢 " + publicPlayers.length + " registered player profile(s)", true);
+    renderPlayerDirectory();
+  }, error => {
+    console.error("Player directory failed:", error);
+    setStatus(playerDirectoryStatus, "Could not load players. Check Firebase Database rules.", false);
+    if (playerDirectoryRows) playerDirectoryRows.textContent = "Player directory unavailable right now.";
+  });
+}
+if (playerDirectorySearch) playerDirectorySearch.addEventListener("input", renderPlayerDirectory);
+
+window.ctsSubmitScore = async function (rawScore) {
+  const score = Math.max(0, Math.floor(Number(rawScore) || 0));
+  if (!firebaseUser || score <= 0) return;
+  // Avoid duplicate submissions for repeated end-game callbacks on the same score.
+  const submissionKey = String(score) + ":" + String(Date.now());
+  if (lastSubmittedScore === submissionKey) return;
+  lastSubmittedScore = submissionKey;
+  try {
+    await push(ref(db, "leaderboard"), {
+      uid: firebaseUser.uid,
+      name: getPlayerName(),
+      score,
+      time: Date.now()
+    });
+    setStatus(leaderboardStatus, "✅ Score submitted!", true);
+  } catch (error) {
+    console.error("Score submission failed:", error);
+    setStatus(leaderboardStatus, "Score could not be submitted. Check Firebase Database rules.", false);
+  }
+};
+
+chatForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  const message = chatInput.value.trim().slice(0, 150);
+  const name = getPlayerName();
+  if (!firebaseUser) {
+    setStatus(chatStatus, "Create an account or log in from the main menu to chat.", false);
+    return;
+  }
+  if (!message) return;
+  if (Date.now() - lastChatSendAt < 1800) {
+    setStatus(chatStatus, "Please wait a moment before sending another message.", false);
+    return;
+  }
+  lastChatSendAt = Date.now();
+  chatSend.disabled = true;
+  try {
+    localStorage.setItem("cts_playerName", name);
+    await push(ref(db, "chat"), {
+      uid: firebaseUser.uid,
+      name,
+      message,
+      time: Date.now()
+    });
+    chatInput.value = "";
+    setStatus(chatStatus, "🟢 Message sent", true);
+  } catch (error) {
+    console.error("Chat send failed:", error);
+    setStatus(chatStatus, "Message failed. Check Firebase Database rules.", false);
+  } finally {
+    chatSend.disabled = false;
+  }
+});
+
+chatName.value = localStorage.getItem("cts_playerName") || "";
+accountNickname.value = localStorage.getItem("cts_playerName") || "";
+renderSavedAccounts();
+chatName.addEventListener("change", () => {
+  const name = getPlayerName();
+  chatName.value = name;
+  accountNickname.value = name;
+  localStorage.setItem("cts_playerName", name);
+});
+
+function getSavedAccounts() {
+  try { const parsed = JSON.parse(localStorage.getItem("cts_savedAccounts") || "[]"); return Array.isArray(parsed) ? parsed.filter(x => x && typeof x.email === "string" && typeof x.nickname === "string").slice(0, 8) : []; }
+  catch { return []; }
+}
+function renderSavedAccounts() {
+  if (!savedAccountsList) return;
+  savedAccountsList.replaceChildren();
+  const accounts = getSavedAccounts();
+  if (!accounts.length) { const note = document.createElement("span"); note.style.color = "#9aa9bd"; note.textContent = "No saved accounts yet."; savedAccountsList.appendChild(note); return; }
+  accounts.forEach(account => {
+    const button = document.createElement("button"); button.type = "button"; button.className = "settingButton";
+    button.textContent = "👤 " + account.nickname + " · " + account.email;
+    button.addEventListener("click", () => { if (auth.currentUser) { accountMessage("Log out first to switch accounts."); return; } accountNickname.value = account.nickname; accountEmail.value = account.email; accountPassword.value = ""; accountMessage("Account selected. Enter its password to log in.", true); });
+    savedAccountsList.appendChild(button);
+  });
+}
+function rememberAccount(email, nickname) {
+  const cleanEmail = String(email || "").trim().toLowerCase();
+  const cleanName = String(nickname || "Player").trim().replace(/\s+/g, " ").slice(0,20);
+  if (!cleanEmail) return;
+  const accounts = getSavedAccounts().filter(item => item.email.toLowerCase() !== cleanEmail);
+  accounts.unshift({ email: cleanEmail, nickname: cleanName || "Player" });
+  try { localStorage.setItem("cts_savedAccounts", JSON.stringify(accounts.slice(0,8))); } catch (error) { console.warn("Could not save account picker", error); }
+  renderSavedAccounts();
+}
+
+function accountMessage(message, good = false) {
+  setStatus(accountStatus, message, good);
+}
+function cleanNickname() {
+  return (accountNickname.value || "").trim().replace(/\s+/g, " ").slice(0, 20);
+}
+function validNickname() {
+  const name = cleanNickname();
+  if (name.length < 2) { accountMessage("Choose a nickname with at least 2 characters."); return false; }
+  return true;
+}
+function showFriendInviteStatus(message, good = false) {
+  if (!friendInviteStatus) return;
+  friendInviteStatus.textContent = message;
+  friendInviteStatus.style.color = good ? "#35ed78" : "#ffd166";
+}
+
+async function savePlayerProfile(user, nickname) {
+  const name = String(nickname || user.displayName || "Player").trim().replace(/\s+/g, " ").slice(0, 20);
+  if (name.length < 2) return;
+  await set(ref(db, "playerProfiles/" + user.uid), {
+    uid: user.uid,
+    nickname: name,
+    nicknameLower: name.toLowerCase(),
+    updatedAt: Date.now()
+  });
+}
+
+window.sendFriendInvite = async function () {
+  if (!firebaseUser) { showFriendInviteStatus("Create an account or log in first."); return; }
+  const targetName = String(friendNicknameInput?.value || "").trim().replace(/\s+/g, " ").slice(0, 20);
+  if (targetName.length < 2) { showFriendInviteStatus("Enter a nickname with at least 2 characters."); return; }
+  if (targetName.toLowerCase() === getPlayerName().toLowerCase()) { showFriendInviteStatus("You cannot invite yourself!"); return; }
+  sendFriendInviteButton.disabled = true;
+  try {
+    const matches = await get(query(ref(db, "playerProfiles"), orderByChild("nicknameLower"), equalTo(targetName.toLowerCase())));
+    if (!matches.exists()) { showFriendInviteStatus("Player not found. Ask them to create an account and log in first."); return; }
+    let target = null;
+    matches.forEach(child => { if (!target) target = child.val(); });
+    if (!target?.uid) { showFriendInviteStatus("Could not find that player. Try again."); return; }
+    const alreadyFriends = await get(ref(db, "friends/" + firebaseUser.uid + "/" + target.uid));
+    if (alreadyFriends.exists()) { showFriendInviteStatus("You are already friends with " + target.nickname + ".", true); return; }
+    const pending = await get(ref(db, "friendInvites/" + target.uid));
+    let duplicate = false;
+    pending.forEach(child => { const v = child.val() || {}; if (v.fromUid === firebaseUser.uid && v.status === "pending") duplicate = true; });
+    if (duplicate) { showFriendInviteStatus("You have already invited this player.", true); return; }
+    await push(ref(db, "friendInvites/" + target.uid), {
+      fromUid: firebaseUser.uid,
+      fromName: getPlayerName(),
+      toUid: target.uid,
+      toName: String(target.nickname || targetName).slice(0, 20),
+      status: "pending",
+      createdAt: Date.now()
+    });
+    showFriendInviteStatus("Invitation sent to " + String(target.nickname || targetName) + "! 🔔", true);
+    friendNicknameInput.value = "";
+  } catch (error) {
+    console.error("Friend invitation failed:", error);
+    showFriendInviteStatus("Could not send invitation. Check Firebase Database rules.");
+  } finally { sendFriendInviteButton.disabled = false; }
+};
+
+function listenForFriendNotifications(user) {
+  if (typeof stopFriendNotifications === "function") stopFriendNotifications();
+  if (!user || !friendNotifications) {
+    if (friendNotifications) friendNotifications.innerHTML = "<p style=\"color:#9aa9bd;\">Log in to view friend invitations.</p>";
+    return;
+  }
+  stopFriendNotifications = onValue(ref(db, "friendInvites/" + user.uid), snapshot => {
+    friendNotifications.replaceChildren();
+    const invites = [];
+    snapshot.forEach(child => invites.push({ id: child.key, ...(child.val() || {}) }));
+    invites.sort((a,b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
+    const pending = invites.filter(item => item.status === "pending");
+    if (!pending.length) {
+      const p = document.createElement("p"); p.style.color = "#9aa9bd"; p.textContent = "No new friend invitations."; friendNotifications.appendChild(p);
+    }
+    pending.forEach(invite => {
+      const card = document.createElement("div");
+      card.style.cssText = "padding:12px;margin:10px 0;border:1px solid #2a3951;border-radius:10px;background:#121c2b;";
+      const msg = document.createElement("p");
+      msg.textContent = "🎮 " + String(invite.fromName || "A player").slice(0,20) + " has invited you to be friends on Catch The Square!";
+      card.appendChild(msg);
+      const actions = document.createElement("div"); actions.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;";
+      const accept = document.createElement("button"); accept.className = "settingButton"; accept.textContent = "✅ Accept";
+      accept.addEventListener("click", async () => {
+        accept.disabled = true;
+        try {
+          const updates = {};
+          updates["friendInvites/" + user.uid + "/" + invite.id + "/status"] = "accepted";
+          updates["friends/" + user.uid + "/" + invite.fromUid] = { uid: invite.fromUid, nickname: String(invite.fromName || "Player").slice(0,20), since: Date.now() };
+          updates["friends/" + invite.fromUid + "/" + user.uid] = { uid: user.uid, nickname: String(user.displayName || "Player").slice(0,20), since: Date.now() };
+          await update(ref(db), updates);
+        } catch (error) { console.error(error); showFriendInviteStatus("Could not accept invitation. Check database rules."); accept.disabled = false; }
+      });
+      const decline = document.createElement("button"); decline.className = "settingButton"; decline.textContent = "✖ Decline";
+      decline.addEventListener("click", async () => { decline.disabled = true; try { await update(ref(db, "friendInvites/" + user.uid + "/" + invite.id), { status: "declined" }); } catch (error) { console.error(error); showFriendInviteStatus("Could not decline invitation."); decline.disabled = false; } });
+      actions.append(accept, decline); card.appendChild(actions); friendNotifications.appendChild(card);
+    });
+  }, error => {
+    console.error("Friend notifications failed:", error);
+    friendNotifications.textContent = "Notifications unavailable. Check Firebase Database rules.";
+  });
+}
+
+function setVoiceStatus(message, good = false) {
+  if (voiceCallStatus) { voiceCallStatus.textContent = message; voiceCallStatus.style.color = good ? "#35ed78" : "#ffd166"; }
+}
+function makeVoicePeer(callId, remoteRole) {
+  const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+  pc.ontrack = event => { remoteVoiceAudio.srcObject = event.streams[0]; remoteVoiceAudio.play().catch(() => {}); };
+  pc.onconnectionstatechange = () => {
+    if (pc.connectionState === "connected") setVoiceStatus("🟢 Voice connected. Speak normally!", true);
+    if (["failed", "disconnected"].includes(pc.connectionState)) setVoiceStatus("Voice connection interrupted. Try calling again.");
+  };
+  pc.onicecandidate = async event => {
+    if (!event.candidate || !firebaseUser || !callId) return;
+    const side = activeVoiceCallRole === "caller" ? "caller" : "callee";
+    try { await push(ref(db, "voiceIce/" + callId + "/" + side), event.candidate.toJSON()); }
+    catch (error) { console.error("ICE candidate save failed:", error); }
+  };
+  return pc;
+}
+async function attachRemoteCandidates(callId, side, pc) {
+  onValue(ref(db, "voiceIce/" + callId + "/" + side), snapshot => {
+    snapshot.forEach(child => {
+      const candidate = child.val();
+      if (candidate && candidate.candidate) pc.addIceCandidate(new RTCIceCandidate(candidate)).catch(error => console.warn("ICE candidate skipped", error));
+    });
+  }, error => console.warn("ICE listener failed", error));
+}
+async function startVoiceCall(target) {
+  if (!firebaseUser) { setVoiceStatus("Log in before calling another player."); return; }
+  if (!target || !target.uid || target.uid === firebaseUser.uid) { setVoiceStatus("Choose another registered player."); return; }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.RTCPeerConnection) {
+    setVoiceStatus("Voice chat needs a modern browser on HTTPS with microphone support."); return;
+  }
+  if (activePeerConnection) await hangUpVoiceCall();
+  try {
+    localVoiceStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    activeVoiceCallRole = "caller";
+    activeVoiceCallId = firebaseUser.uid + "_" + target.uid;
+    activeVoiceCallRef = ref(db, "voiceCalls/" + target.uid + "/" + firebaseUser.uid);
+    activePeerConnection = makeVoicePeer(activeVoiceCallId, "callee");
+    localVoiceStream.getTracks().forEach(track => activePeerConnection.addTrack(track, localVoiceStream));
+    attachRemoteCandidates(activeVoiceCallId, "callee", activePeerConnection);
+    const offer = await activePeerConnection.createOffer();
+    await activePeerConnection.setLocalDescription(offer);
+    await set(activeVoiceCallRef, { fromUid: firebaseUser.uid, fromName: getPlayerName(), toUid: target.uid, toName: target.nickname, status: "ringing", offer: { type: offer.type, sdp: offer.sdp }, createdAt: Date.now(), callId: activeVoiceCallId });
+    onValue(activeVoiceCallRef, async snapshot => {
+      const call = snapshot.val();
+      if (!call) return;
+      if (call.status === "declined") { setVoiceStatus(target.nickname + " declined the call."); await hangUpVoiceCall(false); }
+      if (call.answer && activePeerConnection && !activePeerConnection.currentRemoteDescription) {
+        try { await activePeerConnection.setRemoteDescription(new RTCSessionDescription(call.answer)); }
+        catch (error) { console.warn("Could not set voice answer", error); }
+      }
+    });
+    hangUpVoiceButton.hidden = false;
+    setVoiceStatus("Calling " + target.nickname + "… keep this page open.");
+  } catch (error) {
+    console.error(error);
+    await hangUpVoiceCall(false);
+    setVoiceStatus(error.name === "NotAllowedError" ? "Microphone permission was denied. Allow microphone access and try again." : "Could not start voice chat. Check microphone access and Firebase rules.");
+  }
+}
+async function acceptVoiceCall(callerUid, call) {
+  if (!firebaseUser || !call || !call.offer) return;
+  if (!navigator.mediaDevices?.getUserMedia || !window.RTCPeerConnection) { setVoiceStatus("Voice chat needs a modern browser on HTTPS with microphone support."); return; }
+  try {
+    if (activePeerConnection) await hangUpVoiceCall();
+    localVoiceStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    activeVoiceCallRole = "callee";
+    activeVoiceCallId = call.callId || callerUid + "_" + firebaseUser.uid;
+    activeVoiceCallRef = ref(db, "voiceCalls/" + firebaseUser.uid + "/" + callerUid);
+    activePeerConnection = makeVoicePeer(activeVoiceCallId, "caller");
+    localVoiceStream.getTracks().forEach(track => activePeerConnection.addTrack(track, localVoiceStream));
+    await activePeerConnection.setRemoteDescription(new RTCSessionDescription(call.offer));
+    attachRemoteCandidates(activeVoiceCallId, "caller", activePeerConnection);
+    const answer = await activePeerConnection.createAnswer();
+    await activePeerConnection.setLocalDescription(answer);
+    await update(activeVoiceCallRef, { status: "accepted", answer: { type: answer.type, sdp: answer.sdp } });
+    hangUpVoiceButton.hidden = false;
+    setVoiceStatus("Connecting to " + String(call.fromName || "player") + "…", true);
+  } catch (error) {
+    console.error(error);
+    setVoiceStatus("Could not accept call. Allow microphone access and check Firebase rules.");
+  }
+}
+async function hangUpVoiceCall(removeCall = true) {
+  if (activePeerConnection) { activePeerConnection.ontrack = null; activePeerConnection.close(); activePeerConnection = null; }
+  if (localVoiceStream) { localVoiceStream.getTracks().forEach(track => track.stop()); localVoiceStream = null; }
+  if (remoteVoiceAudio) remoteVoiceAudio.srcObject = null;
+  if (removeCall && activeVoiceCallRef) { try { await remove(activeVoiceCallRef); } catch (error) { console.warn("Could not clear voice call", error); } }
+  if (activeVoiceCallId) { try { await remove(ref(db, "voiceIce/" + activeVoiceCallId)); } catch (error) { console.warn("Could not clear voice ICE", error); } }
+  activeVoiceCallRef = null; activeVoiceCallId = null; activeVoiceCallRole = null;
+  if (hangUpVoiceButton) hangUpVoiceButton.hidden = true;
+}
+function listenForIncomingVoiceCalls(user) {
+  if (typeof stopVoiceCalls === "function") stopVoiceCalls();
+  if (!incomingVoiceCalls) return;
+  incomingVoiceCalls.replaceChildren();
+  if (!user) { incomingVoiceCalls.textContent = "Log in to receive voice calls."; setVoiceStatus("Log in to start a voice call."); return; }
+  stopVoiceCalls = onValue(ref(db, "voiceCalls/" + user.uid), snapshot => {
+    incomingVoiceCalls.replaceChildren();
+    const ringing = [];
+    snapshot.forEach(child => { const call = child.val() || {}; if (call.status === "ringing" && call.fromUid && call.offer) ringing.push({ callerUid: child.key, ...call }); });
+    if (!ringing.length) { incomingVoiceCalls.textContent = "No incoming calls."; return; }
+    ringing.forEach(call => {
+      const card = document.createElement("div"); card.style.cssText = "padding:12px;margin:8px 0;border:1px solid #2a3951;border-radius:10px;background:#121c2b;";
+      const msg = document.createElement("p"); msg.textContent = "📞 " + String(call.fromName || "A player").slice(0,20) + " is calling you.";
+      const accept = document.createElement("button"); accept.className = "settingButton"; accept.textContent = "🎙️ Accept"; accept.addEventListener("click", () => acceptVoiceCall(call.callerUid, call));
+      const decline = document.createElement("button"); decline.className = "settingButton"; decline.textContent = "Decline"; decline.style.marginLeft = "8px"; decline.addEventListener("click", async () => { try { await update(ref(db, "voiceCalls/" + user.uid + "/" + call.callerUid), { status: "declined" }); } catch (error) { setVoiceStatus("Could not decline call. Check Firebase rules."); } });
+      card.append(msg, accept, decline); incomingVoiceCalls.appendChild(card);
+    });
+  }, error => { console.error("Incoming call listener failed", error); incomingVoiceCalls.textContent = "Could not load calls. Check Firebase rules."; });
+}
+hangUpVoiceButton.addEventListener("click", async () => { await hangUpVoiceCall(); setVoiceStatus("Call ended."); });
+
+function updateAccountUI(user) {
+  firebaseUser = user || null;
+  const signedIn = !!user;
+  accountPassword.value = "";
+  renderPlayerDirectory();
+  accountPassword.autocomplete = signedIn ? "off" : "current-password";
+  createAccountButton.hidden = signedIn;
+  loginButton.hidden = signedIn;
+  forgotPasswordButton.hidden = signedIn;
+  logoutButton.hidden = !signedIn;
+  accountNickname.readOnly = signedIn;
+  accountEmail.readOnly = signedIn;
+  if (signedIn) {
+    const name = user.displayName || localStorage.getItem("cts_playerName") || "Player";
+    accountNickname.value = name;
+    chatName.value = name;
+    localStorage.setItem("cts_playerName", name);
+    rememberAccount(user.email, name);
+    accountMessage("Logged in as " + name + ". Your scores can be submitted and you can use global chat.", true);
+    savePlayerProfile(user, name).catch(error => { console.error("Profile save failed:", error); showFriendInviteStatus("Could not update your player profile. Check Firebase Database rules."); });
+    listenForFriendNotifications(user);
+    listenForIncomingVoiceCalls(user);
+    setStatus(chatStatus, "Account connected. You can send messages.", true);
+    listenForChat();
+    listenForLeaderboard();
+  } else {
+    accountMessage("Create an account or log in to submit scores and use global chat.");
+    listenForFriendNotifications(null);
+    listenForIncomingVoiceCalls(null);
+    setStatus(chatStatus, "Log in from the main menu to use global chat.", false);
+    setStatus(leaderboardStatus, "Leaderboard requires a player account to submit scores.", false);
+  }
+}
+
+accountForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!validNickname()) return;
+  const email = accountEmail.value.trim();
+  const password = accountPassword.value;
+  if (password.length < 6) { accountMessage("Password must be at least 6 characters."); return; }
+  createAccountButton.disabled = true;
+  try {
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(credential.user, { displayName: cleanNickname() });
+    localStorage.setItem("cts_playerName", cleanNickname());
+    updateAccountUI(credential.user);
+    accountMessage("Account created! You are logged in.", true);
+  } catch (error) {
+    console.error("Create account failed:", error);
+    accountMessage(error.code === "auth/email-already-in-use" ? "That email already has an account. Use Log In." : error.code === "auth/weak-password" ? "Choose a stronger password (at least 6 characters)." : error.code === "auth/invalid-email" ? "Enter a valid email address." : "Could not create account. Check Firebase Email/Password sign-in is enabled.");
+  } finally { createAccountButton.disabled = false; }
+});
+
+loginButton.addEventListener("click", async () => {
+  if (!accountEmail.value.trim() || !accountPassword.value) { accountMessage("Enter your email and password first."); return; }
+  loginButton.disabled = true;
+  try {
+    await signInWithEmailAndPassword(auth, accountEmail.value.trim(), accountPassword.value);
+    accountMessage("Logged in successfully.", true);
+  } catch (error) {
+    console.error("Login failed:", error);
+    accountMessage(error.code === "auth/invalid-credential" || error.code === "auth/wrong-password" || error.code === "auth/user-not-found" ? "Email or password is incorrect." : "Could not log in. Check your email and password.");
+  } finally { loginButton.disabled = false; }
+});
+
+forgotPasswordButton.addEventListener("click", async () => {
+  const email = accountEmail.value.trim();
+  if (!email) { accountMessage("Enter your email first, then press Forgot Password."); return; }
+  forgotPasswordButton.disabled = true;
+  try {
+    await sendPasswordResetEmail(auth, email);
+    accountMessage("If an account exists for that email, Firebase has sent a password-reset link. Check your inbox and spam folder.", true);
+  } catch (error) {
+    console.error("Password reset request failed:", error);
+    accountMessage(error.code === "auth/invalid-email" ? "Enter a valid email address." : "Could not send reset email. Check Firebase email/password settings and authorized domains.");
+  } finally { forgotPasswordButton.disabled = false; }
+});
+
+logoutButton.addEventListener("click", async () => {
+  try { await signOut(auth); accountMessage("You have logged out."); }
+  catch (error) { console.error("Logout failed:", error); accountMessage("Could not log out. Try again."); }
+});
+
+setStatus(chatStatus, "Checking account…", false);
+setStatus(leaderboardStatus, "Checking account…", false);
+listenForPlayerDirectory();
+onAuthStateChanged(auth, user => updateAccountUI(user));
 </script>
 
 </body>
