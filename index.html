@@ -2200,7 +2200,7 @@ highScore=score;
 updateTargetAppearance();
 saveData();
 updateUI();
-if (typeof window.ctsSubmitScore === "function") window.ctsSubmitScore(score);
+if (typeof window.ctsSubmitScore === "function") window.ctsSubmitScore(Math.max(score, highScore));
 
 notice.textContent=
 "Round over! Score: "+
@@ -2518,14 +2518,25 @@ function makeRow(rank, name, score) {
 
 function listenForLeaderboard() {
   onValue(ref(db, "leaderboard"), snapshot => {
-    const scores = [];
+    // Keep only each account's best submitted score, not its most recent round.
+    const bestByPlayer = new Map();
     snapshot.forEach(child => {
       const item = child.val() || {};
       const value = Number(item.score);
-      if (Number.isFinite(value) && value >= 0 && item.uid && item.name) {
-        scores.push({ name: String(item.name).slice(0, 20), score: Math.floor(value), time: Number(item.time || 0) });
+      if (!Number.isFinite(value) || value < 0 || !item.uid || !item.name) return;
+      const candidate = {
+        uid: String(item.uid),
+        name: String(item.name).slice(0, 20),
+        score: Math.floor(value),
+        time: Number(item.time || 0)
+      };
+      const previous = bestByPlayer.get(candidate.uid);
+      if (!previous || candidate.score > previous.score ||
+          (candidate.score === previous.score && candidate.time < previous.time)) {
+        bestByPlayer.set(candidate.uid, candidate);
       }
     });
+    const scores = Array.from(bestByPlayer.values());
     scores.sort((a, b) => b.score - a.score || a.time - b.time);
     leaderboardRows.replaceChildren();
     if (!scores.length) {
@@ -2534,7 +2545,7 @@ function listenForLeaderboard() {
       empty.textContent = "No scores yet. Finish a round to claim the first spot!";
       leaderboardRows.appendChild(empty);
     } else {
-      scores.slice(0, 20).forEach((item, i) => leaderboardRows.appendChild(makeRow(i + 1, item.name, item.score)));
+      scores.slice(0, 10000).forEach((item, i) => leaderboardRows.appendChild(makeRow(i + 1, item.name, item.score)));
     }
     setStatus(leaderboardStatus, "🟢 Live leaderboard connected", true);
   }, error => {
@@ -2542,7 +2553,6 @@ function listenForLeaderboard() {
     setStatus(leaderboardStatus, "Could not load scores. Check Firebase Database rules.", false);
   });
 }
-
 function listenForChat() {
   const recentMessages = query(ref(db, "chat"), limitToLast(50));
   onValue(recentMessages, snapshot => {
