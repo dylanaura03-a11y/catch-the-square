@@ -68,6 +68,14 @@ header{
     gap:15px;
 }
 
+.header-right{display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:0;}
+.header-profile{display:flex;align-items:center;gap:8px;max-width:210px;padding:5px 10px 5px 5px;border:1px solid #26334a;border-radius:999px;background:#101826;color:#f7f9fc;font-size:13px;font-weight:700;}
+.header-profile[hidden]{display:none!important;}
+.header-profile img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid #35ed78;background:#253248;}
+.header-profile span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;}
+.header-profile i{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:#35ed78;box-shadow:0 0 7px #35ed7880;}
+@media(max-width:480px){.header-right{gap:6px}.header-profile{max-width:145px;padding-right:7px;font-size:11px}.header-profile img{width:29px;height:29px}.header-profile span{max-width:78px}.coinTop{padding:8px 9px;}}
+
 .logo{
     color:white;
     font-size:21px;
@@ -540,11 +548,16 @@ body.cts-auth-required #accountCard .auth-tabs{margin-top:18px;}
 .auth-tab.active{background:#fff;color:#202227;box-shadow:0 1px 4px #0001;}
 .auth-form{display:grid;gap:13px;}
 .auth-field{display:grid;gap:6px;}
-.auth-field[hidden],.auth-primary[hidden],.auth-link[hidden],.auth-logout[hidden],#authTabs[hidden],#nicknameField[hidden],#passwordField[hidden]{display:none!important;}
+.auth-field[hidden],.auth-primary[hidden],.auth-link[hidden],.auth-logout[hidden],#authTabs[hidden],#nicknameField[hidden],#passwordField[hidden],#avatarField[hidden]{display:none!important;}
 .auth-field label{font-size:13px;font-weight:700;color:#343943;}
 .auth-field input{width:100%;min-height:44px;padding:12px 13px;border-radius:8px;border:1px solid #cbd0d8;background:#f8f9fb;color:#202227;outline:none;}
 .auth-field input:focus{border-color:#202227;box-shadow:0 0 0 2px #20222712;}
 .auth-field small{font-size:11px;color:#737985;}
+.avatar-pick{display:flex;align-items:center;gap:12px;padding:10px;border:1px dashed #cbd0d8;border-radius:10px;background:#f8f9fb;}
+.avatar-preview{width:62px;height:62px;flex:0 0 62px;border-radius:50%;object-fit:cover;background:#e5e7eb;border:2px solid #d9dee5;}
+.avatar-pick input{min-height:auto;padding:8px;border:0;background:transparent;font-size:12px;}
+.avatar-pick small{display:block;margin-top:4px;}
+.player-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;object-fit:cover;background:#253248;border:1px solid #40506a;}
 .auth-primary{width:100%;min-height:46px;border:0;border-radius:8px;background:#202227;color:#fff;font-weight:800;letter-spacing:.1px;margin-top:2px;}
 .auth-primary:hover{background:#353942;}
 .auth-primary:disabled{opacity:.55;cursor:wait;}
@@ -575,8 +588,12 @@ body.cts-auth-required #accountCard .auth-tabs{margin-top:18px;}
 Catch <span>The Square</span>
 </div>
 
-<div class="coinTop">
-🪙 <span id="topCoins">0</span>
+<div class="header-right">
+  <div class="coinTop">🪙 <span id="topCoins">0</span></div>
+  <div id="headerProfile" class="header-profile" hidden title="Your Catch The Square account">
+    <img id="headerProfileAvatar" alt="Your profile picture" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E">
+    <span id="headerProfileName">Player</span><i aria-label="Online"></i>
+  </div>
 </div>
 
 </div>
@@ -636,8 +653,18 @@ onclick="startFromMenu()">
   <form id="accountForm" class="auth-form">
     <div class="auth-field" id="nicknameField" hidden>
       <label for="accountNickname">Username</label>
-      <input id="accountNickname" type="text" minlength="2" maxlength="20" autocomplete="nickname" placeholder="Choose a username" style="">
+      <input id="accountNickname" type="text" minlength="2" maxlength="20" autocomplete="nickname" placeholder="Choose a username">
       <small>2–20 characters. This is how friends find you.</small>
+    </div>
+    <div class="auth-field" id="avatarField" hidden>
+      <label for="accountAvatar">Profile Picture</label>
+      <div class="avatar-pick">
+        <img id="accountAvatarPreview" class="avatar-preview" alt="Profile picture preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23e5e7eb'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239ca3af'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239ca3af'/%3E%3C/svg%3E">
+        <div style="min-width:0;flex:1">
+          <input id="accountAvatar" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+          <small>Optional. Choose a JPG, PNG, WEBP or GIF (max 2 MB).</small>
+        </div>
+      </div>
     </div>
     <div class="auth-field" id="emailField">
       <label for="accountEmail">Email</label>
@@ -2242,6 +2269,7 @@ target.textContent=shapeGlyphs[0];
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 import { getDatabase, ref, push, onValue, query, limitToLast, get, set, update, remove, orderByChild, equalTo, onDisconnect } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
@@ -2257,6 +2285,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = getDatabase(firebaseApp);
+const storage = getStorage(firebaseApp);
 const chatMessages = document.getElementById("globalChatMessages");
 const chatInput = document.getElementById("globalChatInput");
 const chatName = document.getElementById("globalChatName");
@@ -2270,6 +2299,9 @@ const accountNickname = document.getElementById("accountNickname");
 const accountEmail = document.getElementById("accountEmail");
 const accountPassword = document.getElementById("accountPassword");
 const accountStatus = document.getElementById("accountStatus");
+const headerProfile = document.getElementById("headerProfile");
+const headerProfileAvatar = document.getElementById("headerProfileAvatar");
+const headerProfileName = document.getElementById("headerProfileName");
 const createAccountButton = document.getElementById("createAccountButton");
 const loginButton = document.getElementById("loginButton");
 const forgotPasswordButton = document.getElementById("forgotPasswordButton");
@@ -2281,6 +2313,9 @@ const authTabs = document.getElementById("authTabs");
 const showLoginTab = document.getElementById("showLoginTab");
 const showSignupTab = document.getElementById("showSignupTab");
 const nicknameField = document.getElementById("nicknameField");
+const avatarField = document.getElementById("avatarField");
+const accountAvatar = document.getElementById("accountAvatar");
+const accountAvatarPreview = document.getElementById("accountAvatarPreview");
 const passwordField = document.getElementById("passwordField");
 const sendResetButton = document.getElementById("sendResetButton");
 const backToAuthButton = document.getElementById("backToAuthButton");
@@ -2294,6 +2329,7 @@ function setAuthMode(mode) {
   showLoginTab.setAttribute("aria-selected", String(mode === "login"));
   showSignupTab.setAttribute("aria-selected", String(mode === "signup"));
   nicknameField.hidden = mode !== "signup" || signedIn;
+  avatarField.hidden = mode !== "signup" || signedIn;
   accountNickname.required = mode === "signup" && !signedIn;
   passwordField.hidden = mode === "forgot" || signedIn;
   accountPassword.required = mode !== "forgot" && !signedIn;
@@ -2441,13 +2477,16 @@ function renderPlayerDirectory() {
   players.forEach(player => {
     const card = document.createElement("div");
     card.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px;border:1px solid #2a3951;border-radius:10px;background:#121c2b;";
-    const info = document.createElement("div"); info.style.cssText = "display:flex;flex-direction:column;gap:5px;min-width:0;";
+    const info = document.createElement("div"); info.style.cssText = "display:flex;align-items:center;gap:10px;min-width:0;flex:1;";
+    const avatar = document.createElement("img"); avatar.className = "player-avatar"; avatar.alt = player.nickname + " profile picture";
+    avatar.src = player.avatarURL || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E";
+    const textInfo = document.createElement("div"); textInfo.style.cssText = "display:flex;flex-direction:column;gap:5px;min-width:0;";
     const name = document.createElement("strong"); name.textContent = player.nickname; name.style.overflowWrap = "anywhere";
     const presence = document.createElement("span");
     const isOnline = onlinePlayers[player.uid]?.state === "online";
     presence.textContent = isOnline ? "🟢 Online" : "⚪ Offline";
     presence.style.cssText = "font-size:.88rem;color:" + (isOnline ? "#35ed78" : "#9aa9bd") + ";font-weight:700;";
-    info.append(name, presence);
+    textInfo.append(name, presence); info.append(avatar, textInfo);
     const actions = document.createElement("div"); actions.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;";
     const invite = document.createElement("button"); invite.className = "settingButton"; invite.type = "button"; invite.textContent = "➕ Invite";
     invite.addEventListener("click", () => {
@@ -2506,7 +2545,7 @@ function listenForPlayerDirectory() {
     snapshot.forEach(child => {
       const value = child.val() || {};
       if (child.key && value.uid === child.key && typeof value.nickname === "string" && value.nickname.trim().length >= 2) {
-        publicPlayers.push({ uid: child.key, nickname: value.nickname.trim().replace(/\s+/g, " ").slice(0,20) });
+        publicPlayers.push({ uid: child.key, nickname: value.nickname.trim().replace(/\s+/g, " ").slice(0,20), avatarURL: typeof value.avatarURL === "string" ? value.avatarURL : "" });
       }
     });
     publicPlayers.sort((a,b) => a.nickname.localeCompare(b.nickname));
@@ -2634,6 +2673,7 @@ async function savePlayerProfile(user, nickname) {
     uid: user.uid,
     nickname: name,
     nicknameLower: name.toLowerCase(),
+    avatarURL: user.photoURL || "",
     updatedAt: Date.now()
   });
 }
@@ -2645,11 +2685,24 @@ window.sendFriendInvite = async function () {
   if (targetName.toLowerCase() === getPlayerName().toLowerCase()) { showFriendInviteStatus("You cannot invite yourself!"); return; }
   sendFriendInviteButton.disabled = true;
   try {
-    const matches = await get(query(ref(db, "playerProfiles"), orderByChild("nicknameLower"), equalTo(targetName.toLowerCase())));
-    if (!matches.exists()) { showFriendInviteStatus("Player not found. Ask them to create an account and log in first."); return; }
+    // First try the indexed lowercase nickname field. Older profiles may not have nicknameLower,
+    // so fall back to scanning readable public profiles and comparing nickname case-insensitively.
     let target = null;
-    matches.forEach(child => { if (!target) target = child.val(); });
-    if (!target?.uid) { showFriendInviteStatus("Could not find that player. Try again."); return; }
+    try {
+      const matches = await get(query(ref(db, "playerProfiles"), orderByChild("nicknameLower"), equalTo(targetName.toLowerCase())));
+      if (matches.exists()) matches.forEach(child => { if (!target) target = { ...(child.val() || {}), uid: (child.val() || {}).uid || child.key }; });
+    } catch (lookupError) { console.warn("Indexed nickname lookup failed; trying profile fallback", lookupError); }
+    if (!target?.uid) {
+      const allProfiles = await get(ref(db, "playerProfiles"));
+      allProfiles.forEach(child => {
+        const profile = child.val() || {};
+        const profileName = String(profile.nickname || profile.displayName || "").trim().replace(/\s+/g, " ");
+        if (!target && profileName.length >= 2 && profileName.toLowerCase() === targetName.toLowerCase()) {
+          target = { ...profile, uid: profile.uid || child.key, nickname: profileName };
+        }
+      });
+    }
+    if (!target?.uid) { showFriendInviteStatus("User not found. Check the exact username. They must create an account and log in once so their player profile is registered."); return; }
     const alreadyFriends = await get(ref(db, "friends/" + firebaseUser.uid + "/" + target.uid));
     if (alreadyFriends.exists()) { showFriendInviteStatus("You are already friends with " + target.nickname + ".", true); return; }
     const pending = await get(ref(db, "friendInvites/" + target.uid));
@@ -2829,10 +2882,20 @@ function listenForIncomingVoiceCalls(user) {
 }
 hangUpVoiceButton.addEventListener("click", async () => { await hangUpVoiceCall(); setVoiceStatus("Call ended."); });
 
+function updateHeaderProfile(user) {
+  if (!headerProfile) return;
+  if (!user) { headerProfile.hidden = true; return; }
+  const name = String(user.displayName || localStorage.getItem("cts_playerName") || "Player").trim().slice(0,20) || "Player";
+  headerProfileName.textContent = name;
+  headerProfileAvatar.src = user.photoURL || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E";
+  headerProfile.hidden = false;
+}
+
 function updateAccountUI(user) {
   const previousUid = firebaseUser?.uid || null;
   firebaseUser = user || null;
   const signedIn = !!user;
+  updateHeaderProfile(user);
   document.body.classList.toggle("cts-auth-required", !signedIn);
   window.ctsAuthReady = true;
   window.ctsIsSignedIn = signedIn;
@@ -2870,6 +2933,29 @@ function updateAccountUI(user) {
   setAuthMode(user ? "login" : authMode);
 }
 
+accountAvatar.addEventListener("change", () => {
+  const file = accountAvatar.files && accountAvatar.files[0];
+  if (!file) return;
+  if (!/^image\/(png|jpeg|webp|gif)$/.test(file.type) || file.size > 2 * 1024 * 1024) {
+    accountAvatar.value = "";
+    accountMessage("Choose a JPG, PNG, WEBP or GIF image under 2 MB.");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => { accountAvatarPreview.src = String(reader.result); };
+  reader.readAsDataURL(file);
+});
+
+async function uploadProfilePicture(user) {
+  const file = accountAvatar.files && accountAvatar.files[0];
+  if (!file) return "";
+  if (!/^image\/(png|jpeg|webp|gif)$/.test(file.type) || file.size > 2 * 1024 * 1024) throw new Error("Choose an image under 2 MB.");
+  const safeType = file.type || "image/jpeg";
+  const destination = storageRef(storage, "profilePictures/" + user.uid + "/avatar");
+  await uploadBytes(destination, file, { contentType: safeType });
+  return await getDownloadURL(destination);
+}
+
 accountForm.addEventListener("submit", async event => {
   event.preventDefault();
   const email = accountEmail.value.trim();
@@ -2892,7 +2978,12 @@ accountForm.addEventListener("submit", async event => {
   createAccountButton.disabled = true;
   try {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(credential.user, { displayName: cleanNickname() });
+    let avatarURL = "";
+    try { avatarURL = await uploadProfilePicture(credential.user); }
+    catch (avatarError) { console.error("Profile picture upload failed:", avatarError); accountMessage("Account created, but the picture could not upload. Check Firebase Storage rules and try again from your profile."); }
+    await updateProfile(credential.user, { displayName: cleanNickname(), ...(avatarURL ? { photoURL: avatarURL } : {}) });
+    accountAvatar.value = "";
+    accountAvatarPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23e5e7eb'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239ca3af'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239ca3af'/%3E%3C/svg%3E";
     localStorage.setItem("cts_playerName", cleanNickname());
     updateAccountUI(credential.user);
     accountMessage("Account created! You are logged in.", true);
