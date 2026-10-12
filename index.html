@@ -3277,8 +3277,6 @@ function updateAccountUI(user) {
     listenForFriendNotifications(user);
     listenForIncomingVoiceCalls(user);
     setStatus(chatStatus, "Account connected. You can send messages.", true);
-    listenForChat();
-    listenForLeaderboard();
   } else {
     if (currentServerId) leaveServer(false).catch(() => {});
     accountMessage("Create an account or log in to submit scores and use global chat.");
@@ -3384,8 +3382,12 @@ logoutButton.addEventListener("click", async () => {
 
 window.ctsAuthReady = false;
 window.ctsIsSignedIn = false;
-setStatus(chatStatus, "Checking account…", false);
-setStatus(leaderboardStatus, "Checking account…", false);
+setStatus(chatStatus, "Loading global chat…", false);
+setStatus(leaderboardStatus, "Loading global leaderboard…", false);
+// Start public read listeners once, regardless of sign-in state.
+// Authentication is still required by the write handlers for posting messages/scores.
+listenForChat();
+listenForLeaderboard();
 listenForPlayerDirectory();
 listenForPresence();
 setAuthMode("login");
