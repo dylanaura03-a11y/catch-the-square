@@ -931,7 +931,7 @@ Press Start Game, then catch the square!
     <div class="card" style="max-width:620px;margin:0 auto;">
       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:18px;">
         <img id="profilePageAvatar" class="avatar-preview" alt="Your profile picture" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E">
-        <div><h3 id="profilePageName" style="margin:0 0 5px;">Your username</h3><p style="margin:0;color:#9aa9bd;">Your public Catch The Square profile</p></div>
+        <div><h3 id="profilePageName" style="margin:0 0 5px;">Your username</h3><p style="margin:0;color:#9aa9bd;">Your public Catch The Square profile</p><p id="profilePageBio" style="margin:8px 0 0;color:#d5deeb;overflow-wrap:anywhere;">No bio added yet.</p></div>
       </div>
       <form id="editProfileForm" class="auth-form">
         <div class="auth-field"><label for="editProfileNickname">Username</label><input id="editProfileNickname" type="text" minlength="2" maxlength="20" required autocomplete="nickname" placeholder="Your username"></div>
@@ -2352,6 +2352,7 @@ const headerProfileAvatar = document.getElementById("headerProfileAvatar");
 const headerProfileName = document.getElementById("headerProfileName");
 const profilePageAvatar = document.getElementById("profilePageAvatar");
 const profilePageName = document.getElementById("profilePageName");
+const profilePageBio = document.getElementById("profilePageBio");
 const editProfileForm = document.getElementById("editProfileForm");
 const editProfileNickname = document.getElementById("editProfileNickname");
 const editProfileAvatar = document.getElementById("editProfileAvatar");
@@ -2558,7 +2559,9 @@ function renderPlayerDirectory() {
     const isOnline = onlinePlayers[player.uid]?.state === "online";
     presence.textContent = isOnline ? "🟢 Online" : "⚪ Offline";
     presence.style.cssText = "font-size:.88rem;color:" + (isOnline ? "#35ed78" : "#9aa9bd") + ";font-weight:700;";
-    textInfo.append(name, presence); info.append(avatar, textInfo);
+    textInfo.append(name);
+    if (player.bio) { const bio = document.createElement("span"); bio.textContent = player.bio; bio.style.cssText = "font-size:.88rem;color:#c4cedd;overflow-wrap:anywhere;"; textInfo.appendChild(bio); }
+    textInfo.append(presence); info.append(avatar, textInfo);
     const actions = document.createElement("div"); actions.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;";
     const invite = document.createElement("button"); invite.className = "settingButton"; invite.type = "button"; invite.textContent = "➕ Invite";
     invite.addEventListener("click", () => {
@@ -2617,7 +2620,7 @@ function listenForPlayerDirectory() {
     snapshot.forEach(child => {
       const value = child.val() || {};
       if (child.key && value.uid === child.key && typeof value.nickname === "string" && value.nickname.trim().length >= 2) {
-        publicPlayers.push({ uid: child.key, nickname: value.nickname.trim().replace(/\s+/g, " ").slice(0,20), avatarURL: typeof value.avatarURL === "string" ? value.avatarURL : "" });
+        publicPlayers.push({ uid: child.key, nickname: value.nickname.trim().replace(/\s+/g, " ").slice(0,20), avatarURL: typeof value.avatarURL === "string" ? value.avatarURL : "", bio: typeof value.bio === "string" ? value.bio.slice(0,120) : "" });
       }
     });
     publicPlayers.sort((a,b) => a.nickname.localeCompare(b.nickname));
@@ -2955,22 +2958,32 @@ function listenForIncomingVoiceCalls(user) {
 hangUpVoiceButton.addEventListener("click", async () => { await hangUpVoiceCall(); setVoiceStatus("Call ended."); });
 
 // The top-right avatar is a real button that opens the editable profile page.
-headerProfile.addEventListener("click", () => {
+headerProfile.addEventListener("click", async () => {
   if (!firebaseUser) { showScreen("home"); return; }
+  editProfileAvatar.value = "";
+  editProfileStatus.textContent = "Loading your saved profile…";
+  showScreen("profile");
   editProfileNickname.value = firebaseUser.displayName || localStorage.getItem("cts_playerName") || "Player";
   profilePageName.textContent = editProfileNickname.value;
   profilePageAvatar.src = firebaseUser.photoURL || headerProfileAvatar.src;
   editProfileBio.value = "";
-  get(ref(db, "playerProfiles/" + firebaseUser.uid)).then(snapshot => {
+  if (profilePageBio) profilePageBio.textContent = "No bio added yet.";
+  try {
+    const snapshot = await get(ref(db, "playerProfiles/" + firebaseUser.uid));
     const profile = snapshot.val() || {};
+    if (typeof profile.nickname === "string" && profile.nickname.trim()) editProfileNickname.value = profile.nickname;
     if (typeof profile.bio === "string") editProfileBio.value = profile.bio;
     if (profile.avatarURL) profilePageAvatar.src = profile.avatarURL;
-  }).catch(error => console.warn("Could not load profile details", error));
-  editProfileAvatar.value = "";
-  editProfileStatus.textContent = "Edit your username, picture or bio, then save.";
-  showScreen("profile");
+    profilePageName.textContent = editProfileNickname.value;
+    if (profilePageBio) profilePageBio.textContent = editProfileBio.value.trim() || "No bio added yet.";
+    editProfileStatus.textContent = "Your saved profile is loaded. Edit it and press Save Profile.";
+  } catch (error) {
+    console.warn("Could not load profile details", error);
+    editProfileStatus.textContent = "Could not load saved profile. Check Firebase Database rules.";
+  }
 });
 editProfileNickname.addEventListener("input", () => { profilePageName.textContent = editProfileNickname.value.trim() || "Your username"; });
+editProfileBio.addEventListener("input", () => { if (profilePageBio) profilePageBio.textContent = editProfileBio.value.trim() || "No bio added yet."; });
 editProfileAvatar.addEventListener("change", () => {
   const file = editProfileAvatar.files && editProfileAvatar.files[0];
   if (!file) return;
@@ -3000,7 +3013,8 @@ editProfileForm.addEventListener("submit", async event => {
     accountNickname.value = nickname; chatName.value = nickname;
     await update(ref(db, "playerProfiles/" + firebaseUser.uid), { uid: firebaseUser.uid, nickname, nicknameLower: nickname.toLowerCase(), avatarURL: photoURL, bio: String(editProfileBio.value || "").trim().slice(0,120), updatedAt: Date.now() });
     updateHeaderProfile(firebaseUser); profilePageName.textContent = nickname; profilePageAvatar.src = photoURL || profilePageAvatar.src;
-    editProfileStatus.textContent = "Profile saved! Your username and picture are updated.";
+    if (profilePageBio) profilePageBio.textContent = String(editProfileBio.value || "").trim().slice(0,120) || "No bio added yet.";
+    editProfileStatus.textContent = "Profile saved! Your username, picture and bio are updated. Your public profile shows below.";
     editProfileStatus.style.color = "#35ed78"; editProfileAvatar.value = ""; renderPlayerDirectory();
   } catch (error) {
     console.error("Profile save failed", error);
