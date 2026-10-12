@@ -69,7 +69,8 @@ header{
 }
 
 .header-right{display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:0;}
-.header-profile{display:flex;align-items:center;gap:8px;max-width:210px;padding:5px 10px 5px 5px;border:1px solid #26334a;border-radius:999px;background:#101826;color:#f7f9fc;font-size:13px;font-weight:700;}
+.header-profile{display:flex;align-items:center;gap:8px;max-width:210px;padding:5px 10px 5px 5px;border:1px solid #26334a;border-radius:999px;background:#101826;color:#f7f9fc;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+.header-profile:hover,.header-profile:focus-visible{border-color:#35ed78;outline:2px solid #35ed7833;outline-offset:2px;}
 .header-profile[hidden]{display:none!important;}
 .header-profile img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid #35ed78;background:#253248;}
 .header-profile span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;}
@@ -590,10 +591,10 @@ Catch <span>The Square</span>
 
 <div class="header-right">
   <div class="coinTop">🪙 <span id="topCoins">0</span></div>
-  <div id="headerProfile" class="header-profile" hidden title="Your Catch The Square account">
+  <button type="button" id="headerProfile" class="header-profile" hidden title="Open your Catch The Square profile" aria-label="Open your profile">
     <img id="headerProfileAvatar" alt="Your profile picture" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E">
     <span id="headerProfileName">Player</span><i aria-label="Online"></i>
-  </div>
+  </button>
 </div>
 
 </div>
@@ -633,6 +634,7 @@ onclick="startFromMenu()">
 <button class="menuButton" onclick="showScreen('missions')">🎯 MISSIONS</button>
 <button class="menuButton" onclick="showScreen('leaderboard')">🏆 GLOBAL LEADERBOARD</button>
 <button class="menuButton" onclick="showScreen('globalchat')">💬 GLOBAL CHAT</button>
+<button class="menuButton" onclick="showScreen('servers')">🌐 SERVERS</button>
 <button class="menuButton" onclick="showScreen('players')">👥 ALL PLAYERS</button>
 <button class="menuButton" onclick="showScreen('invite')">🎁 INVITE A FRIEND</button>
 <button class="menuButton" onclick="showScreen('settings')">⚙️ SETTINGS</button>
@@ -919,6 +921,52 @@ Press Start Game, then catch the square!
 <div id="playerDirectoryRows" style="display:grid;gap:10px;"><p style="color:#9aa9bd;">Connecting to player directory…</p></div>
 </div>
 </div>
+</section>
+
+<!-- ================= PROFILE ================= -->
+<section id="profile" class="screen">
+  <div class="wrap page">
+    <button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
+    <h2 class="pageTitle">👤 My Profile</h2>
+    <div class="card" style="max-width:620px;margin:0 auto;">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:18px;">
+        <img id="profilePageAvatar" class="avatar-preview" alt="Your profile picture" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E">
+        <div><h3 id="profilePageName" style="margin:0 0 5px;">Your username</h3><p style="margin:0;color:#9aa9bd;">Your public Catch The Square profile</p></div>
+      </div>
+      <form id="editProfileForm" class="auth-form">
+        <div class="auth-field"><label for="editProfileNickname">Username</label><input id="editProfileNickname" type="text" minlength="2" maxlength="20" required autocomplete="nickname" placeholder="Your username"></div>
+        <div class="auth-field"><label for="editProfileAvatar">Change profile picture</label><input id="editProfileAvatar" type="file" accept="image/png,image/jpeg,image/webp,image/gif"><small>JPG, PNG, WEBP or GIF, max 2 MB.</small></div>
+        <div class="auth-field"><label for="editProfileBio">Bio (optional)</label><textarea id="editProfileBio" maxlength="120" rows="3" placeholder="Tell players a little about yourself"></textarea><small>Keep personal details private.</small></div>
+        <button class="auth-primary" id="saveProfileButton" type="submit">Save Profile</button>
+        <p id="editProfileStatus" role="status" class="auth-status">Your changes will be saved to your account.</p>
+        <button class="auth-logout" type="button" id="profileLogoutButton">Log Out</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVERS ================= -->
+<section id="servers" class="screen">
+  <div class="wrap page">
+    <button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
+    <h2 class="pageTitle">🌐 Game Servers</h2>
+    <div class="card" style="margin-bottom:16px;">
+      <h3>Hang out with other players</h3>
+      <p>Choose a lobby to chat and see who's there. Everyone plays their own Catch The Square round. Each lobby is designed for up to 35 players.</p>
+      <p id="serverStatus" role="status" style="color:#ffd166;font-weight:700;">Loading server list…</p>
+      <p id="currentServerLabel" style="color:#35ed78;font-weight:800;">You are not in a server.</p>
+    </div>
+    <div id="serverList" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;"></div>
+    <div id="serverLobbyPanel" class="card" hidden style="margin-top:18px;">
+      <h3 id="serverLobbyTitle">Server Lobby</h3>
+      <p id="serverMemberCount" style="color:#9aa9bd;"></p>
+      <div id="serverMembers" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;"></div>
+      <h4>Lobby Chat</h4>
+      <div id="serverChatMessages" aria-live="polite" style="min-height:120px;max-height:240px;overflow-y:auto;padding:12px;background:#0b1220;border:1px solid #2a3951;border-radius:10px;margin-bottom:12px;color:#9aa9bd;">Join a server to chat.</div>
+      <form id="serverChatForm" style="display:flex;gap:8px;flex-wrap:wrap;"><input id="serverChatInput" maxlength="150" required autocomplete="off" placeholder="Message this server…" style="flex:1;min-width:180px;padding:12px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;"><button class="settingButton" type="submit">Send</button></form>
+      <button class="backButton" id="leaveServerButton" type="button" style="margin-top:12px;">Leave Server</button>
+    </div>
+  </div>
 </section>
 
 <!-- ================= GLOBAL CHAT ================= -->
@@ -2268,7 +2316,7 @@ target.textContent=shapeGlyphs[0];
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getDatabase, ref, push, onValue, query, limitToLast, get, set, update, remove, orderByChild, equalTo, onDisconnect } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+import { getDatabase, ref, push, onValue, query, limitToLast, get, set, update, remove, orderByChild, equalTo, onDisconnect, runTransaction } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
 const firebaseConfig = {
@@ -2302,6 +2350,25 @@ const accountStatus = document.getElementById("accountStatus");
 const headerProfile = document.getElementById("headerProfile");
 const headerProfileAvatar = document.getElementById("headerProfileAvatar");
 const headerProfileName = document.getElementById("headerProfileName");
+const profilePageAvatar = document.getElementById("profilePageAvatar");
+const profilePageName = document.getElementById("profilePageName");
+const editProfileForm = document.getElementById("editProfileForm");
+const editProfileNickname = document.getElementById("editProfileNickname");
+const editProfileAvatar = document.getElementById("editProfileAvatar");
+const editProfileBio = document.getElementById("editProfileBio");
+const editProfileStatus = document.getElementById("editProfileStatus");
+const saveProfileButton = document.getElementById("saveProfileButton");
+const serverList = document.getElementById("serverList");
+const serverStatus = document.getElementById("serverStatus");
+const currentServerLabel = document.getElementById("currentServerLabel");
+const serverLobbyPanel = document.getElementById("serverLobbyPanel");
+const serverLobbyTitle = document.getElementById("serverLobbyTitle");
+const serverMemberCount = document.getElementById("serverMemberCount");
+const serverMembers = document.getElementById("serverMembers");
+const serverChatMessages = document.getElementById("serverChatMessages");
+const serverChatForm = document.getElementById("serverChatForm");
+const serverChatInput = document.getElementById("serverChatInput");
+const leaveServerButton = document.getElementById("leaveServerButton");
 const createAccountButton = document.getElementById("createAccountButton");
 const loginButton = document.getElementById("loginButton");
 const forgotPasswordButton = document.getElementById("forgotPasswordButton");
@@ -2373,6 +2440,11 @@ const remoteVoiceAudio = document.getElementById("remoteVoiceAudio");
 const hangUpVoiceButton = document.getElementById("hangUpVoiceButton");
 let lastChatSendAt = 0;
 let lastSubmittedScore = null;
+let currentServerId = null;
+let stopServerList = null;
+let stopServerMembers = null;
+let stopServerChat = null;
+let serverJoinPending = false;
 
 function getPlayerName() {
   const cleaned = (accountNickname.value || chatName.value || firebaseUser?.displayName || "").trim().replace(/\s+/g, " ").slice(0, 20);
@@ -2669,7 +2741,7 @@ function showFriendInviteStatus(message, good = false) {
 async function savePlayerProfile(user, nickname) {
   const name = String(nickname || user.displayName || "Player").trim().replace(/\s+/g, " ").slice(0, 20);
   if (name.length < 2) return;
-  await set(ref(db, "playerProfiles/" + user.uid), {
+  await update(ref(db, "playerProfiles/" + user.uid), {
     uid: user.uid,
     nickname: name,
     nicknameLower: name.toLowerCase(),
@@ -2882,6 +2954,138 @@ function listenForIncomingVoiceCalls(user) {
 }
 hangUpVoiceButton.addEventListener("click", async () => { await hangUpVoiceCall(); setVoiceStatus("Call ended."); });
 
+// The top-right avatar is a real button that opens the editable profile page.
+headerProfile.addEventListener("click", () => {
+  if (!firebaseUser) { showScreen("home"); return; }
+  editProfileNickname.value = firebaseUser.displayName || localStorage.getItem("cts_playerName") || "Player";
+  profilePageName.textContent = editProfileNickname.value;
+  profilePageAvatar.src = firebaseUser.photoURL || headerProfileAvatar.src;
+  editProfileBio.value = "";
+  get(ref(db, "playerProfiles/" + firebaseUser.uid)).then(snapshot => {
+    const profile = snapshot.val() || {};
+    if (typeof profile.bio === "string") editProfileBio.value = profile.bio;
+    if (profile.avatarURL) profilePageAvatar.src = profile.avatarURL;
+  }).catch(error => console.warn("Could not load profile details", error));
+  editProfileAvatar.value = "";
+  editProfileStatus.textContent = "Edit your username, picture or bio, then save.";
+  showScreen("profile");
+});
+editProfileNickname.addEventListener("input", () => { profilePageName.textContent = editProfileNickname.value.trim() || "Your username"; });
+editProfileAvatar.addEventListener("change", () => {
+  const file = editProfileAvatar.files && editProfileAvatar.files[0];
+  if (!file) return;
+  if (!/^image\/(png|jpeg|webp|gif)$/.test(file.type) || file.size > 2 * 1024 * 1024) {
+    editProfileAvatar.value = ""; editProfileStatus.textContent = "Choose a JPG, PNG, WEBP or GIF image under 2 MB."; return;
+  }
+  const reader = new FileReader(); reader.onload = () => { profilePageAvatar.src = String(reader.result); }; reader.readAsDataURL(file);
+});
+document.getElementById("profileLogoutButton").addEventListener("click", async () => { await signOut(auth); showScreen("home"); });
+editProfileForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!firebaseUser) { editProfileStatus.textContent = "Log in before editing your profile."; return; }
+  const nickname = String(editProfileNickname.value || "").trim().replace(/\s+/g, " ").slice(0,20);
+  if (nickname.length < 2) { editProfileStatus.textContent = "Username must be at least 2 characters."; return; }
+  saveProfileButton.disabled = true;
+  try {
+    let photoURL = firebaseUser.photoURL || "";
+    const file = editProfileAvatar.files && editProfileAvatar.files[0];
+    if (file) {
+      if (!/^image\/(png|jpeg|webp|gif)$/.test(file.type) || file.size > 2 * 1024 * 1024) throw new Error("Choose an image under 2 MB.");
+      const destination = storageRef(storage, "profilePictures/" + firebaseUser.uid + "/avatar");
+      await uploadBytes(destination, file, { contentType: file.type || "image/jpeg" });
+      photoURL = await getDownloadURL(destination);
+    }
+    await updateProfile(firebaseUser, { displayName: nickname, photoURL });
+    localStorage.setItem("cts_playerName", nickname);
+    accountNickname.value = nickname; chatName.value = nickname;
+    await update(ref(db, "playerProfiles/" + firebaseUser.uid), { uid: firebaseUser.uid, nickname, nicknameLower: nickname.toLowerCase(), avatarURL: photoURL, bio: String(editProfileBio.value || "").trim().slice(0,120), updatedAt: Date.now() });
+    updateHeaderProfile(firebaseUser); profilePageName.textContent = nickname; profilePageAvatar.src = photoURL || profilePageAvatar.src;
+    editProfileStatus.textContent = "Profile saved! Your username and picture are updated.";
+    editProfileStatus.style.color = "#35ed78"; editProfileAvatar.value = ""; renderPlayerDirectory();
+  } catch (error) {
+    console.error("Profile save failed", error);
+    editProfileStatus.textContent = "Could not save profile. Check Firebase Database/Storage rules and try again.";
+    editProfileStatus.style.color = "#ffd166";
+  } finally { saveProfileButton.disabled = false; }
+});
+
+// 35 lightweight social lobbies: players can see each other and use server-specific chat.
+function serverLabel(id) { return "Server " + String(Number(String(id).replace("server-", "")) || 1); }
+function listenForServerList() {
+  if (typeof stopServerList === "function") stopServerList();
+  stopServerList = onValue(ref(db, "servers"), snapshot => {
+    const all = snapshot.val() || {};
+    serverList.replaceChildren();
+    for (let n = 1; n <= 35; n++) {
+      const id = "server-" + String(n).padStart(2,"0");
+      const room = all[id] || {}; const members = room.members || {};
+      const active = Object.values(members).filter(m => m && m.state === "online");
+      const card = document.createElement("div"); card.className = "card"; card.style.cssText = "padding:16px;";
+      const title = document.createElement("h3"); title.textContent = "🌐 " + serverLabel(id); title.style.marginTop = "0";
+      const count = document.createElement("p"); count.textContent = active.length + " / 35 players"; count.style.color = active.length >= 35 ? "#ffd166" : "#35ed78";
+      const bar = document.createElement("div"); bar.style.cssText = "height:7px;background:#253248;border-radius:99px;overflow:hidden;margin:8px 0 12px;";
+      const fill = document.createElement("div"); fill.style.cssText = "height:100%;width:" + Math.min(100,active.length/35*100) + "%;background:#35ed78;"; bar.appendChild(fill);
+      const button = document.createElement("button"); button.className = "settingButton"; button.type = "button"; button.textContent = currentServerId === id ? "Joined ✓" : active.length >= 35 ? "Full" : "Join Server"; button.disabled = serverJoinPending || (active.length >= 35 && currentServerId !== id); button.addEventListener("click", () => joinServer(id));
+      card.append(title,count,bar,button); serverList.appendChild(card);
+    }
+    serverStatus.textContent = "35 servers available · maximum 35 players in each";
+    serverStatus.style.color = "#35ed78";
+  }, error => { console.error("Server list failed", error); serverStatus.textContent = "Could not load servers. Check Firebase Realtime Database rules."; });
+}
+async function joinServer(id) {
+  if (!firebaseUser) { serverStatus.textContent = "Log in first to join a server."; showScreen("home"); return; }
+  if (serverJoinPending) return;
+  serverJoinPending = true;
+  try {
+    if (currentServerId && currentServerId !== id) await leaveServer(false);
+    const membersRef = ref(db, "servers/" + id + "/members");
+    const member = { uid: firebaseUser.uid, nickname: firebaseUser.displayName || localStorage.getItem("cts_playerName") || "Player", avatarURL: firebaseUser.photoURL || "", state: "online", joinedAt: Date.now() };
+    const result = await runTransaction(membersRef, current => {
+      current = current || {};
+      Object.keys(current).forEach(uid => { if (!current[uid] || current[uid].state !== "online") delete current[uid]; });
+      if (!current[firebaseUser.uid] && Object.keys(current).length >= 35) return;
+      current[firebaseUser.uid] = member; return current;
+    });
+    if (!result.committed) { serverStatus.textContent = serverLabel(id) + " is full. Try another server."; return; }
+    currentServerId = id;
+    await onDisconnect(ref(db, "servers/" + id + "/members/" + firebaseUser.uid)).remove();
+    currentServerLabel.textContent = "You are in " + serverLabel(id) + ".";
+    serverLobbyTitle.textContent = "🌐 " + serverLabel(id);
+    serverLobbyPanel.hidden = false;
+    if (typeof stopServerMembers === "function") stopServerMembers();
+    stopServerMembers = onValue(membersRef, snap => {
+      const data = snap.val() || {}; const live = Object.values(data).filter(m => m && m.state === "online");
+      serverMemberCount.textContent = live.length + " / 35 players online"; serverMembers.replaceChildren();
+      live.forEach(m => { const chip = document.createElement("div"); chip.style.cssText = "display:flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid #2a3951;border-radius:99px;background:#121c2b;font-size:13px;"; const dot = document.createElement("span"); dot.textContent = "🟢"; const name = document.createElement("span"); name.textContent = String(m.nickname || "Player").slice(0,20); chip.append(dot,name); if (m.avatarURL) { const img = document.createElement("img"); img.src = m.avatarURL; img.alt = ""; img.style.cssText = "width:24px;height:24px;border-radius:50%;object-fit:cover;"; chip.prepend(img); } serverMembers.appendChild(chip); });
+    }, error => { console.error(error); serverMemberCount.textContent = "Could not load members. Check database rules."; });
+    if (typeof stopServerChat === "function") stopServerChat();
+    stopServerChat = onValue(query(ref(db, "serverChats/" + id), limitToLast(50)), snap => {
+      serverChatMessages.replaceChildren(); const rows = []; snap.forEach(child => rows.push(child.val() || {}));
+      if (!rows.length) serverChatMessages.textContent = "Say hello to your server!";
+      rows.forEach(msg => { const line = document.createElement("p"); line.style.cssText = "margin:0 0 9px;overflow-wrap:anywhere;"; const name = document.createElement("strong"); name.textContent = String(msg.name || "Player").slice(0,20) + ": "; const body = document.createElement("span"); body.textContent = String(msg.text || "").slice(0,150); line.append(name,body); serverChatMessages.appendChild(line); });
+      serverChatMessages.scrollTop = serverChatMessages.scrollHeight;
+    }, error => { console.error(error); serverChatMessages.textContent = "Chat unavailable. Check database rules."; });
+    serverChatInput.focus(); serverStatus.textContent = "Joined " + serverLabel(id) + "!"; serverStatus.style.color = "#35ed78";
+  } catch (error) { console.error("Join server failed", error); serverStatus.textContent = "Could not join. Check Firebase rules and try again."; }
+  finally { serverJoinPending = false; listenForServerList(); }
+}
+async function leaveServer(showMessage = true) {
+  if (typeof stopServerMembers === "function") { stopServerMembers(); stopServerMembers = null; }
+  if (typeof stopServerChat === "function") { stopServerChat(); stopServerChat = null; }
+  if (currentServerId && firebaseUser) { try { await remove(ref(db, "servers/" + currentServerId + "/members/" + firebaseUser.uid)); } catch (error) { console.warn("Could not leave server cleanly", error); } }
+  currentServerId = null; serverLobbyPanel.hidden = true; currentServerLabel.textContent = "You are not in a server.";
+  if (showMessage) serverStatus.textContent = "You left the server.";
+  listenForServerList();
+}
+serverChatForm.addEventListener("submit", async event => {
+  event.preventDefault(); const text = String(serverChatInput.value || "").trim().slice(0,150);
+  if (!firebaseUser || !currentServerId || !text) { serverStatus.textContent = "Join a server and log in before chatting."; return; }
+  try { await push(ref(db, "serverChats/" + currentServerId), { uid: firebaseUser.uid, name: firebaseUser.displayName || "Player", text, createdAt: Date.now() }); serverChatInput.value = ""; }
+  catch (error) { console.error(error); serverStatus.textContent = "Message failed. Check Firebase database rules."; }
+});
+leaveServerButton.addEventListener("click", () => leaveServer());
+listenForServerList();
+
 function updateHeaderProfile(user) {
   if (!headerProfile) return;
   if (!user) { headerProfile.hidden = true; return; }
@@ -2924,6 +3128,7 @@ function updateAccountUI(user) {
     listenForChat();
     listenForLeaderboard();
   } else {
+    if (currentServerId) leaveServer(false).catch(() => {});
     accountMessage("Create an account or log in to submit scores and use global chat.");
     listenForFriendNotifications(null);
     listenForIncomingVoiceCalls(null);
