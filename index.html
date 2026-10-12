@@ -591,6 +591,7 @@ Catch <span>The Square</span>
 
 <div class="header-right">
   <div class="coinTop">🪙 <span id="topCoins">0</span></div>
+  <button type="button" id="openAdminPanel" hidden style="border:1px solid #35ed78;background:#10251a;color:#8cffb0;border-radius:8px;padding:8px 10px;font-weight:900;cursor:pointer;">👑 ADMIN</button>
   <button type="button" id="headerProfile" class="header-profile" hidden title="Open your Catch The Square profile" aria-label="Open your profile">
     <img id="headerProfileAvatar" alt="Your profile picture" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E">
     <span id="headerProfileName">Player</span><span id="headerAdminBadge" hidden style="font-size:10px;font-weight:900;color:#07120b;background:#35ed78;border-radius:5px;padding:3px 5px;margin-left:4px;white-space:nowrap;">👑 OWNER ADMIN</span><i aria-label="Online"></i>
@@ -601,6 +602,35 @@ Catch <span>The Square</span>
 
 </header>
 
+
+<!-- Owner-only admin panel. Firebase rules must independently restrict admin writes. -->
+<div id="adminPanelOverlay" hidden style="position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.82);padding:18px;overflow:auto;">
+  <section style="max-width:760px;margin:4vh auto;background:#0d1725;color:#eef5ff;border:1px solid #35ed78;border-radius:16px;padding:20px;box-shadow:0 20px 80px #000;">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <div><div style="font-size:11px;color:#35ed78;font-weight:900;letter-spacing:2px;">OWNER CONTROL CENTER</div><h2 style="margin:5px 0 0;">👑 Catch The Square Admin</h2></div>
+      <button type="button" id="closeAdminPanel" style="border:1px solid #3c4c62;background:#172538;color:#fff;border-radius:8px;padding:8px 12px;cursor:pointer;">Close ✕</button>
+    </div>
+    <p style="color:#aab9cc;font-size:13px;line-height:1.5;">Admin tools are available only to the configured owner account. Firebase Database Rules remain the real security boundary.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:18px;">
+      <form id="adminBroadcastForm" style="background:#111f30;border:1px solid #263a52;border-radius:12px;padding:14px;">
+        <h3 style="margin:0 0 10px;">📢 Global announcement</h3>
+        <label for="adminBroadcastMessage" style="display:block;font-size:12px;color:#aab9cc;margin-bottom:6px;">Message (max 240 characters)</label>
+        <textarea id="adminBroadcastMessage" maxlength="240" required rows="4" style="width:100%;box-sizing:border-box;resize:vertical;background:#07111e;color:#fff;border:1px solid #344861;border-radius:8px;padding:10px;"></textarea>
+        <button type="submit" id="adminBroadcastSend" style="margin-top:9px;width:100%;padding:10px;background:#35ed78;color:#06120a;border:0;border-radius:8px;font-weight:900;cursor:pointer;">Send announcement</button>
+      </form>
+      <div style="background:#111f30;border:1px solid #263a52;border-radius:12px;padding:14px;">
+        <h3 style="margin:0 0 10px;">🎮 Game event</h3>
+        <p id="adminEventStatus" style="color:#aab9cc;font-size:13px;">Loading event status…</p>
+        <button type="button" id="adminEventToggle" style="width:100%;padding:10px;background:#263a52;color:#fff;border:1px solid #405a77;border-radius:8px;font-weight:900;cursor:pointer;">Toggle event</button>
+        <p style="font-size:11px;color:#8093aa;line-height:1.4;">This sets a shared active/inactive event flag. It does not automatically change gameplay unless the game code reads this flag.</p>
+      </div>
+    </div>
+    <div style="margin-top:14px;background:#111f30;border:1px solid #263a52;border-radius:12px;padding:14px;">
+      <h3 style="margin:0 0 8px;">🗞️ Recent announcements</h3><div id="adminBroadcastList" style="font-size:13px;color:#b9c8da;">Loading announcements…</div>
+    </div>
+    <p id="adminPanelStatus" role="status" style="min-height:20px;color:#8cffb0;font-size:13px;margin-bottom:0;"></p>
+  </section>
+</div>
 
 <main>
 
@@ -2350,6 +2380,19 @@ const headerProfileAvatar = document.getElementById("headerProfileAvatar");
 const headerProfileName = document.getElementById("headerProfileName");
 const headerAdminBadge = document.getElementById("headerAdminBadge");
 const OWNER_UID = "bzoHvK5RmfZGhVxkc5nyr9GZ30j2";
+const openAdminPanelButton = document.getElementById("openAdminPanel");
+const adminPanelOverlay = document.getElementById("adminPanelOverlay");
+const closeAdminPanelButton = document.getElementById("closeAdminPanel");
+const adminBroadcastForm = document.getElementById("adminBroadcastForm");
+const adminBroadcastMessage = document.getElementById("adminBroadcastMessage");
+const adminBroadcastSend = document.getElementById("adminBroadcastSend");
+const adminBroadcastList = document.getElementById("adminBroadcastList");
+const adminEventStatus = document.getElementById("adminEventStatus");
+const adminEventToggle = document.getElementById("adminEventToggle");
+const adminPanelStatus = document.getElementById("adminPanelStatus");
+let currentAdminEventActive = false;
+let stopAdminBroadcastListener = null;
+let stopAdminEventListener = null;
 const profilePageAvatar = document.getElementById("profilePageAvatar");
 const profilePageName = document.getElementById("profilePageName");
 const profilePageBio = document.getElementById("profilePageBio");
@@ -3106,7 +3149,16 @@ listenForServerList();
 
 function updateHeaderProfile(user) {
   if (!headerProfile) return;
-  if (!user) { headerProfile.hidden = true; if (headerAdminBadge) headerAdminBadge.hidden = true; return; }
+  if (!user) {
+    headerProfile.hidden = true;
+    if (headerAdminBadge) headerAdminBadge.hidden = true;
+    if (openAdminPanelButton) openAdminPanelButton.hidden = true;
+    if (adminPanelOverlay) adminPanelOverlay.hidden = true;
+    if (typeof stopAdminBroadcastListener === "function") { stopAdminBroadcastListener(); stopAdminBroadcastListener = null; }
+    if (typeof stopAdminEventListener === "function") { stopAdminEventListener(); stopAdminEventListener = null; }
+    return;
+  }
+  if (openAdminPanelButton) openAdminPanelButton.hidden = user.uid !== OWNER_UID;
   const fallbackAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E";
   const setHeader = profile => {
     if (!auth.currentUser || auth.currentUser.uid !== user.uid) return;
@@ -3120,6 +3172,80 @@ function updateHeaderProfile(user) {
   setHeader({ nickname: user.displayName || "", avatarURL: user.photoURL || "" });
   get(ref(db, "playerProfiles/" + user.uid)).then(snapshot => setHeader(snapshot.val() || {})).catch(error => console.warn("Could not load saved profile for header", error));
 }
+
+function adminIsOwner() { return !!(auth.currentUser && auth.currentUser.uid === OWNER_UID); }
+function setAdminStatus(message, good = false) {
+  if (!adminPanelStatus) return;
+  adminPanelStatus.textContent = message;
+  adminPanelStatus.style.color = good ? "#8cffb0" : "#ffb4a9";
+}
+function renderAdminBroadcasts(snapshot) {
+  if (!adminBroadcastList) return;
+  adminBroadcastList.replaceChildren();
+  const entries = [];
+  snapshot.forEach(child => entries.push({ id: child.key, ...(child.val() || {}) }));
+  entries.reverse().slice(0, 8).forEach(item => {
+    const card = document.createElement("div");
+    card.style.cssText = "padding:9px 0;border-bottom:1px solid #263a52;overflow-wrap:anywhere;";
+    const msg = document.createElement("div"); msg.textContent = String(item.message || "").slice(0,240);
+    const meta = document.createElement("small"); meta.style.color = "#8093aa";
+    const date = Number(item.time); meta.textContent = "Dylan · " + (Number.isFinite(date) && date > 0 ? new Date(date).toLocaleString() : "date unavailable");
+    card.append(msg, meta); adminBroadcastList.appendChild(card);
+  });
+  if (!entries.length) adminBroadcastList.textContent = "No announcements yet.";
+}
+function startAdminListeners() {
+  if (!adminIsOwner()) return;
+  if (typeof stopAdminBroadcastListener === "function") stopAdminBroadcastListener();
+  if (typeof stopAdminEventListener === "function") stopAdminEventListener();
+  stopAdminBroadcastListener = onValue(query(ref(db, "adminBroadcasts"), limitToLast(8)), renderAdminBroadcasts, error => {
+    console.error("Admin announcements read failed", error);
+    adminBroadcastList.textContent = "Could not load announcements. Check Database read rules.";
+  });
+  stopAdminEventListener = onValue(ref(db, "adminEvent"), snapshot => {
+    const value = snapshot.val() || {};
+    currentAdminEventActive = value.active === true;
+    adminEventStatus.textContent = currentAdminEventActive ? "🟢 Event is ACTIVE" : "⚪ Event is inactive";
+    adminEventToggle.textContent = currentAdminEventActive ? "Deactivate event" : "Activate event";
+  }, error => {
+    console.error("Admin event read failed", error);
+    adminEventStatus.textContent = "Could not read event status. Check Database rules.";
+  });
+}
+openAdminPanelButton?.addEventListener("click", () => {
+  if (!adminIsOwner()) { openAdminPanelButton.hidden = true; return; }
+  adminPanelOverlay.hidden = false;
+  setAdminStatus("");
+  startAdminListeners();
+});
+closeAdminPanelButton?.addEventListener("click", () => { adminPanelOverlay.hidden = true; });
+adminPanelOverlay?.addEventListener("click", event => { if (event.target === adminPanelOverlay) adminPanelOverlay.hidden = true; });
+adminBroadcastForm?.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!adminIsOwner()) { setAdminStatus("Owner account required."); return; }
+  const message = String(adminBroadcastMessage.value || "").trim().slice(0,240);
+  if (!message) { setAdminStatus("Write an announcement first."); return; }
+  adminBroadcastSend.disabled = true;
+  try {
+    await push(ref(db, "adminBroadcasts"), { admin: "Dylan", uid: auth.currentUser.uid, message, time: Date.now() });
+    adminBroadcastMessage.value = "";
+    setAdminStatus("Announcement sent.", true);
+  } catch (error) {
+    console.error("Admin announcement failed", error);
+    setAdminStatus("Announcement failed. Verify the adminBroadcasts rule uses the current owner UID.");
+  } finally { adminBroadcastSend.disabled = false; }
+});
+adminEventToggle?.addEventListener("click", async () => {
+  if (!adminIsOwner()) { setAdminStatus("Owner account required."); return; }
+  adminEventToggle.disabled = true;
+  try {
+    await set(ref(db, "adminEvent"), { active: !currentAdminEventActive, time: Date.now() });
+    setAdminStatus("Event status updated.", true);
+  } catch (error) {
+    console.error("Admin event update failed", error);
+    setAdminStatus("Could not update event. Verify the adminEvent rule uses the current owner UID.");
+  } finally { adminEventToggle.disabled = false; }
+});
 
 function updateAccountUI(user) {
   const previousUid = firebaseUser?.uid || null;
