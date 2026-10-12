@@ -593,7 +593,7 @@ Catch <span>The Square</span>
   <div class="coinTop">🪙 <span id="topCoins">0</span></div>
   <button type="button" id="headerProfile" class="header-profile" hidden title="Open your Catch The Square profile" aria-label="Open your profile">
     <img id="headerProfileAvatar" alt="Your profile picture" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E">
-    <span id="headerProfileName">Player</span><i aria-label="Online"></i>
+    <span id="headerProfileName">Player</span><span id="headerAdminBadge" hidden style="font-size:10px;font-weight:900;color:#07120b;background:#35ed78;border-radius:5px;padding:3px 5px;margin-left:4px;white-space:nowrap;">👑 OWNER ADMIN</span><i aria-label="Online"></i>
   </button>
 </div>
 
@@ -2317,7 +2317,6 @@ target.textContent=shapeGlyphs[0];
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 import { getDatabase, ref, push, onValue, query, limitToLast, get, set, update, remove, orderByChild, equalTo, onDisconnect, runTransaction } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
@@ -2333,7 +2332,6 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = getDatabase(firebaseApp);
-const storage = getStorage(firebaseApp);
 const chatMessages = document.getElementById("globalChatMessages");
 const chatInput = document.getElementById("globalChatInput");
 const chatName = document.getElementById("globalChatName");
@@ -2350,6 +2348,8 @@ const accountStatus = document.getElementById("accountStatus");
 const headerProfile = document.getElementById("headerProfile");
 const headerProfileAvatar = document.getElementById("headerProfileAvatar");
 const headerProfileName = document.getElementById("headerProfileName");
+const headerAdminBadge = document.getElementById("headerAdminBadge");
+const OWNER_UID = "bzoHvK5RmfZGhVxkc5nyr9GZ30j2";
 const profilePageAvatar = document.getElementById("profilePageAvatar");
 const profilePageName = document.getElementById("profilePageName");
 const profilePageBio = document.getElementById("profilePageBio");
@@ -2742,13 +2742,18 @@ function showFriendInviteStatus(message, good = false) {
 }
 
 async function savePlayerProfile(user, nickname) {
-  const name = String(nickname || user.displayName || "Player").trim().replace(/\s+/g, " ").slice(0, 20);
+  if (!user) return;
+  const profileRef = ref(db, "playerProfiles/" + user.uid);
+  const snap = await get(profileRef);
+  const existing = snap.val() || {};
+  const name = String(existing.nickname || nickname || user.displayName || "Player").trim().replace(/\s+/g, " ").slice(0, 20);
   if (name.length < 2) return;
-  await update(ref(db, "playerProfiles/" + user.uid), {
+  await update(profileRef, {
     uid: user.uid,
     nickname: name,
     nicknameLower: name.toLowerCase(),
-    avatarURL: user.photoURL || "",
+    avatarURL: existing.avatarURL || user.photoURL || "",
+    bio: typeof existing.bio === "string" ? existing.bio.slice(0,120) : "",
     updatedAt: Date.now()
   });
 }
@@ -2965,6 +2970,7 @@ headerProfile.addEventListener("click", async () => {
   showScreen("profile");
   editProfileNickname.value = firebaseUser.displayName || localStorage.getItem("cts_playerName") || "Player";
   profilePageName.textContent = editProfileNickname.value;
+  profilePageAvatar.onerror = () => { profilePageAvatar.onerror = null; profilePageAvatar.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E"; };
   profilePageAvatar.src = firebaseUser.photoURL || headerProfileAvatar.src;
   editProfileBio.value = "";
   if (profilePageBio) profilePageBio.textContent = "No bio added yet.";
@@ -3000,25 +3006,23 @@ editProfileForm.addEventListener("submit", async event => {
   if (nickname.length < 2) { editProfileStatus.textContent = "Username must be at least 2 characters."; return; }
   saveProfileButton.disabled = true;
   try {
-    let photoURL = firebaseUser.photoURL || "";
+    const profileRef = ref(db, "playerProfiles/" + firebaseUser.uid);
+    const existingSnap = await get(profileRef);
+    const existingProfile = existingSnap.val() || {};
+    let avatarURL = existingProfile.avatarURL || "";
     const file = editProfileAvatar.files && editProfileAvatar.files[0];
-    if (file) {
-      if (!/^image\/(png|jpeg|webp|gif)$/.test(file.type) || file.size > 2 * 1024 * 1024) throw new Error("Choose an image under 2 MB.");
-      const destination = storageRef(storage, "profilePictures/" + firebaseUser.uid + "/avatar");
-      await uploadBytes(destination, file, { contentType: file.type || "image/jpeg" });
-      photoURL = await getDownloadURL(destination);
-    }
-    await updateProfile(firebaseUser, { displayName: nickname, photoURL });
+    if (file) avatarURL = await compressProfileImage(file);
+    await updateProfile(firebaseUser, { displayName: nickname });
     localStorage.setItem("cts_playerName", nickname);
     accountNickname.value = nickname; chatName.value = nickname;
-    await update(ref(db, "playerProfiles/" + firebaseUser.uid), { uid: firebaseUser.uid, nickname, nicknameLower: nickname.toLowerCase(), avatarURL: photoURL, bio: String(editProfileBio.value || "").trim().slice(0,120), updatedAt: Date.now() });
-    updateHeaderProfile(firebaseUser); profilePageName.textContent = nickname; profilePageAvatar.src = photoURL || profilePageAvatar.src;
+    await update(profileRef, { uid: firebaseUser.uid, nickname, nicknameLower: nickname.toLowerCase(), avatarURL, bio: String(editProfileBio.value || "").trim().slice(0,120), updatedAt: Date.now() });
+    updateHeaderProfile(firebaseUser); profilePageName.textContent = nickname; profilePageAvatar.src = avatarURL || profilePageAvatar.src;
     if (profilePageBio) profilePageBio.textContent = String(editProfileBio.value || "").trim().slice(0,120) || "No bio added yet.";
     editProfileStatus.textContent = "Profile saved! Your username, picture and bio are updated. Your public profile shows below.";
     editProfileStatus.style.color = "#35ed78"; editProfileAvatar.value = ""; renderPlayerDirectory();
   } catch (error) {
     console.error("Profile save failed", error);
-    editProfileStatus.textContent = "Could not save profile. Check Firebase Database/Storage rules and try again.";
+    editProfileStatus.textContent = "Could not save profile (" + String(error.code || error.message || "unknown error") + "). Check Firebase Realtime Database rules, then try again.";
     editProfileStatus.style.color = "#ffd166";
   } finally { saveProfileButton.disabled = false; }
 });
@@ -3102,11 +3106,19 @@ listenForServerList();
 
 function updateHeaderProfile(user) {
   if (!headerProfile) return;
-  if (!user) { headerProfile.hidden = true; return; }
-  const name = String(user.displayName || localStorage.getItem("cts_playerName") || "Player").trim().slice(0,20) || "Player";
-  headerProfileName.textContent = name;
-  headerProfileAvatar.src = user.photoURL || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E";
-  headerProfile.hidden = false;
+  if (!user) { headerProfile.hidden = true; if (headerAdminBadge) headerAdminBadge.hidden = true; return; }
+  const fallbackAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E";
+  const setHeader = profile => {
+    if (!auth.currentUser || auth.currentUser.uid !== user.uid) return;
+    const name = String(profile.nickname || user.displayName || localStorage.getItem("cts_playerName") || "Player").trim().slice(0,20) || "Player";
+    headerProfileName.textContent = name;
+    headerProfileAvatar.onerror = () => { headerProfileAvatar.onerror = null; headerProfileAvatar.src = fallbackAvatar; };
+    headerProfileAvatar.src = profile.avatarURL || user.photoURL || fallbackAvatar;
+    if (headerAdminBadge) headerAdminBadge.hidden = user.uid !== OWNER_UID;
+    headerProfile.hidden = false;
+  };
+  setHeader({ nickname: user.displayName || "", avatarURL: user.photoURL || "" });
+  get(ref(db, "playerProfiles/" + user.uid)).then(snapshot => setHeader(snapshot.val() || {})).catch(error => console.warn("Could not load saved profile for header", error));
 }
 
 function updateAccountUI(user) {
@@ -3165,14 +3177,27 @@ accountAvatar.addEventListener("change", () => {
   reader.readAsDataURL(file);
 });
 
-async function uploadProfilePicture(user) {
-  const file = accountAvatar.files && accountAvatar.files[0];
+async function compressProfileImage(file) {
   if (!file) return "";
-  if (!/^image\/(png|jpeg|webp|gif)$/.test(file.type) || file.size > 2 * 1024 * 1024) throw new Error("Choose an image under 2 MB.");
-  const safeType = file.type || "image/jpeg";
-  const destination = storageRef(storage, "profilePictures/" + user.uid + "/avatar");
-  await uploadBytes(destination, file, { contentType: safeType });
-  return await getDownloadURL(destination);
+  if (!/^image\/(png|jpeg|webp|gif)$/.test(file.type) || file.size > 2 * 1024 * 1024) throw new Error("Choose a JPG, PNG, WEBP or GIF image under 2 MB.");
+  // Store a small JPEG data URL in Realtime Database; Firebase Storage is not required.
+  const source = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Could not read that picture."));
+    reader.onload = () => { const img = new Image(); img.onload = () => resolve(img); img.onerror = () => reject(new Error("That image could not be opened.")); img.src = String(reader.result); };
+    reader.readAsDataURL(file);
+  });
+  const maxSide = 192;
+  const scale = Math.min(1, maxSide / Math.max(source.naturalWidth || source.width, source.naturalHeight || source.height));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round((source.naturalWidth || source.width) * scale));
+  canvas.height = Math.max(1, Math.round((source.naturalHeight || source.height) * scale));
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Your browser cannot process this picture.");
+  ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.drawImage(source,0,0,canvas.width,canvas.height);
+  const dataURL = canvas.toDataURL("image/jpeg", 0.72);
+  if (dataURL.length > 180000) throw new Error("That picture is still too large. Try a smaller image.");
+  return dataURL;
 }
 
 accountForm.addEventListener("submit", async event => {
@@ -3199,8 +3224,9 @@ accountForm.addEventListener("submit", async event => {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     let avatarURL = "";
     try { avatarURL = await uploadProfilePicture(credential.user); }
-    catch (avatarError) { console.error("Profile picture upload failed:", avatarError); accountMessage("Account created, but the picture could not upload. Check Firebase Storage rules and try again from your profile."); }
-    await updateProfile(credential.user, { displayName: cleanNickname(), ...(avatarURL ? { photoURL: avatarURL } : {}) });
+    catch (avatarError) { console.error("Profile picture upload failed:", avatarError); accountMessage("Account created, but the picture could not be saved. Check Firebase Realtime Database rules and try again from your profile."); }
+    await updateProfile(credential.user, { displayName: cleanNickname() });
+    await update(ref(db, "playerProfiles/" + credential.user.uid), { uid: credential.user.uid, nickname: cleanNickname(), nicknameLower: cleanNickname().toLowerCase(), avatarURL: avatarURL || "", bio: "", updatedAt: Date.now() });
     accountAvatar.value = "";
     accountAvatarPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23e5e7eb'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239ca3af'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239ca3af'/%3E%3C/svg%3E";
     localStorage.setItem("cts_playerName", cleanNickname());
