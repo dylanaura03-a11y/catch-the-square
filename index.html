@@ -520,6 +520,41 @@ footer{
         flex-direction:column;
     }
 }
+
+/* Clean game-account panel inspired by modern gaming sign-in flows */
+.auth-card{max-width:440px;margin:22px auto 26px;padding:28px 26px;text-align:left;background:#fff;color:#202227;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 16px 42px #0005;}
+.auth-mark{height:46px;width:46px;border-radius:13px;background:#101820;display:grid;place-items:center;margin:0 auto 15px;}
+.auth-mark span{display:block;width:17px;height:17px;background:#35ed78;border-radius:4px;transform:rotate(8deg);box-shadow:0 0 0 5px #35ed7824;}
+.auth-title{text-align:center;font-size:23px;line-height:1.25;margin:0 0 7px;color:#202227;}
+.auth-subtitle{text-align:center;color:#626875;font-size:14px;line-height:1.45;margin:0 0 17px;}
+.auth-status{font-size:13px;line-height:1.45;text-align:center;color:#6b7280;background:#f4f5f7;border-radius:8px;padding:9px 10px;margin:0 0 15px;font-weight:600;}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:4px;background:#f0f1f3;border-radius:9px;margin-bottom:17px;}
+.auth-tab{border:0;border-radius:7px;padding:10px;background:transparent;color:#515661;font-weight:700;}
+.auth-tab.active{background:#fff;color:#202227;box-shadow:0 1px 4px #0001;}
+.auth-form{display:grid;gap:13px;}
+.auth-field{display:grid;gap:6px;}
+.auth-field[hidden],.auth-primary[hidden],.auth-link[hidden],.auth-logout[hidden],#authTabs[hidden],#nicknameField[hidden],#passwordField[hidden]{display:none!important;}
+.auth-field label{font-size:13px;font-weight:700;color:#343943;}
+.auth-field input{width:100%;min-height:44px;padding:12px 13px;border-radius:8px;border:1px solid #cbd0d8;background:#f8f9fb;color:#202227;outline:none;}
+.auth-field input:focus{border-color:#202227;box-shadow:0 0 0 2px #20222712;}
+.auth-field small{font-size:11px;color:#737985;}
+.auth-primary{width:100%;min-height:46px;border:0;border-radius:8px;background:#202227;color:#fff;font-weight:800;letter-spacing:.1px;margin-top:2px;}
+.auth-primary:hover{background:#353942;}
+.auth-primary:disabled{opacity:.55;cursor:wait;}
+.auth-link{justify-self:center;border:0;background:transparent;color:#3f4652;font-size:13px;font-weight:700;padding:4px 8px;text-decoration:underline;text-underline-offset:3px;}
+.auth-logout{border:1px solid #d2d6dc;background:#f7f8fa;color:#303540;border-radius:8px;padding:11px;font-weight:700;}
+.auth-divider{display:flex;align-items:center;gap:12px;color:#8a909a;font-size:11px;font-weight:700;margin:17px 0 14px;}
+.auth-divider:before,.auth-divider:after{content:"";height:1px;background:#e5e7eb;flex:1;}
+.saved-accounts{border:1px solid #e5e7eb;border-radius:9px;padding:12px;background:#fafbfc;}
+.saved-accounts h4{font-size:13px;margin:0 0 5px;color:#303540;}
+.saved-accounts p{font-size:11px;line-height:1.45;color:#777e89;margin:0 0 9px;}
+.saved-accounts-list{display:flex;gap:7px;flex-wrap:wrap;}
+.saved-accounts-list span{font-size:12px;color:#777e89;}
+.saved-accounts-list button{background:#fff!important;color:#333944!important;border:1px solid #d8dce2!important;border-radius:7px!important;padding:8px 10px!important;font-size:12px;}
+.saved-accounts-list button:hover{border-color:#202227!important;}
+.auth-footnote{font-size:11px;color:#858b95;line-height:1.45;text-align:center;margin:13px 0 0;}
+@media(max-width:480px){.auth-card{padding:23px 17px;margin-left:10px;margin-right:10px}.auth-title{font-size:21px}}
+
 </style>
 </head>
 
@@ -582,29 +617,42 @@ onclick="startFromMenu()">
 
 </div>
 
-<div class="card" id="accountCard" style="max-width:520px;margin:18px auto;text-align:left;">
-  <h3>👤 Player Account</h3>
-  <p id="accountStatus" role="status" style="color:#ffd166;font-weight:700;">Connect to create an account or log in.</p>
-  <form id="accountForm" style="display:grid;gap:9px;">
-    <label for="accountNickname">Nickname (2–20 characters)</label>
-    <input id="accountNickname" type="text" minlength="2" maxlength="20" autocomplete="nickname" placeholder="Your player nickname" required style="padding:11px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
-    <label for="accountEmail">Email</label>
-    <input id="accountEmail" type="email" autocomplete="email" placeholder="you@example.com" required style="padding:11px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
-    <label for="accountPassword">Password (at least 6 characters)</label>
-    <input id="accountPassword" type="password" minlength="6" autocomplete="current-password" placeholder="Your password" required style="padding:11px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="settingButton" type="submit" id="createAccountButton">Create Account</button>
-      <button class="settingButton" type="button" id="loginButton">Log In</button>
-      <button class="settingButton" type="button" id="forgotPasswordButton">Forgot Password?</button>
-      <button class="settingButton" type="button" id="logoutButton" hidden>Log Out</button>
-    </div>
-  </form>
-  <div style="margin-top:14px;padding-top:12px;border-top:1px solid #2a3951;">
-    <h4 style="margin:0 0 8px;">🔁 Accounts used on this computer</h4>
-    <p style="font-size:.85rem;color:#9aa9bd;">Choose a saved account to fill its email. Passwords are never saved here.</p>
-    <div id="savedAccountsList" style="display:flex;gap:8px;flex-wrap:wrap;"><span style="color:#9aa9bd;">No saved accounts yet.</span></div>
+<div class="card auth-card" id="accountCard">
+  <div class="auth-mark" aria-hidden="true"><span></span></div>
+  <h2 class="auth-title" id="authTitle">Log In to Catch The Square</h2>
+  <p class="auth-subtitle" id="authSubtitle">Play, save your progress, and meet other players.</p>
+  <div id="accountStatus" class="auth-status" role="status" aria-live="polite">Connect to create an account or log in.</div>
+  <div class="auth-tabs" id="authTabs" role="tablist" aria-label="Account options">
+    <button type="button" class="auth-tab active" id="showLoginTab" role="tab" aria-selected="true">Log In</button>
+    <button type="button" class="auth-tab" id="showSignupTab" role="tab" aria-selected="false">Sign Up</button>
   </div>
-  <p style="font-size:.85rem;color:#9aa9bd;margin-top:10px;">Use an email you can access to reset your password. Never share your password with anyone.</p>
+  <form id="accountForm" class="auth-form">
+    <div class="auth-field" id="nicknameField" hidden>
+      <label for="accountNickname">Username</label>
+      <input id="accountNickname" type="text" minlength="2" maxlength="20" autocomplete="nickname" placeholder="Choose a username" style="">
+      <small>2–20 characters. This is how friends find you.</small>
+    </div>
+    <div class="auth-field" id="emailField">
+      <label for="accountEmail">Email</label>
+      <input id="accountEmail" type="email" autocomplete="email" placeholder="Email address" required>
+    </div>
+    <div class="auth-field" id="passwordField">
+      <label for="accountPassword">Password</label>
+      <input id="accountPassword" type="password" minlength="6" autocomplete="current-password" placeholder="Password (at least 6 characters)">
+    </div>
+    <button class="auth-primary" type="submit" id="createAccountButton">Log In</button>
+    <button class="auth-link" type="button" id="forgotPasswordButton">Forgot Password or Username?</button>
+    <button class="auth-primary" type="button" id="sendResetButton" hidden>Send Reset Email</button>
+    <button class="auth-link" type="button" id="backToAuthButton" hidden>Back to Log In</button>
+    <button class="auth-logout" type="button" id="logoutButton" hidden>Log Out</button>
+  </form>
+  <div class="auth-divider"><span>OR</span></div>
+  <section class="saved-accounts">
+    <h4>Accounts used on this computer</h4>
+    <p>Choose an account to fill its email. Passwords are never saved.</p>
+    <div id="savedAccountsList" class="saved-accounts-list"><span>No saved accounts yet.</span></div>
+  </section>
+  <p class="auth-footnote">Use an email you can access. Never share your password with anyone.</p>
 </div>
 
 <div class="stats">
@@ -2155,7 +2203,7 @@ target.textContent=shapeGlyphs[0];
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getDatabase, ref, push, onValue, query, limitToLast, get, set, update, remove, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+import { getDatabase, ref, push, onValue, query, limitToLast, get, set, update, remove, orderByChild, equalTo, onDisconnect } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAqCSLFcitRWFaTYJCAwzwJHoJjvtmjI_0",
@@ -2189,6 +2237,41 @@ const loginButton = document.getElementById("loginButton");
 const forgotPasswordButton = document.getElementById("forgotPasswordButton");
 const logoutButton = document.getElementById("logoutButton");
 const savedAccountsList = document.getElementById("savedAccountsList");
+const authTitle = document.getElementById("authTitle");
+const authSubtitle = document.getElementById("authSubtitle");
+const authTabs = document.getElementById("authTabs");
+const showLoginTab = document.getElementById("showLoginTab");
+const showSignupTab = document.getElementById("showSignupTab");
+const nicknameField = document.getElementById("nicknameField");
+const passwordField = document.getElementById("passwordField");
+const sendResetButton = document.getElementById("sendResetButton");
+const backToAuthButton = document.getElementById("backToAuthButton");
+let authMode = "login";
+function setAuthMode(mode) {
+  authMode = mode;
+  const signedIn = !!auth.currentUser;
+  authTabs.hidden = signedIn || mode === "forgot";
+  showLoginTab.classList.toggle("active", mode === "login");
+  showSignupTab.classList.toggle("active", mode === "signup");
+  showLoginTab.setAttribute("aria-selected", String(mode === "login"));
+  showSignupTab.setAttribute("aria-selected", String(mode === "signup"));
+  nicknameField.hidden = mode !== "signup" || signedIn;
+  accountNickname.required = mode === "signup" && !signedIn;
+  passwordField.hidden = mode === "forgot" || signedIn;
+  accountPassword.required = mode !== "forgot" && !signedIn;
+  createAccountButton.hidden = signedIn || mode === "forgot";
+  createAccountButton.textContent = mode === "signup" ? "Create Account" : "Log In";
+  forgotPasswordButton.hidden = signedIn || mode === "forgot";
+  sendResetButton.hidden = signedIn || mode !== "forgot";
+  backToAuthButton.hidden = signedIn || mode !== "forgot";
+  logoutButton.hidden = !signedIn;
+  authTitle.textContent = signedIn ? "You're Logged In" : mode === "signup" ? "Create Your Account" : mode === "forgot" ? "Reset Your Password" : "Log In to Catch The Square";
+  authSubtitle.textContent = signedIn ? "Your progress and player profile are connected." : mode === "signup" ? "Choose a username and join the game." : mode === "forgot" ? "Enter the email address linked to your account." : "Play, save your progress, and meet other players.";
+}
+showLoginTab.addEventListener("click", () => setAuthMode("login"));
+showSignupTab.addEventListener("click", () => setAuthMode("signup"));
+forgotPasswordButton.addEventListener("click", () => setAuthMode("forgot"));
+backToAuthButton.addEventListener("click", () => setAuthMode("login"));
 const friendNicknameInput = document.getElementById("friendNickname");
 const friendInviteStatus = document.getElementById("friendInviteStatus");
 const friendNotifications = document.getElementById("friendNotifications");
@@ -2197,6 +2280,10 @@ const playerDirectorySearch = document.getElementById("playerDirectorySearch");
 const playerDirectoryRows = document.getElementById("playerDirectoryRows");
 const playerDirectoryStatus = document.getElementById("playerDirectoryStatus");
 let publicPlayers = [];
+let onlinePlayers = {};
+let presenceUid = null;
+let stopPresenceListener = null;
+let stopConnectionListener = null;
 let stopPlayerDirectory = null;
 let stopFriendNotifications = null;
 let firebaseUser = null;
@@ -2316,7 +2403,13 @@ function renderPlayerDirectory() {
   players.forEach(player => {
     const card = document.createElement("div");
     card.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px;border:1px solid #2a3951;border-radius:10px;background:#121c2b;";
-    const name = document.createElement("strong"); name.textContent = "🟩 " + player.nickname; name.style.overflowWrap = "anywhere";
+    const info = document.createElement("div"); info.style.cssText = "display:flex;flex-direction:column;gap:5px;min-width:0;";
+    const name = document.createElement("strong"); name.textContent = player.nickname; name.style.overflowWrap = "anywhere";
+    const presence = document.createElement("span");
+    const isOnline = onlinePlayers[player.uid]?.state === "online";
+    presence.textContent = isOnline ? "🟢 Online" : "⚪ Offline";
+    presence.style.cssText = "font-size:.88rem;color:" + (isOnline ? "#35ed78" : "#9aa9bd") + ";font-weight:700;";
+    info.append(name, presence);
     const actions = document.createElement("div"); actions.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;";
     const invite = document.createElement("button"); invite.className = "settingButton"; invite.type = "button"; invite.textContent = "➕ Invite";
     invite.addEventListener("click", () => {
@@ -2327,7 +2420,44 @@ function renderPlayerDirectory() {
     const call = document.createElement("button"); call.className = "settingButton"; call.type = "button"; call.textContent = "🎙️ Voice Call";
     call.addEventListener("click", () => { showScreen("invite"); startVoiceCall(player).catch(error => { console.error("Voice call failed:", error); setVoiceStatus("Could not start call. Check microphone permission and Firebase rules."); }); });
     actions.append(invite, call);
-    card.append(name, actions); playerDirectoryRows.appendChild(card);
+    card.append(info, actions); playerDirectoryRows.appendChild(card);
+  });
+}
+
+function listenForPresence() {
+  if (typeof stopPresenceListener === "function") stopPresenceListener();
+  stopPresenceListener = onValue(ref(db, "presence"), snapshot => {
+    onlinePlayers = snapshot.val() || {};
+    renderPlayerDirectory();
+  }, error => {
+    console.error("Presence listener failed:", error);
+    onlinePlayers = {};
+    renderPlayerDirectory();
+  });
+}
+
+async function setMyPresence(user) {
+  if (!user) {
+    if (presenceUid) {
+      const oldUid = presenceUid;
+      presenceUid = null;
+      if (typeof stopConnectionListener === "function") { stopConnectionListener(); stopConnectionListener = null; }
+      set(ref(db, "presence/" + oldUid), { state: "offline", lastChanged: Date.now() }).catch(() => {});
+    }
+    return;
+  }
+  presenceUid = user.uid;
+  const myPresenceRef = ref(db, "presence/" + user.uid);
+  const connectedRef = ref(db, ".info/connected");
+  if (typeof stopConnectionListener === "function") stopConnectionListener();
+  stopConnectionListener = onValue(connectedRef, async snapshot => {
+    if (snapshot.val() !== true || !auth.currentUser || auth.currentUser.uid !== user.uid) return;
+    try {
+      await onDisconnect(myPresenceRef).set({ state: "offline", lastChanged: Date.now() });
+      await set(myPresenceRef, { state: "online", lastChanged: Date.now() });
+    } catch (error) {
+      console.error("Could not update online status:", error);
+    }
   });
 }
 
@@ -2662,8 +2792,11 @@ function listenForIncomingVoiceCalls(user) {
 hangUpVoiceButton.addEventListener("click", async () => { await hangUpVoiceCall(); setVoiceStatus("Call ended."); });
 
 function updateAccountUI(user) {
+  const previousUid = firebaseUser?.uid || null;
   firebaseUser = user || null;
   const signedIn = !!user;
+  if (user) setMyPresence(user);
+  else if (previousUid) setMyPresence(null);
   accountPassword.value = "";
   renderPlayerDirectory();
   accountPassword.autocomplete = signedIn ? "off" : "current-password";
@@ -2693,13 +2826,27 @@ function updateAccountUI(user) {
     setStatus(chatStatus, "Log in from the main menu to use global chat.", false);
     setStatus(leaderboardStatus, "Leaderboard requires a player account to submit scores.", false);
   }
+  setAuthMode(user ? "login" : authMode);
 }
 
 accountForm.addEventListener("submit", async event => {
   event.preventDefault();
-  if (!validNickname()) return;
   const email = accountEmail.value.trim();
   const password = accountPassword.value;
+  if (authMode === "forgot") { sendResetButton.click(); return; }
+  if (authMode === "login") {
+    if (!email || !password) { accountMessage("Enter your email and password first."); return; }
+    createAccountButton.disabled = true;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      accountMessage("Logged in successfully.", true);
+    } catch (error) {
+      console.error("Login failed:", error);
+      accountMessage(error.code === "auth/invalid-credential" || error.code === "auth/wrong-password" || error.code === "auth/user-not-found" ? "Email or password is incorrect." : "Could not log in. Check your email and password.");
+    } finally { createAccountButton.disabled = false; }
+    return;
+  }
+  if (!validNickname()) return;
   if (password.length < 6) { accountMessage("Password must be at least 6 characters."); return; }
   createAccountButton.disabled = true;
   try {
@@ -2714,29 +2861,17 @@ accountForm.addEventListener("submit", async event => {
   } finally { createAccountButton.disabled = false; }
 });
 
-loginButton.addEventListener("click", async () => {
-  if (!accountEmail.value.trim() || !accountPassword.value) { accountMessage("Enter your email and password first."); return; }
-  loginButton.disabled = true;
-  try {
-    await signInWithEmailAndPassword(auth, accountEmail.value.trim(), accountPassword.value);
-    accountMessage("Logged in successfully.", true);
-  } catch (error) {
-    console.error("Login failed:", error);
-    accountMessage(error.code === "auth/invalid-credential" || error.code === "auth/wrong-password" || error.code === "auth/user-not-found" ? "Email or password is incorrect." : "Could not log in. Check your email and password.");
-  } finally { loginButton.disabled = false; }
-});
-
-forgotPasswordButton.addEventListener("click", async () => {
+sendResetButton.addEventListener("click", async () => {
   const email = accountEmail.value.trim();
-  if (!email) { accountMessage("Enter your email first, then press Forgot Password."); return; }
-  forgotPasswordButton.disabled = true;
+  if (!email) { accountMessage("Enter your email address first."); return; }
+  sendResetButton.disabled = true;
   try {
     await sendPasswordResetEmail(auth, email);
     accountMessage("If an account exists for that email, Firebase has sent a password-reset link. Check your inbox and spam folder.", true);
   } catch (error) {
     console.error("Password reset request failed:", error);
     accountMessage(error.code === "auth/invalid-email" ? "Enter a valid email address." : "Could not send reset email. Check Firebase email/password settings and authorized domains.");
-  } finally { forgotPasswordButton.disabled = false; }
+  } finally { sendResetButton.disabled = false; }
 });
 
 logoutButton.addEventListener("click", async () => {
@@ -2747,6 +2882,8 @@ logoutButton.addEventListener("click", async () => {
 setStatus(chatStatus, "Checking account…", false);
 setStatus(leaderboardStatus, "Checking account…", false);
 listenForPlayerDirectory();
+listenForPresence();
+setAuthMode("login");
 onAuthStateChanged(auth, user => updateAccountUI(user));
 </script>
 
