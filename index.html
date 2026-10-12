@@ -3261,7 +3261,7 @@ function updateAccountUI(user) {
   renderPlayerDirectory();
   accountPassword.autocomplete = signedIn ? "off" : "current-password";
   createAccountButton.hidden = signedIn;
-  loginButton.hidden = signedIn;
+  // The HTML uses createAccountButton for the login/create-account submit button; no loginButton element exists.
   forgotPasswordButton.hidden = signedIn;
   logoutButton.hidden = !signedIn;
   accountNickname.readOnly = signedIn;
