@@ -521,7 +521,14 @@ footer{
     }
 }
 
-/* Clean game-account panel inspired by modern gaming sign-in flows */
+/* Full-entry account dashboard: players must choose Log In or Sign Up before seeing the game. */
+body.cts-auth-required{overflow:hidden;}
+body.cts-auth-required::before{content:"";position:fixed;inset:0;z-index:9998;background:radial-gradient(ellipse at top,#172437 0%,#080c13 62%,#05070b 100%);}
+body.cts-auth-required #accountCard{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9999;width:min(440px,calc(100vw - 24px));max-width:440px;max-height:94vh;overflow-y:auto;margin:0;padding:28px 26px;border-radius:14px;box-shadow:0 22px 70px #0009;}
+body.cts-auth-required #accountCard .auth-mark{width:58px;height:58px;border-radius:16px;}
+body.cts-auth-required #accountCard .auth-title{font-size:25px;}
+body.cts-auth-required #accountCard .auth-subtitle{margin-bottom:20px;}
+body.cts-auth-required #accountCard .auth-tabs{margin-top:18px;}
 .auth-card{max-width:440px;margin:22px auto 26px;padding:28px 26px;text-align:left;background:#fff;color:#202227;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 16px 42px #0005;}
 .auth-mark{height:46px;width:46px;border-radius:13px;background:#101820;display:grid;place-items:center;margin:0 auto 15px;}
 .auth-mark span{display:block;width:17px;height:17px;background:#35ed78;border-radius:4px;transform:rotate(8deg);box-shadow:0 0 0 5px #35ed7824;}
@@ -558,7 +565,7 @@ footer{
 </style>
 </head>
 
-<body>
+<body class="cts-auth-required">
 
 <header>
 
@@ -619,8 +626,8 @@ onclick="startFromMenu()">
 
 <div class="card auth-card" id="accountCard">
   <div class="auth-mark" aria-hidden="true"><span></span></div>
-  <h2 class="auth-title" id="authTitle">Log In to Catch The Square</h2>
-  <p class="auth-subtitle" id="authSubtitle">Play, save your progress, and meet other players.</p>
+  <h2 class="auth-title" id="authTitle">Welcome to Catch The Square</h2>
+  <p class="auth-subtitle" id="authSubtitle">Create an account or log in to continue to the game.</p>
   <div id="accountStatus" class="auth-status" role="status" aria-live="polite">Connect to create an account or log in.</div>
   <div class="auth-tabs" id="authTabs" role="tablist" aria-label="Account options">
     <button type="button" class="auth-tab active" id="showLoginTab" role="tab" aria-selected="true">Log In</button>
@@ -1794,11 +1801,42 @@ document.getElementById("startButton")
 .addEventListener("click",startGame);
 
 function startFromMenu(){
+    // Account creation/login is required before starting a round.
+    if (window.ctsAuthReady && !window.ctsIsSignedIn) {
+        showScreen("home");
+        const card = document.getElementById("accountCard");
+        if (card) {
+            card.scrollIntoView({ behavior: "smooth", block: "center" });
+            card.style.outline = "2px solid #35ed78";
+            setTimeout(() => { card.style.outline = ""; }, 1800);
+        }
+        const status = document.getElementById("accountStatus");
+        if (status) status.textContent = "Create an account or log in before you can play Catch The Square.";
+        return;
+    }
+    if (!window.ctsAuthReady) {
+        showScreen("home");
+        const status = document.getElementById("accountStatus");
+        if (status) status.textContent = "Connecting to accounts… Please wait a moment, then try again.";
+        return;
+    }
     showScreen("play");
     startGame();
 }
 
 function startGame(){
+
+if (!window.ctsAuthReady || !window.ctsIsSignedIn) {
+    running = false;
+    clearInterval(countdown);
+    clearInterval(movement);
+    showScreen("home");
+    const card = document.getElementById("accountCard");
+    if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
+    const status = document.getElementById("accountStatus");
+    if (status) status.textContent = "You need to create an account or log in before playing.";
+    return;
+}
 
 clearInterval(countdown);
 clearInterval(movement);
@@ -2795,6 +2833,9 @@ function updateAccountUI(user) {
   const previousUid = firebaseUser?.uid || null;
   firebaseUser = user || null;
   const signedIn = !!user;
+  document.body.classList.toggle("cts-auth-required", !signedIn);
+  window.ctsAuthReady = true;
+  window.ctsIsSignedIn = signedIn;
   if (user) setMyPresence(user);
   else if (previousUid) setMyPresence(null);
   accountPassword.value = "";
@@ -2879,6 +2920,8 @@ logoutButton.addEventListener("click", async () => {
   catch (error) { console.error("Logout failed:", error); accountMessage("Could not log out. Try again."); }
 });
 
+window.ctsAuthReady = false;
+window.ctsIsSignedIn = false;
 setStatus(chatStatus, "Checking account…", false);
 setStatus(leaderboardStatus, "Checking account…", false);
 listenForPlayerDirectory();
