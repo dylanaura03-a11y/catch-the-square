@@ -631,6 +631,11 @@ Catch <span>The Square</span>
         <button type="submit" id="adminBroadcastSend" style="margin-top:9px;width:100%;padding:10px;background:#35ed78;color:#06120a;border:0;border-radius:8px;font-weight:900;cursor:pointer;">Send announcement</button>
       </form>
       <div style="background:#111f30;border:1px solid #263a52;border-radius:12px;padding:14px;">
+        <h3 style="margin:0 0 10px;">🎒 Owner inventory tools</h3>
+        <p style="color:#aab9cc;font-size:13px;">Unlock all six skins and all 24 shapes on this browser for the signed-in owner.</p>
+        <button type="button" id="adminUnlockAllButton" style="width:100%;padding:10px;background:#35ed78;color:#06120a;border:0;border-radius:8px;font-weight:900;cursor:pointer;">🔓 Unlock All Skins + Shapes</button>
+      </div>
+      <div style="background:#111f30;border:1px solid #263a52;border-radius:12px;padding:14px;">
         <h3 style="margin:0 0 10px;">🎮 Game event</h3>
         <p id="adminEventStatus" style="color:#aab9cc;font-size:13px;">Loading event status…</p>
         <button type="button" id="adminEventToggle" style="width:100%;padding:10px;background:#263a52;color:#fff;border:1px solid #405a77;border-radius:8px;font-weight:900;cursor:pointer;">Toggle event</button>
@@ -673,6 +678,7 @@ onclick="startFromMenu()">
 
 <button class="menuButton" onclick="showScreen('characters')">🎨 CHARACTERS</button>
 <button class="menuButton" onclick="showScreen('shop')">🛒 SHOP</button>
+<button class="menuButton" onclick="showScreen('backpack')">🎒 BACKPACK</button>
 <button class="menuButton" onclick="showScreen('missions')">🎯 MISSIONS</button>
 <button class="menuButton" onclick="showScreen('leaderboard')">🏆 GLOBAL LEADERBOARD</button>
 <button class="menuButton" onclick="showScreen('globalchat')">💬 GLOBAL CHAT</button>
@@ -1045,6 +1051,24 @@ Press Start Game, then catch the square!
 <h2 class="pageTitle">🎨 Shape Collection</h2>
 <div class="card" style="margin-bottom:16px;text-align:center;">Level <strong id="characterLevel">1</strong> · Unlocked <strong id="characterUnlocked">1/24</strong><p>Unlock a new shape every 15 levels. Keep catching squares to level up!</p></div>
 <div id="characterGrid" class="grid"></div>
+</div>
+</section>
+
+<!-- ================= BACKPACK / INVENTORY ================= -->
+<section id="backpack" class="screen">
+<div class="wrap page">
+<button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
+<h2 class="pageTitle">🎒 My Backpack</h2>
+<div class="card" style="margin-bottom:16px;">
+<h3 style="margin-top:0;">🧥 Owned skins</h3>
+<p style="color:#aab9cc;">Equip any skin you have unlocked. Locked skins can be bought in the Shop.</p>
+<div id="backpackSkins" class="grid"></div>
+</div>
+<div class="card">
+<h3 style="margin-top:0;">🔷 Shape collection</h3>
+<p>Unlocked shapes: <strong id="backpackShapeCount">1/24</strong></p>
+<div id="backpackShapes" class="grid"></div>
+</div>
 </div>
 </section>
 
@@ -1519,6 +1543,7 @@ const targetColors = ["#35ed78", "#35b8ff", "#ff4fd8", "#ffcf33", "#ff6b35", "#a
 const shapeGlyphs = ["■", "●", "◆", "▲", "★", "⬟", "✦", "♥", "✿", "☀", "⬢", "✚", "✖", "⬣", "❖", "♠", "♦", "♣", "☂", "☯", "✪", "✧", "⬡", "✹"];
 
 function unlockedShapeCount(){
+    if (localStorage.getItem("cts_allUnlocked") === "true") return 24;
     return Math.min(24, Math.floor(level / 15) + 1);
 }
 
@@ -1575,6 +1600,54 @@ function renderCharacters(){
         card.style.textAlign = "center";
         card.innerHTML = '<div style="font-size:42px;color:'+(unlocked?'#35ed78':'#657186')+';padding:8px">'+(unlocked?glyph:'🔒')+'</div><h3>'+(unlocked?'Shape '+(index+1):'Locked Shape')+'</h3><p>'+(unlocked?'Unlocked':'Unlock at level '+Math.max(1,index*15))+'</p>';
         grid.appendChild(card);
+    });
+}
+
+function renderBackpack(){
+    const skinsHost = document.getElementById("backpackSkins");
+    const shapesHost = document.getElementById("backpackShapes");
+    const shapeCount = document.getElementById("backpackShapeCount");
+    if (!skinsHost || !shapesHost) return;
+    const skinNames = { default:"Classic", rainbow:"Rainbow", fire:"Fire", ice:"Ice", gold:"Gold", galaxy:"Galaxy" };
+    skinsHost.innerHTML = "";
+    Object.keys(skinNames).forEach(function(name){
+        const owned = ownedSkins.includes(name);
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.textAlign = "center";
+        const status = !owned ? "🔒 Locked" : (currentSkin === name ? "✅ Equipped" : "Owned");
+        card.innerHTML = '<h3 style="margin-top:0">'+skinNames[name]+'</h3><p>'+status+'</p>';
+        if (owned) {
+            const button = document.createElement("button");
+            button.className = "settingButton";
+            button.type = "button";
+            button.textContent = currentSkin === name ? "Equipped" : "Equip";
+            button.disabled = currentSkin === name;
+            button.addEventListener("click", function(){
+                currentSkin = name;
+                saveData(); applySkin(); updateUI(); renderBackpack();
+            });
+            card.appendChild(button);
+        } else {
+            const button = document.createElement("button");
+            button.className = "settingButton";
+            button.type = "button";
+            button.textContent = "Open Shop";
+            button.addEventListener("click", function(){ showScreen("shop"); });
+            card.appendChild(button);
+        }
+        skinsHost.appendChild(card);
+    });
+    const count = unlockedShapeCount();
+    if (shapeCount) shapeCount.textContent = count + "/24";
+    shapesHost.innerHTML = "";
+    shapeGlyphs.forEach(function(glyph,index){
+        const unlocked = index < count;
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.textAlign = "center";
+        card.innerHTML = '<div style="font-size:32px;color:'+(unlocked?'#35ed78':'#657186')+'">'+(unlocked?glyph:'🔒')+'</div><p style="margin-bottom:0">'+(unlocked?'Shape '+(index+1):'Unlock at level '+(index*15))+'</p>';
+        shapesHost.appendChild(card);
     });
 }
 
@@ -1773,6 +1846,7 @@ behavior:"smooth"
 
 updateUI();
 if(screen === "characters") renderCharacters();
+if(screen === "backpack") renderBackpack();
 if(screen === "worlds") applyWorld();
 updateAudioButtons();
 
@@ -2409,6 +2483,7 @@ const adminBroadcastSend = document.getElementById("adminBroadcastSend");
 const adminBroadcastList = document.getElementById("adminBroadcastList");
 const adminEventStatus = document.getElementById("adminEventStatus");
 const adminEventToggle = document.getElementById("adminEventToggle");
+const adminUnlockAllButton = document.getElementById("adminUnlockAllButton");
 const adminPanelStatus = document.getElementById("adminPanelStatus");
 let currentAdminEventActive = false;
 let stopAdminBroadcastListener = null;
@@ -3327,6 +3402,20 @@ openAdminPanelButton?.addEventListener("click", () => {
 });
 closeAdminPanelButton?.addEventListener("click", () => { adminPanelOverlay.hidden = true; });
 adminPanelOverlay?.addEventListener("click", event => { if (event.target === adminPanelOverlay) adminPanelOverlay.hidden = true; });
+adminUnlockAllButton?.addEventListener("click", function(){
+  if (!adminIsOwner()) { setAdminStatus("Owner account required."); return; }
+  const allSkins = ["default", "rainbow", "fire", "ice", "gold", "galaxy"];
+  ownedSkins = allSkins.slice();
+  localStorage.setItem("cts_allUnlocked", "true");
+  currentSkin = currentSkin || "default";
+  saveData();
+  applySkin();
+  updateUI();
+  renderCharacters();
+  renderBackpack();
+  setAdminStatus("All 6 skins and all 24 shapes unlocked in this browser.", true);
+});
+
 adminScoreForm?.addEventListener("submit", async event => {
   event.preventDefault();
   if (!adminIsOwner()) { setAdminStatus("Owner account required."); return; }
