@@ -2573,6 +2573,9 @@ let activeVoiceCallRef = null;
 let activeVoiceCallId = null;
 let activeVoiceCallRole = null;
 let localVoiceStream = null;
+let stopVoiceIceListener = null;
+let stopOutgoingCallListener = null;
+let pendingRemoteCandidates = [];
 const voiceCallStatus = document.getElementById("voiceCallStatus");
 const incomingVoiceCalls = document.getElementById("incomingVoiceCalls");
 const remoteVoiceAudio = document.getElementById("remoteVoiceAudio");
@@ -3076,11 +3079,16 @@ function setVoiceStatus(message, good = false) {
   if (voiceCallStatus) { voiceCallStatus.textContent = message; voiceCallStatus.style.color = good ? "#35ed78" : "#ffd166"; }
 }
 function makeVoicePeer(callId, remoteRole) {
+  // STUN helps peers discover their public route. Some networks also require a TURN relay.
   const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
-  pc.ontrack = event => { remoteVoiceAudio.srcObject = event.streams[0]; remoteVoiceAudio.play().catch(() => {}); };
+  pendingRemoteCandidates = [];
+  pc.ontrack = event => {
+    if (remoteVoiceAudio) { remoteVoiceAudio.srcObject = event.streams[0]; remoteVoiceAudio.play().catch(() => setVoiceStatus("Voice connected. If you cannot hear audio, click the page and check your volume.", true)); }
+  };
   pc.onconnectionstatechange = () => {
     if (pc.connectionState === "connected") setVoiceStatus("🟢 Voice connected. Speak normally!", true);
-    if (["failed", "disconnected"].includes(pc.connectionState)) setVoiceStatus("Voice connection interrupted. Try calling again.");
+    if (pc.connectionState === "failed") setVoiceStatus("Voice connection failed on this network. Try again; some networks need a TURN relay.");
+    if (pc.connectionState === "disconnected") setVoiceStatus("Voice connection interrupted. Waiting for the network…");
   };
   pc.onicecandidate = async event => {
     if (!event.candidate || !firebaseUser || !callId) return;
@@ -3090,13 +3098,24 @@ function makeVoicePeer(callId, remoteRole) {
   };
   return pc;
 }
-async function attachRemoteCandidates(callId, side, pc) {
-  onValue(ref(db, "voiceIce/" + callId + "/" + side), snapshot => {
+function attachRemoteCandidates(callId, side, pc) {
+  if (typeof stopVoiceIceListener === "function") stopVoiceIceListener();
+  stopVoiceIceListener = onValue(ref(db, "voiceIce/" + callId + "/" + side), snapshot => {
     snapshot.forEach(child => {
       const candidate = child.val();
-      if (candidate && candidate.candidate) pc.addIceCandidate(new RTCIceCandidate(candidate)).catch(error => console.warn("ICE candidate skipped", error));
+      if (!candidate || !candidate.candidate) return;
+      if (!pc.remoteDescription) { pendingRemoteCandidates.push(candidate); return; }
+      pc.addIceCandidate(new RTCIceCandidate(candidate)).catch(error => console.warn("ICE candidate skipped", error));
     });
-  }, error => console.warn("ICE listener failed", error));
+  }, error => { console.warn("ICE listener failed", error); setVoiceStatus("Could not exchange voice connection data. Check Firebase rules."); });
+}
+async function flushPendingRemoteCandidates(pc) {
+  if (!pc || !pc.remoteDescription || !pendingRemoteCandidates.length) return;
+  const queued = pendingRemoteCandidates.splice(0);
+  for (const candidate of queued) {
+    try { await pc.addIceCandidate(new RTCIceCandidate(candidate)); }
+    catch (error) { console.warn("Queued ICE candidate skipped", error); }
+  }
 }
 async function startVoiceCall(target) {
   if (!firebaseUser) { setVoiceStatus("Log in before calling another player."); return; }
@@ -3116,12 +3135,13 @@ async function startVoiceCall(target) {
     const offer = await activePeerConnection.createOffer();
     await activePeerConnection.setLocalDescription(offer);
     await set(activeVoiceCallRef, { fromUid: firebaseUser.uid, fromName: getPlayerName(), toUid: target.uid, toName: target.nickname, status: "ringing", offer: { type: offer.type, sdp: offer.sdp }, createdAt: Date.now(), callId: activeVoiceCallId });
-    onValue(activeVoiceCallRef, async snapshot => {
+    if (typeof stopOutgoingCallListener === "function") stopOutgoingCallListener();
+    stopOutgoingCallListener = onValue(activeVoiceCallRef, async snapshot => {
       const call = snapshot.val();
       if (!call) return;
       if (call.status === "declined") { setVoiceStatus(target.nickname + adminBadgeText(target.uid) + " declined the call."); await hangUpVoiceCall(false); }
       if (call.answer && activePeerConnection && !activePeerConnection.currentRemoteDescription) {
-        try { await activePeerConnection.setRemoteDescription(new RTCSessionDescription(call.answer)); }
+        try { await activePeerConnection.setRemoteDescription(new RTCSessionDescription(call.answer)); await flushPendingRemoteCandidates(activePeerConnection); }
         catch (error) { console.warn("Could not set voice answer", error); }
       }
     });
@@ -3145,6 +3165,7 @@ async function acceptVoiceCall(callerUid, call) {
     activePeerConnection = makeVoicePeer(activeVoiceCallId, "caller");
     localVoiceStream.getTracks().forEach(track => activePeerConnection.addTrack(track, localVoiceStream));
     await activePeerConnection.setRemoteDescription(new RTCSessionDescription(call.offer));
+    await flushPendingRemoteCandidates(activePeerConnection);
     attachRemoteCandidates(activeVoiceCallId, "caller", activePeerConnection);
     const answer = await activePeerConnection.createAnswer();
     await activePeerConnection.setLocalDescription(answer);
@@ -3157,6 +3178,9 @@ async function acceptVoiceCall(callerUid, call) {
   }
 }
 async function hangUpVoiceCall(removeCall = true) {
+  if (typeof stopVoiceIceListener === "function") { stopVoiceIceListener(); stopVoiceIceListener = null; }
+  if (typeof stopOutgoingCallListener === "function") { stopOutgoingCallListener(); stopOutgoingCallListener = null; }
+  pendingRemoteCandidates = [];
   if (activePeerConnection) { activePeerConnection.ontrack = null; activePeerConnection.close(); activePeerConnection = null; }
   if (localVoiceStream) { localVoiceStream.getTracks().forEach(track => track.stop()); localVoiceStream = null; }
   if (remoteVoiceAudio) remoteVoiceAudio.srcObject = null;
@@ -3272,7 +3296,7 @@ function listenForServerList() {
     }
     serverStatus.textContent = "35 servers available · maximum 35 players in each";
     serverStatus.style.color = "#35ed78";
-  }, error => { console.error("Server list failed", error); serverStatus.textContent = "Could not load servers. Check Firebase Realtime Database rules."; });
+  }, error => { console.error("Server list failed", error); serverStatus.textContent = "Could not load servers (" + String(error.code || "permission-denied") + "). Publish the updated Firebase rules."; });
 }
 async function joinServer(id) {
   if (!firebaseUser) { serverStatus.textContent = "Log in first to join a server."; showScreen("home"); return; }
@@ -3281,16 +3305,16 @@ async function joinServer(id) {
   try {
     if (currentServerId && currentServerId !== id) await leaveServer(false);
     const membersRef = ref(db, "servers/" + id + "/members");
+    const myMemberRef = ref(db, "servers/" + id + "/members/" + firebaseUser.uid);
+    const currentMembersSnapshot = await get(membersRef);
+    const currentMembers = currentMembersSnapshot.val() || {};
+    const activeCount = Object.values(currentMembers).filter(m => m && m.state === "online").length;
+    if (!currentMembers[firebaseUser.uid] && activeCount >= 35) { serverStatus.textContent = serverLabel(id) + " is full. Try another server."; return; }
     const member = { uid: firebaseUser.uid, nickname: firebaseUser.displayName || localStorage.getItem("cts_playerName") || "Player", avatarURL: firebaseUser.photoURL || "", state: "online", joinedAt: Date.now() };
-    const result = await runTransaction(membersRef, current => {
-      current = current || {};
-      Object.keys(current).forEach(uid => { if (!current[uid] || current[uid].state !== "online") delete current[uid]; });
-      if (!current[firebaseUser.uid] && Object.keys(current).length >= 35) return;
-      current[firebaseUser.uid] = member; return current;
-    });
-    if (!result.committed) { serverStatus.textContent = serverLabel(id) + " is full. Try another server."; return; }
+    // Each player writes only their own membership record; this is safer than writing the whole members list.
+    await onDisconnect(myMemberRef).remove();
+    await set(myMemberRef, member);
     currentServerId = id;
-    await onDisconnect(ref(db, "servers/" + id + "/members/" + firebaseUser.uid)).remove();
     currentServerLabel.textContent = "You are in " + serverLabel(id) + ".";
     serverLobbyTitle.textContent = "🌐 " + serverLabel(id);
     serverLobbyPanel.hidden = false;
@@ -3299,16 +3323,16 @@ async function joinServer(id) {
       const data = snap.val() || {}; const live = Object.values(data).filter(m => m && m.state === "online");
       serverMemberCount.textContent = live.length + " / 35 players online"; serverMembers.replaceChildren();
       live.forEach(m => { const chip = document.createElement("div"); chip.style.cssText = "display:flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid #2a3951;border-radius:99px;background:#121c2b;font-size:13px;"; const dot = document.createElement("span"); dot.textContent = "🟢"; const name = document.createElement("span"); name.textContent = String(m.nickname || "Player").slice(0,20); chip.append(dot,name); if (m.avatarURL) { const img = document.createElement("img"); img.src = m.avatarURL; img.alt = ""; img.style.cssText = "width:24px;height:24px;border-radius:50%;object-fit:cover;"; chip.prepend(img); } serverMembers.appendChild(chip); });
-    }, error => { console.error(error); serverMemberCount.textContent = "Could not load members. Check database rules."; });
+    }, error => { console.error("Server members listener failed", error); serverMemberCount.textContent = "Could not load members (" + String(error.code || "permission-denied") + ")."; });
     if (typeof stopServerChat === "function") stopServerChat();
     stopServerChat = onValue(query(ref(db, "serverChats/" + id), limitToLast(50)), snap => {
       serverChatMessages.replaceChildren(); const rows = []; snap.forEach(child => rows.push(child.val() || {}));
       if (!rows.length) serverChatMessages.textContent = "Say hello to your server!";
       rows.forEach(msg => { const line = document.createElement("p"); line.style.cssText = "margin:0 0 9px;overflow-wrap:anywhere;"; const name = document.createElement("strong"); name.textContent = String(msg.name || "Player").slice(0,20); appendAdminBadges(name, msg.uid); name.appendChild(document.createTextNode(": ")); const body = document.createElement("span"); body.textContent = String(msg.text || "").slice(0,150); line.append(name,body); serverChatMessages.appendChild(line); });
       serverChatMessages.scrollTop = serverChatMessages.scrollHeight;
-    }, error => { console.error(error); serverChatMessages.textContent = "Chat unavailable. Check database rules."; });
+    }, error => { console.error("Server chat listener failed", error); serverChatMessages.textContent = "Chat unavailable (" + String(error.code || "permission-denied") + ")."; });
     serverChatInput.focus(); serverStatus.textContent = "Joined " + serverLabel(id) + "!"; serverStatus.style.color = "#35ed78";
-  } catch (error) { console.error("Join server failed", error); serverStatus.textContent = "Could not join. Check Firebase rules and try again."; }
+  } catch (error) { console.error("Join server failed", error); serverStatus.textContent = "Could not join (" + String(error.code || error.message || "unknown error") + "). Check that the updated Firebase rules are published."; }
   finally { serverJoinPending = false; listenForServerList(); }
 }
 async function leaveServer(showMessage = true) {
