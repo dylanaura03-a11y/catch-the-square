@@ -3012,10 +3012,9 @@ window.sendFriendInvite = async function () {
     if (!target?.uid) { showFriendInviteStatus("User not found. Check the exact username. They must create an account and log in once so their player profile is registered."); return; }
     const alreadyFriends = await get(ref(db, "friends/" + firebaseUser.uid + "/" + target.uid));
     if (alreadyFriends.exists()) { showFriendInviteStatus("You are already friends with " + target.nickname + ".", true); return; }
-    const pending = await get(ref(db, "friendInvites/" + target.uid));
-    let duplicate = false;
-    pending.forEach(child => { const v = child.val() || {}; if (v.fromUid === firebaseUser.uid && v.status === "pending") duplicate = true; });
-    if (duplicate) { showFriendInviteStatus("You have already invited this player.", true); return; }
+    // Do not read the recipient's private invitation list as the sender.
+    // Firebase rules intentionally allow only the recipient to read that list.
+    // A duplicate check here caused PERMISSION_DENIED before the invite was written.
     await push(ref(db, "friendInvites/" + target.uid), {
       fromUid: firebaseUser.uid,
       fromName: getPlayerName(),
@@ -3501,15 +3500,15 @@ function updateAccountUI(user) {
   window.ctsIsSignedIn = signedIn;
   if (user) setMyPresence(user);
   else if (previousUid) setMyPresence(null);
-  accountPassword.value = "";
+  if (accountPassword) accountPassword.value = "";
   renderPlayerDirectory();
-  accountPassword.autocomplete = signedIn ? "off" : "current-password";
-  createAccountButton.hidden = signedIn;
-  loginButton.hidden = signedIn;
-  forgotPasswordButton.hidden = signedIn;
-  logoutButton.hidden = !signedIn;
-  accountNickname.readOnly = signedIn;
-  accountEmail.readOnly = signedIn;
+  if (accountPassword) accountPassword.autocomplete = signedIn ? "off" : "current-password";
+  if (createAccountButton) createAccountButton.hidden = signedIn;
+  if (loginButton) loginButton.hidden = signedIn;
+  if (forgotPasswordButton) forgotPasswordButton.hidden = signedIn;
+  if (logoutButton) logoutButton.hidden = !signedIn;
+  if (accountNickname) accountNickname.readOnly = signedIn;
+  if (accountEmail) accountEmail.readOnly = signedIn;
   if (signedIn) {
     const name = user.displayName || localStorage.getItem("cts_playerName") || "Player";
     accountNickname.value = name;
