@@ -594,7 +594,7 @@ Catch <span>The Square</span>
   <button type="button" id="openAdminPanel" hidden style="border:1px solid #35ed78;background:#10251a;color:#8cffb0;border-radius:8px;padding:8px 10px;font-weight:900;cursor:pointer;">👑 ADMIN</button>
   <button type="button" id="headerProfile" class="header-profile" hidden title="Open your Catch The Square profile" aria-label="Open your profile">
     <img id="headerProfileAvatar" alt="Your profile picture" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E">
-    <span id="headerProfileName">Player</span><span id="headerAdminBadge" hidden style="font-size:10px;font-weight:900;color:#07120b;background:#35ed78;border-radius:5px;padding:3px 5px;margin-left:4px;white-space:nowrap;">👑 OWNER ADMIN</span><i aria-label="Online"></i>
+    <span id="headerProfileName">Player</span><span id="headerAdminBadge" hidden style="font-size:10px;font-weight:900;color:#07120b;background:#35ed78;border-radius:5px;padding:3px 5px;margin-left:4px;white-space:nowrap;">👑 OWNER ADMIN ✓ VERIFIED</span><i aria-label="Online"></i>
   </button>
 </div>
 
@@ -612,6 +612,13 @@ Catch <span>The Square</span>
     </div>
     <p style="color:#aab9cc;font-size:13px;line-height:1.5;">Admin tools are available only to the configured owner account. Firebase Database Rules remain the real security boundary.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:18px;">
+      <form id="adminScoreForm" style="background:#111f30;border:1px solid #263a52;border-radius:12px;padding:14px;">
+        <h3 style="margin:0 0 10px;">🏆 Set my leaderboard score</h3>
+        <label for="adminScoreValue" style="display:block;font-size:12px;color:#aab9cc;margin-bottom:6px;">Exact score to display</label>
+        <input id="adminScoreValue" type="number" min="0" max="999999999" step="1" required inputmode="numeric" placeholder="Enter score" style="width:100%;box-sizing:border-box;background:#07111e;color:#fff;border:1px solid #344861;border-radius:8px;padding:10px;">
+        <button type="submit" id="adminScoreSave" style="margin-top:9px;width:100%;padding:10px;background:#eab308;color:#1a1604;border:0;border-radius:8px;font-weight:900;cursor:pointer;">Save my score</button>
+        <p style="font-size:11px;color:#8093aa;line-height:1.4;">Owner-only control. Firebase rules must allow the owner UID to write their leaderboard record.</p>
+      </form>
       <form id="adminBroadcastForm" style="background:#111f30;border:1px solid #263a52;border-radius:12px;padding:14px;">
         <h3 style="margin:0 0 10px;">📢 Global announcement</h3>
         <label for="adminBroadcastMessage" style="display:block;font-size:12px;color:#aab9cc;margin-bottom:6px;">Message (max 240 characters)</label>
@@ -1004,6 +1011,10 @@ Press Start Game, then catch the square!
 <div class="wrap page">
 <button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
 <h2 class="pageTitle">💬 Global Chat</h2>
+<div class="card" style="margin-bottom:16px;">
+<h3 style="margin-top:0;">📢 Global announcements</h3>
+<div id="publicBroadcastList" aria-live="polite" style="color:#cbd5e1;">Loading announcements…</div>
+</div>
 <div class="card" style="text-align:center;margin-bottom:16px;">
 <h3>🌐 Chat with other players</h3>
 <p id="chatStatus" role="status" style="color:#ffd166;font-weight:700;">Connecting to Firebase…</p>
@@ -2200,7 +2211,7 @@ highScore=score;
 updateTargetAppearance();
 saveData();
 updateUI();
-if (typeof window.ctsSubmitScore === "function") window.ctsSubmitScore(Math.max(score, highScore));
+if (typeof window.ctsSubmitScore === "function") window.ctsSubmitScore(score);
 
 notice.textContent=
 "Round over! Score: "+
@@ -2383,6 +2394,10 @@ const OWNER_UID = "bzoHvK5RmfZGhVxkc5nyr9GZ30j2";
 const openAdminPanelButton = document.getElementById("openAdminPanel");
 const adminPanelOverlay = document.getElementById("adminPanelOverlay");
 const closeAdminPanelButton = document.getElementById("closeAdminPanel");
+const adminScoreForm = document.getElementById("adminScoreForm");
+const adminScoreValue = document.getElementById("adminScoreValue");
+const adminScoreSave = document.getElementById("adminScoreSave");
+const publicBroadcastList = document.getElementById("publicBroadcastList");
 const adminBroadcastForm = document.getElementById("adminBroadcastForm");
 const adminBroadcastMessage = document.getElementById("adminBroadcastMessage");
 const adminBroadcastSend = document.getElementById("adminBroadcastSend");
@@ -2501,7 +2516,24 @@ function setStatus(el, message, good) {
   el.style.color = good ? "#35ed78" : "#ffd166";
 }
 
-function makeRow(rank, name, score) {
+function adminBadgeText(uid) { return uid === OWNER_UID ? " 👑 ✓" : ""; }
+
+function appendAdminBadges(parent, uid) {
+  if (uid !== OWNER_UID) return;
+  const crown = document.createElement("span");
+  crown.textContent = " 👑";
+  crown.title = "Official game owner";
+  crown.setAttribute("aria-label", "Official game owner");
+  crown.style.cssText = "display:inline-block;margin-left:2px;color:#facc15;font-weight:900;white-space:nowrap;";
+  const check = document.createElement("span");
+  check.textContent = " ✓";
+  check.title = "Verified owner";
+  check.setAttribute("aria-label", "Verified owner");
+  check.style.cssText = "display:inline-block;margin-left:1px;color:#60a5fa;font-weight:900;white-space:nowrap;";
+  parent.append(crown, check);
+}
+
+function makeRow(rank, name, score, uid) {
   const row = document.createElement("div");
   row.style.cssText = "display:grid;grid-template-columns:70px minmax(0,1fr) 100px;gap:12px;padding:14px 16px;border-top:1px solid #2a3951;align-items:center;";
   const rankCell = document.createElement("span");
@@ -2509,6 +2541,7 @@ function makeRow(rank, name, score) {
   const nameCell = document.createElement("span");
   nameCell.style.cssText = "overflow-wrap:anywhere;";
   nameCell.textContent = name;
+  appendAdminBadges(nameCell, uid);
   const scoreCell = document.createElement("strong");
   scoreCell.style.cssText = "text-align:right;color:#35ed78;";
   scoreCell.textContent = String(score);
@@ -2518,25 +2551,17 @@ function makeRow(rank, name, score) {
 
 function listenForLeaderboard() {
   onValue(ref(db, "leaderboard"), snapshot => {
-    // Keep only each account's best submitted score, not its most recent round.
-    const bestByPlayer = new Map();
+    const byUid = new Map();
     snapshot.forEach(child => {
       const item = child.val() || {};
       const value = Number(item.score);
       if (!Number.isFinite(value) || value < 0 || !item.uid || !item.name) return;
-      const candidate = {
-        uid: String(item.uid),
-        name: String(item.name).slice(0, 20),
-        score: Math.floor(value),
-        time: Number(item.time || 0)
-      };
-      const previous = bestByPlayer.get(candidate.uid);
-      if (!previous || candidate.score > previous.score ||
-          (candidate.score === previous.score && candidate.time < previous.time)) {
-        bestByPlayer.set(candidate.uid, candidate);
-      }
+      const normalized = { uid: String(item.uid), name: String(item.name).slice(0, 20), score: Math.floor(value), time: Number(item.time || 0), canonical: child.key === String(item.uid) };
+      const old = byUid.get(normalized.uid);
+      // A uid-keyed record is canonical; legacy push records are deduplicated by highest score.
+      if (!old || (normalized.canonical && !old.canonical) || (normalized.canonical === old.canonical && normalized.score > old.score)) byUid.set(normalized.uid, normalized);
     });
-    const scores = Array.from(bestByPlayer.values());
+    const scores = Array.from(byUid.values());
     scores.sort((a, b) => b.score - a.score || a.time - b.time);
     leaderboardRows.replaceChildren();
     if (!scores.length) {
@@ -2545,14 +2570,15 @@ function listenForLeaderboard() {
       empty.textContent = "No scores yet. Finish a round to claim the first spot!";
       leaderboardRows.appendChild(empty);
     } else {
-      scores.slice(0, 10000).forEach((item, i) => leaderboardRows.appendChild(makeRow(i + 1, item.name, item.score)));
+      scores.slice(0, 20).forEach((item, i) => leaderboardRows.appendChild(makeRow(i + 1, item.name, item.score, item.uid)));
     }
-    setStatus(leaderboardStatus, "🟢 Live leaderboard connected", true);
+    setStatus(leaderboardStatus, "🟢 Live leaderboard connected · personal bests", true);
   }, error => {
     console.error("Leaderboard read failed:", error);
     setStatus(leaderboardStatus, "Could not load scores. Check Firebase Database rules.", false);
   });
 }
+
 function listenForChat() {
   const recentMessages = query(ref(db, "chat"), limitToLast(50));
   onValue(recentMessages, snapshot => {
@@ -2573,7 +2599,9 @@ function listenForChat() {
       bubble.style.cssText = "padding:9px 10px;margin-bottom:8px;border-bottom:1px solid #253149;overflow-wrap:anywhere;";
       const author = document.createElement("strong");
       author.style.cssText = "color:#35ed78;";
-      author.textContent = String(item.name || "Player").slice(0, 20) + ": ";
+      author.textContent = String(item.name || "Player").slice(0, 20);
+      appendAdminBadges(author, item.uid);
+      author.appendChild(document.createTextNode(": "));
       const body = document.createElement("span");
       body.style.color = "#f7f9fc";
       body.textContent = String(item.message || "").slice(0, 150);
@@ -2586,6 +2614,35 @@ function listenForChat() {
     console.error("Chat read failed:", error);
     setStatus(chatStatus, "Could not load chat. Check Firebase Database rules.", false);
     chatMessages.textContent = "Chat is unavailable right now. Please try again later.";
+  });
+}
+
+function listenForPublicBroadcasts() {
+  if (!publicBroadcastList) return;
+  onValue(query(ref(db, "adminBroadcasts"), limitToLast(8)), snapshot => {
+    publicBroadcastList.replaceChildren();
+    const entries = [];
+    snapshot.forEach(child => entries.push({ id: child.key, ...(child.val() || {}) }));
+    entries.reverse().forEach(item => {
+      const card = document.createElement("div");
+      card.style.cssText = "padding:10px 0;border-bottom:1px solid #253149;overflow-wrap:anywhere;";
+      const author = document.createElement("strong");
+      author.textContent = String(item.admin || "Game Admin").slice(0,20);
+      appendAdminBadges(author, item.uid);
+      const message = document.createElement("div");
+      message.style.cssText = "margin-top:4px;color:#f7f9fc;";
+      message.textContent = String(item.message || "").slice(0,240);
+      const time = document.createElement("small");
+      time.style.cssText = "display:block;margin-top:4px;color:#8093aa;";
+      const stamp = Number(item.time || 0);
+      time.textContent = stamp > 0 ? new Date(stamp).toLocaleString() : "";
+      card.append(author, message, time);
+      publicBroadcastList.appendChild(card);
+    });
+    if (!entries.length) publicBroadcastList.textContent = "No announcements yet. Check back soon!";
+  }, error => {
+    console.error("Public announcements failed:", error);
+    publicBroadcastList.textContent = "Announcements are unavailable right now.";
   });
 }
 
@@ -2607,7 +2664,7 @@ function renderPlayerDirectory() {
     const avatar = document.createElement("img"); avatar.className = "player-avatar"; avatar.alt = player.nickname + " profile picture";
     avatar.src = player.avatarURL || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23253248'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%239aa9bd'/%3E%3Cpath d='M10 60c2-14 10-21 22-21s20 7 22 21' fill='%239aa9bd'/%3E%3C/svg%3E";
     const textInfo = document.createElement("div"); textInfo.style.cssText = "display:flex;flex-direction:column;gap:5px;min-width:0;";
-    const name = document.createElement("strong"); name.textContent = player.nickname; name.style.overflowWrap = "anywhere";
+    const name = document.createElement("strong"); name.textContent = player.nickname; name.style.overflowWrap = "anywhere"; appendAdminBadges(name, player.uid);
     const presence = document.createElement("span");
     const isOnline = onlinePlayers[player.uid]?.state === "online";
     presence.textContent = isOnline ? "🟢 Online" : "⚪ Offline";
@@ -2695,13 +2752,26 @@ window.ctsSubmitScore = async function (rawScore) {
   if (lastSubmittedScore === submissionKey) return;
   lastSubmittedScore = submissionKey;
   try {
-    await push(ref(db, "leaderboard"), {
-      uid: firebaseUser.uid,
-      name: getPlayerName(),
-      score,
-      time: Date.now()
+    const allScores = await get(ref(db, "leaderboard"));
+    let legacyBest = 0;
+    // Only migrate old push-style records before this player has a canonical uid-keyed record.
+    // Once a canonical record exists, respect it (including an exact owner-admin score edit).
+    if (!allScores.child(firebaseUser.uid).exists()) {
+      allScores.forEach(child => {
+        const item = child.val() || {};
+        if (String(item.uid || "") === firebaseUser.uid && child.key !== firebaseUser.uid) {
+          legacyBest = Math.max(legacyBest, Math.floor(Number(item.score) || 0));
+        }
+      });
+    }
+    const scoreRef = ref(db, "leaderboard/" + firebaseUser.uid);
+    const result = await runTransaction(scoreRef, current => {
+      const previous = current && String(current.uid || "") === firebaseUser.uid ? Math.floor(Number(current.score) || 0) : 0;
+      const best = Math.max(previous, legacyBest, score);
+      return { uid: firebaseUser.uid, name: getPlayerName(), score: best, time: Date.now() };
     });
-    setStatus(leaderboardStatus, "✅ Score submitted!", true);
+    if (result.committed) setStatus(leaderboardStatus, "✅ Personal best saved!", true);
+    else setStatus(leaderboardStatus, "Score update was not saved.", false);
   } catch (error) {
     console.error("Score submission failed:", error);
     setStatus(leaderboardStatus, "Score could not be submitted. Check Firebase Database rules.", false);
@@ -2948,14 +3018,14 @@ async function startVoiceCall(target) {
     onValue(activeVoiceCallRef, async snapshot => {
       const call = snapshot.val();
       if (!call) return;
-      if (call.status === "declined") { setVoiceStatus(target.nickname + " declined the call."); await hangUpVoiceCall(false); }
+      if (call.status === "declined") { setVoiceStatus(target.nickname + adminBadgeText(target.uid) + " declined the call."); await hangUpVoiceCall(false); }
       if (call.answer && activePeerConnection && !activePeerConnection.currentRemoteDescription) {
         try { await activePeerConnection.setRemoteDescription(new RTCSessionDescription(call.answer)); }
         catch (error) { console.warn("Could not set voice answer", error); }
       }
     });
     hangUpVoiceButton.hidden = false;
-    setVoiceStatus("Calling " + target.nickname + "… keep this page open.");
+    setVoiceStatus("Calling " + target.nickname + adminBadgeText(target.uid) + "… keep this page open.");
   } catch (error) {
     console.error(error);
     await hangUpVoiceCall(false);
@@ -2979,7 +3049,7 @@ async function acceptVoiceCall(callerUid, call) {
     await activePeerConnection.setLocalDescription(answer);
     await update(activeVoiceCallRef, { status: "accepted", answer: { type: answer.type, sdp: answer.sdp } });
     hangUpVoiceButton.hidden = false;
-    setVoiceStatus("Connecting to " + String(call.fromName || "player") + "…", true);
+    setVoiceStatus("Connecting to " + String(call.fromName || "player") + adminBadgeText(call.fromUid) + "…", true);
   } catch (error) {
     console.error(error);
     setVoiceStatus("Could not accept call. Allow microphone access and check Firebase rules.");
@@ -3006,7 +3076,7 @@ function listenForIncomingVoiceCalls(user) {
     if (!ringing.length) { incomingVoiceCalls.textContent = "No incoming calls."; return; }
     ringing.forEach(call => {
       const card = document.createElement("div"); card.style.cssText = "padding:12px;margin:8px 0;border:1px solid #2a3951;border-radius:10px;background:#121c2b;";
-      const msg = document.createElement("p"); msg.textContent = "📞 " + String(call.fromName || "A player").slice(0,20) + " is calling you.";
+      const msg = document.createElement("p"); msg.appendChild(document.createTextNode("📞 " + String(call.fromName || "A player").slice(0,20))); appendAdminBadges(msg, call.fromUid); msg.appendChild(document.createTextNode(" is calling you."));
       const accept = document.createElement("button"); accept.className = "settingButton"; accept.textContent = "🎙️ Accept"; accept.addEventListener("click", () => acceptVoiceCall(call.callerUid, call));
       const decline = document.createElement("button"); decline.className = "settingButton"; decline.textContent = "Decline"; decline.style.marginLeft = "8px"; decline.addEventListener("click", async () => { try { await update(ref(db, "voiceCalls/" + user.uid + "/" + call.callerUid), { status: "declined" }); } catch (error) { setVoiceStatus("Could not decline call. Check Firebase rules."); } });
       card.append(msg, accept, decline); incomingVoiceCalls.appendChild(card);
@@ -3133,7 +3203,7 @@ async function joinServer(id) {
     stopServerChat = onValue(query(ref(db, "serverChats/" + id), limitToLast(50)), snap => {
       serverChatMessages.replaceChildren(); const rows = []; snap.forEach(child => rows.push(child.val() || {}));
       if (!rows.length) serverChatMessages.textContent = "Say hello to your server!";
-      rows.forEach(msg => { const line = document.createElement("p"); line.style.cssText = "margin:0 0 9px;overflow-wrap:anywhere;"; const name = document.createElement("strong"); name.textContent = String(msg.name || "Player").slice(0,20) + ": "; const body = document.createElement("span"); body.textContent = String(msg.text || "").slice(0,150); line.append(name,body); serverChatMessages.appendChild(line); });
+      rows.forEach(msg => { const line = document.createElement("p"); line.style.cssText = "margin:0 0 9px;overflow-wrap:anywhere;"; const name = document.createElement("strong"); name.textContent = String(msg.name || "Player").slice(0,20); appendAdminBadges(name, msg.uid); name.appendChild(document.createTextNode(": ")); const body = document.createElement("span"); body.textContent = String(msg.text || "").slice(0,150); line.append(name,body); serverChatMessages.appendChild(line); });
       serverChatMessages.scrollTop = serverChatMessages.scrollHeight;
     }, error => { console.error(error); serverChatMessages.textContent = "Chat unavailable. Check database rules."; });
     serverChatInput.focus(); serverStatus.textContent = "Joined " + serverLabel(id) + "!"; serverStatus.style.color = "#35ed78";
@@ -3197,10 +3267,11 @@ function renderAdminBroadcasts(snapshot) {
   entries.reverse().slice(0, 8).forEach(item => {
     const card = document.createElement("div");
     card.style.cssText = "padding:9px 0;border-bottom:1px solid #263a52;overflow-wrap:anywhere;";
-    const msg = document.createElement("div"); msg.textContent = String(item.message || "").slice(0,240);
+    const author = document.createElement("strong"); author.textContent = String(item.admin || "Game Admin").slice(0,20); appendAdminBadges(author, item.uid);
+    const msg = document.createElement("div"); msg.style.marginTop = "4px"; msg.textContent = String(item.message || "").slice(0,240);
     const meta = document.createElement("small"); meta.style.color = "#8093aa";
-    const date = Number(item.time); meta.textContent = "Dylan · " + (Number.isFinite(date) && date > 0 ? new Date(date).toLocaleString() : "date unavailable");
-    card.append(msg, meta); adminBroadcastList.appendChild(card);
+    const date = Number(item.time); meta.textContent = "Official announcement · " + (Number.isFinite(date) && date > 0 ? new Date(date).toLocaleString() : "date unavailable");
+    card.append(author, msg, meta); adminBroadcastList.appendChild(card);
   });
   if (!entries.length) adminBroadcastList.textContent = "No announcements yet.";
 }
@@ -3230,6 +3301,30 @@ openAdminPanelButton?.addEventListener("click", () => {
 });
 closeAdminPanelButton?.addEventListener("click", () => { adminPanelOverlay.hidden = true; });
 adminPanelOverlay?.addEventListener("click", event => { if (event.target === adminPanelOverlay) adminPanelOverlay.hidden = true; });
+adminScoreForm?.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!adminIsOwner()) { setAdminStatus("Owner account required."); return; }
+  const raw = String(adminScoreValue.value || "").trim();
+  const score = Number(raw);
+  if (!raw || !Number.isSafeInteger(score) || score < 0 || score > 999999999) {
+    setAdminStatus("Enter a whole number between 0 and 999,999,999."); return;
+  }
+  adminScoreSave.disabled = true;
+  try {
+    await set(ref(db, "leaderboard/" + OWNER_UID), {
+      uid: OWNER_UID,
+      name: getPlayerName(),
+      score,
+      time: Date.now(),
+      adminEdited: true
+    });
+    setAdminStatus("Your leaderboard score was set to " + score + ".", true);
+  } catch (error) {
+    console.error("Admin score update failed", error);
+    setAdminStatus("Score change failed. Firebase rules must allow only the owner UID to update this record.");
+  } finally { adminScoreSave.disabled = false; }
+});
+
 adminBroadcastForm?.addEventListener("submit", async event => {
   event.preventDefault();
   if (!adminIsOwner()) { setAdminStatus("Owner account required."); return; }
@@ -3271,7 +3366,7 @@ function updateAccountUI(user) {
   renderPlayerDirectory();
   accountPassword.autocomplete = signedIn ? "off" : "current-password";
   createAccountButton.hidden = signedIn;
-  // The HTML uses createAccountButton for the login/create-account submit button; no loginButton element exists.
+  loginButton.hidden = signedIn;
   forgotPasswordButton.hidden = signedIn;
   logoutButton.hidden = !signedIn;
   accountNickname.readOnly = signedIn;
@@ -3398,6 +3493,7 @@ setStatus(leaderboardStatus, "Loading global leaderboard…", false);
 // Authentication is still required by the write handlers for posting messages/scores.
 listenForChat();
 listenForLeaderboard();
+listenForPublicBroadcasts();
 listenForPlayerDirectory();
 listenForPresence();
 setAuthMode("login");
