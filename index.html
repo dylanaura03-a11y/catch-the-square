@@ -602,11 +602,6 @@ Catch <span>The Square</span>
 
 </header>
 
-<!-- Latest official announcement stays visible across game screens. -->
-<div id="globalAnnouncementBanner" role="status" aria-live="polite" hidden style="position:relative;z-index:100;max-width:1100px;margin:10px auto;padding:12px 16px;border:1px solid #35ed78;border-radius:12px;background:linear-gradient(100deg,#102a20,#101b2b);color:#f7f9fc;box-shadow:0 6px 24px #0005;overflow-wrap:anywhere;">
-  <strong style="color:#35ed78;">📢 GLOBAL ANNOUNCEMENT</strong>
-  <div id="globalAnnouncementContent" style="margin-top:5px;"></div>
-</div>
 
 <!-- Owner-only admin panel. Firebase rules must independently restrict admin writes. -->
 <div id="adminPanelOverlay" hidden style="position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.82);padding:18px;overflow:auto;">
@@ -630,11 +625,6 @@ Catch <span>The Square</span>
         <textarea id="adminBroadcastMessage" maxlength="240" required rows="4" style="width:100%;box-sizing:border-box;resize:vertical;background:#07111e;color:#fff;border:1px solid #344861;border-radius:8px;padding:10px;"></textarea>
         <button type="submit" id="adminBroadcastSend" style="margin-top:9px;width:100%;padding:10px;background:#35ed78;color:#06120a;border:0;border-radius:8px;font-weight:900;cursor:pointer;">Send announcement</button>
       </form>
-      <div style="background:#111f30;border:1px solid #263a52;border-radius:12px;padding:14px;">
-        <h3 style="margin:0 0 10px;">🎒 Owner inventory tools</h3>
-        <p style="color:#aab9cc;font-size:13px;">Unlock all six skins and all 24 shapes on this browser for the signed-in owner.</p>
-        <button type="button" id="adminUnlockAllButton" style="width:100%;padding:10px;background:#35ed78;color:#06120a;border:0;border-radius:8px;font-weight:900;cursor:pointer;">🔓 Unlock All Skins + Shapes</button>
-      </div>
       <div style="background:#111f30;border:1px solid #263a52;border-radius:12px;padding:14px;">
         <h3 style="margin:0 0 10px;">🎮 Game event</h3>
         <p id="adminEventStatus" style="color:#aab9cc;font-size:13px;">Loading event status…</p>
@@ -678,11 +668,11 @@ onclick="startFromMenu()">
 
 <button class="menuButton" onclick="showScreen('characters')">🎨 CHARACTERS</button>
 <button class="menuButton" onclick="showScreen('shop')">🛒 SHOP</button>
-<button class="menuButton" onclick="showScreen('backpack')">🎒 BACKPACK</button>
 <button class="menuButton" onclick="showScreen('missions')">🎯 MISSIONS</button>
 <button class="menuButton" onclick="showScreen('leaderboard')">🏆 GLOBAL LEADERBOARD</button>
 <button class="menuButton" onclick="showScreen('globalchat')">💬 GLOBAL CHAT</button>
 <button class="menuButton" onclick="showScreen('servers')">🌐 SERVERS</button>
+<button class="menuButton" onclick="showScreen('invite')">👥 MY FRIENDS</button>
 <button class="menuButton" onclick="showScreen('players')">👥 ALL PLAYERS</button>
 <button class="menuButton" onclick="showScreen('invite')">🎁 INVITE A FRIEND</button>
 <button class="menuButton" onclick="showScreen('settings')">⚙️ SETTINGS</button>
@@ -779,7 +769,7 @@ Games Played
 <section id="invite" class="screen">
   <div class="wrap page">
     <button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
-    <h2 class="pageTitle">🎁 Invite a Friend</h2>
+    <h2 class="pageTitle">👥 My Friends</h2>
     <div class="card" style="max-width:650px;margin:0 auto;text-align:center;">
       <div style="font-size:3rem;">🟩🎮</div>
       <h3>Challenge your friends!</h3>
@@ -789,7 +779,7 @@ Games Played
         <input id="friendNickname" type="text" maxlength="20" autocomplete="off" placeholder="Enter their nickname" style="box-sizing:border-box;width:100%;padding:12px;border-radius:9px;border:1px solid #2a3951;background:#121c2b;color:white;">
         <button id="sendFriendInviteButton" class="settingButton" type="button" onclick="sendFriendInvite()" style="width:100%;margin-top:10px;">🔔 Send Friend Invitation</button>
         <p id="friendInviteStatus" role="status" style="color:#ffd166;font-weight:700;"></p>
-        <h3 style="margin-top:20px;">🔔 Friend Notifications</h3>
+        <h3 style="margin-top:20px;">🔔 Friend Requests & Notifications</h3>
         <div id="friendNotifications" style="text-align:left;"><p style="color:#9aa9bd;">Log in to view friend invitations.</p></div>
       </div>
       <h3 style="margin-top:24px;">🎙️ Voice Chat</h3>
@@ -1051,24 +1041,6 @@ Press Start Game, then catch the square!
 <h2 class="pageTitle">🎨 Shape Collection</h2>
 <div class="card" style="margin-bottom:16px;text-align:center;">Level <strong id="characterLevel">1</strong> · Unlocked <strong id="characterUnlocked">1/24</strong><p>Unlock a new shape every 15 levels. Keep catching squares to level up!</p></div>
 <div id="characterGrid" class="grid"></div>
-</div>
-</section>
-
-<!-- ================= BACKPACK / INVENTORY ================= -->
-<section id="backpack" class="screen">
-<div class="wrap page">
-<button class="backButton" onclick="showScreen('home')">← Back To Menu</button>
-<h2 class="pageTitle">🎒 My Backpack</h2>
-<div class="card" style="margin-bottom:16px;">
-<h3 style="margin-top:0;">🧥 Owned skins</h3>
-<p style="color:#aab9cc;">Equip any skin you have unlocked. Locked skins can be bought in the Shop.</p>
-<div id="backpackSkins" class="grid"></div>
-</div>
-<div class="card">
-<h3 style="margin-top:0;">🔷 Shape collection</h3>
-<p>Unlocked shapes: <strong id="backpackShapeCount">1/24</strong></p>
-<div id="backpackShapes" class="grid"></div>
-</div>
 </div>
 </section>
 
@@ -1543,7 +1515,6 @@ const targetColors = ["#35ed78", "#35b8ff", "#ff4fd8", "#ffcf33", "#ff6b35", "#a
 const shapeGlyphs = ["■", "●", "◆", "▲", "★", "⬟", "✦", "♥", "✿", "☀", "⬢", "✚", "✖", "⬣", "❖", "♠", "♦", "♣", "☂", "☯", "✪", "✧", "⬡", "✹"];
 
 function unlockedShapeCount(){
-    if (localStorage.getItem("cts_allUnlocked") === "true") return 24;
     return Math.min(24, Math.floor(level / 15) + 1);
 }
 
@@ -1600,54 +1571,6 @@ function renderCharacters(){
         card.style.textAlign = "center";
         card.innerHTML = '<div style="font-size:42px;color:'+(unlocked?'#35ed78':'#657186')+';padding:8px">'+(unlocked?glyph:'🔒')+'</div><h3>'+(unlocked?'Shape '+(index+1):'Locked Shape')+'</h3><p>'+(unlocked?'Unlocked':'Unlock at level '+Math.max(1,index*15))+'</p>';
         grid.appendChild(card);
-    });
-}
-
-function renderBackpack(){
-    const skinsHost = document.getElementById("backpackSkins");
-    const shapesHost = document.getElementById("backpackShapes");
-    const shapeCount = document.getElementById("backpackShapeCount");
-    if (!skinsHost || !shapesHost) return;
-    const skinNames = { default:"Classic", rainbow:"Rainbow", fire:"Fire", ice:"Ice", gold:"Gold", galaxy:"Galaxy" };
-    skinsHost.innerHTML = "";
-    Object.keys(skinNames).forEach(function(name){
-        const owned = ownedSkins.includes(name);
-        const card = document.createElement("div");
-        card.className = "card";
-        card.style.textAlign = "center";
-        const status = !owned ? "🔒 Locked" : (currentSkin === name ? "✅ Equipped" : "Owned");
-        card.innerHTML = '<h3 style="margin-top:0">'+skinNames[name]+'</h3><p>'+status+'</p>';
-        if (owned) {
-            const button = document.createElement("button");
-            button.className = "settingButton";
-            button.type = "button";
-            button.textContent = currentSkin === name ? "Equipped" : "Equip";
-            button.disabled = currentSkin === name;
-            button.addEventListener("click", function(){
-                currentSkin = name;
-                saveData(); applySkin(); updateUI(); renderBackpack();
-            });
-            card.appendChild(button);
-        } else {
-            const button = document.createElement("button");
-            button.className = "settingButton";
-            button.type = "button";
-            button.textContent = "Open Shop";
-            button.addEventListener("click", function(){ showScreen("shop"); });
-            card.appendChild(button);
-        }
-        skinsHost.appendChild(card);
-    });
-    const count = unlockedShapeCount();
-    if (shapeCount) shapeCount.textContent = count + "/24";
-    shapesHost.innerHTML = "";
-    shapeGlyphs.forEach(function(glyph,index){
-        const unlocked = index < count;
-        const card = document.createElement("div");
-        card.className = "card";
-        card.style.textAlign = "center";
-        card.innerHTML = '<div style="font-size:32px;color:'+(unlocked?'#35ed78':'#657186')+'">'+(unlocked?glyph:'🔒')+'</div><p style="margin-bottom:0">'+(unlocked?'Shape '+(index+1):'Unlock at level '+(index*15))+'</p>';
-        shapesHost.appendChild(card);
     });
 }
 
@@ -1846,7 +1769,6 @@ behavior:"smooth"
 
 updateUI();
 if(screen === "characters") renderCharacters();
-if(screen === "backpack") renderBackpack();
 if(screen === "worlds") applyWorld();
 updateAudioButtons();
 
@@ -2483,7 +2405,6 @@ const adminBroadcastSend = document.getElementById("adminBroadcastSend");
 const adminBroadcastList = document.getElementById("adminBroadcastList");
 const adminEventStatus = document.getElementById("adminEventStatus");
 const adminEventToggle = document.getElementById("adminEventToggle");
-const adminUnlockAllButton = document.getElementById("adminUnlockAllButton");
 const adminPanelStatus = document.getElementById("adminPanelStatus");
 let currentAdminEventActive = false;
 let stopAdminBroadcastListener = null;
@@ -2573,9 +2494,6 @@ let activeVoiceCallRef = null;
 let activeVoiceCallId = null;
 let activeVoiceCallRole = null;
 let localVoiceStream = null;
-let stopVoiceIceListener = null;
-let stopOutgoingCallListener = null;
-let pendingRemoteCandidates = [];
 const voiceCallStatus = document.getElementById("voiceCallStatus");
 const incomingVoiceCalls = document.getElementById("incomingVoiceCalls");
 const remoteVoiceAudio = document.getElementById("remoteVoiceAudio");
@@ -2723,27 +2641,6 @@ function listenForPublicBroadcasts() {
       publicBroadcastList.appendChild(card);
     });
     if (!entries.length) publicBroadcastList.textContent = "No announcements yet. Check back soon!";
-
-    // The list is newest-first after reverse(); also show the newest announcement
-    // in a site-wide banner so players don't have to open Global Chat to see it.
-    const banner = document.getElementById("globalAnnouncementBanner");
-    const bannerContent = document.getElementById("globalAnnouncementContent");
-    if (banner && bannerContent) {
-      if (entries.length) {
-        const latest = entries[0];
-        bannerContent.replaceChildren();
-        const author = document.createElement("strong");
-        author.textContent = String(latest.admin || "Game Admin").slice(0, 20);
-        appendAdminBadges(author, latest.uid);
-        const message = document.createElement("span");
-        message.textContent = ": " + String(latest.message || "").slice(0, 240);
-        bannerContent.append(author, message);
-        banner.hidden = false;
-      } else {
-        banner.hidden = true;
-        bannerContent.replaceChildren();
-      }
-    }
   }, error => {
     console.error("Public announcements failed:", error);
     publicBroadcastList.textContent = "Announcements are unavailable right now.";
@@ -3012,9 +2909,10 @@ window.sendFriendInvite = async function () {
     if (!target?.uid) { showFriendInviteStatus("User not found. Check the exact username. They must create an account and log in once so their player profile is registered."); return; }
     const alreadyFriends = await get(ref(db, "friends/" + firebaseUser.uid + "/" + target.uid));
     if (alreadyFriends.exists()) { showFriendInviteStatus("You are already friends with " + target.nickname + ".", true); return; }
-    // Do not read the recipient's private invitation list as the sender.
-    // Firebase rules intentionally allow only the recipient to read that list.
-    // A duplicate check here caused PERMISSION_DENIED before the invite was written.
+    const pending = await get(ref(db, "friendInvites/" + target.uid));
+    let duplicate = false;
+    pending.forEach(child => { const v = child.val() || {}; if (v.fromUid === firebaseUser.uid && v.status === "pending") duplicate = true; });
+    if (duplicate) { showFriendInviteStatus("You have already invited this player.", true); return; }
     await push(ref(db, "friendInvites/" + target.uid), {
       fromUid: firebaseUser.uid,
       fromName: getPlayerName(),
@@ -3078,16 +2976,11 @@ function setVoiceStatus(message, good = false) {
   if (voiceCallStatus) { voiceCallStatus.textContent = message; voiceCallStatus.style.color = good ? "#35ed78" : "#ffd166"; }
 }
 function makeVoicePeer(callId, remoteRole) {
-  // STUN helps peers discover their public route. Some networks also require a TURN relay.
   const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
-  pendingRemoteCandidates = [];
-  pc.ontrack = event => {
-    if (remoteVoiceAudio) { remoteVoiceAudio.srcObject = event.streams[0]; remoteVoiceAudio.play().catch(() => setVoiceStatus("Voice connected. If you cannot hear audio, click the page and check your volume.", true)); }
-  };
+  pc.ontrack = event => { remoteVoiceAudio.srcObject = event.streams[0]; remoteVoiceAudio.play().catch(() => {}); };
   pc.onconnectionstatechange = () => {
     if (pc.connectionState === "connected") setVoiceStatus("🟢 Voice connected. Speak normally!", true);
-    if (pc.connectionState === "failed") setVoiceStatus("Voice connection failed on this network. Try again; some networks need a TURN relay.");
-    if (pc.connectionState === "disconnected") setVoiceStatus("Voice connection interrupted. Waiting for the network…");
+    if (["failed", "disconnected"].includes(pc.connectionState)) setVoiceStatus("Voice connection interrupted. Try calling again.");
   };
   pc.onicecandidate = async event => {
     if (!event.candidate || !firebaseUser || !callId) return;
@@ -3097,24 +2990,13 @@ function makeVoicePeer(callId, remoteRole) {
   };
   return pc;
 }
-function attachRemoteCandidates(callId, side, pc) {
-  if (typeof stopVoiceIceListener === "function") stopVoiceIceListener();
-  stopVoiceIceListener = onValue(ref(db, "voiceIce/" + callId + "/" + side), snapshot => {
+async function attachRemoteCandidates(callId, side, pc) {
+  onValue(ref(db, "voiceIce/" + callId + "/" + side), snapshot => {
     snapshot.forEach(child => {
       const candidate = child.val();
-      if (!candidate || !candidate.candidate) return;
-      if (!pc.remoteDescription) { pendingRemoteCandidates.push(candidate); return; }
-      pc.addIceCandidate(new RTCIceCandidate(candidate)).catch(error => console.warn("ICE candidate skipped", error));
+      if (candidate && candidate.candidate) pc.addIceCandidate(new RTCIceCandidate(candidate)).catch(error => console.warn("ICE candidate skipped", error));
     });
-  }, error => { console.warn("ICE listener failed", error); setVoiceStatus("Could not exchange voice connection data. Check Firebase rules."); });
-}
-async function flushPendingRemoteCandidates(pc) {
-  if (!pc || !pc.remoteDescription || !pendingRemoteCandidates.length) return;
-  const queued = pendingRemoteCandidates.splice(0);
-  for (const candidate of queued) {
-    try { await pc.addIceCandidate(new RTCIceCandidate(candidate)); }
-    catch (error) { console.warn("Queued ICE candidate skipped", error); }
-  }
+  }, error => console.warn("ICE listener failed", error));
 }
 async function startVoiceCall(target) {
   if (!firebaseUser) { setVoiceStatus("Log in before calling another player."); return; }
@@ -3134,13 +3016,12 @@ async function startVoiceCall(target) {
     const offer = await activePeerConnection.createOffer();
     await activePeerConnection.setLocalDescription(offer);
     await set(activeVoiceCallRef, { fromUid: firebaseUser.uid, fromName: getPlayerName(), toUid: target.uid, toName: target.nickname, status: "ringing", offer: { type: offer.type, sdp: offer.sdp }, createdAt: Date.now(), callId: activeVoiceCallId });
-    if (typeof stopOutgoingCallListener === "function") stopOutgoingCallListener();
-    stopOutgoingCallListener = onValue(activeVoiceCallRef, async snapshot => {
+    onValue(activeVoiceCallRef, async snapshot => {
       const call = snapshot.val();
       if (!call) return;
       if (call.status === "declined") { setVoiceStatus(target.nickname + adminBadgeText(target.uid) + " declined the call."); await hangUpVoiceCall(false); }
       if (call.answer && activePeerConnection && !activePeerConnection.currentRemoteDescription) {
-        try { await activePeerConnection.setRemoteDescription(new RTCSessionDescription(call.answer)); await flushPendingRemoteCandidates(activePeerConnection); }
+        try { await activePeerConnection.setRemoteDescription(new RTCSessionDescription(call.answer)); }
         catch (error) { console.warn("Could not set voice answer", error); }
       }
     });
@@ -3164,7 +3045,6 @@ async function acceptVoiceCall(callerUid, call) {
     activePeerConnection = makeVoicePeer(activeVoiceCallId, "caller");
     localVoiceStream.getTracks().forEach(track => activePeerConnection.addTrack(track, localVoiceStream));
     await activePeerConnection.setRemoteDescription(new RTCSessionDescription(call.offer));
-    await flushPendingRemoteCandidates(activePeerConnection);
     attachRemoteCandidates(activeVoiceCallId, "caller", activePeerConnection);
     const answer = await activePeerConnection.createAnswer();
     await activePeerConnection.setLocalDescription(answer);
@@ -3177,9 +3057,6 @@ async function acceptVoiceCall(callerUid, call) {
   }
 }
 async function hangUpVoiceCall(removeCall = true) {
-  if (typeof stopVoiceIceListener === "function") { stopVoiceIceListener(); stopVoiceIceListener = null; }
-  if (typeof stopOutgoingCallListener === "function") { stopOutgoingCallListener(); stopOutgoingCallListener = null; }
-  pendingRemoteCandidates = [];
   if (activePeerConnection) { activePeerConnection.ontrack = null; activePeerConnection.close(); activePeerConnection = null; }
   if (localVoiceStream) { localVoiceStream.getTracks().forEach(track => track.stop()); localVoiceStream = null; }
   if (remoteVoiceAudio) remoteVoiceAudio.srcObject = null;
@@ -3295,7 +3172,7 @@ function listenForServerList() {
     }
     serverStatus.textContent = "35 servers available · maximum 35 players in each";
     serverStatus.style.color = "#35ed78";
-  }, error => { console.error("Server list failed", error); serverStatus.textContent = "Could not load servers (" + String(error.code || "permission-denied") + "). Publish the updated Firebase rules."; });
+  }, error => { console.error("Server list failed", error); serverStatus.textContent = "Could not load servers. Check Firebase Realtime Database rules."; });
 }
 async function joinServer(id) {
   if (!firebaseUser) { serverStatus.textContent = "Log in first to join a server."; showScreen("home"); return; }
@@ -3304,16 +3181,16 @@ async function joinServer(id) {
   try {
     if (currentServerId && currentServerId !== id) await leaveServer(false);
     const membersRef = ref(db, "servers/" + id + "/members");
-    const myMemberRef = ref(db, "servers/" + id + "/members/" + firebaseUser.uid);
-    const currentMembersSnapshot = await get(membersRef);
-    const currentMembers = currentMembersSnapshot.val() || {};
-    const activeCount = Object.values(currentMembers).filter(m => m && m.state === "online").length;
-    if (!currentMembers[firebaseUser.uid] && activeCount >= 35) { serverStatus.textContent = serverLabel(id) + " is full. Try another server."; return; }
     const member = { uid: firebaseUser.uid, nickname: firebaseUser.displayName || localStorage.getItem("cts_playerName") || "Player", avatarURL: firebaseUser.photoURL || "", state: "online", joinedAt: Date.now() };
-    // Each player writes only their own membership record; this is safer than writing the whole members list.
-    await onDisconnect(myMemberRef).remove();
-    await set(myMemberRef, member);
+    const result = await runTransaction(membersRef, current => {
+      current = current || {};
+      Object.keys(current).forEach(uid => { if (!current[uid] || current[uid].state !== "online") delete current[uid]; });
+      if (!current[firebaseUser.uid] && Object.keys(current).length >= 35) return;
+      current[firebaseUser.uid] = member; return current;
+    });
+    if (!result.committed) { serverStatus.textContent = serverLabel(id) + " is full. Try another server."; return; }
     currentServerId = id;
+    await onDisconnect(ref(db, "servers/" + id + "/members/" + firebaseUser.uid)).remove();
     currentServerLabel.textContent = "You are in " + serverLabel(id) + ".";
     serverLobbyTitle.textContent = "🌐 " + serverLabel(id);
     serverLobbyPanel.hidden = false;
@@ -3322,16 +3199,16 @@ async function joinServer(id) {
       const data = snap.val() || {}; const live = Object.values(data).filter(m => m && m.state === "online");
       serverMemberCount.textContent = live.length + " / 35 players online"; serverMembers.replaceChildren();
       live.forEach(m => { const chip = document.createElement("div"); chip.style.cssText = "display:flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid #2a3951;border-radius:99px;background:#121c2b;font-size:13px;"; const dot = document.createElement("span"); dot.textContent = "🟢"; const name = document.createElement("span"); name.textContent = String(m.nickname || "Player").slice(0,20); chip.append(dot,name); if (m.avatarURL) { const img = document.createElement("img"); img.src = m.avatarURL; img.alt = ""; img.style.cssText = "width:24px;height:24px;border-radius:50%;object-fit:cover;"; chip.prepend(img); } serverMembers.appendChild(chip); });
-    }, error => { console.error("Server members listener failed", error); serverMemberCount.textContent = "Could not load members (" + String(error.code || "permission-denied") + ")."; });
+    }, error => { console.error(error); serverMemberCount.textContent = "Could not load members. Check database rules."; });
     if (typeof stopServerChat === "function") stopServerChat();
     stopServerChat = onValue(query(ref(db, "serverChats/" + id), limitToLast(50)), snap => {
       serverChatMessages.replaceChildren(); const rows = []; snap.forEach(child => rows.push(child.val() || {}));
       if (!rows.length) serverChatMessages.textContent = "Say hello to your server!";
       rows.forEach(msg => { const line = document.createElement("p"); line.style.cssText = "margin:0 0 9px;overflow-wrap:anywhere;"; const name = document.createElement("strong"); name.textContent = String(msg.name || "Player").slice(0,20); appendAdminBadges(name, msg.uid); name.appendChild(document.createTextNode(": ")); const body = document.createElement("span"); body.textContent = String(msg.text || "").slice(0,150); line.append(name,body); serverChatMessages.appendChild(line); });
       serverChatMessages.scrollTop = serverChatMessages.scrollHeight;
-    }, error => { console.error("Server chat listener failed", error); serverChatMessages.textContent = "Chat unavailable (" + String(error.code || "permission-denied") + ")."; });
+    }, error => { console.error(error); serverChatMessages.textContent = "Chat unavailable. Check database rules."; });
     serverChatInput.focus(); serverStatus.textContent = "Joined " + serverLabel(id) + "!"; serverStatus.style.color = "#35ed78";
-  } catch (error) { console.error("Join server failed", error); serverStatus.textContent = "Could not join (" + String(error.code || error.message || "unknown error") + "). Check that the updated Firebase rules are published."; }
+  } catch (error) { console.error("Join server failed", error); serverStatus.textContent = "Could not join. Check Firebase rules and try again."; }
   finally { serverJoinPending = false; listenForServerList(); }
 }
 async function leaveServer(showMessage = true) {
@@ -3425,20 +3302,6 @@ openAdminPanelButton?.addEventListener("click", () => {
 });
 closeAdminPanelButton?.addEventListener("click", () => { adminPanelOverlay.hidden = true; });
 adminPanelOverlay?.addEventListener("click", event => { if (event.target === adminPanelOverlay) adminPanelOverlay.hidden = true; });
-adminUnlockAllButton?.addEventListener("click", function(){
-  if (!adminIsOwner()) { setAdminStatus("Owner account required."); return; }
-  const allSkins = ["default", "rainbow", "fire", "ice", "gold", "galaxy"];
-  ownedSkins = allSkins.slice();
-  localStorage.setItem("cts_allUnlocked", "true");
-  currentSkin = currentSkin || "default";
-  saveData();
-  applySkin();
-  updateUI();
-  renderCharacters();
-  renderBackpack();
-  setAdminStatus("All 6 skins and all 24 shapes unlocked in this browser.", true);
-});
-
 adminScoreForm?.addEventListener("submit", async event => {
   event.preventDefault();
   if (!adminIsOwner()) { setAdminStatus("Owner account required."); return; }
@@ -3500,15 +3363,15 @@ function updateAccountUI(user) {
   window.ctsIsSignedIn = signedIn;
   if (user) setMyPresence(user);
   else if (previousUid) setMyPresence(null);
-  if (accountPassword) accountPassword.value = "";
+  accountPassword.value = "";
   renderPlayerDirectory();
-  if (accountPassword) accountPassword.autocomplete = signedIn ? "off" : "current-password";
-  if (createAccountButton) createAccountButton.hidden = signedIn;
-  if (loginButton) loginButton.hidden = signedIn;
-  if (forgotPasswordButton) forgotPasswordButton.hidden = signedIn;
-  if (logoutButton) logoutButton.hidden = !signedIn;
-  if (accountNickname) accountNickname.readOnly = signedIn;
-  if (accountEmail) accountEmail.readOnly = signedIn;
+  accountPassword.autocomplete = signedIn ? "off" : "current-password";
+  createAccountButton.hidden = signedIn;
+  loginButton.hidden = signedIn;
+  forgotPasswordButton.hidden = signedIn;
+  logoutButton.hidden = !signedIn;
+  accountNickname.readOnly = signedIn;
+  accountEmail.readOnly = signedIn;
   if (signedIn) {
     const name = user.displayName || localStorage.getItem("cts_playerName") || "Player";
     accountNickname.value = name;
@@ -3590,13 +3453,8 @@ accountForm.addEventListener("submit", async event => {
   try {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     let avatarURL = "";
-    try {
-      const selectedFile = accountAvatar.files && accountAvatar.files[0];
-      if (selectedFile) avatarURL = await compressProfileImage(selectedFile);
-    } catch (avatarError) {
-      console.error("Profile picture processing failed:", avatarError);
-      accountMessage("Account created, but the picture could not be saved. Try a smaller image from your profile.");
-    }
+    try { avatarURL = await uploadProfilePicture(credential.user); }
+    catch (avatarError) { console.error("Profile picture upload failed:", avatarError); accountMessage("Account created, but the picture could not be saved. Check Firebase Realtime Database rules and try again from your profile."); }
     await updateProfile(credential.user, { displayName: cleanNickname() });
     await update(ref(db, "playerProfiles/" + credential.user.uid), { uid: credential.user.uid, nickname: cleanNickname(), nicknameLower: cleanNickname().toLowerCase(), avatarURL: avatarURL || "", bio: "", updatedAt: Date.now() });
     accountAvatar.value = "";
