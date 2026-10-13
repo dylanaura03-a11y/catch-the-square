@@ -602,6 +602,11 @@ Catch <span>The Square</span>
 
 </header>
 
+<!-- Latest official announcement stays visible across game screens. -->
+<div id="globalAnnouncementBanner" role="status" aria-live="polite" hidden style="position:relative;z-index:100;max-width:1100px;margin:10px auto;padding:12px 16px;border:1px solid #35ed78;border-radius:12px;background:linear-gradient(100deg,#102a20,#101b2b);color:#f7f9fc;box-shadow:0 6px 24px #0005;overflow-wrap:anywhere;">
+  <strong style="color:#35ed78;">📢 GLOBAL ANNOUNCEMENT</strong>
+  <div id="globalAnnouncementContent" style="margin-top:5px;"></div>
+</div>
 
 <!-- Owner-only admin panel. Firebase rules must independently restrict admin writes. -->
 <div id="adminPanelOverlay" hidden style="position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.82);padding:18px;overflow:auto;">
@@ -2640,6 +2645,27 @@ function listenForPublicBroadcasts() {
       publicBroadcastList.appendChild(card);
     });
     if (!entries.length) publicBroadcastList.textContent = "No announcements yet. Check back soon!";
+
+    // The list is newest-first after reverse(); also show the newest announcement
+    // in a site-wide banner so players don't have to open Global Chat to see it.
+    const banner = document.getElementById("globalAnnouncementBanner");
+    const bannerContent = document.getElementById("globalAnnouncementContent");
+    if (banner && bannerContent) {
+      if (entries.length) {
+        const latest = entries[0];
+        bannerContent.replaceChildren();
+        const author = document.createElement("strong");
+        author.textContent = String(latest.admin || "Game Admin").slice(0, 20);
+        appendAdminBadges(author, latest.uid);
+        const message = document.createElement("span");
+        message.textContent = ": " + String(latest.message || "").slice(0, 240);
+        bannerContent.append(author, message);
+        banner.hidden = false;
+      } else {
+        banner.hidden = true;
+        bannerContent.replaceChildren();
+      }
+    }
   }, error => {
     console.error("Public announcements failed:", error);
     publicBroadcastList.textContent = "Announcements are unavailable right now.";
@@ -3452,8 +3478,13 @@ accountForm.addEventListener("submit", async event => {
   try {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     let avatarURL = "";
-    try { avatarURL = await uploadProfilePicture(credential.user); }
-    catch (avatarError) { console.error("Profile picture upload failed:", avatarError); accountMessage("Account created, but the picture could not be saved. Check Firebase Realtime Database rules and try again from your profile."); }
+    try {
+      const selectedFile = accountAvatar.files && accountAvatar.files[0];
+      if (selectedFile) avatarURL = await compressProfileImage(selectedFile);
+    } catch (avatarError) {
+      console.error("Profile picture processing failed:", avatarError);
+      accountMessage("Account created, but the picture could not be saved. Try a smaller image from your profile.");
+    }
     await updateProfile(credential.user, { displayName: cleanNickname() });
     await update(ref(db, "playerProfiles/" + credential.user.uid), { uid: credential.user.uid, nickname: cleanNickname(), nicknameLower: cleanNickname().toLowerCase(), avatarURL: avatarURL || "", bio: "", updatedAt: Date.now() });
     accountAvatar.value = "";
